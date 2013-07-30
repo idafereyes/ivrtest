@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webflow-project-description>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.1.0.v200808011800]]></pluginVersion>
+	<configs>
+		<config>
+			<file>src/main/webapp/WEB-INF/flows/login.xml</file>
+			<name><![CDATA[login]]></name>
+		</config>
+		<config>
+			<file>src/main/webapp/WEB-INF/flows/register.xml</file>
+			<name><![CDATA[register]]></name>
+		</config>
+		<config>
+			<file>src/main/webapp/WEB-INF/flows/addToCart.xml</file>
+			<name><![CDATA[addToCart]]></name>
+		</config>
+		<config>
+			<file>src/main/webapp/WEB-INF/flows/checkout.xml</file>
+			<name><![CDATA[checkout]]></name>
+		</config>
+	</configs>
+</webflow-project-description>
