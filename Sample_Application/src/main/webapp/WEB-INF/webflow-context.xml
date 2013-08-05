@@ -68,8 +68,6 @@
     </property>
 </bean>
 
-<bean id="userAction" class="org.isb.ivr.flow.user.UserAction" scope="flow"/>
-
 <bean id="prompt" class="org.isb.ivr.flow.bean.Prompt" scope="prototype"/>
 <bean id="input" class="org.isb.ivr.flow.bean.Input" scope="prototype"/>
 <bean id="renderer" class="org.isb.ivr.flow.render.HTMLRenderer"/>

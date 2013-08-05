@@ -3,26 +3,49 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
-    start-state="custom_action">
+    start-state="custom_pojo_action">
 
-
+   <action-state id="custom_pojo_action">   	
+    	<evaluate expression="customPojoAction.doit('pojoCustomEvent', flowRequestContext)"/>
+    	<transition on="pojoCustomEvent" to="custom_pojo_action_prompt"/>
+    </action-state>
+    
+     <action-state id="custom_pojo_action_prompt">
+		<on-entry>
+			<evaluate expression="prompt" result="flowScope.results_pojo_prompt"/>
+    		<set name="flowScope.results_pojo_prompt.message" value="'Custom Pojo Action salió por ' + currentEvent.id"/>
+		</on-entry>
+    	<evaluate expression="flowProcessor.process(flowScope.results_pojo_prompt)"/>   		
+    	<transition to="custom_action" />
+    </action-state>  
+    
     <action-state id="custom_action">   	
     	<evaluate expression="customAction"/>
-    	<transition on="customEvent" to="custom_pojo_action">
-    		<evaluate expression="prompt" result="flowScope.results_prompt"/>
+    	<transition on="customEvent" to="custom_action_prompt"/>
+    </action-state>
+    
+    <action-state id="custom_action_prompt">
+		<on-entry>
+			<evaluate expression="prompt" result="flowScope.results_prompt"/>
     		<set name="flowScope.results_prompt.message" value="'Custom Action salió por ' + currentEvent.id"/>
-    	</transition>
+		</on-entry>
+    	<evaluate expression="flowProcessor.process(flowScope.results_prompt)"/>   		
+    	<transition to="custom_multi_action" />
+    </action-state>  
+    
+     <action-state id="custom_multi_action">   	
+    	<evaluate expression="customMultiAction.doit('multiCustomEvent', flowRequestContext)"/>
+    	<transition on="multiCustomEvent" to="custom_multi_action_prompt"/>
     </action-state>
-  
-    <action-state id="custom_pojo_action">   	
-    	<evaluate expression="customPojoAction.doit('pojoCustomEvent', flowRequestContext)"/>
-    	<transition on="pojoCustomEvent" to="render">
-    		<set name="flowScope.results_prompt.message" value="flowScope.results_prompt.message + ' Custom Pojo Action salió por ' + currentEvent.id"/>
-    	</transition>
-    	<on-exit>
-    		<evaluate expression="flowProcessor.process(flowScope.results_prompt)"/>   		
-    	</on-exit>
-    </action-state>
+    
+     <action-state id="custom_multi_action_prompt">
+		<on-entry>
+			<evaluate expression="prompt" result="flowScope.results_multi_prompt"/>
+    		<set name="flowScope.results_multi_prompt.message" value="'Custom Multi Action salió por ' + currentEvent.id"/>
+		</on-entry>
+    	<evaluate expression="flowProcessor.process(flowScope.results_multi_prompt)"/>   		
+    	<transition to="render" />
+    </action-state>  
   
     <view-state id="render" view="render">
 		<transition to="end"/> 

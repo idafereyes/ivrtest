@@ -10,8 +10,6 @@ public class CustomAction implements Action {
 	
 	public Event execute(RequestContext context) {
 		
-	   	
-		
        return new Event(this , "customEvent");
     }
 

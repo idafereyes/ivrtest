@@ -43,7 +43,7 @@
 	<subflow-state id="main_menu" subflow="menu">
 		<input name="user" value="flowScope.user_input.value" /> <!-- Parámetros de entrada -->
 		<!-- En esta caso no es necesario crear explicitamente el Bean resultado. En este caso es un String -->
-		<transition to="menu_decision">
+		<transition  to="menu_decision">
 			<set name="flowScope.selected_menu" value="currentEvent.attributes.menu_option"></set> <!-- Asociamos la asignación de la salida a una transición concreta -->
 		</transition>
 	</subflow-state>

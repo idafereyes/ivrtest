@@ -10,7 +10,7 @@
     	<on-entry>
     		<evaluate expression="userAction" result="flowScope.userAction"></evaluate>
     	</on-entry>
-       	<evaluate expression="flowScope.flowScope.userAction.doit()"/>   		
+       	<evaluate expression="flowScope.userAction.doit()"/>   		
     	<transition to="end" />
     </action-state> 
   

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("userBean")
-@Scope("flow")
+@Scope("prototype") // Seguro que este es el scope?
 public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 1741623950907638655L;
