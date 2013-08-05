@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="prompt">
+
+    <action-state id="prompt">
+		<on-entry>
+			<evaluate expression="prompt" result="flowScope.prompt"></evaluate>
+			<set name="flowScope.prompt.message" value="'Deberíamos llamar a un WS ...'"></set>
+		</on-entry>
+
+       	<evaluate expression="flowProcessor.process(flowScope.prompt)"/>
+    		
+    	<transition to="render" />
+    </action-state> 
+  
+    <view-state id="render" view="render"/>
+   
+</flow>

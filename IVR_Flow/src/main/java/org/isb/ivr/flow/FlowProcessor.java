@@ -3,6 +3,10 @@ package org.isb.ivr.flow;
 import java.io.Serializable;
 import java.util.List;
 
+import org.isb.ivr.flow.bean.Input;
+import org.isb.ivr.flow.bean.Prompt;
+import org.isb.ivr.flow.render.Renderer;
+
 public class FlowProcessor implements Serializable {
 
 	private static final long serialVersionUID = -8138696103238359798L;

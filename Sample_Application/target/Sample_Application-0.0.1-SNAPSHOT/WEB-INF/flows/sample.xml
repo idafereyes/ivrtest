@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="prompt">
+    
+    <!-- Podemos definir los beans como variables. Aporta claridad? -->
+    <!-- 
+    <var name="wellcome_prompt" class="org.isb.ivr.flow.Prompt"/>
+    -->
+    
+    <action-state id="prompt">
+   		<evaluate expression="prompt" result="flowScope.wellcome_prompt"></evaluate>
+    	
+    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
+    	<evaluate expression="flowScope.wellcome_prompt.setMessage('Bienvenido!')"></evaluate>
+    	
+    	<evaluate expression="flowProcessor.process(flowScope.wellcome_prompt)">
+    		<attribute name="name" value="complete"/>
+    	</evaluate>
+    	<transition on="complete.success" to="input" />
+    </action-state>
+   
+	<action-state id="input">
+   		<evaluate expression="input" result="flowScope.personalData_input"></evaluate>
+   		<evaluate expression="flowScope.personalData_input.setName('id')"></evaluate>
+    	<evaluate expression="flowProcessor.process(flowScope.personalData_input)">
+    		<attribute name="name" value="complete"/>
+    	</evaluate>
+    	<transition on="complete.success" to="render" />
+    </action-state>
+    
+    <!-- Se podría hacer con un subflujo para evitar tener que pegar la transición en el estado vista? -->
+    <view-state id="render" view="render">
+    	<transition on="continue" to="Resultprompt" />
+    	 <on-exit>
+             <set name="flowScope.personalData_input.value" value="requestParameters.id"/> <!-- Si hacemos esto asi por que no el resto? -->
+         </on-exit>             	
+    </view-state>
+    
+    <action-state id="Resultprompt">
+   		<evaluate expression="prompt" result="flowScope.result_prompt"></evaluate>
+    	
+    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
+    	<evaluate expression="flowScope.result_prompt.setMessage(flowScope.personalData_input.value)"></evaluate>
+    	
+    	<evaluate expression="flowProcessor.process(flowScope.result_prompt)">
+    		<attribute name="name" value="complete"/>
+    	</evaluate>
+    	<transition on="complete.success" to="renderResult" />
+    </action-state>
+    
+    <view-state id="renderResult" view="render">
+    	<transition on="continue" to="end" />
+    </view-state>
+    
+    <end-state id="end"></end-state>
+   
+</flow>

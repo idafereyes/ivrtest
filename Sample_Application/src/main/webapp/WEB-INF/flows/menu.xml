@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="menu_prompt">
+    
+  
+  	<input name="user" required="true" type="java.lang.String"/> <!-- Parametro de entrada. Obligatorio -->
+
+	
+    <action-state id="menu_prompt">
+		<on-entry>
+			<evaluate expression="prompt" result="flowScope.menu_prompt"></evaluate>
+			<set name="flowScope.menu_prompt.message" value="'Teclee una opción ' + user"></set>
+		</on-entry>
+
+    	<evaluate expression="flowProcessor.process(flowScope.menu_prompt)"/>
+    		
+    	<transition on="success" to="empty_prompt" /> <!-- El on="success" realmente no hace falta -->
+    </action-state>
+    
+    <action-state id="empty_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.option1_prompt"></evaluate>
+			<set name="flowScope.option1_prompt.message" value="'[1] No hacer nada'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.option1_prompt)"/>
+
+    	<transition to="ws_prompt" />
+    </action-state>
+    
+     <action-state id="ws_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.option2_prompt"></evaluate>
+			<set name="flowScope.option2_prompt.message" value="'[2] Servicio Web'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.option2_prompt)"/>
+
+    	<transition to="exception_prompt" />
+    </action-state>
+    
+     <action-state id="exception_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.exception_prompt"></evaluate>
+			<set name="flowScope.exception_prompt.message" value="'[3] Provocar un error'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.exception_prompt)"/>
+
+    	<transition to="trans_prompt" />
+    </action-state>
+    
+    <action-state id="trans_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.trans_prompt"></evaluate>
+			<set name="flowScope.trans_prompt.message" value="'[4] Transfomacion'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.trans_prompt)"/>
+
+    	<transition to="custom_prompt" />
+    </action-state>
+    
+    <action-state id="custom_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.custom_prompt"></evaluate>
+			<set name="flowScope.custom_prompt.message" value="'[5] Custom actions'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.custom_prompt)"/>
+
+    	<transition to="cancel_prompt" />
+    </action-state>
+    
+    <action-state id="cancel_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.cancel_prompt"></evaluate>
+			<set name="flowScope.cancel_prompt.message" value="'[0] Cancelar'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.cancel_prompt)"/>
+
+    	<transition to="option_input" />
+    </action-state>
+ 
+   
+	<action-state id="option_input">
+		<on-entry>
+			<evaluate expression="input" result="flowScope.menu_input"></evaluate>
+			<set name="flowScope.menu_input.name" value="'menu_option'"></set>
+		</on-entry>
+
+    	<evaluate expression="flowProcessor.process(flowScope.menu_input)"/>
+    		
+    	<transition to="menu_render" />
+    </action-state>  
+  
+    <view-state id="menu_render" view="render">
+    	<transition to="return_menu" /> <!-- Realmente no hace falta -->
+    	 <on-exit>
+             <set name="flowScope.menu_input.value" value="requestParameters.menu_option"/> 
+         </on-exit>             	
+    </view-state>
+  
+    <end-state id="return_menu" >
+		<output name="menu_option" value="flowScope.menu_input.value" />
+	</end-state>
+   
+</flow>

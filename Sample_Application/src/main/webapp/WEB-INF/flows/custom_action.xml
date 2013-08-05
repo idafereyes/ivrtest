@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="custom_action">
+
+
+    <action-state id="custom_action">   	
+    	<evaluate expression="customAction"/>
+    	<transition on="customEvent" to="custom_pojo_action">
+    		<evaluate expression="prompt" result="flowScope.results_prompt"/>
+    		<set name="flowScope.results_prompt.message" value="'Custom Action salió por ' + currentEvent.id"/>
+    	</transition>
+    </action-state>
+  
+    <action-state id="custom_pojo_action">   	
+    	<evaluate expression="customPojoAction.doit('pojoCustomEvent', flowRequestContext)"/>
+    	<transition on="pojoCustomEvent" to="render">
+    		<set name="flowScope.results_prompt.message" value="flowScope.results_prompt.message + ' Custom Pojo Action salió por ' + currentEvent.id"/>
+    	</transition>
+    	<on-exit>
+    		<evaluate expression="flowProcessor.process(flowScope.results_prompt)"/>   		
+    	</on-exit>
+    </action-state>
+  
+    <view-state id="render" view="render">
+		<transition to="end"/> 
+	</view-state>
+	
+    <end-state id="end"></end-state>
+   
+</flow>
