@@ -11,6 +11,21 @@
 			<artifactId>spring-webflow</artifactId>
 			<version>2.3.2.RELEASE</version>
 		</dependency>
+		
+		<!-- Spring Web Service -->		
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+			<version>1.5.10</version>
+		</dependency>
+		
+		<!-- Spring oxm -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>3.2.3.RELEASE</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.isb.ivr</groupId>
 			<artifactId>IVR_Flow</artifactId>

@@ -6,6 +6,7 @@
     xmlns:jee="http://www.springframework.org/schema/jee"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
     xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -16,7 +17,9 @@
         http://www.springframework.org/schema/mvc 
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/webflow-config
-        http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd">
+        http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd
+        http://www.springframework.org/schema/oxm 
+		http://www.springframework.org/schema/oxm/spring-oxm-1.5.xsd">
         
     <!-- mvc:annotation-driven/-->      
     <!-- context:annotation-config/-->
@@ -66,15 +69,29 @@
             </entry>
         </map>
     </property>
-</bean>
+	</bean>
+		
+	<bean id="prompt" class="org.isb.ivr.flow.bean.Prompt" scope="prototype"/>
+	<bean id="input" class="org.isb.ivr.flow.bean.Input" scope="prototype"/>
+	<bean id="renderer" class="org.isb.ivr.flow.render.HTMLRenderer"/>
+	<bean id="states" class="java.util.ArrayList" scope="flow"/>
+	<bean id="flowProcessor" class="org.isb.ivr.flow.FlowProcessor" scope="flow">
+		<property name="states" ref="states"></property>
+		<property name="renderer" ref="renderer"></property>
+	</bean>
 
-<bean id="prompt" class="org.isb.ivr.flow.bean.Prompt" scope="prototype"/>
-<bean id="input" class="org.isb.ivr.flow.bean.Input" scope="prototype"/>
-<bean id="renderer" class="org.isb.ivr.flow.render.HTMLRenderer"/>
-<bean id="states" class="java.util.ArrayList" scope="flow"/>
-<bean id="flowProcessor" class="org.isb.ivr.flow.FlowProcessor" scope="flow">
-	<property name="states" ref="states"></property>
-	<property name="renderer" ref="renderer"></property>
-</bean>
+	<!-- Web Services -->
+	<bean id="bindingWebService" class="org.isb.ivr.flow.webservices.BindingWebService">
+	   <property name="marshaller" ref="marshallerBinding" />
+	   <property name="unmarshaller" ref="marshallerBinding" />
+	    <property name="defaultUri" value="http://localhost:8088/" />
+	</bean>
+	
+	<oxm:jaxb2-marshaller id="marshallerBinding" contextPath="org.isb.ivr.flow.webservices.jaxbbeans.binding" />
+	
+	<bean id="op1" class="org.isb.ivr.flow.webservices.jaxbbeans.binding.Op1">
+		<property name="input" value="hola"/>
+	</bean>
     
+>>>>>>> bbe4941 Ejemplo de web service.
 </beans>
