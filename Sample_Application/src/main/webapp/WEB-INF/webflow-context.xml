@@ -93,5 +93,4 @@
 		<property name="input" value="hola"/>
 	</bean>
     
->>>>>>> bbe4941 Ejemplo de web service.
 </beans>
