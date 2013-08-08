@@ -20,16 +20,18 @@
     
     	<evaluate expression="bindingWebService.op1(op1)"/>
     	
-    	<transition on="OK" to="promptWsOk"/>
+    	<transition on="success" to="promptWsOk">
+    		<set name="flowScope.responseOutput" value="currentEvent.attributes.response.output"/>
+    	</transition>
     	<transition on="ExNoAccount" to="promptWsExNoAcc"/>
     	<transition on-exception="java.lang.Exception" to="promptWsEx"/>
-
+    	
     </action-state> 
     
     <action-state id="promptWsOk">
 		<on-entry>
 			<evaluate expression="prompt" result="flowScope.promptWsOk"></evaluate>
-			<set name="flowScope.promptWsOk.message" value="'Web Service invocado correctamente.'"></set>
+			<set name="flowScope.promptWsOk.message" value="flowScope.responseOutput"></set>
 		</on-entry>
 
        	<evaluate expression="flowProcessor.process(flowScope.promptWsOk)"/>
