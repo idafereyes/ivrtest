@@ -1,0 +1,146 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.isb.ivr</groupId>
+	<artifactId>jVoice_Framework</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-webflow</artifactId>
+			<version>2.3.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>3.2.1.RELEASE</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+	
+		<pluginManagement>
+               <plugins>
+                      <!--Este plugin es necesario para que eclipse pueda ejecutar el enhance 
+                             de openjpa con Eclipse m2e. Fuera de eclipse, no tienen ningun uso ni afecta 
+                             en nada. Si se quita esta declaracion, se puede seguir ejecutando maven en 
+                             linea de comandos pero eclipse dara un fallo en la declaracion del plugin 
+                             de openjpa -->
+                      <plugin>
+                             <groupId>org.eclipse.m2e</groupId>
+                             <artifactId>lifecycle-mapping</artifactId>
+                             <version>1.0.0</version>
+                             <configuration>
+                                   <lifecycleMappingMetadata>
+                                          <pluginExecutions>
+                                                 <pluginExecution>
+                                                       <pluginExecutionFilter>
+                                                              <groupId>org.codehaus.mojo</groupId>
+                                                              <artifactId>build-helper-maven-plugin</artifactId>
+                                                              <versionRange>[1.0,)</versionRange>
+                                                              <goals>
+                                                                     <goal>add-test-source</goal>
+                                                                     <goal>add-test-resource</goal>
+                                                              </goals>
+                                                       </pluginExecutionFilter>
+                                                       <action>
+                                                              <execute />
+                                                       </action>
+                                                 </pluginExecution>
+                                          </pluginExecutions>
+                                   </lifecycleMappingMetadata>
+                             </configuration>
+                      </plugin>
+               </plugins>
+        </pluginManagement>
+	
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.15</version>
+				<configuration>
+					<excludes>
+						<exclude>**/*ITest*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<!--id>add-it-sources</id-->
+						<!--phase>process-test-sources</phase-->
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/itest/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<!--id>add-it-resources</id-->
+						<!--phase>process-test-resources</phase-->
+						<goals>
+							<goal>add-test-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>src/itestBAD/resources</directory>
+								</resource>	
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.15</version>
+				<configuration>
+					<includes>
+						<include>**/*ITest*.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
