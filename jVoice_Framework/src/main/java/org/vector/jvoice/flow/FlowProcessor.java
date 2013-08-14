@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.vector.jvoice.flow.bean.Input;
+import org.vector.jvoice.flow.bean.Output;
 import org.vector.jvoice.flow.bean.Prompt;
 import org.vector.jvoice.flow.render.Renderer;
 
@@ -50,6 +51,10 @@ public class FlowProcessor implements Serializable {
 		 states.add(input);
 	}
 	
+	public void process(Output output) {
+		 states.add(output);
+	}
+	
 	/**
 	 * Renderiza y elimina los estados
 	 * @param flowURL
@@ -64,7 +69,10 @@ public class FlowProcessor implements Serializable {
 			}
 			else if (element instanceof Prompt) {
 				code += this.renderer.render((Prompt)element, flowURL);
+			}else if (element instanceof Output) {
+				code += this.renderer.render((Output)element, flowURL);			
 			}
+
 		
 		}
 		states.clear();

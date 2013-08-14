@@ -1,6 +1,7 @@
 package org.vector.jvoice.flow.render;
 
 import org.vector.jvoice.flow.bean.Input;
+import org.vector.jvoice.flow.bean.Output;
 import org.vector.jvoice.flow.bean.Prompt;
 
 /**
@@ -9,5 +10,6 @@ import org.vector.jvoice.flow.bean.Prompt;
  */
 public interface Renderer {
 	public String render(Prompt prompt, String flowURL);
+	public String render(Output output, String flowURL);
 	public String render(Input prompt, String flowURL);
 }

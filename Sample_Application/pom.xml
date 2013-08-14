@@ -28,7 +28,7 @@
 		
 		<dependency>
 			<groupId>org.isb.ivr</groupId>
-			<artifactId>IVR_Flow</artifactId>
+			<artifactId>jVoice_Framework</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

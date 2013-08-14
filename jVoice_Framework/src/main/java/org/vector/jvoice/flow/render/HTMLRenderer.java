@@ -1,8 +1,11 @@
 package org.vector.jvoice.flow.render;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
+import org.vector.jvoice.flow.bean.AudioItem;
 import org.vector.jvoice.flow.bean.Input;
+import org.vector.jvoice.flow.bean.Output;
 import org.vector.jvoice.flow.bean.Prompt;
 
 /**
@@ -31,5 +34,24 @@ public class HTMLRenderer implements Renderer, Serializable {
 	public String render(Prompt prompt, String flowURL){
 		return "<span>" + prompt.getMessage() + "</span><br>";
 	}
+	
+	public String render(Output output, String flowURL){
+		String renderCode = "";
+		
+		renderCode += "<span>bargein: " + output.isBargein() + "</span><br>";
+		renderCode += "<span>flush: " + output.isFlush() + "</span><br>";
+		renderCode += "<span>catchHangup: " + output.isCatchHangup() + "</span><br>";
+		
+		Iterator it = output.getAudioItemsList().iterator();
+		while (it.hasNext()){
+			AudioItem prompt = (AudioItem) it.next();
+			renderCode += "<span>prompt</span><br>";			
+			renderCode += "<span>src: " + prompt.getSrc() + "</span><br>";			
+			renderCode += "<span>wording: " + prompt.getWording() + "</span><br>";			
+		}
+		
+		return renderCode;
+	}
+
 	
 }
