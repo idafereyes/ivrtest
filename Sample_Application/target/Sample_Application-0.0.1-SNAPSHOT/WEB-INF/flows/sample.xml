@@ -1,59 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flow xmlns="http://www.springframework.org/schema/webflow"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="prompt">
-    
-    <!-- Podemos definir los beans como variables. Aporta claridad? -->
-    <!-- 
-    <var name="wellcome_prompt" class="org.isb.ivr.flow.Prompt"/>
-    -->
-    
-    <action-state id="prompt">
-   		<evaluate expression="prompt" result="flowScope.wellcome_prompt"></evaluate>
-    	
-    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
-    	<evaluate expression="flowScope.wellcome_prompt.setMessage('Bienvenido!')"></evaluate>
-    	
-    	<evaluate expression="flowProcessor.process(flowScope.wellcome_prompt)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="input" />
-    </action-state>
-   
-	<action-state id="input">
-   		<evaluate expression="input" result="flowScope.personalData_input"></evaluate>
-   		<evaluate expression="flowScope.personalData_input.setName('id')"></evaluate>
-    	<evaluate expression="flowProcessor.process(flowScope.personalData_input)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="render" />
-    </action-state>
-    
-    <!-- Se podría hacer con un subflujo para evitar tener que pegar la transición en el estado vista? -->
-    <view-state id="render" view="render">
-    	<transition on="continue" to="Resultprompt" />
-    	 <on-exit>
-             <set name="flowScope.personalData_input.value" value="requestParameters.id"/> <!-- Si hacemos esto asi por que no el resto? -->
-         </on-exit>             	
-    </view-state>
-    
-    <action-state id="Resultprompt">
-   		<evaluate expression="prompt" result="flowScope.result_prompt"></evaluate>
-    	
-    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
-    	<evaluate expression="flowScope.result_prompt.setMessage(flowScope.personalData_input.value)"></evaluate>
-    	
-    	<evaluate expression="flowProcessor.process(flowScope.result_prompt)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="renderResult" />
-    </action-state>
-    
-    <view-state id="renderResult" view="render">
-    	<transition on="continue" to="end" />
-    </view-state>
-    
-    <end-state id="end"></end-state>
-   
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="wellcome_prompt">
+
+	<action-state id="wellcome_prompt">
+		<on-entry>
+			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
+			<evaluate expression="prompt" result="flowScope.wellcome_prompt"></evaluate>
+			
+			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate llamando al setter correspondiente. Cómo queda más claro? -->
+			<set name="flowScope.wellcome_prompt.message" value="'Bienvenido! Teclee su nombre'"></set>
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.wellcome_prompt)"> 
+			<attribute name="name" value="process" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		
+		<transition on="process.success" to="user_input" />
+	</action-state>
+
+	<action-state id="user_input">
+		<on-entry>
+			<evaluate expression="input" result="flowScope.user_input"/>
+			<set name="flowScope.user_input.name" value="'user'"/> <!-- Este identificador podría generarse -->
+		</on-entry>
+		
+		<evaluate expression="flowProcessor.process(flowScope.user_input)"/>
+			
+		<transition to="wellcome_render"/>
+	</action-state>
+
+	<!-- Se podría hacer con un subflujo para evitar tener que pegar el estado vista a la transición? -->
+	<view-state id="wellcome_render" view="render">
+		<transition to="main_menu"> <!-- Podemos definir transacciones poniendo un parametro _EventId en la URL -->
+			<set name="flowScope.user_input.value" value="requestParameters.user" /> <!-- Mapeo de salida -->
+		</transition>
+	</view-state>
+
+	<!-- LLamada a un subflujo menu-->
+	<subflow-state id="main_menu" subflow="menu">
+		<input name="user" value="flowScope.user_input.value" /> <!-- Parámetros de entrada -->
+		<!-- En esta caso no es necesario crear explicitamente el Bean resultado. En este caso es un String -->
+		<transition  to="menu_decision">
+			<set name="flowScope.selected_menu" value="currentEvent.attributes.menu_option"></set> <!-- Asociamos la asignación de la salida a una transición concreta -->
+		</transition>
+	</subflow-state>
+
+	<!-- Podría simplificarse condicionando directamente las transiciones del <subflow-state>? -->
+	<!-- También podríamos usar un decision-state -->
+	<action-state id="menu_decision">	
+		<evaluate expression="flowScope.selected_menu"></evaluate>
+	    <transition on="1" to="empty_flow" />
+	    <transition on="2" to="ws_flow" />
+	    <transition on="3" to="error_flow" /> <!-- Si ponemos por ejemplo un estado inexistente tambien funciona. Capturarems el error Spring Webflow -->
+	    <transition on="4" to="trans_flow" />
+	    <transition on="5" to="custom_action_flow" />
+	    <transition on="0" to="wellcome_prompt" />
+	 	<transition to="main_menu" /> <!-- Opción por defecto -->
+	</action-state>
+
+	<!-- LLamada a un subflujo-->
+	<subflow-state id="empty_flow" subflow="empty">
+		<transition to="end"/>
+	</subflow-state>
+	
+	<!-- LLamada a un WS -->
+	<subflow-state id="ws_flow" subflow="web_service">
+		<transition to="end"/>
+	</subflow-state>
+	
+	<!-- Para probar anotaciones. Falta el tema de transformación de Beans-->
+	<subflow-state id="trans_flow" subflow="transform">
+		<transition to="end"/>
+	</subflow-state>
+	
+	<!-- Custom actions-->
+	<subflow-state id="custom_action_flow" subflow="custom_action">
+		<transition to="end"/>
+	</subflow-state>
+	
+	<!-- Forzar un error -->
+	<subflow-state id="error_flow" subflow="error">
+		<transition to="end"/>
+	</subflow-state>
+
+	<end-state id="end"></end-state> <!-- De estos se pueden poner varios -->
+	
+
+
+	
 </flow>

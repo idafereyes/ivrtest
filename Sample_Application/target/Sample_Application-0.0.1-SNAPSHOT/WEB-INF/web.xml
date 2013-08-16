@@ -10,7 +10,7 @@
 		<welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
 	</welcome-file-list>
 
-
+ 
 	<!-- The front controller of this Spring Web application, responsible for handling all application requests -->
 	<servlet>
 		<servlet-name>Spring MVC Dispatcher Servlet</servlet-name>

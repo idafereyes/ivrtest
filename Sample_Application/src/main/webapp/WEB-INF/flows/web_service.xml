@@ -32,6 +32,11 @@
 		<on-entry>
 			<evaluate expression="prompt" result="flowScope.promptWsOk"></evaluate>
 			<set name="flowScope.promptWsOk.message" value="flowScope.responseOutput"></set>
+			
+			<!-- Para que aparezca un link para volver al menu -->
+			<evaluate expression="prompt" result="flowScope.promptLinkVolver" />
+			<set name="flowScope.promptLinkVolver.message" value="'&lt;a href=&quot;sample.flow&quot;&gt;Volver&lt;/a&gt;'"></set>
+			<evaluate expression="flowProcessor.process(flowScope.promptLinkVolver)"/>
 		</on-entry>
 
        	<evaluate expression="flowProcessor.process(flowScope.promptWsOk)"/>

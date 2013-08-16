@@ -6,6 +6,6 @@
 <title>Pruebas IVR</title>
 </head>
 <body>
-<a href="sample.flow">Flujo eejemplo</a>
+<a href="sample.flow">Ejemplo Spring Webflow</a>
 </body>
 </html>

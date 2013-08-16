@@ -2,78 +2,111 @@
 <flow xmlns="http://www.springframework.org/schema/webflow"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/webflow
-        http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" start-state="menu_prompt">
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="menu_prompt">
     
   
+  	<input name="user" required="true" type="java.lang.String"/> <!-- Parametro de entrada. Obligatorio -->
+
+	
     <action-state id="menu_prompt">
-   		<evaluate expression="prompt" result="flowScope.menu_prompt"></evaluate>
-   	
-    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
-    	<evaluate expression="flowScope.menu_prompt.setMessage('Menu')"></evaluate>
-    	
-    	<evaluate expression="flowProcessor.process(flowScope.menu_prompt)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="option_1_prompt" />
+		<on-entry>
+			<evaluate expression="prompt" result="flowScope.menu_prompt"></evaluate>
+			<set name="flowScope.menu_prompt.message" value="'Teclee una opción ' + user"></set>
+		</on-entry>
+
+    	<evaluate expression="flowProcessor.process(flowScope.menu_prompt)"/>
+    		
+    	<transition on="success" to="empty_prompt" /> <!-- El on="success" realmente no hace falta -->
     </action-state>
     
-    <action-state id="option_1_prompt">
-   		<evaluate expression="prompt" result="flowScope.option1_prompt"></evaluate>
-   	
-    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
-    	<evaluate expression="flowScope.option1__prompt.setMessage('Opcion 1')"></evaluate>
-    	
-    	<evaluate expression="flowProcessor.process(flowScope.option1_prompt)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="option_2_prompt" />
+    <action-state id="empty_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.option1_prompt"></evaluate>
+			<set name="flowScope.option1_prompt.message" value="'[1] No hacer nada'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.option1_prompt)"/>
+
+    	<transition to="ws_prompt" />
     </action-state>
     
-      <action-state id="option_2_prompt">
-   		<evaluate expression="prompt" result="flowScope.option2_prompt"></evaluate>
-   	
-    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
-    	<evaluate expression="flowScope.option2_prompt.setMessage('Opcion 2')"></evaluate>
-    	
-    	<evaluate expression="flowProcessor.process(flowScope.option2_prompt)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="input" />
+     <action-state id="ws_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.option2_prompt"></evaluate>
+			<set name="flowScope.option2_prompt.message" value="'[2] Servicio Web'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.option2_prompt)"/>
+
+    	<transition to="exception_prompt" />
     </action-state>
+    
+     <action-state id="exception_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.exception_prompt"></evaluate>
+			<set name="flowScope.exception_prompt.message" value="'[3] Provocar un error'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.exception_prompt)"/>
+
+    	<transition to="trans_prompt" />
+    </action-state>
+    
+    <action-state id="trans_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.trans_prompt"></evaluate>
+			<set name="flowScope.trans_prompt.message" value="'[4] Transfomacion'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.trans_prompt)"/>
+
+    	<transition to="custom_prompt" />
+    </action-state>
+    
+    <action-state id="custom_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.custom_prompt"></evaluate>
+			<set name="flowScope.custom_prompt.message" value="'[5] Custom actions'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.custom_prompt)"/>
+
+    	<transition to="cancel_prompt" />
+    </action-state>
+    
+    <action-state id="cancel_prompt">
+    	<on-entry>
+			<evaluate expression="prompt" result="flowScope.cancel_prompt"></evaluate>
+			<set name="flowScope.cancel_prompt.message" value="'[0] Cancelar'"></set>
+		</on-entry>
+		
+    	<evaluate expression="flowProcessor.process(flowScope.cancel_prompt)"/>
+
+    	<transition to="option_input" />
+    </action-state>
+ 
    
-	<action-state id="input">
-   		<evaluate expression="input" result="flowScope.personalData_input"></evaluate>
-   		<evaluate expression="flowScope.personalData_input.setName('option')"></evaluate>
-    	<evaluate expression="flowProcessor.process(flowScope.personalData_input)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="render" />
-    </action-state>
-    
+	<action-state id="option_input">
+		<on-entry>
+			<evaluate expression="input" result="flowScope.menu_input"></evaluate>
+			<set name="flowScope.menu_input.name" value="'menu_option'"></set>
+		</on-entry>
+
+    	<evaluate expression="flowProcessor.process(flowScope.menu_input)"/>
+    		
+    	<transition to="menu_render" />
+    </action-state>  
   
-    <view-state id="render" view="render">
-    	<transition on="continue" to="Resultprompt" />
+    <view-state id="menu_render" view="render">
+    	<transition to="return_menu" /> <!-- Realmente no hace falta -->
     	 <on-exit>
-             <set name="flowScope.personalData_input.value" value="requestParameters.id"/> <!-- Si hacemos esto asi por que no el resto? -->
+             <set name="flowScope.menu_input.value" value="requestParameters.menu_option"/> 
          </on-exit>             	
     </view-state>
-    
-    <action-state id="Resultprompt">
-   		<evaluate expression="prompt" result="flowScope.result_prompt"></evaluate>
-    	
-    	<!-- Esto lo podemos hacer con un set. Aporta claridad? -->
-    	<evaluate expression="flowScope.result_prompt.setMessage(flowScope.personalData_input.value)"></evaluate>
-    	
-    	<evaluate expression="flowProcessor.process(flowScope.result_prompt)">
-    		<attribute name="name" value="complete"/>
-    	</evaluate>
-    	<transition on="complete.success" to="renderResult" />
-    </action-state>
-    
-    <view-state id="renderResult" view="render">
-    	<transition on="continue" to="end" />
-    </view-state>
-    
-    <end-state id="end"></end-state>
+  
+    <end-state id="return_menu" >
+		<output name="menu_option" value="flowScope.menu_input.value" />
+	</end-state>
    
 </flow>
