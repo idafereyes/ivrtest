@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.isb.ivr</groupId>
+	<groupId>org.vector.jvoice</groupId>
 	<artifactId>jVoice_Framework</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
@@ -36,11 +36,10 @@
 	
 		<pluginManagement>
                <plugins>
-                      <!--Este plugin es necesario para que eclipse pueda ejecutar el enhance 
-                             de openjpa con Eclipse m2e. Fuera de eclipse, no tienen ningun uso ni afecta 
-                             en nada. Si se quita esta declaracion, se puede seguir ejecutando maven en 
-                             linea de comandos pero eclipse dara un fallo en la declaracion del plugin 
-                             de openjpa -->
+                      <!--
+                      	Este plugin es necesario para poder asociar a las fases Maven el plugin Failsafe. Por linea de comandos no hay problema pero en Eclipse  
+                      	Necesitamos hacerlo, por que si no el conector Maven nos dará error
+                      -->
                       <plugin>
                              <groupId>org.eclipse.m2e</groupId>
                              <artifactId>lifecycle-mapping</artifactId>
@@ -68,7 +67,10 @@
                       </plugin>
                </plugins>
         </pluginManagement>
-	
+        
+	 	<!--
+        	Le decimos al plugin de test Surefire que no tenga en cuenta los fuentes que acaben con el sufijo ITest. Si no por defecto los tendría en cuenta
+        -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -80,15 +82,16 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
+			
+			<!--
+        		Añadimos con el plugin build-helper-maven-plugin las carpetas de clases y recursos de test integrados
+        	-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.8</version>
 				<executions>
 					<execution>
-						<!--id>add-it-sources</id-->
-						<!--phase>process-test-sources</phase-->
 						<goals>
 							<goal>add-test-source</goal>
 						</goals>
@@ -106,21 +109,23 @@
 				<version>1.8</version>
 				<executions>
 					<execution>
-						<!--id>add-it-resources</id-->
-						<!--phase>process-test-resources</phase-->
 						<goals>
 							<goal>add-test-resource</goal>
 						</goals>
 						<configuration>
 							<resources>
 								<resource>
-									<directory>src/itestBAD/resources</directory>
+									<directory>src/itest/resources</directory>
 								</resource>	
 							</resources>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!--
+        		Configuración del plugin de tests integrados Failsafe
+        	-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>

@@ -2,20 +2,12 @@ package org.vector.jvoice.flow;
 
 import java.util.ArrayList;
 
-
-
-
-
-
-
-
-
-
-
-
-
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.webflow.config.FlowDefinitionResource;
 import org.springframework.webflow.config.FlowDefinitionResourceFactory;
 import org.springframework.webflow.test.MockExternalContext;
@@ -25,9 +17,8 @@ import org.vector.jvoice.flow.FlowProcessor;
 import org.vector.jvoice.flow.bean.Prompt;
 import org.vector.jvoice.flow.render.HTMLRenderer;
 
-public class FlowProcesorITest extends AbstractXmlFlowExecutionTests {
-	
 
+public class FlowProcesorITest extends AbstractXmlFlowExecutionTests {
 	
 
 	@Test
@@ -48,18 +39,23 @@ public class FlowProcesorITest extends AbstractXmlFlowExecutionTests {
 
 	@Override
 	protected void configureFlowBuilderContext(MockFlowBuilderContext builderContext) {
-		// Esto deberíamos poder configurarlo y no hacerlo programáticamente
-		FlowProcessor flowProcessor = new FlowProcessor();
-		flowProcessor.setRenderer(new HTMLRenderer());
-		flowProcessor.setStates(new ArrayList());
-		builderContext.registerBean("flowProcessor", flowProcessor); 
-		builderContext.registerBean("prompt", new Prompt()); 
 
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("org/vector/jvoice/flow/test-context.xml");
+		builderContext.getFlowBuilderServices().setApplicationContext(applicationContext);
+		
+		// También podemos hacerlo programáticamente
+		/*
+			FlowProcessor flowProcessor = new FlowProcessor();
+			flowProcessor.setRenderer(new HTMLRenderer());
+			flowProcessor.setStates(new ArrayList());
+			builderContext.registerBean("flowProcessor", flowProcessor); 
+			builderContext.registerBean("prompt", new Prompt()); 		
+		*/
 	}
 	
 	@Override
 	protected FlowDefinitionResource getResource(FlowDefinitionResourceFactory resourceFactory) {
-		FlowDefinitionResource resource = resourceFactory.createFileResource("src/itest/resources/org/vector/jvoice/flow/test-flow.xml");
+		FlowDefinitionResource resource = resourceFactory.createResource("org/vector/jvoice/flow/test-flow.xml");
 		Assert.notNull(resource);
 		return resource;
 	}
