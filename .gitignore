@@ -2,3 +2,5 @@ target
 bin
 .metadata
 .settings
+.project
+.classpath
