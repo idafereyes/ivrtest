@@ -73,14 +73,16 @@
 				</configuration>
 			</plugin>
 
-			<!-- Añadimos con el plugin build-helper-maven-plugin las carpetas de 
+			<!-- Incluimos con el plugin build-helper-maven-plugin las carpetas de 
 				clases y recursos de test integrados -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>1.8</version>
 				<executions>
+					<!-- Se incluyen la carpeta de codigo de los test integrados -->
 					<execution>
+						<id>add-itest-java-folder</id>
 						<goals>
 							<goal>add-test-source</goal>
 						</goals>
@@ -90,14 +92,9 @@
 							</sources>
 						</configuration>
 					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
+					<!-- Se incluyen la carpeta de recursos de los test integrados -->
 					<execution>
+						<id>add-itest-resources-folder</id>
 						<goals>
 							<goal>add-test-resource</goal>
 						</goals>
@@ -111,7 +108,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 			<!-- Configuración del plugin de tests integrados Failsafe -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
