@@ -23,6 +23,7 @@
 		<org.mockito-version>1.9.5</org.mockito-version>
 		<junit-version>4.11</junit-version>
 		<javax.inject-version>1</javax.inject-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
