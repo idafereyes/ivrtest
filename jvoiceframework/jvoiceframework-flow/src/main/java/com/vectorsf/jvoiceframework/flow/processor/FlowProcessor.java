@@ -61,7 +61,7 @@ public class FlowProcessor implements Serializable {
 	 * @return
 	 */
 	public String render(String flowURL){
-		
+		System.out.println("Test violaciones en Sonar");
 		String code = new String();
 		for (Object element: states){
 			if (element instanceof Input) {
