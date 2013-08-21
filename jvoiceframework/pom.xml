@@ -23,7 +23,10 @@
 		<org.mockito-version>1.9.5</org.mockito-version>
 		<junit-version>4.11</junit-version>
 		<javax.inject-version>1</javax.inject-version>
+		<!-- Esta propiedad se usa para que las clases y recursos se generen como UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- Esta prpopiedad se usa para que los informes de Failsafe se generen como UTF-8 -->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencies>
