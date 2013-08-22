@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="inputTest">
+
+	<action-state id="inputTest">
+		<on-entry>
+			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que 
+				poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
+			<evaluate expression="input" result="flowScope.inputTest" />
+
+			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate 
+				llamando al setter correspondiente. Cómo queda más claro? -->
+			<set name="flowScope.inputTest.name" value="'INITIAL_MENU'" />
+			<set name="flowScope.inputTest.maxAttempts" value="4" />
+			<set name="flowScope.inputTest.maxNoInput" value="3" />
+			<set name="flowScope.inputTest.maxNoMatch" value="3" />
+			<set name="flowScope.inputTest.bargein" value="true" />
+
+			<evaluate expression="grammar" result="flowScope.grammar1" />
+			<set name="flowScope.grammar1.src" value="'touchtones'" />
+			<set name="flowScope.grammar1.type" value="'builtin:dtmf'" />
+			<evaluate expression="flowScope.inputTest.grammars.add(flowScope.grammar1)" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem1" />
+			<set name="flowScope.audioItem1.src" value="'LOC0'" />
+			<set name="flowScope.audioItem1.wording" value="'Primera locucion'" />
+			<set name="flowScope.audioItem1.cond" value="''" />
+			<evaluate expression="flowScope.inputTest.mainAudios.add(flowScope.audioItem1)" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem2" />
+			<set name="flowScope.audioItem2.src" value="'LOC1'" />
+			<set name="flowScope.audioItem2.wording" value="'Segunda locucion'" />
+			<set name="flowScope.audioItem2.cond" value="''" />
+			<evaluate
+				expression="(inputCB.securityLevel == 'L1') ? flowScope.inputTest.mainAudios.add(flowScope.audioItem2) : false" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem3" />
+			<set name="flowScope.audioItem3.src" value="'LOC2'" />
+			<set name="flowScope.audioItem3.wording" value="'Tercera locucion'" />
+			<set name="flowScope.audioItem3.cond" value="''" />
+			<evaluate
+				expression="!(inputCB.securityLevel == 'L1') ? flowScope.inputTest.mainAudios.add(flowScope.audioItem3) : false" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem4" />
+			<set name="flowScope.audioItem4.src" value="'LOC3'" />
+			<set name="flowScope.audioItem4.wording" value="'Cuarta locucion'" />
+			<set name="flowScope.audioItem4.cond" value="'attempts == 1'" />
+			<evaluate
+				expression="!(inputCB.securityLevel == 'L1') ? flowScope.inputTest.mainAudios.add(flowScope.audioItem4) : false" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem5" />
+			<set name="flowScope.audioItem5.src" value="'LOC4'" />
+			<set name="flowScope.audioItem5.wording" value="'Quinta locucion'" />
+			<set name="flowScope.audioItem5.cond" value="'attempts == 1'" />
+			<evaluate
+				expression="!(inputCB.securityLevel == 'L1') and (inputCB.migrated) ? flowScope.inputTest.mainAudios.add(flowScope.audioItem5) : false" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem6" />
+			<set name="flowScope.audioItem6.src" value="'LOC5'" />
+			<set name="flowScope.audioItem6.wording" value="'Sexta locucion'" />
+			<set name="flowScope.audioItem6.cond" value="'attempts == 1 &amp;&amp; confidence > 0.6'" />
+			<evaluate
+				expression="!(inputCB.securityLevel == 'L1') and (inputCB.migrated) ? flowScope.inputTest.mainAudios.add(flowScope.audioItem6) : false" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem7" />
+			<set name="flowScope.audioItem7.src" value="'LOC6'" />
+			<set name="flowScope.audioItem7.wording" value="'Septima locucion'" />
+			<set name="flowScope.audioItem7.cond" value="'!(attempts == 1) &amp;&amp; (attempts == 2)'" />
+			<evaluate
+				expression="!(inputCB.securityLevel == 'L1') ? flowScope.inputTest.mainAudios.add(flowScope.audioItem7) : false" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem8" />
+			<set name="flowScope.audioItem8.src" value="'LOC7'" />
+			<set name="flowScope.audioItem8.wording" value="'Octava locucion'" />
+			<set name="flowScope.audioItem8.cond" value="'!(attempts == 1) &amp;&amp; !(attempts == 2)'" />
+			<evaluate
+				expression="!(inputCB.securityLevel == 'L1') ? flowScope.inputTest.mainAudios.add(flowScope.audioItem8) : false" />
+
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.inputTest)" />
+
+		<transition to="render"></transition>
+	</action-state>
+
+
+	<view-state id="render" view="render">
+		<transition to="end">
+			<!-- <set name="flowScope.wellcome_input.value" value="requestParameters.user" 
+				/> Mapeo de salida -->
+		</transition>
+	</view-state>
+
+	<end-state id="end"></end-state> <!-- De estos se pueden poner varios -->
+
+
+</flow>

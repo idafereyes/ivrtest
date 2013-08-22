@@ -23,6 +23,10 @@ public class AudioItem implements Serializable{
 	 */
 	private String wording;
 
+	/**
+	 * The javascript condition to play the audio item
+	 */
+	private String cond;
 	
 	public String getSrc() {
 		return src;
@@ -38,6 +42,14 @@ public class AudioItem implements Serializable{
 
 	public void setWording(String wording) {
 		this.wording = wording;
+	}
+
+	public String getCond() {
+		return cond;
+	}
+
+	public void setCond(String cond) {
+		this.cond = cond;
 	}
 	
 }

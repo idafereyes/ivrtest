@@ -1,6 +1,9 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Representa un estado input IVR
@@ -10,9 +13,53 @@ public class Input implements Serializable{
 
 	private static final long serialVersionUID = -5942501816585768384L;
 	
-	private String value;
+	/**
+	 * Name of the input
+	 */
 	private String name;
-
+	
+	/**
+	 * Number of max attempts (including no input & no match attempts)
+	 */
+	private int maxAttempts;
+	
+	/**
+	 * Number of max attempts for No Input event
+	 */
+	private int maxNoInput;
+	
+	/**
+	 * Number of max attempts for No Match event
+	 */
+	private int maxNoMatch;
+	
+	/**
+	 * Indicates globally when prompts can be interrupted
+	 */
+	private boolean bargein;
+	
+	/**
+	 * Map of vxml properties
+	 */
+	private Map<String, String> properties;
+	
+	/**
+	 * List of grammars
+	 */
+	private List<Grammar> grammars;
+	
+	/**
+	 * List of audios for each event
+	 */
+	private List<AudioItem> mainAudios;
+	private List<AudioItem> noMatchAudios;
+	private List<AudioItem> noInputAudios;
+	
+	public Input() {
+		this.grammars = new ArrayList<Grammar>();
+		this.mainAudios = new ArrayList<AudioItem>();
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -21,12 +68,75 @@ public class Input implements Serializable{
 		this.name = name;
 	}
 
-	public String getValue() {
-		return this.value;
+	public int getMaxAttempts() {
+		return maxAttempts;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setMaxAttempts(int maxAttempts) {
+		this.maxAttempts = maxAttempts;
+	}
+
+	public int getMaxNoInput() {
+		return maxNoInput;
+	}
+
+	public void setMaxNoInput(int maxNoInput) {
+		this.maxNoInput = maxNoInput;
+	}
+
+	public int getMaxNoMatch() {
+		return maxNoMatch;
+	}
+
+	public void setMaxNoMatch(int maxNoMatch) {
+		this.maxNoMatch = maxNoMatch;
+	}
+
+	public boolean isBargein() {
+		return bargein;
+	}
+
+	public void setBargein(boolean bargein) {
+		this.bargein = bargein;
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(Map<String, String> properties) {
+		this.properties = properties;
+	}
+
+	public List<Grammar> getGrammars() {
+		return grammars;
+	}
+
+	public void setGrammars(List<Grammar> grammars) {
+		this.grammars = grammars;
 	}
 	
+	public List<AudioItem> getMainAudios() {
+		return mainAudios;
+	}
+
+	public void setMainAudios(List<AudioItem> audioItems) {
+		this.mainAudios = audioItems;
+	}
+
+	public List<AudioItem> getNoMatchAudios() {
+		return noMatchAudios;
+	}
+
+	public void setNoMatchAudios(List<AudioItem> noMatchAudios) {
+		this.noMatchAudios = noMatchAudios;
+	}
+
+	public List<AudioItem> getNoInputAudios() {
+		return noInputAudios;
+	}
+
+	public void setNoInputAudios(List<AudioItem> noInputAudios) {
+		this.noInputAudios = noInputAudios;
+	}
 }

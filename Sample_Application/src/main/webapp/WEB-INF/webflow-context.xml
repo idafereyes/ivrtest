@@ -76,15 +76,19 @@
 		</property>
 	</bean>
 
-	<bean id="prompt" class="org.isb.ivr.flow.bean.Prompt" scope="prototype" />
-	<bean id="input" class="org.isb.ivr.flow.bean.Input" scope="prototype" />
-	<bean id="renderer" class="org.isb.ivr.flow.render.HTMLRenderer" />
+	<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype" />
+	<bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype" />
+	<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype" />
+	<bean id="grammar" class="com.vectorsf.jvoiceframework.core.bean.Grammar" scope="prototype" />
+	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" />
 	<bean id="states" class="java.util.ArrayList" scope="flow" />
-	<bean id="flowProcessor" class="org.isb.ivr.flow.FlowProcessor"
+	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
 		scope="flow">
 		<property name="states" ref="states"></property>
 		<property name="renderer" ref="renderer"></property>
 	</bean>
+
+	<bean id="inputCB" class="org.isb.ivr.flow.user.InputCB" scope="session" />
 
 	<!-- Web Services -->
 	<bean id="bindingWebService" class="org.isb.ivr.flow.webservices.BindingWebService">

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
@@ -20,11 +21,58 @@ public class HTMLRenderer implements Renderer, Serializable {
 	public String render(Input input, String flowURL) {
 		String html = new String();
 
-		// Pendiente comprobar si es necesario pasarlo como par�metro. Seria mejor en un input hidden. 
-		html += "<form method=\"post\" action=\"" + flowURL + "\">"; 
-		html += "<input type=\"text\" name=\"" + input.getName() + "\">";	
+		html += "<h1>Input</h1>";
+		html += "<p>Name = " + input.getName() + "</p>";
 		
-		// Dispara un evento que tiene como nombre el value del input. Podemos definir eventos d�ndole el valor que queramos
+		//Parametros
+		html += "<table cellpadding=\"0\" cellspacing=\"0\">";
+		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max Attempts</td>";
+		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxAttempts() + "</td></tr>";
+		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Input Attempts</td>";
+		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoInput() + "</td></tr>";
+		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Match Attempts</td>";
+		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoMatch() + "</td></tr>";
+		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Bargein</td>";
+		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.isBargein() + "</td></tr>";
+		html += "</table><br/>";
+		
+		//Grammars
+		html += "<table cellpadding=\"0\" cellspacing=\"0\">";
+		html += "<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Grammars</b></td></tr>";
+		if(!input.getGrammars().isEmpty()) {
+			html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Type</td>";
+			html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td></tr>";
+			for(Grammar g : input.getGrammars()) {
+				html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getType() + "</td>";
+				html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getSrc() + "</td></tr>";
+			}
+		} else {
+			html += "<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No grammars</td></tr>";
+		}
+		html += "</table><br/>";
+		
+		//Audios
+		html += "<table cellpadding=\"0\" cellspacing=\"0\">";
+		html += "<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Audios</b></td></tr>";
+		if(!input.getMainAudios().isEmpty()) {
+			html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Cond</td>";
+			html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td>";
+			html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Wording</td></tr>";
+			for(AudioItem ai : input.getMainAudios()) {
+				html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>";
+				html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>";
+				html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>";
+			}
+		} else {
+			html += "<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>";
+		}
+		html += "</table><br/>";
+				
+		// Pendiente comprobar si es necesario pasarlo como parÃ¡metro. Seria mejor en un input hidden. 
+		html += "<form method=\"post\" action=\"" + flowURL + "\">"; 
+		html += "Evento: <input type=\"text\" name=\"" + input.getName() + "\"><br/>";	
+		
+		// Dispara un evento que tiene como nombre el value del input. Podemos definir eventos dÃ¡ndole el valor que queramos
 		html += "<input type=\"submit\" value=\"Enter\" name=\"_eventId\">"; 
 		
 		html += "</form>";
