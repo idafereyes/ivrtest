@@ -58,6 +58,8 @@ public class Input implements Serializable{
 	public Input() {
 		this.grammars = new ArrayList<Grammar>();
 		this.mainAudios = new ArrayList<AudioItem>();
+		this.noMatchAudios = new ArrayList<AudioItem>();
+		this.noInputAudios = new ArrayList<AudioItem>();
 	}
 	
 	public String getName() {

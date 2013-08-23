@@ -7,6 +7,7 @@
 
 	<action-state id="inputTest">
 		<on-entry>
+			<evaluate expression="lastResultInfo" result="flowScope.lastResultInfo"/>
 			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que 
 				poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
 			<evaluate expression="input" result="flowScope.inputTest" />
@@ -83,17 +84,75 @@
 
 		<evaluate expression="flowProcessor.process(flowScope.inputTest)" />
 
-		<transition to="render"></transition>
+		<transition to="render1"></transition>
 	</action-state>
 
 
-	<view-state id="render" view="render">
+	<view-state id="render1" view="render">
+		<transition on="match" to="promptTest1">
+			<set name="flowScope.lastResultInfo.event" value="requestParameters.event" />
+		</transition>
+		
+		<transition on="maxnomatch" to="promptNoMatch">
+			<set name="flowScope.lastResultInfo.event" value="requestParameters.event" />
+		</transition>
+	</view-state>
+
+	<action-state id="promptTest1">
+		<on-entry>
+			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
+			<evaluate expression="prompt" result="flowScope.promptTest1" />
+			
+			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate llamando al setter correspondiente. Cómo queda más claro? -->
+			<set name="flowScope.promptTest1.message" value="'Su resultado es'"></set>
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.promptTest1)"> 
+			<attribute name="name" value="process" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		
+		<transition to="promptTest2" />
+	</action-state>
+	
+	<action-state id="promptTest2">
+		<on-entry>
+			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
+			<evaluate expression="prompt" result="flowScope.promptTest2" />
+			
+			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate llamando al setter correspondiente. Cómo queda más claro? -->
+			<set name="flowScope.promptTest2.message" value="lastResultInfo.event"></set>
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.promptTest2)"> 
+			<attribute name="name" value="process" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		
+		<transition to="render2" />
+	</action-state>
+	
+	<action-state id="promptNoMatch">
+		<on-entry>
+			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
+			<evaluate expression="prompt" result="flowScope.promptTest2" />
+			
+			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate llamando al setter correspondiente. Cómo queda más claro? -->
+			<set name="flowScope.promptTest2.message" value="'Este es el estado de MaxNoMatch'"></set>
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.promptTest2)"> 
+			<attribute name="name" value="process" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		
+		<transition to="render2" />
+	</action-state>
+	
+	<view-state id="render2" view="render">
 		<transition to="end">
 			<!-- <set name="flowScope.wellcome_input.value" value="requestParameters.user" 
 				/> Mapeo de salida -->
 		</transition>
 	</view-state>
-
+	
 	<end-state id="end"></end-state> <!-- De estos se pueden poner varios -->
 
 

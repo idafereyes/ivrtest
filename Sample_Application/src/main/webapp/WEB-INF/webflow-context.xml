@@ -88,6 +88,7 @@
 		<property name="renderer" ref="renderer"></property>
 	</bean>
 
+	<bean id="lastResultInfo" class="com.vectorsf.jvoiceframework.core.bean.LastResultInfo" scope="session"/>
 	<bean id="inputCB" class="org.isb.ivr.flow.user.InputCB" scope="session" />
 
 	<!-- Web Services -->

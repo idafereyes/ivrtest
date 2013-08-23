@@ -19,64 +19,119 @@ public class HTMLRenderer implements Renderer, Serializable {
 	private static final long serialVersionUID = 4511972601190155577L;
 	
 	public String render(Input input, String flowURL) {
-		String html = new String();
+		StringBuilder html = new StringBuilder();
 
-		html += "<h1>Input</h1>";
-		html += "<p>Name = " + input.getName() + "</p>";
+		html.append("<h1>Input</h1>");
+		// Input name
+		html.append("<p>Name = " + input.getName() + "</p>");
 		
 		//Parametros
-		html += "<table cellpadding=\"0\" cellspacing=\"0\">";
-		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max Attempts</td>";
-		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxAttempts() + "</td></tr>";
-		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Input Attempts</td>";
-		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoInput() + "</td></tr>";
-		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Match Attempts</td>";
-		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoMatch() + "</td></tr>";
-		html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Bargein</td>";
-		html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.isBargein() + "</td></tr>";
-		html += "</table><br/>";
+		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max Attempts</td>");
+		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxAttempts() + "</td></tr>");
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Input Attempts</td>");
+		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoInput() + "</td></tr>");
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Match Attempts</td>");
+		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoMatch() + "</td></tr>");
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Bargein</td>");
+		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.isBargein() + "</td></tr>");
+		html.append("</table><br/>");
 		
 		//Grammars
-		html += "<table cellpadding=\"0\" cellspacing=\"0\">";
-		html += "<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Grammars</b></td></tr>";
+		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append("<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Grammars</b></td></tr>");
 		if(!input.getGrammars().isEmpty()) {
-			html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Type</td>";
-			html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td></tr>";
+			html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Type</td>");
+			html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td></tr>");
 			for(Grammar g : input.getGrammars()) {
-				html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getType() + "</td>";
-				html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getSrc() + "</td></tr>";
+				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getType() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getSrc() + "</td></tr>");
 			}
 		} else {
-			html += "<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No grammars</td></tr>";
+			html.append("<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No grammars</td></tr>");
 		}
-		html += "</table><br/>";
+		html.append("</table><br/>");
 		
 		//Audios
-		html += "<table cellpadding=\"0\" cellspacing=\"0\">";
-		html += "<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Audios</b></td></tr>";
+		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Audios</b></td></tr>");
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Cond</td>");
+		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td>");
+		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Wording</td></tr>");
+		
+		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>Main</b></td></tr>");
 		if(!input.getMainAudios().isEmpty()) {
-			html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Cond</td>";
-			html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td>";
-			html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Wording</td></tr>";
 			for(AudioItem ai : input.getMainAudios()) {
-				html += "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>";
-				html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>";
-				html += "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>";
+				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>");
 			}
 		} else {
-			html += "<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>";
+			html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
 		}
-		html += "</table><br/>";
-				
-		// Pendiente comprobar si es necesario pasarlo como parÃ¡metro. Seria mejor en un input hidden. 
-		html += "<form method=\"post\" action=\"" + flowURL + "\">"; 
-		html += "Evento: <input type=\"text\" name=\"" + input.getName() + "\"><br/>";	
+		
+		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Match</b></td></tr>");
+		if(!input.getNoMatchAudios().isEmpty()) {
+			for(AudioItem ai : input.getNoMatchAudios()) {
+				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>");
+			}
+		} else {
+			html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
+		}
+		
+		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Input</b></td></tr>");
+		if(!input.getNoInputAudios().isEmpty()) {
+			for(AudioItem ai : input.getNoInputAudios()) {
+				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>");
+				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>");
+			}
+		} else {
+			html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
+		}
+		
+		html.append("</table><br/>");
+		
+		//Resultados
+		//Evento
+		html.append("<script>");
+		html.append("function eventChanged() {");
+		html.append("	var e = document.getElementById('selectEvent');");
+		html.append("	var opt = e.options[e.selectedIndex].value;");
+		html.append("	document.getElementById('inputSubmit').name = '_eventId_' + opt;");
+		html.append("}");
+		html.append("</script>");
+		html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+		html.append("Event:");
+		html.append("<select name=\"event\" id=\"selectEvent\" onchange=\"eventChanged();\" >");
+		html.append("<option value=\"match\">match</option>");
+		html.append("<option value=\"maxnomatch\">maxnomatch</option>");
+		html.append("<option value=\"maxnoinput\">maxnoinput</option>");
+		html.append("</select><br/>");
+		
+		
+		html.append("<div style=\"border: solid 1px black;\" >");
+		html.append("Result 1<br/>");
+		html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation0\" /><br/>");
+		html.append("Utterance: <input type=\"text\" value=\"\" name=\"utterance0\" /><br/>");
+		html.append("Confidence: <input type=\"text\" value=\"\" name=\"confidence0\" /><br/>");
+		html.append("Input mode: <input type=\"text\" value=\"\" name=\"inputmode0\" /><br/>");
+		html.append("</div><br/>");
+		
+		html.append("<div style=\"border: solid 1px black;\" >");
+		html.append("Result 2<br/>");
+		html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation1\" /><br/>");
+		html.append("Utterance: <input type=\"text\" value=\"\" name=\"utterance1\" /><br/>");
+		html.append("Confidence: <input type=\"text\" value=\"\" name=\"confidence1\" /><br/>");
+		html.append("Input mode: <input type=\"text\" value=\"\" name=\"inputmode1\" /><br/>");
+		html.append("</div>");
 		
 		// Dispara un evento que tiene como nombre el value del input. Podemos definir eventos dÃ¡ndole el valor que queramos
-		html += "<input type=\"submit\" value=\"Enter\" name=\"_eventId\">"; 
-		
-		html += "</form>";
-		return html;
+		html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
+		html.append("</form>");
+		return html.toString();
 	}
 	
 	public String render(Prompt prompt, String flowURL){
