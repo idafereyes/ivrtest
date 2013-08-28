@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="testOutput">
+
+ 	<input name="user" required="true" type="java.lang.String"/> 
+ 	
+ 	<action-state id="testOutput">
+		<on-entry>
+			<evaluate expression="output" result="flowScope.testOutput"/>
+
+			<!-- Se setean los atributos -->
+			<!-- TODO ver de qué manera se da valor a estos atributos
+			 si deben tomar el valor por defecto dado a nivel de aplicación -->
+			<set name="flowScope.testOutput.bargein" value="true"/>
+			<set name="flowScope.testOutput.flush" value="true"/>
+			<set name="flowScope.testOutput.catchHangup" value="true"/>
+			
+			<!-- Se setea la lista de locuciones -->
+			<!-- Locución pregrabada con TTS de backup. -->
+			<evaluate expression="flowScope.testOutput.addAudioItem('SAN-WELCOME-A','Hello')"/>
+			<!-- Locución TTS con valor dinámico a partir de user -->
+			<evaluate expression="flowScope.testOutput.addAudioItem(null,user)"/>
+			<!-- Locución pregraba sin TTS de backup -->
+			<evaluate expression="flowScope.testOutput.addAudioItem('SAN-WELCOME-C',null)"/>
+			<!-- Locución con condición Java -->
+			<!-- TODO ver si hay otra manera de expresar la condición -->
+			<evaluate expression="(user == 'idafe')?flowScope.testOutput.addAudioItem('SAN-WELCOME-PREFERENT','for preferent users'):false"/>
+		</on-entry>
+
+       	<evaluate expression="flowProcessor.process(flowScope.testOutput)"/>
+    		
+    	<transition to="render" />
+    </action-state>
+    
+    <view-state id="render" view="render"/>
+   
+</flow>
