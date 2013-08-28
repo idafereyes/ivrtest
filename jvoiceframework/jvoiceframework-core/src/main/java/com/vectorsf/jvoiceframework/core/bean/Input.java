@@ -56,6 +56,7 @@ public class Input implements Serializable{
 	private List<AudioItem> noInputAudios;
 	
 	public Input() {
+		//TODO Inyectar con spring
 		this.grammars = new ArrayList<Grammar>();
 		this.mainAudios = new ArrayList<AudioItem>();
 		this.noMatchAudios = new ArrayList<AudioItem>();

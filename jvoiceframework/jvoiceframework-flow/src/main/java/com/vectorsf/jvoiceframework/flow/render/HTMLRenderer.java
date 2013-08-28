@@ -10,7 +10,7 @@ import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
 
 /**
- * Implementaci�n de renderizador que genera c�digo HTML
+ * Implementación de renderizador que genera código HTML
  * 
  * @author dmartina
  */
@@ -113,22 +113,14 @@ public class HTMLRenderer implements Renderer, Serializable {
 		
 		
 		html.append("<div style=\"border: solid 1px black;\" >");
-		html.append("Result 1<br/>");
-		html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation0\" /><br/>");
-		html.append("Utterance: <input type=\"text\" value=\"\" name=\"utterance0\" /><br/>");
-		html.append("Confidence: <input type=\"text\" value=\"\" name=\"confidence0\" /><br/>");
-		html.append("Input mode: <input type=\"text\" value=\"\" name=\"inputmode0\" /><br/>");
+		html.append("Result<br/>");
+		html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation\" /><br/>");
+		html.append("Utterance: <input type=\"text\" value=\"\" name=\"utterance\" /><br/>");
+		html.append("Confidence: <input type=\"text\" value=\"\" name=\"confidence\" /><br/>");
+		html.append("Input mode: <input type=\"text\" value=\"\" name=\"inputmode\" /><br/>");
 		html.append("</div><br/>");
 		
-		html.append("<div style=\"border: solid 1px black;\" >");
-		html.append("Result 2<br/>");
-		html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation1\" /><br/>");
-		html.append("Utterance: <input type=\"text\" value=\"\" name=\"utterance1\" /><br/>");
-		html.append("Confidence: <input type=\"text\" value=\"\" name=\"confidence1\" /><br/>");
-		html.append("Input mode: <input type=\"text\" value=\"\" name=\"inputmode1\" /><br/>");
-		html.append("</div>");
-		
-		// Dispara un evento que tiene como nombre el value del input. Podemos definir eventos dÃ¡ndole el valor que queramos
+		// Dispara un evento que tiene como nombre el value del input. Podemos definir eventos dandole el valor que queramos
 		html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
 		html.append("</form>");
 		return html.toString();

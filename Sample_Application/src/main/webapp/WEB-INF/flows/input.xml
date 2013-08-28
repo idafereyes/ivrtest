@@ -91,6 +91,10 @@
 	<view-state id="render1" view="render">
 		<transition on="match" to="promptTest1">
 			<set name="flowScope.lastResultInfo.event" value="requestParameters.event" />
+			<set name="flowScope.lastResultInfo.interpretation" value="requestParameters.interpretation" />
+			<set name="flowScope.lastResultInfo.utterance" value="requestParameters.utterance" />
+			<set name="flowScope.lastResultInfo.confidence" value="requestParameters.confidence" />
+			<set name="flowScope.lastResultInfo.inputmode" value="requestParameters.inputmode" />
 		</transition>
 		
 		<transition on="maxnomatch" to="promptNoMatch">
@@ -118,13 +122,33 @@
 		<on-entry>
 			<!-- Creación del Bean. Podría hacerse con un <set> pero tendríamos que poner la clase. De esta forma Spring inyecta la clase que hayamos configurado -->
 			<evaluate expression="prompt" result="flowScope.promptTest2" />
+			<evaluate expression="prompt" result="flowScope.promptTest3" />
+			<evaluate expression="prompt" result="flowScope.promptTest4" />
+			<evaluate expression="prompt" result="flowScope.promptTest5" />
+			<evaluate expression="prompt" result="flowScope.promptTest6" />
 			
 			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate llamando al setter correspondiente. Cómo queda más claro? -->
 			<set name="flowScope.promptTest2.message" value="lastResultInfo.event"></set>
+			<set name="flowScope.promptTest3.message" value="lastResultInfo.interpretation"></set>
+			<set name="flowScope.promptTest4.message" value="lastResultInfo.utterance"></set>
+			<set name="flowScope.promptTest5.message" value="lastResultInfo.confidence"></set>
+			<set name="flowScope.promptTest6.message" value="lastResultInfo.inputmode"></set>
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.promptTest2)"> 
-			<attribute name="name" value="process" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+			<attribute name="name" value="process1" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		<evaluate expression="flowProcessor.process(flowScope.promptTest3)"> 
+			<attribute name="name" value="process2" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		<evaluate expression="flowProcessor.process(flowScope.promptTest4)"> 
+			<attribute name="name" value="process3" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		<evaluate expression="flowProcessor.process(flowScope.promptTest5)"> 
+			<attribute name="name" value="process4" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
+		</evaluate>
+		<evaluate expression="flowProcessor.process(flowScope.promptTest6)"> 
+			<attribute name="name" value="process5" /> <!-- Esto solo es necesario si tengo varios <evaluate> -->
 		</evaluate>
 		
 		<transition to="render2" />

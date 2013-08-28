@@ -1,7 +1,6 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class LastResultInfo implements Serializable {
 
@@ -9,10 +8,10 @@ public class LastResultInfo implements Serializable {
 
 	private String event;
 	
-	private List<String> interpretation;
-	private List<String> utterance;
-	private List<String> confidence;
-	private List<String> inputmode;
+	private String interpretation;
+	private String utterance;
+	private String confidence;
+	private String inputmode;
 
 	public String getEvent() {
 		return event;
@@ -22,37 +21,36 @@ public class LastResultInfo implements Serializable {
 		this.event = event;
 	}
 
-	public List<String> getInterpretation() {
+	public String getInterpretation() {
 		return interpretation;
 	}
 
-	public void setInterpretation(List<String> interpretation) {
+	public void setInterpretation(String interpretation) {
 		this.interpretation = interpretation;
 	}
 
-	public List<String> getUtterance() {
+	public String getUtterance() {
 		return utterance;
 	}
 
-	public void setUtterance(List<String> utterance) {
+	public void setUtterance(String utterance) {
 		this.utterance = utterance;
 	}
 
-	public List<String> getConfidence() {
+	public String getConfidence() {
 		return confidence;
 	}
 
-	public void setConfidence(List<String> confidence) {
+	public void setConfidence(String confidence) {
 		this.confidence = confidence;
 	}
 
-	public List<String> getInputmode() {
+	public String getInputmode() {
 		return inputmode;
 	}
 
-	public void setInputmode(List<String> inputmode) {
+	public void setInputmode(String inputmode) {
 		this.inputmode = inputmode;
 	}
 
-	
 }
