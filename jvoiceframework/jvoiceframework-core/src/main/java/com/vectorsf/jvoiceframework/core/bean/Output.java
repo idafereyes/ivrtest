@@ -5,7 +5,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+/**
+ * Output component used at jVoice framework.
+ * Represents a group of audio items to be played.
+ * They share some attributes specified in this class but each audio item can have different features.
+ * 
+ * @author idafereyes
+ */
 
 @Component("output")
 public class Output implements Serializable {
@@ -17,24 +26,30 @@ public class Output implements Serializable {
 		
 	/**
 	 * Specifies whether a user can interrupt the output block using speech or DTMF input.
+	 * Takes its value from the bean that stores the app configuration defaults, 
+	 * although it can be given other value later. 
 	 */
-	//TODO Revisar si conviene que sea de tipo boolean o String
+	@Value("#{appConfigDefaults.bargein}")
 	private boolean bargein;
 	
 	/**
 	 * Indicates if the output block must be sent immediately to the VXML interpreter.
+	 * Takes its value from the bean that stores the app configuration defaults, 
+	 * although it can be given other value later. 
 	 */
-	//TODO Revisar si conviene que sea de tipo boolean o String
+	@Value("#{appConfigDefaults.flush}")
 	private boolean flush;
 	
 	/**
 	 * Specifies whether the output block must be able to catch a VXML connection.disconnect.hangup event.
+	 * Takes its value from the bean that stores the app configuration defaults, 
+	 * although it can be given other value later. 
 	 */
-	//TODO Revisar si conviene que sea de tipo boolean o String
+	@Value("#{appConfigDefaults.catchHangup}")
 	private boolean catchHangup;
 	
 	/**
-	 * List of prompts to play in the output block.
+	 * List of audio items to play in the output block.
 	 * 
 	 */
 	@Inject
