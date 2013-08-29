@@ -1,9 +1,8 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,6 +22,10 @@ public class Output implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4392125518171018331L;
+	
+	public Output(){
+		audioItemsList = new ArrayList<AudioItem>();
+	}
 		
 	/**
 	 * Specifies whether a user can interrupt the output block using speech or DTMF input.
@@ -52,7 +55,6 @@ public class Output implements Serializable {
 	 * List of audio items to play in the output block.
 	 * 
 	 */
-	@Inject
 	private List<AudioItem> audioItemsList;
 	
 	public boolean isBargein() {
@@ -85,15 +87,8 @@ public class Output implements Serializable {
 	
 	/**
 	 * Adds an audioItem to the list.
-	 * 
-	 * @param src Value of audioItem src attribute.
-	 * @param wording Value of audioItem wording attribute. 
 	 */
-	public void addAudioItem(String src, String wording){
-		//TODO Se puede evitar hacer el new AucioItem()?
-		AudioItem audioItem = new AudioItem();
-		audioItem.setSrc(src);
-		audioItem.setWording(wording);
+	public void addAudioItem(AudioItem audioItem){
 		audioItemsList.add(audioItem);
 	}
 
