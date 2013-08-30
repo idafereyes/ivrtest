@@ -9,7 +9,7 @@ import java.util.Map;
  * Representa un estado input IVR
  * @author dmartina
  */
-public class Input implements Serializable{
+public class Input implements Component, Serializable{
 
 	private static final long serialVersionUID = -5942501816585768384L;
 	
@@ -141,5 +141,15 @@ public class Input implements Serializable{
 
 	public void setNoInputAudios(List<AudioItem> noInputAudios) {
 		this.noInputAudios = noInputAudios;
+	}
+
+	/**
+	 * It returns null because is the root component
+	 * 
+	 * 
+	 */
+	@Override
+	public Component getParent() {
+		return null;
 	}
 }

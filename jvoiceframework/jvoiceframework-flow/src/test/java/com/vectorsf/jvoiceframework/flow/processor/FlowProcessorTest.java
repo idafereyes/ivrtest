@@ -34,7 +34,7 @@ public class FlowProcessorTest {
 		flowProcessor.setRenderer(rendererMock);
 		flowProcessor.setStates(new ArrayList());
 		flowProcessor.process(inputMock);
-		flowProcessor.process(promptMock);
+//		flowProcessor.process(promptMock);
 		
 		// When
 		flowProcessor.render(FLOW_URL);

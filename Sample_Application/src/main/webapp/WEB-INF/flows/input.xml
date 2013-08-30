@@ -88,8 +88,8 @@
 	</action-state>
 
 
-	<view-state id="render1" view="render">
-		<transition on="match" to="promptTest1">
+	<view-state id="render1" view="render" model="">
+		<transition on="match" to="promptTest1" bind="true" >
 			<set name="flowScope.lastResultInfo.event" value="requestParameters.event" />
 			<set name="flowScope.lastResultInfo.interpretation" value="requestParameters.interpretation" />
 			<set name="flowScope.lastResultInfo.utterance" value="requestParameters.utterance" />

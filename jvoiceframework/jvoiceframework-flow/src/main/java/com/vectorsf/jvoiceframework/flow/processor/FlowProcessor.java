@@ -3,10 +3,12 @@ package com.vectorsf.jvoiceframework.flow.processor;
 import java.io.Serializable;
 import java.util.List;
 
+import com.vectorsf.jvoiceframework.core.bean.Component;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
+import com.vectorsf.jvoiceframework.flow.render.VendorRenderers;
 
 /**
  * Procesador de estados IVR. De momento procesar un estado es apilarlo.
@@ -19,14 +21,15 @@ public class FlowProcessor implements Serializable {
 
 	private static final long serialVersionUID = -8138696103238359798L;
 	
+	private VendorRenderers vendorRenderers;
 	
-	private List<Object> states;
+	private List<Component> states;
 	
-	public List<Object> getStates() {
+	public List<Component> getStates() {
 		return states;
 	}
 
-	public void setStates(List<Object> states) {
+	public void setStates(List<Component> states) {
 		this.states = states;
 	}
 
@@ -35,8 +38,8 @@ public class FlowProcessor implements Serializable {
 	 */
 	private Renderer renderer; 
 
-	public void process(Prompt prompt) {
-		 states.add(prompt);
+	public void process(Component component) {
+		 states.add(component);
 	}
 	 
 	public Renderer getRenderer() {
@@ -46,14 +49,6 @@ public class FlowProcessor implements Serializable {
 	public void setRenderer(Renderer renderer) {
 		this.renderer = renderer;
 	}
-
-	public void process(Input input) {
-		 states.add(input);
-	}
-	
-	public void process(Output output) {
-		 states.add(output);
-	}
 	
 	/**
 	 * Renderiza y elimina los estados
@@ -61,21 +56,21 @@ public class FlowProcessor implements Serializable {
 	 * @return
 	 */
 	public String render(String flowURL){
-		String code = "";
-		for (Object element: states){
-			if (element instanceof Input) {
-				code += this.renderer.render((Input)element, flowURL);
-			}
-			else if (element instanceof Prompt) {
-				code += this.renderer.render((Prompt)element, flowURL);
-			}else if (element instanceof Output) {
-				code += this.renderer.render((Output)element, flowURL);			
-			}
-
+		StringBuilder code = new StringBuilder();
 		
+		for (Component component: states){
+			
 		}
 		states.clear();
-		return code;
+		return code.toString();
 		
+	}
+
+	public VendorRenderers getVendorRenderers() {
+		return vendorRenderers;
+	}
+
+	public void setVendorRenderers(VendorRenderers vendorRenderers) {
+		this.vendorRenderers = vendorRenderers;
 	}
 }
