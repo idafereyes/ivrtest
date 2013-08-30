@@ -143,6 +143,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 			renderCode += "<span>prompt</span><br>";			
 			renderCode += "<span>src: " + prompt.getSrc() + "</span><br>";			
 			renderCode += "<span>wording: " + prompt.getWording() + "</span><br>";			
+			renderCode += "<span>cond: " + prompt.getCond() + "</span><br>";			
 		}
 		
 		return renderCode;

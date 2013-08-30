@@ -7,6 +7,11 @@
  	
  	<action-state id="testOutput">
 		<on-entry>
+			<!-- Se crea un bean para pruebas de condiciones -->
+			<evaluate expression="inputCB" result="flowScope.user"/>
+			<set name="flowScope.user.migrated" value="true"/>
+			<set name="flowScope.user.securityLevel" value="'ID'"/>
+			
 			<evaluate expression="output" result="flowScope.testOutput"/>
 
 			<!-- Se setean los atributos -->
@@ -35,11 +40,14 @@
 			<evaluate expression="audioItem" result="flowScope.audioItem3" />
 			<set name="flowScope.audioItem3.src" value="'SAN-WELCOME-C'" />
 			<evaluate expression="flowScope.testOutput.addAudioItem(audioItem3)"/>
-			<!-- <evaluate expression="flowScope.testOutput.addAudioItem('SAN-WELCOME-C','')"/>-->
-			
+						
 			<!-- Locución con condición Java -->
-			<!-- TODO ver si hay otra manera de expresar la condición -->
-			<!-- <evaluate expression="(user == 'idafe')?flowScope.testOutput.addAudioItem('SAN-WELCOME-PREFERENT','for preferent users'):false"/> -->
+			<evaluate expression="audioItem" result="flowScope.audioItem4" />
+			<set name="flowScope.audioItem4.src" value="'SAN-WELCOME-PREFERENT'" />
+			<set name="flowScope.audioItem4.wording" value="'For preferent users.'" />		
+			<set name="flowScope.audioItem4.cond" value="user.securityLevel eq 'ID' and user.migrated" />		
+			<evaluate expression="flowScope.testOutput.addAudioItem(audioItem4)"/>
+			
 		</on-entry>
 
        	<evaluate expression="flowProcessor.process(flowScope.testOutput)"/>
