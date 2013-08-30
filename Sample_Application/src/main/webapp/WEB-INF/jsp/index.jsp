@@ -7,6 +7,7 @@
 </head>
 <body>
 <a href="sample.flow">Ejemplo Spring Webflow</a><br/>
-<a href="input.flow">Input</a>
+<a href="input.flow">Input</a><br/>
+<a href="output.flow">Output</a>
 </body>
 </html>

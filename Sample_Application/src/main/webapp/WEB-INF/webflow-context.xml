@@ -22,7 +22,7 @@
 	<!-- mvc:annotation-driven/ -->
 	<!-- context:annotation-config/ -->
 	<context:component-scan
-		base-package="org.isb.ivr.flow.user, org.isb.ivr.flow.action" />
+		base-package="org.isb.ivr.flow.user, org.isb.ivr.flow.action, com.vectorsf.jvoiceframework.core.bean" />
 
 
 	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController 
