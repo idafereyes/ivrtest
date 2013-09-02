@@ -22,9 +22,11 @@
 	<!-- mvc:annotation-driven/ -->
 	<!-- context:annotation-config/ -->
 	<context:component-scan
-		base-package="org.isb.ivr.flow.user, org.isb.ivr.flow.action, com.vectorsf.jvoiceframework.core.bean" />
-
-
+		base-package="org.isb.ivr.flow.user, 
+						org.isb.ivr.flow.action, 
+						com.vectorsf.jvoiceframework.core.bean,
+						com.vectorsf.jvoiceframework.flow.log, 
+						com.vectorsf.jvoiceframework.core.log" />
 	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController 
 		y seguimos el flujo de declaracion de la arquitectura -->
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -39,7 +41,11 @@
 	</bean>
 
 	<webflow:flow-executor id="flowExecutor"
-		flow-registry="flowRegistry" />
+		flow-registry="flowRegistry" >
+		<webflow:flow-execution-listeners>
+			<webflow:listener ref="logFlowExecutionListener" />
+		</webflow:flow-execution-listeners>
+	</webflow:flow-executor>
 
 	<!-- Registramos todos nuestros flujos -->
 	<webflow:flow-registry id="flowRegistry"

@@ -11,7 +11,7 @@
 			<evaluate expression="prompt" result="flowScope.wellcome_prompt"></evaluate>
 			
 			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate llamando al setter correspondiente. Cómo queda más claro? -->
-			<set name="flowScope.wellcome_prompt.message" value="'Bienvenido! Teclee su nombre'"></set>
+			<set name="flowScope.wellcome_prompt.message" value="transformAction.transform('Bienvenido! Teclee su nombre')"></set>
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.wellcome_prompt)"> 
