@@ -4,6 +4,12 @@ import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * AudioItem component used at jVoice framework.
+ * Represents a single prompt to be played.
+ * 
+ * @author sergiomilla and idafereyes
+ */
 @Component("audioItem")
 public class AudioItem implements Serializable{
 

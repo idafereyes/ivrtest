@@ -60,15 +60,6 @@ public class Input implements Component, Serializable{
 	 */
 	private List<String> events;
 	
-	
-	public Input() {
-		//TODO Inyectar con spring
-		this.grammars = new ArrayList<Grammar>();
-		this.mainAudios = new ArrayList<AudioItem>();
-		this.noMatchAudios = new ArrayList<AudioItem>();
-		this.noInputAudios = new ArrayList<AudioItem>();
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -148,7 +139,15 @@ public class Input implements Component, Serializable{
 	public void setNoInputAudios(List<AudioItem> noInputAudios) {
 		this.noInputAudios = noInputAudios;
 	}
+	
+	public List<String> getEvents() {
+		return events;
+	}
 
+	public void setEvents(List<String> events) {
+		this.events = events;
+	}
+	
 	/**
 	 * It returns null because is the root component
 	 * 

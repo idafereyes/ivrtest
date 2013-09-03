@@ -94,6 +94,15 @@ public class HTMLRenderer implements Renderer, Serializable {
 		
 		html.append("</table><br/>");
 		
+		//Eventos
+		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Events</b></td></tr>");
+		for(String event: input.getEvents()) {
+			html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + event + "</td></tr>");
+		}
+		html.append("</table><br/>");
+		
+		
 		//Resultados
 		//Evento
 		html.append("<script>");
@@ -143,6 +152,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 			renderCode += "<span>prompt</span><br>";			
 			renderCode += "<span>src: " + prompt.getSrc() + "</span><br>";			
 			renderCode += "<span>wording: " + prompt.getWording() + "</span><br>";			
+			renderCode += "<span>cond: " + prompt.getCond() + "</span><br>";			
 		}
 		
 		return renderCode;

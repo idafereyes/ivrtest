@@ -7,6 +7,7 @@ import org.slf4j.cal10n.LocLogger;
 import org.slf4j.cal10n.LocLoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
@@ -20,6 +21,7 @@ import ch.qos.cal10n.MessageConveyor;
  * @author mvinuesa
  * 
  */
+@Component("loggerPostProcessor")
 public class LoggerPostProcessor implements BeanPostProcessor {
 
 	/*

@@ -4,30 +4,50 @@
     xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
     start-state="testOutput">
-
- 	<input name="user" required="true" type="java.lang.String"/> 
  	
  	<action-state id="testOutput">
 		<on-entry>
+			<!-- Se crea un bean para pruebas de condiciones -->
+			<evaluate expression="inputCB" result="flowScope.user"/>
+			<set name="flowScope.user.migrated" value="true"/>
+			<set name="flowScope.user.securityLevel" value="'ID'"/>
+			
 			<evaluate expression="output" result="flowScope.testOutput"/>
 
 			<!-- Se setean los atributos -->
-			<!-- TODO ver de qué manera se da valor a estos atributos
-			 si deben tomar el valor por defecto dado a nivel de aplicación -->
-			<set name="flowScope.testOutput.bargein" value="true"/>
+			<!-- <set name="flowScope.testOutput.bargein" value="true"/> -->
 			<set name="flowScope.testOutput.flush" value="true"/>
 			<set name="flowScope.testOutput.catchHangup" value="true"/>
 			
 			<!-- Se setea la lista de locuciones -->
 			<!-- Locución pregrabada con TTS de backup. -->
-			<evaluate expression="flowScope.testOutput.addAudioItem('SAN-WELCOME-A','Hello')"/>
-			<!-- Locución TTS con valor dinámico a partir de user -->
-			<evaluate expression="flowScope.testOutput.addAudioItem(null,user)"/>
+			<evaluate expression="audioItem" result="flowScope.audioItem1" />
+			<set name="flowScope.audioItem1.src" value="'SAN-WELCOME-A'" />
+			<set name="flowScope.audioItem1.wording" value="'Hello'" />		
+			<evaluate expression="flowScope.testOutput.addAudioItem(audioItem1)"/>
+			
+			<!-- Locución TTS -->
+			<evaluate expression="audioItem" result="flowScope.audioItem2" />
+			<set name="flowScope.audioItem2.wording" value="'Santander User'" />		
+			<evaluate expression="flowScope.testOutput.addAudioItem(audioItem2)"/>
+
+			<!-- Locución TTS con contenido dinámico -->
+			<!--<evaluate expression="audioItem" result="flowScope.audioItem2" />
+			 <set name="flowScope.audioItem2.wording" value="user" />	
+			 <evaluate expression="flowScope.testOutput.addAudioItem(audioItem2)"/> -->
+
 			<!-- Locución pregraba sin TTS de backup -->
-			<evaluate expression="flowScope.testOutput.addAudioItem('SAN-WELCOME-C',null)"/>
+			<evaluate expression="audioItem" result="flowScope.audioItem3" />
+			<set name="flowScope.audioItem3.src" value="'SAN-WELCOME-C'" />
+			<evaluate expression="flowScope.testOutput.addAudioItem(audioItem3)"/>
+						
 			<!-- Locución con condición Java -->
-			<!-- TODO ver si hay otra manera de expresar la condición -->
-			<evaluate expression="(user == 'idafe')?flowScope.testOutput.addAudioItem('SAN-WELCOME-PREFERENT','for preferent users'):false"/>
+			<evaluate expression="audioItem" result="flowScope.audioItem4" />
+			<set name="flowScope.audioItem4.src" value="'SAN-WELCOME-PREFERENT'" />
+			<set name="flowScope.audioItem4.wording" value="'For preferent users.'" />		
+			<set name="flowScope.audioItem4.cond" value="user.securityLevel eq 'ID' and user.migrated" />		
+			<evaluate expression="flowScope.testOutput.addAudioItem(audioItem4)"/>
+			
 		</on-entry>
 
        	<evaluate expression="flowProcessor.process(flowScope.testOutput)"/>

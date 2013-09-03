@@ -22,9 +22,11 @@
 	<!-- mvc:annotation-driven/ -->
 	<!-- context:annotation-config/ -->
 	<context:component-scan
-		base-package="org.isb.ivr.flow.user, org.isb.ivr.flow.action" />
-
-
+		base-package="org.isb.ivr.flow.user, 
+						org.isb.ivr.flow.action, 
+						com.vectorsf.jvoiceframework.core.bean,
+						com.vectorsf.jvoiceframework.flow.log, 
+						com.vectorsf.jvoiceframework.core.log" />
 	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController 
 		y seguimos el flujo de declaracion de la arquitectura -->
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -39,7 +41,11 @@
 	</bean>
 
 	<webflow:flow-executor id="flowExecutor"
-		flow-registry="flowRegistry" />
+		flow-registry="flowRegistry" >
+		<webflow:flow-execution-listeners>
+			<webflow:listener ref="logFlowExecutionListener" />
+		</webflow:flow-execution-listeners>
+	</webflow:flow-executor>
 
 	<!-- Registramos todos nuestros flujos -->
 	<webflow:flow-registry id="flowRegistry"
@@ -77,7 +83,13 @@
 	</bean>
 
 	<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype" />
-	<bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype" />
+	<bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype" >
+		<property name="grammars"><list /></property>
+		<property name="mainAudios"><list /></property>
+		<property name="noMatchAudios"><list /></property>
+		<property name="noInputAudios"><list /></property>
+		<property name="events"><list /></property>
+	</bean>
 	<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype" />
 	<bean id="grammar" class="com.vectorsf.jvoiceframework.core.bean.Grammar" scope="prototype" />
 	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" />
