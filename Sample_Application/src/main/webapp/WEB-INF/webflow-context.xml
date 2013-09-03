@@ -83,7 +83,13 @@
 	</bean>
 
 	<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype" />
-	<bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype" />
+	<bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype" >
+		<property name="grammars"><list /></property>
+		<property name="mainAudios"><list /></property>
+		<property name="noMatchAudios"><list /></property>
+		<property name="noInputAudios"><list /></property>
+		<property name="events"><list /></property>
+	</bean>
 	<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype" />
 	<bean id="grammar" class="com.vectorsf.jvoiceframework.core.bean.Grammar" scope="prototype" />
 	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" />

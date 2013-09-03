@@ -80,6 +80,7 @@
 			<evaluate
 				expression="!(inputCB.securityLevel == 'L1') ? flowScope.inputTest.mainAudios.add(flowScope.audioItem8) : false" />
 
+			<evaluate expression="flowScope.inputTest.events.add('match')" />
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.inputTest)" />

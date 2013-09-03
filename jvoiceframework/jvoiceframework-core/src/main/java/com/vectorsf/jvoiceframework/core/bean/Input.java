@@ -55,13 +55,10 @@ public class Input implements Serializable{
 	private List<AudioItem> noMatchAudios;
 	private List<AudioItem> noInputAudios;
 	
-	public Input() {
-		//TODO Inyectar con spring
-		this.grammars = new ArrayList<Grammar>();
-		this.mainAudios = new ArrayList<AudioItem>();
-		this.noMatchAudios = new ArrayList<AudioItem>();
-		this.noInputAudios = new ArrayList<AudioItem>();
-	}
+	/**
+	 * List of events
+	 */
+	private List<String> events;
 	
 	public String getName() {
 		return name;
@@ -141,5 +138,13 @@ public class Input implements Serializable{
 
 	public void setNoInputAudios(List<AudioItem> noInputAudios) {
 		this.noInputAudios = noInputAudios;
+	}
+
+	public List<String> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<String> events) {
+		this.events = events;
 	}
 }
