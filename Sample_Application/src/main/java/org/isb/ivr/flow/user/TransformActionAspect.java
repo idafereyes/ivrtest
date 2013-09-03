@@ -16,9 +16,6 @@ import com.vectorsf.jvoiceframework.core.log.Log;
 @Aspect
 public class TransformActionAspect implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7587012738483550111L;
 
 	@Pointcut("execution(* org.isb.ivr.flow.user.TransformAction.*(..))")
