@@ -55,6 +55,12 @@ public class Input implements Component, Serializable{
 	private List<AudioItem> noMatchAudios;
 	private List<AudioItem> noInputAudios;
 	
+	/**
+	 * List of events
+	 */
+	private List<String> events;
+	
+	
 	public Input() {
 		//TODO Inyectar con spring
 		this.grammars = new ArrayList<Grammar>();
