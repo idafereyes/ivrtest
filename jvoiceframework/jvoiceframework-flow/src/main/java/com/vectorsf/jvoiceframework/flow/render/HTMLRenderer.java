@@ -18,6 +18,15 @@ public class HTMLRenderer implements Renderer, Serializable {
 
 	private static final long serialVersionUID = 4511972601190155577L;
 	
+	//String literals reuse
+	private String tableHtml = "<table cellpadding=\"0\" cellspacing=\"0\">";
+	private String tdHtml = "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">";
+	private String endTdHtml = "</td>";
+	private String endTableHtml = "</table><br/>";
+	private String trHtml = "<tr><td>";
+	private String endTrHtml = "</td></tr>";
+	private String endSpanHtml = "</span><br>";
+	
 	public String render(Input input, String flowURL) {
 		StringBuilder html = new StringBuilder();
 
@@ -25,35 +34,58 @@ public class HTMLRenderer implements Renderer, Serializable {
 		// Input name
 		html.append("<p>Name = " + input.getName() + "</p>");
 		
-		//Parametros
-		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
-		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max Attempts</td>");
-		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxAttempts() + "</td></tr>");
-		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Input Attempts</td>");
-		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoInput() + "</td></tr>");
-		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Match Attempts</td>");
-		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.getMaxNoMatch() + "</td></tr>");
-		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Bargein</td>");
-		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + input.isBargein() + "</td></tr>");
-		html.append("</table><br/>");
+		html.append(renderInputParameters(input));
 		
+		html.append(renderInputGrammars(input));
+		
+		html.append(renderInputAudios(input));
+		
+		html.append(renderInputEvent(input));
+		
+		html.append(renderInputResults(flowURL));
+		
+		return html.toString();
+	}
+	
+	private String renderInputParameters(Input input) {
+		//Parametros
+		StringBuilder html = new StringBuilder();
+		html.append(tableHtml);
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max Attempts</td>");
+		html.append(tdHtml + input.getMaxAttempts() + endTrHtml);
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Input Attempts</td>");
+		html.append(tdHtml + input.getMaxNoInput() + endTrHtml);
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Max No Match Attempts</td>");
+		html.append(tdHtml + input.getMaxNoMatch() + endTrHtml);
+		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Bargein</td>");
+		html.append(tdHtml + input.isBargein() + endTrHtml);
+		html.append(endTableHtml);
+		return html.toString();
+	}
+	
+	private String renderInputGrammars(Input input) {
+		StringBuilder html = new StringBuilder();
 		//Grammars
-		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append(tableHtml);
 		html.append("<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Grammars</b></td></tr>");
 		if(!input.getGrammars().isEmpty()) {
 			html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Type</td>");
 			html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td></tr>");
 			for(Grammar g : input.getGrammars()) {
-				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getType() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + g.getSrc() + "</td></tr>");
+				html.append(trHtml + g.getType() + endTdHtml);
+				html.append(tdHtml + g.getSrc() + endTrHtml);
 			}
 		} else {
 			html.append("<tr><td colspan=\"2\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No grammars</td></tr>");
 		}
-		html.append("</table><br/>");
-		
+		html.append(endTableHtml);
+		return html.toString();
+	}
+	
+	private String renderInputAudios(Input input) {
+		StringBuilder html = new StringBuilder();
 		//Audios
-		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append(tableHtml);
 		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Audios</b></td></tr>");
 		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Cond</td>");
 		html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td>");
@@ -62,9 +94,9 @@ public class HTMLRenderer implements Renderer, Serializable {
 		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>Main</b></td></tr>");
 		if(!input.getMainAudios().isEmpty()) {
 			for(AudioItem ai : input.getMainAudios()) {
-				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>");
+				html.append(trHtml + ai.getCond() + endTdHtml);
+				html.append(tdHtml + ai.getSrc() + endTdHtml);
+				html.append(tdHtml + ai.getWording() + endTrHtml);
 			}
 		} else {
 			html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
@@ -73,9 +105,9 @@ public class HTMLRenderer implements Renderer, Serializable {
 		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Match</b></td></tr>");
 		if(!input.getNoMatchAudios().isEmpty()) {
 			for(AudioItem ai : input.getNoMatchAudios()) {
-				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>");
+				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + endTdHtml);
+				html.append(tdHtml + ai.getSrc() + endTdHtml);
+				html.append(tdHtml + ai.getWording() + endTrHtml);
 			}
 		} else {
 			html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
@@ -84,27 +116,33 @@ public class HTMLRenderer implements Renderer, Serializable {
 		html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Input</b></td></tr>");
 		if(!input.getNoInputAudios().isEmpty()) {
 			for(AudioItem ai : input.getNoInputAudios()) {
-				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getSrc() + "</td>");
-				html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getWording() + "</td></tr>");
+				html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + ai.getCond() + endTdHtml);
+				html.append(tdHtml + ai.getSrc() + endTdHtml);
+				html.append(tdHtml + ai.getWording() + endTrHtml);
 			}
 		} else {
 			html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
 		}
 		
-		html.append("</table><br/>");
-		
+		html.append(endTableHtml);
+		return html.toString();
+	}
+	
+	private String renderInputEvent(Input input) {
+		StringBuilder html = new StringBuilder();
 		//Eventos
-		html.append("<table cellpadding=\"0\" cellspacing=\"0\">");
+		html.append(tableHtml);
 		html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Events</b></td></tr>");
 		for(String event: input.getEvents()) {
-			html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + event + "</td></tr>");
+			html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + event + endTrHtml);
 		}
-		html.append("</table><br/>");
-		
-		
+		html.append(endTableHtml);
+		return html.toString();
+	}
+	
+	private String renderInputResults(String flowURL) {
+		StringBuilder html = new StringBuilder();
 		//Resultados
-		//Evento
 		html.append("<script>");
 		html.append("function eventChanged() {");
 		html.append("	var e = document.getElementById('selectEvent');");
@@ -136,23 +174,23 @@ public class HTMLRenderer implements Renderer, Serializable {
 	}
 	
 	public String render(Prompt prompt, String flowURL){
-		return "<span>" + prompt.getMessage() + "</span><br>";
+		return "<span>" + prompt.getMessage() + endSpanHtml;
 	}
 	
 	public String render(Output output, String flowURL){
 		String renderCode = "";
 		
-		renderCode += "<span>bargein: " + output.isBargein() + "</span><br>";
-		renderCode += "<span>flush: " + output.isFlush() + "</span><br>";
-		renderCode += "<span>catchHangup: " + output.isCatchHangup() + "</span><br>";
+		renderCode += "<span>bargein: " + output.isBargein() + endSpanHtml;
+		renderCode += "<span>flush: " + output.isFlush() + endSpanHtml;
+		renderCode += "<span>catchHangup: " + output.isCatchHangup() + endSpanHtml;
 		
 		Iterator<AudioItem> it = output.getAudioItemsList().iterator();
 		while (it.hasNext()){
 			AudioItem prompt = it.next();
 			renderCode += "<span>prompt</span><br>";			
-			renderCode += "<span>src: " + prompt.getSrc() + "</span><br>";			
-			renderCode += "<span>wording: " + prompt.getWording() + "</span><br>";			
-			renderCode += "<span>cond: " + prompt.getCond() + "</span><br>";			
+			renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;			
+			renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;			
+			renderCode += "<span>cond: " + prompt.getCond() + endSpanHtml;			
 		}
 		
 		return renderCode;
