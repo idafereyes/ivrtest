@@ -26,7 +26,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 	private String endTableHtml = "</table><br/>";
 	private String trHtml = "<tr><td>";
 	private String endTrHtml = "</td></tr>";
-	private String endSpanHtml = "</span><br>";
+	private String endSpanHtml = "</span><br/>";
 	
 	public String render(Input input, String flowURL) {
 		StringBuilder html = new StringBuilder();
@@ -201,18 +201,18 @@ public class HTMLRenderer implements Renderer, Serializable {
 		String renderCode = "";
 		
 		renderCode += "<span>Transfer</span>";
-		renderCode += "<span>dest: " + transfer.getDest() + "</span><br>";
-		renderCode += "<span>type: " + transfer.getType() + "</span><br>";
-		renderCode += "<span>transferaudio: " + transfer.getTransferaudio() + "</span><br>";
-		renderCode += "<span>timeout: " + transfer.getTimeout() + "</span><br>";
-		renderCode += "<span>maxtime: " + transfer.getMaxtime() + "</span><br>";
+		renderCode += "<span>dest: " + transfer.getDest() + endSpanHtml;
+		renderCode += "<span>type: " + transfer.getType() + endSpanHtml;
+		renderCode += "<span>transferaudio: " + transfer.getTransferaudio() + endSpanHtml;
+		renderCode += "<span>timeout: " + transfer.getTimeout() + endSpanHtml;
+		renderCode += "<span>maxtime: " + transfer.getMaxtime() + endSpanHtml;
 
 		Iterator<String> it = transfer.getEventsList().iterator();
 		
 		renderCode += "<span>Events:</span><br>";			
 		while (it.hasNext()){
 			String event = it.next();
-			renderCode += "<span>"+event+"</span><br>";			
+			renderCode += "<span>" + event + endSpanHtml;			
 		}
 		
 		Iterator itMap = transfer.getProperties().keySet().iterator();
@@ -222,8 +222,8 @@ public class HTMLRenderer implements Renderer, Serializable {
 			String value = transfer.getProperties().get(property);
 			
 			renderCode += "<span>Properties</span><br>";			
-			renderCode += "<span>Property: "+property+"</span><br>";			
-			renderCode += "<span>Value: "+value+"</span><br>";			
+			renderCode += "<span>Property: " + property + endSpanHtml;			
+			renderCode += "<span>Value: " + value + endSpanHtml;			
 		}
 
 		return renderCode;
