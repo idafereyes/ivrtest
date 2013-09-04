@@ -8,7 +8,7 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
-import com.vectorsf.jvoiceframework.flow.render.VendorRenderers;
+import com.vectorsf.jvoiceframework.flow.render.RenderKitTable;
 
 /**
  * Procesador de estados IVR. De momento procesar un estado es apilarlo.
@@ -21,7 +21,7 @@ public class FlowProcessor implements Serializable {
 
 	private static final long serialVersionUID = -8138696103238359798L;
 	
-	private VendorRenderers vendorRenderers;
+	private RenderKitTable vendorRenderers;
 	
 	private List<Component> states;
 	
@@ -66,11 +66,11 @@ public class FlowProcessor implements Serializable {
 		
 	}
 
-	public VendorRenderers getVendorRenderers() {
+	public RenderKitTable getVendorRenderers() {
 		return vendorRenderers;
 	}
 
-	public void setVendorRenderers(VendorRenderers vendorRenderers) {
+	public void setVendorRenderers(RenderKitTable vendorRenderers) {
 		this.vendorRenderers = vendorRenderers;
 	}
 }

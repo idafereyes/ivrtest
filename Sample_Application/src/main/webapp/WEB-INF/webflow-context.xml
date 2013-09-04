@@ -104,15 +104,25 @@
 	
 
 	<!-- Renderers -->
-	<bean id="inputRenderer" class="com.vectorsf.jvoiceframework.flow.render.InputRenderer" />
-	
-	<bean id="vendorRenderers" class="com.vectorsf.jvoiceframework.flow.render.VendorRenderers">
+	<bean name="vxiRenderKit" class="com.vectorsf.jvoiceframework.flow.render.RenderKit" >
 		<property name="renderers">
 			<map>
-				<entry key="com.vectorsf.jvoiceframework.core.bean.Input" value-ref="inputRenderer"/>
+				<entry>
+					<key><value>com.vectorsf.jvoiceframework.core.bean.Input</value></key>
+					<value></value>
+				</entry>
 			</map>
 		</property>
 	</bean>
+	
+	<bean name="renderKitTable" class="com.vectorsf.jvoiceframework.flow.render.RenderKitTable">
+		<property name="renderKits">
+			<map>
+				<entry key="vxi" value-ref="vxiRenderKit" />
+			</map>
+		</property>
+	</bean>
+
 	
 	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
 		scope="flow">
