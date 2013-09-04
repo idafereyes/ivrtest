@@ -2,10 +2,10 @@ package org.isb.ivr.flow.user;
 
 import java.io.Serializable;
 
-import org.slf4j.cal10n.LocLogger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
 import com.vectorsf.jvoiceframework.core.log.Log;
 
 @Component("transformAction")
@@ -15,7 +15,7 @@ public class TransformAction implements Serializable {
 	private static final long serialVersionUID = 1958667010894202324L;
 	
 	@Log
-	private LocLogger log;
+	private ExtendedLocLogger log;
 
 	public UserBean transform(UserBean bean) throws Exception {
 		bean.setaField(bean.getaField() + " ACTION TRANSFORMED");

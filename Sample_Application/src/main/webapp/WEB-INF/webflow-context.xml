@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:webflow="http://www.springframework.org/schema/webflow-config"
 	xmlns:oxm="http://www.springframework.org/schema/oxm"
@@ -10,6 +11,8 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop
+    	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
         http://www.springframework.org/schema/jee 
         http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
         http://www.springframework.org/schema/mvc 
@@ -27,6 +30,10 @@
 						com.vectorsf.jvoiceframework.core.bean,
 						com.vectorsf.jvoiceframework.flow.log, 
 						com.vectorsf.jvoiceframework.core.log" />
+
+	<!-- incluir aspectos use CGLIB proxy-target-class=false, true JDK proxyes -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
 	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController 
 		y seguimos el flujo de declaracion de la arquitectura -->
 	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">

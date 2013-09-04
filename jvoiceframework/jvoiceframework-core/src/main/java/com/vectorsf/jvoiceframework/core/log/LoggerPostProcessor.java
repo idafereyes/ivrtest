@@ -45,7 +45,8 @@ public class LoggerPostProcessor implements BeanPostProcessor {
 					IMessageConveyor messageConveyor = new MessageConveyor(Locale.getDefault());
 					LocLoggerFactory locFactory = new LocLoggerFactory(messageConveyor);
 					LocLogger locLogger = locFactory.getLocLogger(bean.getClass());
-					field.set(bean, locLogger);
+					ExtendedLocLogger eLocLogger = new ExtendedLocLogger(locLogger);
+					field.set(bean, eLocLogger);
 				}
 			}
 		});
