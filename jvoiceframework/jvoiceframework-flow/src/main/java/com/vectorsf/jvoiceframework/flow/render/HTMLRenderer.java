@@ -23,7 +23,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 	private String tdHtml = "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">";
 	private String endTdHtml = "</td>";
 	private String endTableHtml = "</table><br/>";
-	private String trHtml = "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">";
+	private String trHtml = "<tr><td>";
 	private String endTrHtml = "</td></tr>";
 	private String endSpanHtml = "</span><br>";
 	
@@ -42,7 +42,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 		
 		html.append(renderInputEvent(input));
 		
-		html.append(renderInputResults(input, flowURL));
+		html.append(renderInputResults(flowURL));
 		
 		return html.toString();
 	}
@@ -140,7 +140,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 		return html.toString();
 	}
 	
-	private String renderInputResults(Input input, String flowURL) {
+	private String renderInputResults(String flowURL) {
 		StringBuilder html = new StringBuilder();
 		//Resultados
 		html.append("<script>");
