@@ -84,12 +84,11 @@ public class Output implements Serializable {
 	public List<AudioItem> getAudioItemsList() {
 		return audioItemsList;
 	}
-	
-	/**
-	 * Adds an audioItem to the list.
-	 */
-	public void addAudioItem(AudioItem audioItem){
-		audioItemsList.add(audioItem);
+
+	public void setAudioItemsList(List<AudioItem> audioItemsList) {
+		this.audioItemsList = audioItemsList;
 	}
+
+	
 
 }

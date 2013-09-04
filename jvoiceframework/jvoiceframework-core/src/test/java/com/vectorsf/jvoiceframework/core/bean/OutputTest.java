@@ -64,7 +64,7 @@ public class OutputTest {
 	}
 	
 	@Test
-	public void testAudioItemListInjection(){
+	public void testAudioItemListInitialization(){
 		
 		//Given
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
