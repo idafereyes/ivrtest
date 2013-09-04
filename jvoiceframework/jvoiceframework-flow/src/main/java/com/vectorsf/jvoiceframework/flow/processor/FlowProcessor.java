@@ -6,6 +6,7 @@ import java.util.List;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
 /**
@@ -54,7 +55,11 @@ public class FlowProcessor implements Serializable {
 	public void process(Output output) {
 		 states.add(output);
 	}
-	
+
+	public void process(Transfer transfer) {
+		 states.add(transfer);
+	}
+
 	/**
 	 * Renderiza y elimina los estados
 	 * @param flowURL
@@ -70,9 +75,9 @@ public class FlowProcessor implements Serializable {
 				code += this.renderer.render((Prompt)element, flowURL);
 			}else if (element instanceof Output) {
 				code += this.renderer.render((Output)element, flowURL);			
-			}
-
-		
+			}else if (element instanceof Transfer) {
+				code += this.renderer.render((Transfer) element, flowURL) ;
+			}		
 		}
 		states.clear();
 		return code;

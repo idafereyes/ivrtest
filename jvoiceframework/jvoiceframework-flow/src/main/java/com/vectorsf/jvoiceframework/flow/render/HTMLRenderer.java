@@ -8,6 +8,7 @@ import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import com.vectorsf.jvoiceframework.core.bean.Transfer;
 
 /**
  * Implementación de renderizador que genera código HTML
@@ -193,6 +194,38 @@ public class HTMLRenderer implements Renderer, Serializable {
 			renderCode += "<span>cond: " + prompt.getCond() + endSpanHtml;			
 		}
 		
+		return renderCode;
+	}
+
+	public String render(Transfer transfer, String flowURL) {
+		String renderCode = "";
+		
+		renderCode += "<span>Transfer</span>";
+		renderCode += "<span>dest: " + transfer.getDest() + "</span><br>";
+		renderCode += "<span>type: " + transfer.getType() + "</span><br>";
+		renderCode += "<span>transferaudio: " + transfer.getTransferaudio() + "</span><br>";
+		renderCode += "<span>timeout: " + transfer.getTimeout() + "</span><br>";
+		renderCode += "<span>maxtime: " + transfer.getMaxtime() + "</span><br>";
+
+		Iterator<String> it = transfer.getEventsList().iterator();
+		
+		renderCode += "<span>Events:</span><br>";			
+		while (it.hasNext()){
+			String event = it.next();
+			renderCode += "<span>"+event+"</span><br>";			
+		}
+		
+		Iterator itMap = transfer.getProperties().keySet().iterator();
+
+		while (itMap.hasNext()){
+			String property = (String) itMap.next();
+			String value = transfer.getProperties().get(property);
+			
+			renderCode += "<span>Properties</span><br>";			
+			renderCode += "<span>Property: "+property+"</span><br>";			
+			renderCode += "<span>Value: "+value+"</span><br>";			
+		}
+
 		return renderCode;
 	}
 
