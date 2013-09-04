@@ -19,6 +19,8 @@ public class Input implements Serializable{
 
     private static final long serialVersionUID = -5942501816585768384L;
     
+    private static final String ARRAY_LIST_ANNOTATION = "#{new java.util.ArrayList()}";
+    
     /**
      * Name of the input
      */
@@ -53,23 +55,23 @@ public class Input implements Serializable{
     /**
      * List of grammars
      */
-    @Value("#{new java.util.ArrayList()}")
+    @Value(ARRAY_LIST_ANNOTATION)
     private List<Grammar> grammars;
     
     /**
      * List of audios for each event
      */
-    @Value("#{new java.util.ArrayList()}")
+    @Value(ARRAY_LIST_ANNOTATION)
     private List<AudioItem> mainAudios;
-    @Value("#{new java.util.ArrayList()}")
+    @Value(ARRAY_LIST_ANNOTATION)
     private List<AudioItem> noMatchAudios;
-    @Value("#{new java.util.ArrayList()}")
+    @Value(ARRAY_LIST_ANNOTATION)
     private List<AudioItem> noInputAudios;
     
     /**
      * List of events
      */
-    @Value("#{new java.util.ArrayList()}")
+    @Value(ARRAY_LIST_ANNOTATION)
     private List<String> events;
     
     public String getName() {
