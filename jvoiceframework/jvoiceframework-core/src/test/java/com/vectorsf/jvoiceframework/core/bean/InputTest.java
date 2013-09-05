@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +15,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class InputTest {
-    
-    static boolean  BARGEIN = true;
-    static boolean  FLUSH = true;
-    static boolean  CATCH_HANGUP = true;
-    static String SRC_TEXT = "testAudio";
-    static String WORDING_TEXT = "it is a wording test";
+
     static String SCAN_BASE_PACKAGE = "com.vectorsf.jvoiceframework.core.bean";
     
     private Grammar grammar1 = new Grammar();
@@ -133,6 +130,54 @@ public class InputTest {
         
         //Finally
         context.close();
+    }
+    
+    @Test
+    public void testInputSetters(){
+    	//Given
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.scan(SCAN_BASE_PACKAGE);
+        context.refresh();
         
+        //When
+        Input input = (Input)context.getBean(Input.class);
+        
+        Map<String, String> properties = new HashMap<String, String>();
+        properties.put("prop1", "value1");
+        properties.put("prop2", "value2");
+        input.setProperties(properties);
+        assertEquals("Checking input properties setter size", input.getProperties().size(), 2);
+        
+        List<Grammar> grammars = new ArrayList<Grammar>();
+        grammars.add(grammar1);
+        grammars.add(grammar2);
+        grammars.add(grammar3);
+        input.setGrammars(grammars);
+        assertEquals("Checking input grammar setter size", input.getGrammars().size(), 3);
+        
+        List<AudioItem> mainAudios = new ArrayList<AudioItem>();
+        mainAudios.add(mainAudioItem1);
+        mainAudios.add(mainAudioItem2);
+        input.setMainAudios(mainAudios);
+        assertEquals("Checking input main audios setter size", input.getMainAudios().size(), 2);
+        
+        List<AudioItem> noInputAudios = new ArrayList<AudioItem>();
+        noInputAudios.add(noInputAudioItem1);
+        noInputAudios.add(noInputAudioItem2);
+        input.setNoInputAudios(noInputAudios);
+        assertEquals("Checking input no input audios setter size", input.getNoInputAudios().size(), 2);
+        
+        List<AudioItem> noMatchAudios = new ArrayList<AudioItem>();
+        noMatchAudios.add(noInputAudioItem1);
+        noMatchAudios.add(noInputAudioItem2);
+        input.setNoMatchAudios(noMatchAudios);
+        assertEquals("Checking input no match audios setter size", input.getNoMatchAudios().size(), 2);
+        
+        List<String> events = new ArrayList<String>();
+        events.add("evento1");
+        events.add("evento2");
+        events.add("evento3");
+        input.setEvents(events);
+        assertEquals("Checking input events setter size", input.getEvents().size(), 3);
     }
 }
