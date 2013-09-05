@@ -24,7 +24,6 @@ public class HTMLRenderer implements Renderer, Serializable {
     private String tdHtml = "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">";
     private String endTdHtml = "</td>";
     private String endTableHtml = "</table><br/>";
-    private String trHtml = "<tr><td>";
     private String trStyledHtml = "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\" >";
     private String endTrHtml = "</td></tr>";
     private String endSpanHtml = "</span><br/>";
