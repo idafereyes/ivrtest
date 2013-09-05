@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.webflow.definition.StateDefinition;
 import org.springframework.webflow.definition.TransitionDefinition;
 import org.springframework.webflow.engine.FlowAttributeMappingException;
-import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.FlowExecutionException;
 import org.springframework.webflow.execution.FlowExecutionListenerAdapter;
 import org.springframework.webflow.execution.RequestContext;
@@ -32,7 +31,7 @@ public class LogFlowExecutionListener extends FlowExecutionListenerAdapter imple
 	private ExtendedLocLogger logger;
  
     @Override
-    public void stateEntering(RequestContext context, StateDefinition state) throws org.springframework.webflow.execution.EnterStateVetoException {
+    public void stateEntering(RequestContext context, StateDefinition state) {
         logger.info(LogFlowExecutionListenerMessages.INFO_START_STATE_EXECUTION,  state.getId());
     }
     
@@ -56,7 +55,5 @@ public class LogFlowExecutionListener extends FlowExecutionListenerAdapter imple
     @Override
     public void transitionExecuting(RequestContext context, TransitionDefinition transition) {
 		logger.info(LogFlowExecutionListenerMessages.INFO_EVENT_TRANSITION,  transition.getId(), transition.getTargetStateId());
-		Event event = context.getCurrentEvent();
-		StateDefinition sd = context.getCurrentState();
     }
 }

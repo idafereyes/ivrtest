@@ -188,7 +188,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 		Iterator<AudioItem> it = output.getAudioItemsList().iterator();
 		while (it.hasNext()){
 			AudioItem prompt = it.next();
-			renderCode += "<span>prompt</span><br>";			
+			renderCode += "<span>prompt" + endSpanHtml;			
 			renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;			
 			renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;			
 			renderCode += "<span>cond: " + prompt.getCond() + endSpanHtml;			
@@ -221,9 +221,9 @@ public class HTMLRenderer implements Renderer, Serializable {
 			String property = (String) itMap.next();
 			String value = transfer.getProperties().get(property);
 			
-			renderCode += "<span>Properties</span><br>";			
-			renderCode += "<span>Property: " + property + endSpanHtml;			
-			renderCode += "<span>Value: " + value + endSpanHtml;			
+			renderCode += "<span>Properties" + endSpanHtml;			
+			renderCode += "<span>Property: "+property+endSpanHtml;			
+			renderCode += "<span>Value: "+value+endSpanHtml;			
 		}
 
 		return renderCode;

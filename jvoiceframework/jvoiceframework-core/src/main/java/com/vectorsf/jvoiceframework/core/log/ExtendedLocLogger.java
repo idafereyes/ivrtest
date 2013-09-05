@@ -31,7 +31,7 @@ public class ExtendedLocLogger implements Logger {
 		PrintWriter printWriter = new PrintWriter(strWriter);
 		th.printStackTrace(printWriter);
 		
-		return strWriter.toString(); // stack trace as a string
+		return strWriter.toString();
 	}
 
 	public void trace(Enum<?> key, Object... args) {
@@ -51,8 +51,9 @@ public class ExtendedLocLogger implements Logger {
 		if (locLogger.isDebugEnabled()) {
 			locLogger.debug(key, args);
 			for (Object arg : args) {
-				if (arg instanceof Throwable)
+				if (arg instanceof Throwable) {
 					locLogger.debug(getStackTrace((Throwable) arg));
+				}
 			}
 		}
 	}
@@ -76,8 +77,9 @@ public class ExtendedLocLogger implements Logger {
 		if (locLogger.isWarnEnabled()) {
 			locLogger.warn(key, args);
 			for (Object arg : args) {
-				if (arg instanceof Throwable)
+				if (arg instanceof Throwable) {
 					locLogger.warn(getStackTrace((Throwable) arg));
+				}
 			}
 		}
 	}

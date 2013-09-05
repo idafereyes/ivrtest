@@ -12,18 +12,19 @@ import ch.qos.cal10n.MessageConveyor;
  * This Class return a new ExtendeLocLogger object, to log application
  * 
  * @author mvinuesa
- *
+ * 
  */
-public class ExtendedLocLoggerFactory {
+final class ExtendedLocLoggerFactory {
 
 	/**
 	 * Private constructor
 	 */
 	private ExtendedLocLoggerFactory() {
 	}
-	
+
 	/**
 	 * Return a ExtendeLocLogger new instance.
+	 * 
 	 * @param clazz
 	 * @return ExtendedLocLogger
 	 */
@@ -31,8 +32,7 @@ public class ExtendedLocLoggerFactory {
 		IMessageConveyor messageConveyor = new MessageConveyor(Locale.getDefault());
 		LocLoggerFactory locFactory = new LocLoggerFactory(messageConveyor);
 		LocLogger locLogger = locFactory.getLocLogger(clazz);
-		ExtendedLocLogger eLocLogger = new ExtendedLocLogger(locLogger);
-		return eLocLogger;
+		return new ExtendedLocLogger(locLogger);
 	}
-	
+
 }
