@@ -91,7 +91,6 @@
 
 	<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype" />
 	<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype" />
-	<bean id="grammar" class="com.vectorsf.jvoiceframework.core.bean.Grammar" scope="prototype" />
 	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" />
 	<bean id="states" class="java.util.ArrayList" scope="flow" />
 	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
@@ -100,7 +99,8 @@
 		<property name="renderer" ref="renderer"></property>
 	</bean>
 
-	<bean id="lastResultInfo" class="com.vectorsf.jvoiceframework.core.bean.LastResultInfo" scope="session"/>
+<!--     <bean id="lastInputResult" class="com.vectorsf.jvoiceframework.core.bean.LastInputResult" scope="session"/> -->
+    
 	<bean id="inputCB" class="org.isb.ivr.flow.user.InputCB" scope="session" />
 
 	<!-- Web Services -->
