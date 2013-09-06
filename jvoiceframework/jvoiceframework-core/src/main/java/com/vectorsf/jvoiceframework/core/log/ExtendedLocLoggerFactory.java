@@ -1,6 +1,8 @@
 package com.vectorsf.jvoiceframework.core.log;
 
 import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.cal10n.LocLogger;
 import org.slf4j.cal10n.LocLoggerFactory;
@@ -15,6 +17,10 @@ import ch.qos.cal10n.MessageConveyor;
  * 
  */
 final class ExtendedLocLoggerFactory {
+	
+	private static IMessageConveyor messageConveyor = new MessageConveyor(Locale.getDefault());
+	private static LocLoggerFactory locFactory = new LocLoggerFactory(messageConveyor);
+	private static Map<Class<?>, Logger> loggerCache = new ConcurrentHashMap<Class<?>, Logger>();
 
 	/**
 	 * Private constructor
@@ -23,16 +29,19 @@ final class ExtendedLocLoggerFactory {
 	}
 
 	/**
-	 * Return a ExtendeLocLogger new instance.
+	 * Return a ExtendeLocLogger instance.
 	 * 
 	 * @param clazz
 	 * @return ExtendedLocLogger
 	 */
-	public static ExtendedLocLogger getExtendedLocLogger(Class<?> clazz) {
-		IMessageConveyor messageConveyor = new MessageConveyor(Locale.getDefault());
-		LocLoggerFactory locFactory = new LocLoggerFactory(messageConveyor);
-		LocLogger locLogger = locFactory.getLocLogger(clazz);
-		return new ExtendedLocLogger(locLogger);
+	public static Logger getLogger(Class<?> clazz) {
+		Logger logger = loggerCache.get(clazz);
+		if (logger==null) {
+			LocLogger locLogger = locFactory.getLocLogger(clazz);
+			loggerCache.put(clazz, new ExtendedLocLogger(locLogger));
+			logger = loggerCache.get(clazz);
+		}
+		return logger;
 	}
 
 }

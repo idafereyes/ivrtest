@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 @Component("logBeanText")
 public class LogBeanTest {
 	@Log
-	private ExtendedLocLogger logger;
+	private Logger logger;
 	
-	public ExtendedLocLogger getLogger() {
+	public Logger getLogger() {
 		return logger;
 	}
 }

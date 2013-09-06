@@ -12,8 +12,8 @@ import org.springframework.webflow.execution.FlowExecutionException;
 import org.springframework.webflow.execution.FlowExecutionListenerAdapter;
 import org.springframework.webflow.execution.RequestContext;
 
-import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
 import com.vectorsf.jvoiceframework.core.log.Log;
+import com.vectorsf.jvoiceframework.core.log.Logger;
 
 /**
  * Listener to log the spring states flow
@@ -28,7 +28,7 @@ public class LogFlowExecutionListener extends FlowExecutionListenerAdapter imple
 	private static final long serialVersionUID = 1671376170775795641L;
 	
 	@Log
-	private ExtendedLocLogger logger;
+	private Logger logger;
  
     @Override
     public void stateEntering(RequestContext context, StateDefinition state) {

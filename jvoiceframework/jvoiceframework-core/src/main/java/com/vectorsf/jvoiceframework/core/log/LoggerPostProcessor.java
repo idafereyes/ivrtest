@@ -41,8 +41,7 @@ public class LoggerPostProcessor implements BeanPostProcessor {
 			public void doWith(Field field) throws IllegalAccessException {
 				ReflectionUtils.makeAccessible(field);
 				if (field.getAnnotation(Log.class) != null) {
-					ExtendedLocLogger eLocLogger = ExtendedLocLoggerFactory.getExtendedLocLogger(bean.getClass());
-					field.set(bean, eLocLogger);
+					field.set(bean, ExtendedLocLoggerFactory.getLogger(bean.getClass()));
 				}
 			}
 		});

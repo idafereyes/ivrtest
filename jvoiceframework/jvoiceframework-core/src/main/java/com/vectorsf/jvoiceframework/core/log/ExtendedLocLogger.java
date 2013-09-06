@@ -3,12 +3,13 @@ package com.vectorsf.jvoiceframework.core.log;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.cal10n.LocLogger;
 
 /**
- * Class <b>ExtendedLocLogger</b>, it allows to print StackTrace (Throwable). 
+ * Class <b>ExtendedLocLogger</b>, it allows to print StackTrace (Throwable).
+ * This class is a LocLogger Wrapper, LocLogger don´t print stackTrace exception only the message.
+ * This class resolve this problem.
  * 
  * @author mvinuesa
  * @see org.slf4j.Logger
