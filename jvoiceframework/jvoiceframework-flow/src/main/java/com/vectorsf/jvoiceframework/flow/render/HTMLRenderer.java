@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
@@ -276,5 +277,14 @@ public class HTMLRenderer implements Renderer, Serializable {
         return renderCode;
 	}
 
-    
+    public String render(End end, String flowURL) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	sb.append("<h1>End</h1>");
+    	sb.append("<p>");
+    	sb.append(end.getName());
+    	sb.append("</p>");
+    	
+    	return sb.toString();
+    }
 }
