@@ -35,12 +35,12 @@
     <view-state id="render" view="render">
     
 		<transition on="transferred" to="transferredState">
-			<set name="transferResultInfo.event" value="requestParameters.event"/>  	
-			<set name="transferResultInfo.duration" value="requestParameters.duration"/> 	
+			<set name="lastTransferResult.event" value="requestParameters.event"/>  	
+			<set name="lastTransferResult.duration" value="requestParameters.duration"/> 	
 		</transition>
     	
     	<!-- <on-exit>
-			<set name="transferResultInfo.duration" value="requestParameters.duration"/> 	
+			<set name="lastTransferResult.duration" value="requestParameters.duration"/> 	
     	</on-exit>-->
     
     </view-state>

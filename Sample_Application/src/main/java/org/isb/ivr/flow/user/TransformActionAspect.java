@@ -9,8 +9,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
 import com.vectorsf.jvoiceframework.core.log.Log;
+import com.vectorsf.jvoiceframework.core.log.Logger;
 
 @Component
 @Aspect
@@ -23,7 +23,7 @@ public class TransformActionAspect implements Serializable {
 	}
 	
 	@Log
-	private ExtendedLocLogger logger;
+	private Logger logger;
 
 	@Before("transformActionMethods()")
 	public void beforeMethod(JoinPoint joinPoint) {

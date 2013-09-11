@@ -10,8 +10,8 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
  * @author dmartina
  */
 public interface Renderer {
-	public String render(Prompt prompt, String flowURL);
-	public String render(Output output, String flowURL);
-	public String render(Input prompt, String flowURL);
-	public String render(Transfer transfer, String flowURL);
+	String render(Prompt prompt, String flowURL);
+	String render(Output output, String flowURL);
+	String render(Input prompt, String flowURL);
+	String render(Transfer transfer, String flowURL);
 }

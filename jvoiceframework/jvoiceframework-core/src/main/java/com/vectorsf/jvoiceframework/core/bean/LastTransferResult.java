@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  * @author idafereyes
  */
 
-@Component("transferResultInfo")
-public class TransferResultInfo implements Serializable {
+@Component("lastTransferResult")
+public class LastTransferResult implements Serializable {
 
 	private static final long serialVersionUID = 4212121618463154203L;
 

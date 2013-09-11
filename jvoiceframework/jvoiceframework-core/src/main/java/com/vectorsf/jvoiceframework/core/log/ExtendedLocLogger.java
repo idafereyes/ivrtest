@@ -3,12 +3,13 @@ package com.vectorsf.jvoiceframework.core.log;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.cal10n.LocLogger;
 
 /**
- * Class <b>ExtendedLocLogger</b>, it allows to print StackTrace (Throwable). 
+ * Class <b>ExtendedLocLogger</b>, it allows to print StackTrace (Throwable).
+ * This class is a LocLogger Wrapper, LocLogger don´t print stackTrace exception only the message.
+ * This class resolve this problem.
  * 
  * @author mvinuesa
  * @see org.slf4j.Logger
@@ -31,7 +32,7 @@ public class ExtendedLocLogger implements Logger {
 		PrintWriter printWriter = new PrintWriter(strWriter);
 		th.printStackTrace(printWriter);
 		
-		return strWriter.toString(); // stack trace as a string
+		return strWriter.toString();
 	}
 
 	public void trace(Enum<?> key, Object... args) {
@@ -51,8 +52,9 @@ public class ExtendedLocLogger implements Logger {
 		if (locLogger.isDebugEnabled()) {
 			locLogger.debug(key, args);
 			for (Object arg : args) {
-				if (arg instanceof Throwable)
+				if (arg instanceof Throwable) {
 					locLogger.debug(getStackTrace((Throwable) arg));
+				}
 			}
 		}
 	}
@@ -76,8 +78,9 @@ public class ExtendedLocLogger implements Logger {
 		if (locLogger.isWarnEnabled()) {
 			locLogger.warn(key, args);
 			for (Object arg : args) {
-				if (arg instanceof Throwable)
+				if (arg instanceof Throwable) {
 					locLogger.warn(getStackTrace((Throwable) arg));
+				}
 			}
 		}
 	}
