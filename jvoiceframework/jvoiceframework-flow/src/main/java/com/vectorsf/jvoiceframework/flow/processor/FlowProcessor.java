@@ -62,6 +62,10 @@ public class FlowProcessor implements Serializable {
          states.add(transfer);
     }
 
+    public void process(Record record) {
+    	states.add(record);
+    }
+    
     public void process(End end) {
         states.add(end);
    }
@@ -85,7 +89,9 @@ public class FlowProcessor implements Serializable {
                 code += this.renderer.render((Transfer) element, flowURL) ;
             }else if (element instanceof End) {
                 code += this.renderer.render((End) element, flowURL) ;
-            }
+            }else if (element instanceof Record) {
+            	code += this.renderer.render((Record) element, flowURL) ;
+            } 
         }
         states.clear();
         return code;
