@@ -59,7 +59,7 @@ public class Transfer implements Serializable {
 	 * Takes its value from the bean that stores the app configuration defaults, 
 	 * although it can be given other value later. 
 	 */	
-	@Value("#{appConfigDefaults.maxtime}")
+	@Value("#{appConfigDefaults.transferMaxtime}")
 	private String maxtime;
 	
 	/**

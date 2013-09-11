@@ -10,5 +10,6 @@
 <a href="input.flow">Input</a><br/>
 <a href="output.flow">Output</a><br/>
 <a href="transfer.flow">Transfer</a><br/>
+<a href="record.flow">Record</a><br/>
 </body>
 </html>

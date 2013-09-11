@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="testRecord">
+ 	
+ 	<action-state id="testRecord">
+		<on-entry>
+			<evaluate expression="record" result="flowScope.testRecord"/>
+			
+            <!-- Se setean los atributos del record -->
+			<set name="flowScope.testRecord.beep" value="true" />
+            <set name="flowScope.testRecord.dtmfterm" value="true" />
+            <set name="flowScope.testRecord.maxtime" value="'10s'" />
+            <set name="flowScope.testRecord.finalsilence" value="'2s'" />
+            <set name="flowScope.testRecord.fileName" value="'transactionNameRec'" />
+            <set name="flowScope.testRecord.keep" value="true" />
+            
+            <!-- Se añade un audio -->
+            <evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.src" value="'SAN-RECORD-GET-NAME'" />
+            <set name="flowScope.audioItem1.wording" value="'Por favor diga su nombre'" />     
+            <evaluate expression="flowScope.testRecord.audioItemsList.add(audioItem1)"/>
+
+            <!-- Se añaden los eventos a controlar -->
+            <evaluate expression="flowScope.testRecord.eventsList.add('recorded')"/>
+            <evaluate expression="flowScope.testRecord.eventsList.add('hangup')"/>
+            <evaluate expression="flowScope.testRecord.eventsList.add('error')"/>
+            <!-- Se setean otras propiedades no contempladas en los atributos. -->
+            <evaluate expression="flowScope.testRecord.properties.put('new.property','15s')"/>												
+		</on-entry>
+
+       	<evaluate expression="flowProcessor.process(flowScope.testRecord)"/>
+    		
+    	<transition to="render" />
+    </action-state>
+    
+    <view-state id="render" view="render">
+        
+        <transition on="recorded" to="nextState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+            <set name="lastRecordResult.file" value="requestParameters.file"/>      
+            <set name="lastRecordResult.duration" value="requestParameters.duration"/>      
+            <set name="lastRecordResult.size" value="requestParameters.size"/>      
+            <set name="lastRecordResult.termchar" value="requestParameters.termchar"/>      
+            <set name="lastRecordResult.maxsize" value="requestParameters.maxsize"/>      
+        </transition>
+ 
+        <transition on="hangup" to="hangupState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+            <set name="lastRecordResult.file" value="requestParameters.file"/>      
+            <set name="lastRecordResult.duration" value="requestParameters.duration"/>      
+            <set name="lastRecordResult.size" value="requestParameters.size"/>      
+            <set name="lastRecordResult.termchar" value="requestParameters.termchar"/>      
+            <set name="lastRecordResult.maxsize" value="requestParameters.maxsize"/>      
+        </transition>
+        
+    </view-state>
+   
+</flow>

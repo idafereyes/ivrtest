@@ -7,6 +7,7 @@ import com.vectorsf.jvoiceframework.core.bean.Element;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 import com.vectorsf.jvoiceframework.flow.render.RenderKitTable;
@@ -67,6 +68,10 @@ public class FlowProcessor implements Serializable {
 
 	public void setRenderkit(String renderkit) {
 		this.renderkit = renderkit;
+	}
+
+	public void process(Record record) {
+		 states.add(record);
 	}
 
 	/**

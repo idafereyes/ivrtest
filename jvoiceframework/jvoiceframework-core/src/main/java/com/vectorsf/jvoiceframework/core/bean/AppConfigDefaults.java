@@ -13,36 +13,51 @@ public class AppConfigDefaults implements Serializable {
 	 */
 	private static final long serialVersionUID = -9142571578698682638L;
 	
-	//TODO En un primer momento le estamos asignando un valor hardcodeado.
+	static final String FALSE = "false";
+	
+	//TODO En un primer momento le estamos asignando valores hardcodeados.
 	//Está pendiente ver de qué manera toman valor estos atributos.
-	@Value("false")
+	
+	@Value(FALSE)
 	private boolean bargein;
 	
-	//TODO En un primer momento le estamos asignando un valor hardcodeado.
-	//Está pendiente ver de qué manera toman valor estos atributos.
-	@Value("false")
+	@Value(FALSE)
 	private boolean flush;
 	
-	//TODO En un primer momento le estamos asignando un valor hardcodeado.
-	//Está pendiente ver de qué manera toman valor estos atributos.
-	@Value("false")
+	@Value(FALSE)
 	private boolean catchHangup;
 	
-	//TODO En un primer momento le estamos asignando un valor hardcodeado.
-	//Está pendiente ver de qué manera toman valor estos atributos.
 	@Value("transferIdleMusic")
 	private String transferaudio;
-	
-	//TODO En un primer momento le estamos asignando un valor hardcodeado.
-	//Está pendiente ver de qué manera toman valor estos atributos.
+
 	@Value("10s")
 	private String transferConnectiontimeout;
 
-	//TODO En un primer momento le estamos asignando un valor hardcodeado.
-	//Está pendiente ver de qué manera toman valor estos atributos.
 	@Value("20s")
-	private String maxtime;
+	private String transferMaxtime;
+	
+	@Value(FALSE)
+	private boolean recordBeep;
 
+	@Value(FALSE)
+	private boolean recordDtmfterm;
+
+	@Value("5s")
+	private String recordFinalsilence;
+
+	@Value("10s")
+	private String recordMaxtime;
+
+	@Value("recordedAudio.wav")
+	private String recordFileName;
+
+	@Value("/recordedAudiosPath/")
+	private String recordFilePath;
+	
+	@Value(FALSE)
+	private boolean recordKeep;
+
+	
 	public boolean isBargein() {
 		return bargein;
 	}
@@ -83,12 +98,68 @@ public class AppConfigDefaults implements Serializable {
 		this.transferConnectiontimeout = transferConnectiontimeout;
 	}
 
-	public String getMaxtime() {
-		return maxtime;
+	public String getTransferMaxtime() {
+		return transferMaxtime;
 	}
 
-	public void setMaxtime(String maxtime) {
-		this.maxtime = maxtime;
+	public void setTransferMaxtime(String transferMaxtime) {
+		this.transferMaxtime = transferMaxtime;
+	}
+
+	public boolean isRecordBeep() {
+		return recordBeep;
+	}
+
+	public void setRecordBeep(boolean recordBeep) {
+		this.recordBeep = recordBeep;
+	}
+
+	public boolean isRecordDtmfterm() {
+		return recordDtmfterm;
+	}
+
+	public void setRecordDtmfterm(boolean recordDtmfterm) {
+		this.recordDtmfterm = recordDtmfterm;
+	}
+
+	public String getRecordFinalsilence() {
+		return recordFinalsilence;
+	}
+
+	public void setRecordFinalsilence(String recordFinalsilence) {
+		this.recordFinalsilence = recordFinalsilence;
+	}
+
+	public String getRecordFileName() {
+		return recordFileName;
+	}
+
+	public String getRecordMaxtime() {
+		return recordMaxtime;
+	}
+
+	public void setRecordMaxtime(String recordMaxtime) {
+		this.recordMaxtime = recordMaxtime;
+	}
+
+	public void setRecordFileName(String recordFileName) {
+		this.recordFileName = recordFileName;
+	}
+
+	public String getRecordFilePath() {
+		return recordFilePath;
+	}
+
+	public void setRecordFilePath(String recordFilePath) {
+		this.recordFilePath = recordFilePath;
+	}
+
+	public boolean isRecordKeep() {
+		return recordKeep;
+	}
+
+	public void setRecordKeep(boolean recordKeep) {
+		this.recordKeep = recordKeep;
 	}
 
 }

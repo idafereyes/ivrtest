@@ -17,12 +17,12 @@
 			<!-- <set name="flowScope.testTransfer.timeout" value="'5s'"/> -->
 			<!-- <set name="flowScope.testTransfer.maxtime" value="'25s'"/> -->
 			
-			<!-- TODO ver como añadir el evento. -->
+			<!-- Se añaden los eventos a controlar -->
 			<evaluate expression="flowScope.testTransfer.eventsList.add('transferred')"/>
 			<evaluate expression="flowScope.testTransfer.eventsList.add('hangup')"/>
 			<evaluate expression="flowScope.testTransfer.eventsList.add('noanswer')"/>
 			
-			<!-- TODO probar que esto funciona -->
+			<!-- Se setean otras propiedades no contempladas en los atributos. -->
 			<evaluate expression="flowScope.testTransfer.properties.put('new.property','15s')"/>
 									
 		</on-entry>
