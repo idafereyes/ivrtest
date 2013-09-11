@@ -23,6 +23,9 @@
 		<org.mockito-version>1.9.5</org.mockito-version>
 		<junit-version>4.11</junit-version>
 		<javax.inject-version>1</javax.inject-version>
+		<ch.qos.logback>1.0.13</ch.qos.logback>
+		<ch.qos.cal10n>0.8.1</ch.qos.cal10n>
+		<org.aspectj>1.7.3</org.aspectj>
 		<!-- Esta propiedad se usa para que las clases y recursos se generen como UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Esta prpopiedad se usa para que los informes de Failsafe se generen como UTF-8 -->
@@ -106,37 +109,37 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.0.13</version>
+			<version>${ch.qos.logback}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>1.0.13</version>
+			<version>${ch.qos.logback}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-access</artifactId>
-			<version>1.0.13</version>
+			<version>${ch.qos.logback}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.cal10n</groupId>
 			<artifactId>cal10n-api</artifactId>
-			<version>0.8.1</version>
+			<version>${ch.qos.cal10n}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-ext</artifactId>
-			<version>1.7.5</version>
+			<version>${org.slf4j-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
-			<version>1.7.3</version>
+			<version>${org.aspectj}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.7.3</version>
+			<version>${org.aspectj}</version>
 		</dependency>
 	</dependencies>
 
