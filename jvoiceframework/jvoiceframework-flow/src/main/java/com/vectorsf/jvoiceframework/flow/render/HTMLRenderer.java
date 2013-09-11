@@ -8,6 +8,7 @@ import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 
 /**
@@ -228,6 +229,52 @@ public class HTMLRenderer implements Renderer, Serializable {
 
         return renderCode;
     }
+
+	public String render(Record record, String flowURL) {
+        String renderCode = "";
+        
+        renderCode += "<span>Record</span>";
+        renderCode += "<span>beep: " + record.isBeep() + endSpanHtml;
+        renderCode += "<span>dtmfterm: " + record.isDtmfterm() + endSpanHtml;
+        renderCode += "<span>maxtime: " + record.getMaxtime() + endSpanHtml;
+        renderCode += "<span>finalsilence: " + record.getFinalsilence() + endSpanHtml;
+        renderCode += "<span>fileName: " + record.getFileName() + endSpanHtml;
+        renderCode += "<span>filePath: " + record.getFilePath() + endSpanHtml;
+        renderCode += "<span>keep: " + record.isKeep() + endSpanHtml;
+
+        
+        Iterator<AudioItem> itAudios = record.getAudioItemsList().iterator();
+        renderCode += "<span>audioItemsList" + endSpanHtml;            
+       
+        while (itAudios.hasNext()){
+            AudioItem prompt = itAudios.next();
+            renderCode += "<span>Audio Item" + endSpanHtml;            
+            renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;            
+            renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;            
+            renderCode += "<span>cond: " + prompt.getCond() + endSpanHtml;            
+        }
+
+        Iterator<String> it = record.getEventsList().iterator();
+        renderCode += "<span>Events:</span><br>";            
+        while (it.hasNext()){
+            String event = it.next();
+            renderCode += "<span>" + event + endSpanHtml;            
+        }
+        
+        Iterator itMap = record.getProperties().keySet().iterator();
+
+        renderCode += "<span>Properties" + endSpanHtml;            
+
+        while (itMap.hasNext()){
+            String property = (String) itMap.next();
+            String value = record.getProperties().get(property);
+            
+            renderCode += "<span>Property: "+ property + endSpanHtml;            
+            renderCode += "<span>Value: "+ value + endSpanHtml;            
+        }
+
+        return renderCode;
+	}
 
     
 }

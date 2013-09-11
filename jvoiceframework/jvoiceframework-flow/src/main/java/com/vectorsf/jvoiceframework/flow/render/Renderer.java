@@ -3,6 +3,7 @@ package com.vectorsf.jvoiceframework.flow.render;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 
 /**
@@ -14,4 +15,5 @@ public interface Renderer {
 	String render(Output output, String flowURL);
 	String render(Input prompt, String flowURL);
 	String render(Transfer transfer, String flowURL);
+	String render(Record record, String flowURL);
 }
