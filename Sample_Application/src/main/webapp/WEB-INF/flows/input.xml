@@ -90,6 +90,10 @@
 
 
 	<view-state id="render1" view="render">
+	   <on-entry>
+	       <set name="flowProcessor.renderkitParam" value="requestParameters.renderkit" />
+	       <evaluate expression="renderkitTable" result="flowProcessor.renderkitTable" />
+	   </on-entry>
 		<transition on="match" to="promptTest1">
 			<set name="flowScope.lastResultInfo.event" value="requestParameters.event" />
 			<set name="flowScope.lastResultInfo.interpretation" value="requestParameters.interpretation" />
@@ -97,7 +101,6 @@
 			<set name="flowScope.lastResultInfo.confidence" value="requestParameters.confidence" />
 			<set name="flowScope.lastResultInfo.inputmode" value="requestParameters.inputmode" />
 		</transition>
-		
 		<transition on="maxnomatch" to="promptNoMatch">
 			<set name="flowScope.lastInputResult.event" value="requestParameters.event" />
 		</transition>

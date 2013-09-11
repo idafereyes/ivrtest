@@ -16,7 +16,7 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
  * 
  * @author dmartina
  */
-public class HTMLRenderer implements Renderer, Serializable {
+public class HTMLRenderer implements Serializable {
 
     private static final long serialVersionUID = 4511972601190155577L;
     
