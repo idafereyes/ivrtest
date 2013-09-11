@@ -3,10 +3,11 @@ package com.vectorsf.jvoiceframework.flow.processor;
 import java.io.Serializable;
 import java.util.List;
 
-import com.vectorsf.jvoiceframework.core.bean.Component;
+import com.vectorsf.jvoiceframework.core.bean.Element;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 import com.vectorsf.jvoiceframework.flow.render.RenderKitTable;
 
@@ -21,35 +22,53 @@ public class FlowProcessor implements Serializable {
 
 	private static final long serialVersionUID = -8138696103238359798L;
 	
-	private RenderKitTable vendorRenderers;
+	private RenderKitTable renderKitTable;
 	
-	private List<Component> states;
+	private List<Element> states;
 	
-	public List<Component> getStates() {
+	private String renderkit;
+	
+	public List<Element> getStates() {
 		return states;
 	}
 
-	public void setStates(List<Component> states) {
+	public void setStates(List<Element> states) {
 		this.states = states;
 	}
 
-	/**
-	 * Renderizador de estados
-	 */
-	private Renderer renderer; 
+//	/**
+//	 * Renderizador de estados
+//	 */
+//	private Renderer renderer; 
+//
+//	public void process(Element component) {
+//		 states.add(component);
+//	}
+//	 
+//	public Renderer getRenderer() {
+//		return renderer;
+//	}
+//
+//	public void setRenderer(Renderer renderer) {
+//		this.renderer = renderer;
+//	}
 
-	public void process(Component component) {
-		 states.add(component);
-	}
-	 
-	public Renderer getRenderer() {
-		return renderer;
+	public RenderKitTable getRenderKitTable() {
+		return renderKitTable;
 	}
 
-	public void setRenderer(Renderer renderer) {
-		this.renderer = renderer;
+	public void setRenderKitTable(RenderKitTable renderKitTable) {
+		this.renderKitTable = renderKitTable;
 	}
 	
+	public String getRenderkit() {
+		return renderkit;
+	}
+
+	public void setRenderkit(String renderkit) {
+		this.renderkit = renderkit;
+	}
+
 	/**
 	 * Renderiza y elimina los estados
 	 * @param flowURL
@@ -58,7 +77,8 @@ public class FlowProcessor implements Serializable {
 	public String render(String flowURL){
 		StringBuilder code = new StringBuilder();
 		
-		for (Component component: states){
+		System.out.println(renderkit);
+		for (Element element: states){
 			
 		}
 		states.clear();
@@ -66,11 +86,4 @@ public class FlowProcessor implements Serializable {
 		
 	}
 
-	public RenderKitTable getVendorRenderers() {
-		return vendorRenderers;
-	}
-
-	public void setVendorRenderers(RenderKitTable vendorRenderers) {
-		this.vendorRenderers = vendorRenderers;
-	}
 }

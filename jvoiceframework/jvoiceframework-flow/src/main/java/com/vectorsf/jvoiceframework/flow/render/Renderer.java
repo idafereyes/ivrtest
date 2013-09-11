@@ -1,15 +1,20 @@
 package com.vectorsf.jvoiceframework.flow.render;
 
-import com.vectorsf.jvoiceframework.core.bean.Input;
-import com.vectorsf.jvoiceframework.core.bean.Output;
-import com.vectorsf.jvoiceframework.core.bean.Prompt;
+import java.io.Serializable;
+
+import com.vectorsf.jvoiceframework.core.bean.Element;
 
 /**
  * Interfaz a cumplir por los renderers IVR
  * @author dmartina
  */
-public interface Renderer {
-	public String render(Prompt prompt, String flowURL);
-	public String render(Output output, String flowURL);
-	public String render(Input prompt, String flowURL);
+public abstract class Renderer implements Serializable {
+	
+	private static final long serialVersionUID = -8011930092567626105L;
+
+	public abstract String startRender(Element element, String flowUrl);
+	
+	public String endRender(Element element, String flowUrl) {
+		return null;
+	}
 }

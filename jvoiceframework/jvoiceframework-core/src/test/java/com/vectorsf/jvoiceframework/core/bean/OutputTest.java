@@ -64,7 +64,7 @@ public class OutputTest {
 	}
 	
 	@Test
-	public void testAudioItemListInjection(){
+	public void testAudioItemListInitialization(){
 		
 		//Given
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -82,5 +82,26 @@ public class OutputTest {
 		context.close();
 
 	}
+	
+	@Test
+	public void testPropertiesMapInitialization(){
+		
+		//Given
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		context.scan(SCAN_BASE_PACKAGE);
+		context.refresh();
+		
+		//When
+		Output output = (Output)context.getBean(Output.class);
+		
+		//Then
+		//Verifies that properties map has been initialized so it is not null
+		assertNotNull("properties map is null.", output.getProperties());
+		
+		//Finally
+		context.close();
+
+	}
+
 
 }
