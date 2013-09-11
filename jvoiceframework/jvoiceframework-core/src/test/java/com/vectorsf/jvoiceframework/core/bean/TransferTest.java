@@ -30,7 +30,7 @@ public class TransferTest {
 		//Verifies that transfer attributes transferaudio, maxtime and timeout have taken appConfigDefault attributes value.
 		assertEquals("transferaudio value is not correct.",transfer.getTransferaudio(), appConfigDefaults.getTransferaudio());
 		assertEquals("timeout value is not correct.",transfer.getTimeout(), appConfigDefaults.getTransferConnectiontimeout());
-		assertEquals("maxtime value is not correct.",transfer.getMaxtime(), appConfigDefaults.getMaxtime());
+		assertEquals("maxtime value is not correct.",transfer.getMaxtime(), appConfigDefaults.getTransferMaxtime());
 		
 		//Finally
 		context.close();
