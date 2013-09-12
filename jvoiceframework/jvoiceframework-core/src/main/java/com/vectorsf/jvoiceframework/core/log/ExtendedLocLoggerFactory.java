@@ -26,6 +26,7 @@ final class ExtendedLocLoggerFactory {
 	 * Private constructor
 	 */
 	private ExtendedLocLoggerFactory() {
+		
 	}
 
 	/**
@@ -39,7 +40,7 @@ final class ExtendedLocLoggerFactory {
 		if (logger==null) {
 			LocLogger locLogger = locFactory.getLocLogger(clazz);
 			loggerCache.put(clazz, new ExtendedLocLogger(locLogger));
-			logger = loggerCache.get(clazz);
+			logger = loggerCache.get(clazz);	
 		}
 		return logger;
 	}
