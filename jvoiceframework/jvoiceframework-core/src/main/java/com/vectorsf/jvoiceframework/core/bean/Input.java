@@ -159,17 +159,17 @@ public class Input implements Element, Serializable{
         return events;
     }
 
-	public void setEvents(List<String> events) {
-		this.events = events;
-	}
-	
-	/**
-	 * It returns null because is the root component
-	 * 
-	 * 
-	 */
-	@Override
-	public Element getParent() {
-		return null;
-	}
+    public void setEvents(List<String> events) {
+        this.events = events;
+    }
+    
+    /**
+     * It returns null because is the root component
+     * 
+     * 
+     */
+    @Override
+    public Element getParent() {
+        return null;
+    }
 }

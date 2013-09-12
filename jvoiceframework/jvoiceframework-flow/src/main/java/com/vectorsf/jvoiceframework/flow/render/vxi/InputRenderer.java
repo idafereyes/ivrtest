@@ -9,14 +9,13 @@ import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
 @Component
 public class InputRenderer 
-		implements Renderer, Serializable {
+        implements Renderer, Serializable {
 
-	private static final long serialVersionUID = -4656566713214046265L;
+    private static final long serialVersionUID = -4656566713214046265L;
 
-	@Override
-	public String render(Element element, String flowUrl) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String render(Element element, String flowUrl) {
+        return "<input />";
+    }
 
 }

@@ -118,7 +118,6 @@
 	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
 		scope="flow">
 		<property name="states" ref="states" />
-<!-- 		<property name="renderer" ref="renderer"></property> -->
 	</bean>
 
 	<bean id="lastInputResult" class="com.vectorsf.jvoiceframework.core.bean.LastInputResult" scope="session"/>

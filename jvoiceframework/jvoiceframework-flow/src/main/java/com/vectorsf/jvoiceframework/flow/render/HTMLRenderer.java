@@ -230,7 +230,7 @@ public class HTMLRenderer implements Serializable {
         return renderCode;
     }
 
-	public String render(Record record, String flowURL) {
+    public String render(Record record, String flowURL) {
         String renderCode = "";
         
         renderCode += "<span>Record</span>";
@@ -274,7 +274,7 @@ public class HTMLRenderer implements Serializable {
         }
 
         return renderCode;
-	}
+    }
 
     
 }
