@@ -3,17 +3,11 @@ package com.vectorsf.jvoiceframework.flow.processor;
 import java.io.Serializable;
 import java.util.List;
 
-import com.vectorsf.jvoiceframework.core.bean.End;
-import com.vectorsf.jvoiceframework.core.bean.Input;
-import com.vectorsf.jvoiceframework.core.bean.Output;
-import com.vectorsf.jvoiceframework.core.bean.Prompt;
-import com.vectorsf.jvoiceframework.core.bean.Record;
-import com.vectorsf.jvoiceframework.core.bean.Transfer;
-import com.vectorsf.jvoiceframework.flow.render.Renderer;
 import com.vectorsf.jvoiceframework.core.bean.Element;
+import com.vectorsf.jvoiceframework.flow.render.IPageRenderer;
 import com.vectorsf.jvoiceframework.flow.render.RenderKit;
 import com.vectorsf.jvoiceframework.flow.render.RenderKitTable;
-import com.vectorsf.jvoiceframework.flow.render.vxi.PageRenderer;
+import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
 /**
  * Procesador de estados IVR. De momento procesar un estado es apilarlo.
@@ -102,7 +96,7 @@ public class FlowProcessor implements Serializable {
             return "";
         }
         
-        code = ((PageRenderer) pageRenderer).render(states, flowURL, renderKit);
+        code = ((IPageRenderer) pageRenderer).render(states, flowURL, renderKit);
         
         states.clear();
         return code;

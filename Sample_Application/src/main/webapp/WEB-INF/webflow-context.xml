@@ -96,6 +96,15 @@
 	
 
 	<!-- Renderers -->
+	<bean name="htmlRenderKit" class="com.vectorsf.jvoiceframework.flow.render.VxiRenderKit" >
+       <property name="renderers">
+           <map>
+               <entry key="com.vectorsf.jvoiceframework.core.bean.Page" 
+                    value="com.vectorsf.jvoiceframework.flow.render.html.PageRenderer" />
+           </map>
+       </property>
+    </bean>
+    
 	<bean name="vxiRenderKit" class="com.vectorsf.jvoiceframework.flow.render.VxiRenderKit" >
 	   <property name="renderers">
 	       <map>
@@ -111,6 +120,7 @@
 		<property name="renderKits">
 			<map>
 				<entry key="vxi" value-ref="vxiRenderKit" />
+				<entry key="html" value-ref="htmlRenderKit" />
 			</map>
 		</property>
 	</bean>

@@ -1,5 +1,7 @@
 package com.vectorsf.jvoiceframework.flow.render;
 
+import java.util.List;
+
 import com.vectorsf.jvoiceframework.core.bean.Element;
 
 /**
@@ -7,8 +9,8 @@ import com.vectorsf.jvoiceframework.core.bean.Element;
  * @author dmartina
 
  */
-public interface Renderer {
+public interface IPageRenderer {
 
-    String render(Element element, String flowUrl);
+    String render(List<Element> states, String flowUrl, RenderKit renderkit);
     
 }
