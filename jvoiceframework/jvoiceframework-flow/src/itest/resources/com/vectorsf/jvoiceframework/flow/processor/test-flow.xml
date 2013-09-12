@@ -11,15 +11,15 @@
 			<set name="flowScope.prompt.message" value="'Este el el flujo de ejecución de la opción 1 que no hace absolutamente nada'"></set>
 		</on-entry>
 
-<!--     	<evaluate expression="flowProcessor.process(flowScope.prompt)"/> -->
+    	<evaluate expression="flowProcessor.process(flowScope.prompt)"/>
     		
-    	<transition to="ok_end" />
+    	<transition to="render" />
     </action-state> 
   
-<!--     <view-state id="render" view="render"> -->
-<!--     	<transition on="success" to="ok_end" /> -->
-<!--     	<transition on="failure" to="failure_end" /> -->
-<!--     </view-state> -->
+    <view-state id="render" view="render">
+    	<transition on="success" to="ok_end" />
+    	<transition on="failure" to="failure_end" />
+    </view-state>
     
     <end-state id="ok_end"></end-state>
     

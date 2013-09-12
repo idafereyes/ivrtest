@@ -6,7 +6,6 @@ import java.util.Iterator;
 import org.springframework.stereotype.Component;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
-import com.vectorsf.jvoiceframework.core.bean.Element;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
@@ -235,7 +234,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         return renderCode;
     }
 
-    public String render(Record record, String flowURL) {
+	public String render(Record record, String flowURL) {
         String renderCode = "";
         
         renderCode += "<span>Record</span>";
@@ -291,22 +290,4 @@ public class HTMLRenderer implements Renderer, Serializable {
     	
     	return sb.toString();
     }
-
-	@Override
-	public String render(Element element, String flowUrl) {
-		String code = "";
-		
-		if(element instanceof Input) {
-			code = render((Input)element, flowUrl);
-		} else if (element instanceof Output) {
-			code = render((Output)element, flowUrl);
-		} else if (element instanceof Record) {
-			code = render((Record)element, flowUrl);
-		} else if (element instanceof End) {
-			code = render((End)element, flowUrl);
-		} else if (element instanceof Transfer) {
-			code = render((Transfer)element, flowUrl);
-		}
-		return code;
-	}
 }
