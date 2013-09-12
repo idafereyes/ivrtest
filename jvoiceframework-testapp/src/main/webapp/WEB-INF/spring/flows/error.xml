@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="exception"  parent="base">
+    <!--  Existe herencia múltiple por ejemplo un flujo con transciones comunes y otro con estados comunes -->
+
+    <action-state id="exception">
+    	<on-entry>
+    		<evaluate expression="userAction" result="flowScope.userAction"></evaluate>
+    	</on-entry>
+       	<evaluate expression="flowScope.userAction.doit()"/>   		
+    	<transition to="end" />
+    </action-state> 
+  
+    <end-state id="end"></end-state>
+
+</flow>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="testTransfer">
+ 	
+ 	<action-state id="testTransfer">
+		<on-entry>
+			
+			<evaluate expression="transfer" result="flowScope.testTransfer"/>
+
+			<!-- Se setean los atributos -->
+			<set name="flowScope.testTransfer.dest" value="'666777888'"/>
+			<set name="flowScope.testTransfer.type" value="'consultation'"/>
+			<!-- <set name="flowScope.testTransfer.transferaudio" value="'idleMusic'"/> -->
+			<!-- <set name="flowScope.testTransfer.timeout" value="'5s'"/> -->
+			<!-- <set name="flowScope.testTransfer.maxtime" value="'25s'"/> -->
+			
+			<!-- Se añaden los eventos a controlar -->
+			<evaluate expression="flowScope.testTransfer.eventsList.add('transferred')"/>
+			<evaluate expression="flowScope.testTransfer.eventsList.add('hangup')"/>
+			<evaluate expression="flowScope.testTransfer.eventsList.add('noanswer')"/>
+			
+			<!-- Se setean otras propiedades no contempladas en los atributos. -->
+			<evaluate expression="flowScope.testTransfer.properties.put('new.property','15s')"/>
+									
+		</on-entry>
+
+       	<evaluate expression="flowProcessor.process(flowScope.testTransfer)"/>
+    		
+    	<transition to="render" />
+    </action-state>
+    
+    <view-state id="render" view="render">
+    
+		<transition on="transferred" to="transferredState">
+			<set name="lastTransferResult.event" value="requestParameters.event"/>  	
+			<set name="lastTransferResult.duration" value="requestParameters.duration"/> 	
+		</transition>
+    	
+    	<!-- <on-exit>
+			<set name="lastTransferResult.duration" value="requestParameters.duration"/> 	
+    	</on-exit>-->
+    
+    </view-state>
+   
+</flow>

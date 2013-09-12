@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop
+    	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/jee 
+        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/webflow-config
+        http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.0.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd">
+
+	<!-- mvc:annotation-driven/ -->
+	<!-- context:annotation-config/ -->
+	<context:component-scan
+		base-package="org.isb.ivr.flow.user, 
+						org.isb.ivr.flow.action, 
+						com.vectorsf.jvoiceframework" />
+
+	<!-- incluir aspectos use CGLIB proxy-target-class=false, true JDK proxyes -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController 
+		y seguimos el flujo de declaracion de la arquitectura -->
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>*.flow=flowController</value>
+		</property>
+		<property name="alwaysUseFullPath" value="true" />
+	</bean>
+
+	<bean id="flowController" class="org.springframework.webflow.mvc.servlet.FlowController">
+		<property name="flowExecutor" ref="flowExecutor" />
+	</bean>
+
+	<webflow:flow-executor id="flowExecutor"
+		flow-registry="flowRegistry" >
+		<webflow:flow-execution-listeners>
+			<webflow:listener ref="logFlowExecutionListener" />
+		</webflow:flow-execution-listeners>
+	</webflow:flow-executor>
+
+	<!-- Registramos todos nuestros flujos -->
+	<webflow:flow-registry id="flowRegistry"
+		flow-builder-services="flowBuilderServices">
+		<webflow:flow-location-pattern value="/WEB-INF/spring/flows/*.xml" />
+	</webflow:flow-registry>
+
+	<!-- Asociamos el resolutor de vistas al flow Executor -->
+	<webflow:flow-builder-services id="flowBuilderServices"
+		view-factory-creator="viewFactoryCreator" />
+
+	<bean id="viewFactoryCreator"
+		class="org.springframework.webflow.mvc.builder.MvcViewFactoryCreator">
+		<property name="viewResolvers">
+			<list>
+				<ref bean="viewResolver" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Mapea a nombres logicos de vista to recursos fisicos -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="flow">
+					<bean class="org.springframework.webflow.scope.FlowScope" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="states" class="java.util.ArrayList" scope="flow" />
+	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
+		scope="flow">
+		<property name="states" ref="states"></property>
+		<property name="renderer" ref="renderer"></property>
+	</bean>
+
+<!--     <bean id="lastInputResult" class="com.vectorsf.jvoiceframework.core.bean.LastInputResult" scope="session"/> -->
+    
+	<bean id="inputCB" class="org.isb.ivr.flow.user.InputCB" scope="session" />
+
+	<!-- Web Services -->
+	<bean id="bindingWebService" class="org.isb.ivr.flow.webservices.BindingWebService">
+		<property name="marshaller" ref="marshallerBinding" />
+		<property name="unmarshaller" ref="marshallerBinding" />
+		<property name="defaultUri" value="http://localhost:8088/" />
+	</bean>
+
+	<oxm:jaxb2-marshaller id="marshallerBinding"
+		contextPath="org.isb.ivr.flow.webservices.jaxbbeans.binding" />
+
+	<bean id="op1" class="org.isb.ivr.flow.webservices.jaxbbeans.binding.Op1">
+		<property name="input" value="hola" />
+	</bean>
+
+</beans>
