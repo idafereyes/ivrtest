@@ -3,6 +3,8 @@ package com.vectorsf.jvoiceframework.flow.render;
 import java.io.Serializable;
 import java.util.Iterator;
 
+import org.springframework.stereotype.Component;
+
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
@@ -17,6 +19,7 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
  * 
  * @author dmartina
  */
+@Component("renderer")
 public class HTMLRenderer implements Renderer, Serializable {
 
     private static final long serialVersionUID = 4511972601190155577L;
