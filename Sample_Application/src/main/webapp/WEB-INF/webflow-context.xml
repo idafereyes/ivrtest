@@ -91,16 +91,36 @@
 
 	<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype" />
 	<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype" />
-	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" />
+<!-- 	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" /> -->
 	<bean id="states" class="java.util.ArrayList" scope="flow" />
-	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
-		scope="flow">
-		<property name="states" ref="states"></property>
-		<property name="renderer" ref="renderer"></property>
+	
+
+	<!-- Renderers -->
+	<bean name="vxiRenderKit" class="com.vectorsf.jvoiceframework.flow.render.VxiRenderKit" >
+	   <property name="renderers">
+	       <map>
+	           <entry key="com.vectorsf.jvoiceframework.core.bean.Page" 
+                    value="com.vectorsf.jvoiceframework.flow.render.vxi.PageRenderer" />
+                <entry key="com.vectorsf.jvoiceframework.core.bean.Input" 
+                    value="com.vectorsf.jvoiceframework.flow.render.vxi.InputRenderer" />
+           </map>
+	   </property>
+	</bean>
+	
+	<bean name="renderkitTable" class="com.vectorsf.jvoiceframework.flow.render.RenderKitTable">
+		<property name="renderKits">
+			<map>
+				<entry key="vxi" value-ref="vxiRenderKit" />
+			</map>
+		</property>
 	</bean>
 
-<!--     <bean id="lastInputResult" class="com.vectorsf.jvoiceframework.core.bean.LastInputResult" scope="session"/> -->
-    
+	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
+		scope="flow">
+		<property name="states" ref="states" />
+	</bean>
+
+	<bean id="lastInputResult" class="com.vectorsf.jvoiceframework.core.bean.LastInputResult" scope="session"/>
 	<bean id="inputCB" class="org.isb.ivr.flow.user.InputCB" scope="session" />
 
 	<!-- Web Services -->

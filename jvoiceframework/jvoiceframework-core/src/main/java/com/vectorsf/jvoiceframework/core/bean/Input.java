@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component("input")
 @Scope("prototype")
-public class Input implements Serializable{
+public class Input implements Element, Serializable{
 
     private static final long serialVersionUID = -5942501816585768384L;
     
@@ -161,5 +161,15 @@ public class Input implements Serializable{
 
     public void setEvents(List<String> events) {
         this.events = events;
+    }
+    
+    /**
+     * It returns null because is the root component
+     * 
+     * 
+     */
+    @Override
+    public Element getParent() {
+        return null;
     }
 }
