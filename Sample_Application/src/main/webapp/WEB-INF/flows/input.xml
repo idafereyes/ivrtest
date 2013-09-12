@@ -19,7 +19,7 @@
 			<set name="flowScope.inputTest.maxNoInput" value="3" />
 			<set name="flowScope.inputTest.maxNoMatch" value="3" />
 			<set name="flowScope.inputTest.bargein" value="true" />
-
+			
 			<evaluate expression="grammar" result="flowScope.grammar1" />
 			<set name="flowScope.grammar1.src" value="'touchtones'" />
 			<set name="flowScope.grammar1.type" value="'builtin:dtmf'" />
@@ -90,14 +90,17 @@
 
 
 	<view-state id="render1" view="render">
+	   <on-entry>
+	       <set name="flowProcessor.renderkitParam" value="requestParameters.renderkit" />
+	       <evaluate expression="renderkitTable" result="flowProcessor.renderkitTable" />
+	   </on-entry>
 		<transition on="match" to="promptTest1">
-			<set name="flowScope.lastInputResult.event" value="requestParameters.event" />
-			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation" />
-			<set name="flowScope.lastInputResult.utterance" value="requestParameters.utterance" />
-			<set name="flowScope.lastInputResult.confidence" value="requestParameters.confidence" />
-			<set name="flowScope.lastInputResult.inputmode" value="requestParameters.inputmode" />
+			<set name="flowScope.lastResultInfo.event" value="requestParameters.event" />
+			<set name="flowScope.lastResultInfo.interpretation" value="requestParameters.interpretation" />
+			<set name="flowScope.lastResultInfo.utterance" value="requestParameters.utterance" />
+			<set name="flowScope.lastResultInfo.confidence" value="requestParameters.confidence" />
+			<set name="flowScope.lastResultInfo.inputmode" value="requestParameters.inputmode" />
 		</transition>
-		
 		<transition on="maxnomatch" to="promptNoMatch">
 			<set name="flowScope.lastInputResult.event" value="requestParameters.event" />
 		</transition>

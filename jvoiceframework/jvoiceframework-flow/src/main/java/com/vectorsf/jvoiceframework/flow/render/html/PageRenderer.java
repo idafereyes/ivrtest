@@ -1,7 +1,8 @@
-package com.vectorsf.jvoiceframework.flow.render;
+package com.vectorsf.jvoiceframework.flow.render.html;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -14,16 +15,14 @@ import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.flow.render.IPageRenderer;
+import com.vectorsf.jvoiceframework.flow.render.RenderKit;
 
-/**
- * Implementación de renderizador que genera código HTML
- * 
- * @author dmartina
- */
-@Component("renderer")
-public class HTMLRenderer implements Renderer, Serializable {
+@Component
+public class PageRenderer 
+        implements IPageRenderer, Serializable {
 
-    private static final long serialVersionUID = 4511972601190155577L;
+    private static final long serialVersionUID = 7098172662709401250L;
     
     //String literals reuse
     private String tableHtml = "<table cellpadding=\"0\" cellspacing=\"0\">";
@@ -291,22 +290,27 @@ public class HTMLRenderer implements Renderer, Serializable {
     	
     	return sb.toString();
     }
-
-	@Override
-	public String render(Element element, String flowUrl) {
-		String code = "";
-		
-		if(element instanceof Input) {
-			code = render((Input)element, flowUrl);
-		} else if (element instanceof Output) {
-			code = render((Output)element, flowUrl);
-		} else if (element instanceof Record) {
-			code = render((Record)element, flowUrl);
-		} else if (element instanceof End) {
-			code = render((End)element, flowUrl);
-		} else if (element instanceof Transfer) {
-			code = render((Transfer)element, flowUrl);
-		}
-		return code;
-	}
+    
+    @Override
+    public String render(List<Element> states, String flowUrl, RenderKit renderkit) {
+        StringBuilder code = new StringBuilder();
+        
+        code.append("<html>");
+        for (Element element: states){
+        	if(element instanceof Input) {
+        		code.append(render((Input)element, flowUrl));
+    		} else if (element instanceof Output) {
+    			code.append(render((Output)element, flowUrl));
+    		} else if (element instanceof Record) {
+    			code.append(render((Record)element, flowUrl));
+    		} else if (element instanceof End) {
+    			code.append(render((End)element, flowUrl));
+    		} else if (element instanceof Transfer) {
+    			code.append(render((Transfer)element, flowUrl));
+    		}
+        }
+        code.append("</html>");
+        
+        return code.toString();
+    }
 }
