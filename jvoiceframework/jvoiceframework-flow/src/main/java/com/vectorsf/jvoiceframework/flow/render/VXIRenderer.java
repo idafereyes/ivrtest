@@ -15,7 +15,7 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
 
 public class VXIRenderer implements Renderer, Serializable {
 
-	private static final long serialVersionUID = -5854263044507481102L;
+    private static final long serialVersionUID = -5854263044507481102L;
 
     static final String BLOCK_START_TAG = "<block>";
     static final String BLOCK_END_TAG = "</block>";
@@ -23,9 +23,9 @@ public class VXIRenderer implements Renderer, Serializable {
     static final String AMPERSAND = "&amp;";
 
     public String render(Prompt prompt, String flowURL) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        // TODO Auto-generated method stub
+        return null;
+    }
 
     public String render(Output output, String flowURL) {
                 
@@ -33,25 +33,25 @@ public class VXIRenderer implements Renderer, Serializable {
         
         //Renders properties if there are
         if (!output.getProperties().isEmpty()){
-            code2render.append(renderProperties(output));            
+            code2render.append(renderOutputProperties(output));            
         }
         
         code2render.append(BLOCK_START_TAG);
         
         //Renders audioItemsList
-        code2render.append(renderAudioItems(output));
+        code2render.append(renderOutputAudioItems(output));
 
         code2render.append(BLOCK_END_TAG);
 
         if (output.isCatchHangup() || output.isFlush()){
             //Renders an VXML field dummy to be able to catch the hangup event or send the output immediately to the VXML interpreter
-            code2render.append(renderFieldDummy(output, flowURL));            
+            code2render.append(renderOutputFieldDummy(output, flowURL));            
         }
             
         return code2render.toString();
     }
 
-    private String renderProperties(Output output) {
+    private String renderOutputProperties(Output output) {
         
         StringBuilder propsCode = new StringBuilder();
         
@@ -64,8 +64,9 @@ public class VXIRenderer implements Renderer, Serializable {
         
         return propsCode.toString();
     }
+    
 
-    private String renderAudioItems(Output output) {
+    private String renderOutputAudioItems(Output output) {
         
         StringBuilder audioItemsCode = new StringBuilder();
 
@@ -107,7 +108,7 @@ public class VXIRenderer implements Renderer, Serializable {
         return audioItemsCode.toString();
     }
 
-    private String renderCatchHangup(String flowURL) {
+    private String renderOutputCatchHangup(String flowURL) {
 
         StringBuilder catchHangupCode =  new StringBuilder();
         
@@ -120,7 +121,7 @@ public class VXIRenderer implements Renderer, Serializable {
         return catchHangupCode.toString();
     }
 
-    private String renderFieldDummy(Output output, String flowURL) {
+    private String renderOutputFieldDummy(Output output, String flowURL) {
 
         StringBuilder fieldDummyCode = new StringBuilder();
         
@@ -128,7 +129,7 @@ public class VXIRenderer implements Renderer, Serializable {
         
         if (output.isCatchHangup()){
             //Renders a VXML catch tag for the hangup event
-            fieldDummyCode.append(renderCatchHangup(flowURL));
+            fieldDummyCode.append(renderOutputCatchHangup(flowURL));
         }
         
         //TODO revisar que timeout poner y si debe ser diferente en función del valor de catchHangup
@@ -156,24 +157,24 @@ public class VXIRenderer implements Renderer, Serializable {
         return fieldDummyCode.toString();
     }
 
-	public String render(Input prompt, String flowURL) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String render(Input prompt, String flowURL) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String render(Transfer transfer, String flowURL) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String render(Transfer transfer, String flowURL) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String render(Record record, String flowURL) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String render(Record record, String flowURL) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String render(End end, String flowURL) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String render(End end, String flowURL) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
