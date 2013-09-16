@@ -135,17 +135,16 @@ public class VXIRenderer implements Renderer, Serializable {
         //TODO revisar que timeout poner y si debe ser diferente en función del valor de catchHangup
         fieldDummyCode.append("<property name=\"timeout\" value=\"0s\" />");
         
-        //TODO revisar si se puede eliminar la gramática.
         fieldDummyCode.append("<grammar mode=\"dtmf\" src=\"builtin:dtmf/digits?minlength=1;maxlength=1\"/>");
         
-        //Just in case it gets a match, but should never happen
+        //Just in case it gets a match, but should never happen with this timeout.
         fieldDummyCode.append("<filled>");
         
         fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + "_eventId_success\" />");
         
         fieldDummyCode.append("</filled>");
         
-        //NOINPUT and NOMATCH(just in case)
+        //NOINPUT(normally will always happen) and NOMATCH(just in case)
         fieldDummyCode.append("<catch event=\"noinput nomatch\" >");
         
         fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + "_eventId_success\" />");
