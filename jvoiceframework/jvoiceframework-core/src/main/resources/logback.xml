@@ -21,7 +21,7 @@
     
     <logger name="org.isb">
         <level value="TRACE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE" additivity="false"/>
     </logger>
  
     <logger name="org.springframework">
