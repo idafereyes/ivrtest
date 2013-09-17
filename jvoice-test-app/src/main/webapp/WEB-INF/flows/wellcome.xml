@@ -3,15 +3,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="wellcome_prompt">
+	start-state="wellcomeOutput">
 
-   	<action-state id="wellcome_prompt">
+   	<action-state id="wellcomeOutput">
 		<on-entry>
-			<evaluate expression="prompt" result="flowScope.wellcome_prompt"></evaluate>
-			<set name="flowScope.wellcome_prompt.message" value="'CHUTA!'"></set>
+			<evaluate expression="output" result="flowScope.wellcomeOutput"></evaluate>
+			<set name="flowScope.wellcomeOutput.bargein" value="true" /> 
+			<evaluate expression="audioItem" result="flowScope.wellcomeOutputAudioItem" /> 
+  			<set name="flowScope.wellcomeOutputAudioItem.wording" value="speechProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).BIENVENIDA_RETAIL)" /> 
+
+			<evaluate expression="flowScope.wellcomeOutput.getAudioItemsList().add(flowScope.wellcomeOutputAudioItem)"/> 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.wellcome_prompt)"/> 
+		<evaluate expression="flowProcessor.process(flowScope.wellcomeOutput)"/> 
 		
 		<transition on="" to="wellcome_render" />
 	</action-state>

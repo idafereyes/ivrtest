@@ -1,6 +1,7 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,19 @@ public class AppConfigDefaults implements Serializable {
 	//TODO En un primer momento le estamos asignando valores hardcodeados.
 	//Está pendiente ver de qué manera toman valor estos atributos.
 	
+	private Locale userLocale = new Locale("Es", "es");
+	
 	@Value(FALSE)
 	private boolean bargein;
 	
+	public Locale getUserLocale() {
+		return userLocale;
+	}
+
+	public void setUserLocale(Locale userLocale) {
+		this.userLocale = userLocale;
+	}
+
 	@Value(FALSE)
 	private boolean flush;
 	

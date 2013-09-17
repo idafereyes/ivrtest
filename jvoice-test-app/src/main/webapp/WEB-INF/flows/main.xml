@@ -3,15 +3,12 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-		start-state="setup">
+		start-state="wellcome">
 
 
     <!-- 	Inicialización de la configuración por defecto de la aplicación. 
     		Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
     		
-	<subflow-state id="setup" subflow="setup">
-		<transition  to="wellcome"/>
-	</subflow-state>
 	
 	<subflow-state id="wellcome" subflow="wellcome">
 		<transition  to="end"/>
