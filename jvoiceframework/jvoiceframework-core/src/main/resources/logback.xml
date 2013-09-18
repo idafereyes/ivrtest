@@ -15,15 +15,9 @@
         </encoder>
     </appender>
     
-<<<<<<< Upstream, based on origin/master
-    <logger name="org.isb">
-        <level value="TRACE" />
-        <appender-ref ref="FILE" additivity="false"/>
-=======
     <logger name="com.vectorsf">
         <level value="DEBUG" />
         <appender-ref ref="FILE" />
->>>>>>> 004a267 Servicio Locution Provider ya funcional
     </logger>
  
     <logger name="org.springframework">
