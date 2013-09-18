@@ -4,7 +4,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("com.vectorsf.jvoiceframework.testapp.locution.Wellcome")
-@LocaleData(defaultCharset="UTF8", value={@Locale(value="es_ES", charset="ISO8859_1"), @Locale(value="en_EN")})
+@LocaleData(defaultCharset="UTF8", value={@Locale(value="es_ES", charset="ISO8859_1"), @Locale(value="en_US")})
 
 public enum Wellcome {
 	BIENVENIDA_RETAIL,

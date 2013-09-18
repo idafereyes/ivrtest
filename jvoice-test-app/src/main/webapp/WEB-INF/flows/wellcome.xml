@@ -10,7 +10,7 @@
 			<evaluate expression="output" result="flowScope.wellcomeOutput"></evaluate>
 			<set name="flowScope.wellcomeOutput.bargein" value="true" /> 
 			<evaluate expression="audioItem" result="flowScope.wellcomeOutputAudioItem" /> 
-  			<set name="flowScope.wellcomeOutputAudioItem.wording" value="speechProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).BIENVENIDA_RETAIL)" /> 
+  			<set name="flowScope.wellcomeOutputAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).BIENVENIDA_RETAIL)" /> 
 
 			<evaluate expression="flowScope.wellcomeOutput.getAudioItemsList().add(flowScope.wellcomeOutputAudioItem)"/> 
 		</on-entry>

@@ -14,22 +14,24 @@
             <pattern>%d %5p | %t | %-55logger{55} | %m %n</pattern>
         </encoder>
     </appender>
- 
-    <logger name="com.vectorsf">
-        <level value="TRACE" />
-    </logger>
     
+<<<<<<< Upstream, based on origin/master
     <logger name="org.isb">
         <level value="TRACE" />
         <appender-ref ref="FILE" additivity="false"/>
+=======
+    <logger name="com.vectorsf">
+        <level value="DEBUG" />
+        <appender-ref ref="FILE" />
+>>>>>>> 004a267 Servicio Locution Provider ya funcional
     </logger>
  
     <logger name="org.springframework">
-        <level value="TRACE" />
+         <appender-ref ref="FILE" />
     </logger>
  
     <root>
-        <level value="INFO" />
+        <level value="INFO"/>
         <appender-ref ref="CONSOLE" />
     </root>
 </configuration>
