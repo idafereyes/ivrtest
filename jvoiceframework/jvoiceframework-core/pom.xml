@@ -29,7 +29,8 @@
 						<configuration>
 							<enumTypes>
 								<!-- list every enum type you would like to see checked -->
-								<enumType>com.vectorsf.jvoiceframework</enumType>
+								<enumType>com.vectorsf.jvoiceframework.core.service.locution.Cal10NLocutionProviderMessages</enumType>
+<!-- 								<enumType>com.vectorsf.jvoiceframework.core.service.locution.TestLocution</enumType> -->
 							</enumTypes>
 						</configuration>
 					</execution>
