@@ -145,6 +145,7 @@
 							<enumTypes>
 								<!-- list every enum type you would like to see checked -->
 								<enumType>com.vectorsf.jvoiceframework.flow.log.LogFlowExecutionListenerMessages</enumType>
+								
 							</enumTypes>
 						</configuration>
 					</execution>
