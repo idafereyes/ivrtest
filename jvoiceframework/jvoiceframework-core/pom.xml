@@ -12,7 +12,32 @@
 
 	<artifactId>jvoiceframework-core</artifactId>
 	<name>jvoiceframework-core</name>
-	
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>ch.qos.cal10n.plugins</groupId>
+				<artifactId>maven-cal10n-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>jvoiceframework-core</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<enumTypes>
+								<!-- list every enum type you would like to see checked -->
+								<enumType>com.vectorsf.jvoiceframework</enumType>
+							</enumTypes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
 	
 	
 </project>
