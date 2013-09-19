@@ -37,9 +37,6 @@ public class AppConfigDefaults implements Serializable {
 	
 	@Value(FALSE)
 	private boolean catchHangup;
-	
-	@Value("transferIdleMusic")
-	private String transferaudio;
 
 	@Value("10s")
 	private String transferConnectiontimeout;
@@ -91,14 +88,6 @@ public class AppConfigDefaults implements Serializable {
 
 	public void setCatchHangup(boolean catchHangup) {
 		this.catchHangup = catchHangup;
-	}
-
-	public String getTransferaudio() {
-		return transferaudio;
-	}
-
-	public void setTransferaudio(String transferaudio) {
-		this.transferaudio = transferaudio;
 	}
 
 	public String getTransferConnectiontimeout() {

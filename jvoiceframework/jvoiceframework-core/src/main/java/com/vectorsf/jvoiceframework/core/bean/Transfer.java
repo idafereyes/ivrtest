@@ -39,10 +39,7 @@ public class Transfer implements Serializable {
 	
 	/**
 	 * The URI of audio source to play while the transfer attempt is in progress.
-	 * Takes its value from the bean that stores the app configuration defaults, 
-	 * although it can be given other value later. 
 	 */
-	@Value("#{appConfigDefaults.transferaudio}")
 	private String transferaudio;
 	
 	/**
