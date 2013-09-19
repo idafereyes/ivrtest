@@ -7,6 +7,5 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(defaultCharset="UTF8", value={@Locale(value="es_ES", charset="ISO8859_1"), @Locale(value="en_US")})
 public enum TestLocution {
 	TEST_KEY,
-	TEST_KEY_WITH_ARGS,
-	TEST_KEY_NOT_PRESENT
+	TEST_KEY_WITH_ARGS
 }

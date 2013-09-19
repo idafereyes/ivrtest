@@ -60,17 +60,6 @@ public class Cal10NLocutionProviderTest {
 	  }
 	  
 	  @Test
-	  public void testKeyNotFound() {
-		  Exception ex = null;
-		  try {
-			locutionprovider.getLocution(TestLocution.TEST_KEY_NOT_PRESENT);
-		  } catch (LocutionProviderException lpe) {
-				ex = lpe;
-		  }	
-		  assertTrue(ex instanceof LocutionProviderException);
-	  }
-	  
-	  @Test
 	  public void testLocaleNotFound() throws Exception {
 		  Exception ex = null;
 		  try {
