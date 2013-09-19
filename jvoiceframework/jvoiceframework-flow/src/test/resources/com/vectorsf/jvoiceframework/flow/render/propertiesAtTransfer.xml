@@ -1,0 +1,15 @@
+<transfer name="transferResult" dest="tel:666777888" type="blind" >
+<property name="other.property" value="20s" />
+<property name="second.other.property" value="35s" />
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'transferred'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>

@@ -11,19 +11,22 @@
 			<evaluate expression="transfer" result="flowScope.testTransfer"/>
 
 			<!-- Se setean los atributos -->
-			<set name="flowScope.testTransfer.dest" value="'666777888'"/>
+			<set name="flowScope.testTransfer.dest" value="'tel:649691219'"/>
 			<set name="flowScope.testTransfer.type" value="'consultation'"/>
 			<!-- <set name="flowScope.testTransfer.transferaudio" value="'idleMusic'"/> -->
-			<!-- <set name="flowScope.testTransfer.timeout" value="'5s'"/> -->
+			<!-- <set name="flowScope.testTransfer.timeout" value="'20s'"/>-->
 			<!-- <set name="flowScope.testTransfer.maxtime" value="'25s'"/> -->
 			
 			<!-- Se añaden los eventos a controlar -->
 			<evaluate expression="flowScope.testTransfer.eventsList.add('transferred')"/>
 			<evaluate expression="flowScope.testTransfer.eventsList.add('hangup')"/>
+            <evaluate expression="flowScope.testTransfer.eventsList.add('error')"/>
+            <evaluate expression="flowScope.testTransfer.eventsList.add('connection_error')"/>
 			<evaluate expression="flowScope.testTransfer.eventsList.add('noanswer')"/>
+            <evaluate expression="flowScope.testTransfer.eventsList.add('error.unsupported')"/>
 			
 			<!-- Se setean otras propiedades no contempladas en los atributos. -->
-			<evaluate expression="flowScope.testTransfer.properties.put('new.property','15s')"/>
+			<!-- <evaluate expression="flowScope.testTransfer.properties.put('new.property','15s')"/> -->
 									
 		</on-entry>
 
@@ -35,14 +38,47 @@
     <view-state id="render" view="render">
     
 		<transition on="transferred" to="transferredState">
-			<set name="lastTransferResult.event" value="requestParameters.event"/>  	
-			<set name="lastTransferResult.duration" value="requestParameters.duration"/> 	
+            <set name="lastTransferResult.event" value="requestParameters.event"/>      
+            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
 		</transition>
     	
-    	<!-- <on-exit>
-			<set name="lastTransferResult.duration" value="requestParameters.duration"/> 	
-    	</on-exit>-->
+        <transition on="error" to="errorState">
+            <set name="lastTransferResult.event" value="requestParameters.event"/>      
+            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
+        </transition>
+
+        <transition on="connectionerror" to="errorState">
+            <set name="lastTransferResult.event" value="requestParameters.event"/>      
+            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
+        </transition>
+
+    	<transition on="hangup" to="hangupState">
+            <set name="lastTransferResult.event" value="requestParameters.event"/>      
+            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
+    	</transition>
+    	
+    	<transition on="noanswer" to="noanswerState">
+            <set name="lastTransferResult.event" value="requestParameters.event"/>      
+            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
+    	</transition>
+        
+        <transition on="error.unsupported" to="unsupportedTransferState">
+            <set name="lastTransferResult.event" value="requestParameters.event"/>      
+            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
+        </transition>
     
     </view-state>
+    
+    <action-state id="hangupState"/>
+
+    <action-state id="errorState"/>
+ 
+    <action-state id="connectionerrorState"/>
+    
+    <action-state id="noanswerState"/>
+    
+    <action-state id="transferredState"/>
+
+    <action-state id="unsupportedTransferState"/>
    
 </flow>

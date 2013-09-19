@@ -1,0 +1,20 @@
+<block>
+<prompt bargein="false"><audio src="SAN-WELCOME">Bienvenido</audio></prompt>
+<prompt bargein="false"><audio src="SAN-WELCOME-B"/></prompt>
+<prompt bargein="false">Gracias por llamar</prompt>
+</block>
+<field name="dummy">
+<catch event="connection.disconnect.hangup">
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" />
+</catch>
+<property name="timeout" value="0.1s" />
+<grammar mode="dtmf" src="builtin:dtmf/digits?minlength=1;maxlength=1"/>
+
+<filled>
+<submit next="http://flowExecutionUrl/&amp;_eventId_success" />
+</filled>
+
+<catch event="noinput nomatch" >
+<submit next="http://flowExecutionUrl/&amp;_eventId_success" />
+</catch>
+</field>
