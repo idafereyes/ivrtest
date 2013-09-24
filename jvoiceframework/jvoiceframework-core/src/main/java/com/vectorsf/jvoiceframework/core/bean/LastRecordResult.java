@@ -42,7 +42,7 @@ public class LastRecordResult implements Serializable{
     /**
      * Indicates if the recording was terminated because the maxtime duration was reached.
      */
-    private boolean maxsize;
+    private boolean maxtime;
 
     public String getEvent() {
         return event;
@@ -84,12 +84,12 @@ public class LastRecordResult implements Serializable{
         this.termchar = termchar;
     }
 
-    public boolean isMaxsize() {
-        return maxsize;
+    public boolean isMaxtime() {
+        return maxtime;
     }
 
-    public void setMaxsize(boolean maxsize) {
-        this.maxsize = maxsize;
+    public void setMaxtime(boolean maxtime) {
+        this.maxtime = maxtime;
     }
 
 }
