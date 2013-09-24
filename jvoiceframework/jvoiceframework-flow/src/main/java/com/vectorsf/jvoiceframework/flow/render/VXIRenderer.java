@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
@@ -13,6 +14,7 @@ import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Prompt;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
 
@@ -25,13 +27,17 @@ public class VXIRenderer implements Renderer, Serializable {
     static final String SUBMIT_TAG = "<submit next=\"";
     static final String AMPERSAND = "&amp;";
     static final String CATCH_END_TAG = "</catch>";
+    static final String CLOSE_TAG = ">"; 
     static final String END_TAG = "/>"; 
     static final String QUOTE_SPACE = "\" ";
+    static final String QUOTE = "\"";
     static final String EVENT_ID = "_eventId_";
     static final String NAMELIST_EVENT_DURATION = "namelist=\"duration event\"";
     static final String NAMELIST_EVENT = "namelist=\"event\"";
     static final String SINGLE_QUOTE = "'";
     static final String EVENT_VAR_DECLARATION = "<var name=\"event\" expr=\"'";
+    static final String AUDIO_START_TAG = "<audio ";
+    static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
 
     public String render(Prompt prompt, String flowURL) {
         // TODO Auto-generated method stub
@@ -44,7 +50,7 @@ public class VXIRenderer implements Renderer, Serializable {
         
         //Renders properties if there are
         if (!output.getProperties().isEmpty()){
-            code2render.append(renderOutputProperties(output));            
+            code2render.append(renderProperties(output.getProperties()));            
         }
         
         code2render.append(BLOCK_START_TAG);
@@ -60,22 +66,7 @@ public class VXIRenderer implements Renderer, Serializable {
         }
             
         return code2render.toString();
-    }
-
-    private String renderOutputProperties(Output output) {
-        
-        StringBuilder propsCode = new StringBuilder();
-        
-        Iterator<Entry<String, String>> it = output.getProperties().entrySet().iterator();
-        
-        while (it.hasNext()){
-            Entry<String, String> pair = it.next();           
-            propsCode.append("<property name=\""+ pair.getKey() + "\" value=\"" + pair.getValue() + "\" />");
-        }
-        
-        return propsCode.toString();
-    }
-    
+    }    
 
     private String renderOutputAudioItems(Output output) {
         
@@ -106,10 +97,10 @@ public class VXIRenderer implements Renderer, Serializable {
                 //TTS
                 audioItemsCode.append(audioItemsList.get(i).getWording());                
             }else if (audioItemsList.get(i).getWording() == null){
-                audioItemsCode.append("<audio src=\""+ audioItemsList.get(i).getSrc() + "\"/>");
+                audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + END_TAG);
             }else{
                 //Audio with TTS backup prompt
-                audioItemsCode.append("<audio src=\""+ audioItemsList.get(i).getSrc() + "\">");
+                audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + CLOSE_TAG);
                 audioItemsCode.append(audioItemsList.get(i).getWording());
                 audioItemsCode.append("</audio>");
             }
@@ -186,32 +177,15 @@ public class VXIRenderer implements Renderer, Serializable {
         //Transfer start tag
         code2render.append("<transfer name=\"transferResult\" ");
         
-        //Required attributes
-        code2render.append("dest=\"" + transfer.getDest() +    QUOTE_SPACE);
-        String transferType = transfer.getType().toLowerCase();
-        code2render.append("type=\"" + transferType + QUOTE_SPACE);
-        
-        //Optional attributes
-        //Sets "timeout" optional attribute. N/A for blind transfer type.
-        if (transfer.getTimeout() != null && !TransferType.BLIND.toString().equalsIgnoreCase(transferType)){
-            code2render.append("connecttimeout=\"" + transfer.getTimeout()  + QUOTE_SPACE);           
-        }
-        //Sets "maxtime" optional attribute. N/A for blind and consultation transfer types.
-        if (transfer.getMaxtime() != null && TransferType.BRIDGE.toString().equalsIgnoreCase(transferType)){
-            code2render.append("maxtime=\"" + transfer.getMaxtime()  + QUOTE_SPACE);           
-        }
-        //Sets "transferaudio" optional attribute. 
-        //TODO Completar la URI
-        if (transfer.getTransferaudio() != null){
-            code2render.append("transferaudio=\"" + transfer.getTransferaudio()  + QUOTE_SPACE);           
-        }
-        
+        //Renders transfer attributes
+        code2render.append(renderTransferAttributes(transfer));
+
         //Ends transfer start tag
         code2render.append(">");
                 
         //Renders properties if there are
         if (!transfer.getProperties().isEmpty()){
-            code2render.append(renderTransferProperties(transfer));            
+            code2render.append(renderProperties(transfer.getProperties()));            
         }
         
         //Renders eventsList
@@ -223,9 +197,34 @@ public class VXIRenderer implements Renderer, Serializable {
         return code2render.toString();
     }
     
-    private StringBuilder renderTransferEventsList(Transfer transfer,  String flowURL) {
+    private StringBuilder renderTransferAttributes(Transfer transfer) {
+
+    	StringBuilder attributesCode = new StringBuilder();
+
+    	//Required attributes
+    	attributesCode.append("dest=\"" + transfer.getDest() +    QUOTE_SPACE);
+        String transferType = transfer.getType().toLowerCase();
+        attributesCode.append("type=\"" + transferType + QUOTE_SPACE);
+        
+        //Optional attributes
+        //Sets "timeout" optional attribute. N/A for blind transfer type.
+        if (transfer.getTimeout() != null && !TransferType.BLIND.toString().equalsIgnoreCase(transferType)){
+        	attributesCode.append("connecttimeout=\"" + transfer.getTimeout()  + QUOTE_SPACE);           
+        }
+        //Sets "maxtime" optional attribute. N/A for blind and consultation transfer types.
+        if (transfer.getMaxtime() != null && TransferType.BRIDGE.toString().equalsIgnoreCase(transferType)){
+        	attributesCode.append("maxtime=\"" + transfer.getMaxtime()  + QUOTE_SPACE);           
+        }
+        //Sets "transferaudio" optional attribute. 
+        //TODO Completar la URI
+        if (transfer.getTransferaudio() != null){
+        	attributesCode.append("transferaudio=\"" + transfer.getTransferaudio()  + QUOTE_SPACE);           
+        }
+        return attributesCode;
+    }
+
+	private StringBuilder renderTransferEventsList(Transfer transfer,  String flowURL) {
                 
-        //TODO revisar donde declararlos
         boolean isConnectionerror = false;
         boolean isError = false;
         boolean isHangup = false;
@@ -362,28 +361,232 @@ public class VXIRenderer implements Renderer, Serializable {
         return true;        
     }
 
-    private StringBuilder renderTransferProperties(Transfer transfer) {
+    public String render(Record record, String flowURL) {
+        StringBuilder code2render = new StringBuilder();
         
+        //Record start tag and type attribute which is fixed by the framework, not the developer
+        code2render.append("<record type=\"audio/x-wav\" ");
+        
+        //Renders record attributes
+        code2render.append(renderRecordAttributes(record));
+        
+        //Ends record start tag
+        code2render.append(">");
+        
+        //Renders record audio items
+        List<AudioItem> audioItemsList = record.getAudioItemsList();
+        code2render.append(renderAudioItems(audioItemsList));
+        
+        //Renders record properties, if there are
+        if (!record.getProperties().isEmpty()){
+            code2render.append(renderProperties(record.getProperties()));        	
+        }
+        
+        //Render catches for defined events and always recorded event (filled)
+        code2render.append(renderRecordEventsList(record, flowURL));
+        
+        //Record end tag
+        code2render.append("</record>");
+        
+        return code2render.toString();
+    }
+
+    private StringBuilder renderRecordEventsList(Record record, String flowURL) {
+        
+        boolean isError = false;
+        boolean isHangup = false;
+        boolean isNoresource = false;
+        boolean isRecordunsupported = false;
+        
+        List<String> customEvents = new ArrayList<String>();
+        
+        StringBuilder eventsListCode = new StringBuilder();
+        
+        Iterator<String> it = record.getEventsList().iterator();
+
+        //Parses the events added to the eventsList to be in control at this specific record to know which they are.
+        while (it.hasNext()) {
+            String event = it.next();
+            
+            if (RecordEvents.HANGUP.toString().equalsIgnoreCase(event)) {
+                isHangup = true;
+                continue;
+            } else if (RecordEvents.ERROR.toString().equalsIgnoreCase(event)){
+                isError = true;
+                continue;
+            } else if (RecordEvents.NORESOURCE.toString().equalsIgnoreCase(event)) {
+            	isNoresource = true;
+                continue;
+            } else if (RecordEvents.RECORDUNSUPPORTED.toString().equalsIgnoreCase(event)) {
+            	isRecordunsupported = true;
+                continue;
+            //If it is not any of the defined events, it must be a custom event.
+            } else if (!RecordEvents.RECORDED.toString().equalsIgnoreCase(event)) {
+                customEvents.add(event);
+            }
+        }
+        
+        //Renders VXML catches for the events in the list.
+        eventsListCode.append(renderRecordCatchEvents(flowURL, isHangup, isError, isNoresource, isRecordunsupported, customEvents));
+        
+        //Renders VXML <filled> for the recorded event.
+        eventsListCode.append(renderRecordFilledEvent(flowURL));
+        
+        return eventsListCode;
+    }
+
+	private StringBuilder renderRecordFilledEvent(String flowURL) {
+		
+		StringBuilder filledEventCode = new StringBuilder();
+		
+		filledEventCode.append("<filled>");
+		//Takes values from record result.
+		filledEventCode.append("<var name=\"duration\" expr=\"temprecording$.duration\" />");
+		filledEventCode.append("<var name=\"size\" expr=\"temprecording$.size\" />");
+		filledEventCode.append("<var name=\"termchar\" expr=\"temprecording$.termchar\" />");
+		filledEventCode.append("<var name=\"maxtime\" expr=\"temprecording$.maxtime\" />");
+		filledEventCode.append(EVENT_VAR_DECLARATION + RecordEvents.RECORDED.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+		
+		//Redirects back to the application server with recorded as _eventId param value.
+		//Other request parameters are: temprecording, event, duration, size, termchar and maxtime.
+		//method must be "post" and enctype must be "multipart/form-data" because the recording is being sent at the request.
+		filledEventCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.RECORDED.toString().toLowerCase() + QUOTE_SPACE + "namelist=\"temprecording event duration size termchar maxtime\" method=\"post\" enctype=\"multipart/form-data\" " + END_TAG);
+
+		filledEventCode.append("</filled>");
+		
+		
+		return filledEventCode;
+	}
+
+	private StringBuilder renderRecordCatchEvents(String flowURL, boolean isHangup,
+			boolean isError, boolean isNoresource, boolean isRecordunsupported,
+			List<String> customEvents) {
+		
+		StringBuilder catchEventsCode = new StringBuilder();
+		
+		//Hangup event
+		if (isHangup){
+	    	catchEventsCode.append("<catch event=\"connection.disconnect.hangup\">");
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.HANGUP.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	        //Redirects back to the application server with hangup as _eventId param value.          
+	        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.HANGUP.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	        catchEventsCode.append(CATCH_END_TAG);			
+		}
+
+		//Custom Events. Defined directly by the developer.
+		if (customEvents != null){
+            
+            for(String event : customEvents) {
+                catchEventsCode.append("<catch event=\""+ event +"\">");
+    	    	catchEventsCode.append(EVENT_VAR_DECLARATION + event + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+                //Redirects back to the application server with the name of the custom event as _eventId param value. event also as request parameter.          
+                catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + event + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+                catchEventsCode.append(CATCH_END_TAG);
+            }
+            
+        }        	
+
+		//noresource event
+		if (isNoresource){
+	    	catchEventsCode.append("<catch event=\"error.noresource\">");
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.NORESOURCE.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	        //Redirects back to the application server with noresource as _eventId param value.
+	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.NORESOURCE.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	        catchEventsCode.append(CATCH_END_TAG);			
+		}
+
+		//recordunsupported event
+		if (isRecordunsupported){
+	    	catchEventsCode.append("<catch event=\"error.unsupported.record\">");
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.RECORDUNSUPPORTED.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	        //Redirects back to the application server with recordunsupported as _eventId param value.
+	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.RECORDUNSUPPORTED.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	        catchEventsCode.append(CATCH_END_TAG);			
+		}
+
+		//error event
+		if (isError){
+	    	catchEventsCode.append("<catch event=\"error\">");
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.ERROR.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	        //Redirects back to the application server with error as _eventId param value.
+	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.ERROR.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	        catchEventsCode.append(CATCH_END_TAG);			
+		}
+
+        return catchEventsCode;
+	}
+
+	private StringBuilder renderProperties(Map<String, String> properties) {
         StringBuilder propsCode = new StringBuilder();
         
-         Iterator<Entry<String, String>> it = transfer.getProperties().entrySet().iterator();
+        Iterator<Entry<String, String>> it = properties.entrySet().iterator();
         
+        //Renders each property
         while (it.hasNext()){
             Entry<String, String> pair = it.next();           
-            propsCode.append("<property name=\""+ pair.getKey() + "\" value=\"" + pair.getValue() + QUOTE_SPACE + END_TAG);
+            propsCode.append("<property name=\""+ pair.getKey() + "\" value=\"" + pair.getValue() + "\" />");
         }
         
         return propsCode;
-    }
+	}
 
-    public String render(Record record, String flowURL) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	private StringBuilder renderAudioItems(List<AudioItem> audioItemsList) {
+        
+    	StringBuilder audioItemsCode = new StringBuilder();
+        
+        for (int i=0;i<audioItemsList.size();i++){
+            
+            audioItemsCode.append("<prompt");
+                        
+            //Adds cond prompt attribute if specified
+            if (audioItemsList.get(i).getCond() != null){
+                audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCond() + "\"");
+            }
+            
+            //Ends prompt start tag
+            audioItemsCode.append(">");
 
-    public String render(End end, String flowURL) {
-        // TODO Auto-generated method stub
-        return null;
+            if (audioItemsList.get(i).getSrc() == null){
+                //TTS
+                audioItemsCode.append(audioItemsList.get(i).getWording());                
+            }else if (audioItemsList.get(i).getWording() == null){
+                audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + END_TAG);
+            }else{
+                //Audio with TTS backup prompt
+                audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + CLOSE_TAG);
+                audioItemsCode.append(audioItemsList.get(i).getWording());
+                audioItemsCode.append("</audio>");
+            }
+            
+            //Prompt end tag
+            audioItemsCode.append("</prompt>");
+        }
+        
+        return audioItemsCode;
+	}
+
+	private StringBuilder renderRecordAttributes(Record record) {
+    	
+    	StringBuilder attributesCode = new StringBuilder();
+    	
+		boolean beep = record.isBeep();
+		boolean dtmfterm = record.isDtmfterm();
+		String finalsilence = record.getFinalsilence();
+		String maxtime = record.getMaxtime();
+		
+		//TODO Si cambiamos los atributos a Boolean, comprobar siempre que no sean null los atributos por si acaso.
+		attributesCode.append("name=\"" + "temprecording" + QUOTE_SPACE);
+		attributesCode.append("beep=\"" + beep + QUOTE_SPACE);
+		attributesCode.append("dtmfterm=\"" + dtmfterm + QUOTE_SPACE);
+		attributesCode.append("finalsilence=\"" + finalsilence + QUOTE_SPACE);
+		attributesCode.append("maxtime=\"" + maxtime + QUOTE_SPACE);
+
+		return attributesCode;
+	}
+
+	public String render(End end, String flowURL) {
+
+    	return null;
     }
 
 }

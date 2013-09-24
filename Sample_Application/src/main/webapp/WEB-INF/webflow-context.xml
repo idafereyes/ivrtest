@@ -29,9 +29,13 @@
 						org.isb.ivr.flow.action, 
 						com.vectorsf.jvoiceframework.core.bean,
 						com.vectorsf.jvoiceframework.flow.log, 
-						com.vectorsf.jvoiceframework.core.log" />
+						com.vectorsf.jvoiceframework.core.log,
+						com.vectorsf.jvoiceframework.core.service.record" />
 
-	<!-- incluir aspectos use CGLIB proxy-target-class=false, true JDK proxyes -->
+    <!-- Registra un multipartResolver para que Spring sepa como manejar peticiones de tipo multipart/from-data -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    
+    <!-- incluir aspectos use CGLIB proxy-target-class=false, true JDK proxyes -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	
 	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController 
@@ -92,6 +96,7 @@
 	<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype" />
 	<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype" />
 	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer" />
+    <!-- <bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.VXIRenderer" />-->
 	<bean id="states" class="java.util.ArrayList" scope="flow" />
 	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor"
 		scope="flow">

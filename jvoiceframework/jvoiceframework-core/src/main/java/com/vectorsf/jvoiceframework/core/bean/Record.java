@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
  * @author idafereyes
  */
 @Component("record")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Record implements Serializable{
 
     private static final long serialVersionUID = 1632187224952805670L;

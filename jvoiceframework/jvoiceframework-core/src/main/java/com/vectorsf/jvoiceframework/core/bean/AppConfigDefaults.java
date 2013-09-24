@@ -59,7 +59,7 @@ public class AppConfigDefaults implements Serializable {
 	@Value("recordedAudio.wav")
 	private String recordFileName;
 
-	@Value("/recordedAudiosPath/")
+	@Value("D:\\tmp\\recordedAudiosPath\\")
 	private String recordFilePath;
 	
 	@Value(FALSE)
