@@ -18,7 +18,9 @@ import org.junit.Test;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.Output;
+import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
 
@@ -369,6 +371,195 @@ public class VXIRendererTest {
 		
 	}
 	
+	@Test
+	public void testCompleteRecord() throws FileNotFoundException{
+		
+		//Given
+		Record recordMock = mock(Record.class);
+		
+		//Attributes
+		when(recordMock.isBeep()).thenReturn(true);
+		when(recordMock.isDtmfterm()).thenReturn(false);
+		when(recordMock.getFinalsilence()).thenReturn("3s");
+		when(recordMock.getMaxtime()).thenReturn("30s");
+				
+		//AudioItemsList
+		AudioItem audioItem1 = mock(AudioItem.class);
+		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
+		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+
+		AudioItem audioItem2 = mock(AudioItem.class);
+		when(audioItem2.getSrc()).thenReturn("SAN-RECORDING-B");
+
+		AudioItem audioItem3 = mock(AudioItem.class);
+		when(audioItem3.getWording()).thenReturn("Despues del beep");
+		
+		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
+		audioItemsList.add(audioItem1);
+		audioItemsList.add(audioItem2);
+		audioItemsList.add(audioItem3);
+		
+		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+
+		//EventsList
+		List<String> eventsList = new ArrayList<String>();
+		eventsList.add(RecordEvents.RECORDED.toString());
+		eventsList.add("com.nortel.ivr.record.notstored");
+		eventsList.add(RecordEvents.HANGUP.toString());
+		eventsList.add(RecordEvents.ERROR.toString());
+		eventsList.add(RecordEvents.RECORDUNSUPPORTED.toString());
+		eventsList.add(RecordEvents.NORESOURCE.toString());
+				
+		when(recordMock.getEventsList()).thenReturn(eventsList);
+		
+		//Properties
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put("other.property", "20s");
+		properties.put("second.other.property", "35s");
+
+		when(recordMock.getProperties()).thenReturn(properties);
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/record.test")); 
+		
+	}
+	
+	@Test
+	public void testPropertiesAtRecord() throws FileNotFoundException{
+		
+		//Given
+		Record recordMock = mock(Record.class);
+			
+		//Attributes
+		when(recordMock.isBeep()).thenReturn(true);
+		when(recordMock.isDtmfterm()).thenReturn(false);
+		when(recordMock.getFinalsilence()).thenReturn("3s");
+		when(recordMock.getMaxtime()).thenReturn("30s");
+
+		//AudioItemsList
+		AudioItem audioItem1 = mock(AudioItem.class);
+		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
+		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		
+		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
+		audioItemsList.add(audioItem1);
+		
+		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+
+		List<String> eventsList = new ArrayList<String>();
+		eventsList.add(RecordEvents.RECORDED.toString());
+		
+		when(recordMock.getEventsList()).thenReturn(eventsList);
+
+		//Properties
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put("other.property", "20s");
+		properties.put("second.other.property", "35s");
+
+		when(recordMock.getProperties()).thenReturn(properties);
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/propertiesAtRecord.test")); 
+		
+	}
+	
+	@Test
+	public void testCustomEventsAtRecord() throws FileNotFoundException{
+		
+		//Given
+		Record recordMock = mock(Record.class);
+			
+		//Attributes
+		when(recordMock.isBeep()).thenReturn(true);
+		when(recordMock.isDtmfterm()).thenReturn(false);
+		when(recordMock.getFinalsilence()).thenReturn("3s");
+		when(recordMock.getMaxtime()).thenReturn("30s");
+
+		//AudioItemsList
+		AudioItem audioItem1 = mock(AudioItem.class);
+		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
+		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		
+		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
+		audioItemsList.add(audioItem1);
+		
+		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+
+		List<String> eventsList = new ArrayList<String>();
+		eventsList.add(RecordEvents.RECORDED.toString());
+		eventsList.add("com.nortel.ivr.record.notstored");
+		eventsList.add(RecordEvents.HANGUP.toString());
+		eventsList.add(RecordEvents.ERROR.toString());
+		eventsList.add(RecordEvents.RECORDUNSUPPORTED.toString());
+		eventsList.add(RecordEvents.NORESOURCE.toString());
+		
+		when(recordMock.getEventsList()).thenReturn(eventsList);
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/customEventsAtRecord.test")); 
+		
+	}
+
+	@Test
+	public void testAudioItemsAtRecord() throws FileNotFoundException{
+		
+		//Given
+		Record recordMock = mock(Record.class);
+			
+		//Attributes
+		when(recordMock.isBeep()).thenReturn(true);
+		when(recordMock.isDtmfterm()).thenReturn(false);
+		when(recordMock.getFinalsilence()).thenReturn("3s");
+		when(recordMock.getMaxtime()).thenReturn("30s");
+
+		//AudioItemsList
+		AudioItem audioItem1 = mock(AudioItem.class);
+		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
+		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+
+		AudioItem audioItem2 = mock(AudioItem.class);
+		when(audioItem2.getSrc()).thenReturn("SAN-RECORDING-B");
+
+		AudioItem audioItem3 = mock(AudioItem.class);
+		when(audioItem3.getWording()).thenReturn("Despues del beep");
+		
+		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
+		audioItemsList.add(audioItem1);
+		audioItemsList.add(audioItem2);
+		audioItemsList.add(audioItem3);
+		
+		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+
+		List<String> eventsList = new ArrayList<String>();
+		eventsList.add(RecordEvents.RECORDED.toString());
+		
+		when(recordMock.getEventsList()).thenReturn(eventsList);
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/audioItemsAtRecord.test")); 
+		
+	}
+
 	public String readResourceFile(String filename) throws FileNotFoundException{
 
 		StringBuilder text = new StringBuilder();

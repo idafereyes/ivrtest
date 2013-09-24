@@ -1,0 +1,31 @@
+<record type="audio/x-wav" name="temprecording" beep="true" dtmfterm="false" finalsilence="3s" maxtime="30s" >
+<prompt><audio src="SAN-RECORDING">Por favor, diga su nombre</audio></prompt>
+<catch event="connection.disconnect.hangup">
+<var name="event" expr="'hangup'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="event"/>
+</catch>
+<catch event="com.nortel.ivr.record.notstored">
+<var name="event" expr="'com.nortel.ivr.record.notstored'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_com.nortel.ivr.record.notstored" namelist="event"/>
+</catch>
+<catch event="error.noresource">
+<var name="event" expr="'noresource'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" namelist="event"/>
+</catch>
+<catch event="error.unsupported.record">
+<var name="event" expr="'recordunsupported'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_recordunsupported" namelist="event"/>
+</catch>
+<catch event="error">
+<var name="event" expr="'error'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+</catch>
+<filled>
+<var name="duration" expr="temprecording$.duration" />
+<var name="size" expr="temprecording$.size" />
+<var name="termchar" expr="temprecording$.termchar" />
+<var name="maxtime" expr="temprecording$.maxtime" />
+<var name="event" expr="'recorded'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording event duration size termchar maxtime" method="post" enctype="multipart/form-data" />
+</filled>
+</record>
