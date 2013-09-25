@@ -99,7 +99,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>Main</b></td></tr>");
         if(!input.getMainAudios().isEmpty()) {
             for(AudioItem ai : input.getMainAudios()) {
-                html.append(trStyledHtml + ai.getCond() + endTdHtml);
+                html.append(trStyledHtml + ai.getCondition() + endTdHtml);
                 html.append(tdHtml + ai.getSrc() + endTdHtml);
                 html.append(tdHtml + ai.getWording() + endTrHtml);
             }
@@ -110,7 +110,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Match</b></td></tr>");
         if(!input.getNoMatchAudios().isEmpty()) {
             for(AudioItem ai : input.getNoMatchAudios()) {
-                html.append(trStyledHtml + ai.getCond() + endTdHtml);
+                html.append(trStyledHtml + ai.getCondition() + endTdHtml);
                 html.append(tdHtml + ai.getSrc() + endTdHtml);
                 html.append(tdHtml + ai.getWording() + endTrHtml);
             }
@@ -121,7 +121,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Input</b></td></tr>");
         if(!input.getNoInputAudios().isEmpty()) {
             for(AudioItem ai : input.getNoInputAudios()) {
-                html.append(trStyledHtml + ai.getCond() + endTdHtml);
+                html.append(trStyledHtml + ai.getCondition() + endTdHtml);
                 html.append(tdHtml + ai.getSrc() + endTdHtml);
                 html.append(tdHtml + ai.getWording() + endTrHtml);
             }
@@ -180,18 +180,20 @@ public class HTMLRenderer implements Renderer, Serializable {
         
     public String render(Output output, String flowURL){
         String renderCode = "";
-        
+        renderCode += "<b><span>Output:"+ endSpanHtml + "</b>";
         renderCode += "<span>bargein: " + output.isBargein() + endSpanHtml;
         renderCode += "<span>flush: " + output.isFlush() + endSpanHtml;
         renderCode += "<span>catchHangup: " + output.isCatchHangup() + endSpanHtml;
+        renderCode += "<br>";
         
         Iterator<AudioItem> it = output.getAudioItemsList().iterator();
         while (it.hasNext()){
             AudioItem prompt = it.next();
-            renderCode += "<span>prompt" + endSpanHtml;            
+            renderCode += "<b><span>Audio Item" + endSpanHtml + "</b>";          
             renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;            
             renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;            
-            renderCode += "<span>cond: " + prompt.getCond() + endSpanHtml;            
+            renderCode += "<span>cond: " + prompt.getCondition() + endSpanHtml;     
+            renderCode += "<br>";
         }
         
         return renderCode;
@@ -250,7 +252,7 @@ public class HTMLRenderer implements Renderer, Serializable {
             renderCode += "<span>Audio Item" + endSpanHtml;            
             renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;            
             renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;            
-            renderCode += "<span>cond: " + prompt.getCond() + endSpanHtml;            
+            renderCode += "<span>cond: " + prompt.getCondition() + endSpanHtml;            
         }
 
         Iterator<String> it = record.getEventsList().iterator();

@@ -3,16 +3,34 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-		start-state="wellcome">
+		start-state="setup">
 
 
     <!-- 	Inicialización de la configuración por defecto de la aplicación. 
     		Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
     		
+	<subflow-state id="setup" subflow="setup">
+		<transition  to="wellcome"/>
+	</subflow-state>
 	
 	<subflow-state id="wellcome" subflow="wellcome">
-		<transition  to="end"/>
+		<transition  to="menu"/>
 	</subflow-state>
+
+	<subflow-state id="menu" subflow="menu">
+		<transition  to="menuDecision">
+			<set name="flowScope.menuOption" value="currentEvent.attributes.menuOption"></set> <!--  PUFF -->
+		</transition>
+	</subflow-state>
+	
+	<action-state id="menuDecision">	
+		<evaluate expression="flowScope.menuOption"></evaluate>
+	    <transition on="1" to="accounts" />
+	    <transition on="2" to="trx" />
+	    
+	 	<transition to="end" /> <!-- Opción por defecto -->
+	</action-state>
+	
 	
 	<end-state id="end"/>
 </flow>

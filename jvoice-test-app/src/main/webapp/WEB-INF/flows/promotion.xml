@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="retirevePromotion">
+	
+	<action-state id="retirevePromotion">
+		<evaluate expression="promotionProvider.retrieve()" result="flowScope.promotion"/> 		
+		<transition  to="checkPromotionExpiration" />
+	</action-state>
+	
+	<action-state id="checkPromotionExpiration">
+		<evaluate expression="flowScope.promotion.getExpiration().compareTo(T(java.util.Calendar).getInstance()) >= 0"/> 		
+		<transition on="yes" to="promotion"/>
+		<transition on="no" to="end"/>
+	</action-state>
+	
+   	<action-state id="promotion">
+   		
+		<on-entry>		
+			<evaluate expression="audioItem" result="flowScope.promotionAudioItem" />
+			<set name="flowScope.promotionAudioItem.wording" value="flowScope.promotion.getWording()"/> 
+	
+			<evaluate expression="output" result="flowScope.promotionOutput"></evaluate>	
+			<evaluate expression="flowScope.promotionOutput.addAudioItem(flowScope.promotionAudioItem)"/> 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.promotionOutput)"/> 		
+		<transition on="" to="end" />
+	</action-state>
+	
+	<end-state id="end"/>	
+</flow>

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
  */
 @Component("ctiData")
 @Scope("session")
-
 public class CTIDataVector {
 	
 	private static final long serialVersionUID = -2975216216233134928L;
@@ -518,5 +517,12 @@ public class CTIDataVector {
 		return allReadAtBeginElements;
 	} 
 	
+	public void retreive(){		
+		this.setApplication(APPLICATION_RETAIL);
+	}
 	
+	
+	public static final String APPLICATION_RETAIL = "APPLICATION_RETAIL";
+	public static final String APPLICATION_PYME_RETAIL = "APPLICATION_PYME_RETAIL";
+	public static final String APPLICATION_ULINE_RETAIL = "APPLICATION_ULINE_RETAIL";
 }

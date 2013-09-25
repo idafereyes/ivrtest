@@ -60,6 +60,7 @@ public class Output implements Serializable {
     /**
      * List of audio items to play in the output block.
      * 
+     * 
      */
     private List<AudioItem> audioItemsList;
     
@@ -94,7 +95,7 @@ public class Output implements Serializable {
     }
 
     public List<AudioItem> getAudioItemsList() {
-        return audioItemsList;
+        return this.audioItemsList;
     }
 
     public void setAudioItemsList(List<AudioItem> audioItemsList) {
@@ -108,5 +109,9 @@ public class Output implements Serializable {
     public void setProperties(Map<String,String> properties) {
         this.properties = properties;
     }  
+    
+    public void addAudioItem(AudioItem audioItem){
+    	this.audioItemsList.add(audioItem);
+    }
 
 }
