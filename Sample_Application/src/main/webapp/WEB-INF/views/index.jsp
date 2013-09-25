@@ -6,7 +6,6 @@
 <title>Pruebas IVR</title>
 </head>
 <body>
-<a href="sample.flow">Ejemplo Spring Webflow</a><br/>
 <a href="input.flow">Input</a><br/>
 <a href="output.flow">Output</a><br/>
 <a href="transfer.flow">Transfer</a><br/>
