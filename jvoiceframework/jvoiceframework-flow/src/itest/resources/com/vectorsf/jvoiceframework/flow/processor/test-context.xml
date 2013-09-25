@@ -17,7 +17,8 @@
     </property>
 </bean>
 
-<bean id="prompt" class="com.vectorsf.jvoiceframework.core.bean.Prompt" scope="prototype"/>
+<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype"/>
+<bean id="output" class="com.vectorsf.jvoiceframework.core.bean.Output" scope="prototype"/>
 <bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype"/>
 <bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.HTMLRenderer"/>
 <bean id="states" class="java.util.ArrayList" scope="flow"/>

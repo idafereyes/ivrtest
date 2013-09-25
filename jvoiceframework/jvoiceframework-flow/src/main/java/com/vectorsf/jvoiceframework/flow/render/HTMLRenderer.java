@@ -10,7 +10,6 @@ import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
-import com.vectorsf.jvoiceframework.core.bean.Prompt;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 
@@ -178,11 +177,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         html.append("</form>");
         return html.toString();
     }
-    
-    public String render(Prompt prompt, String flowURL){
-        return "<span>" + prompt.getMessage() + endSpanHtml;
-    }
-    
+        
     public String render(Output output, String flowURL){
         String renderCode = "";
         

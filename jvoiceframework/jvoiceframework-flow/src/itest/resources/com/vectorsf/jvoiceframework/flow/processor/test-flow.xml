@@ -3,15 +3,18 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
-    start-state="prompt">
+    start-state="output">
 
-    <action-state id="prompt">
+    <action-state id="output">
 		<on-entry>
-			<evaluate expression="prompt" result="flowScope.prompt"></evaluate>
-			<set name="flowScope.prompt.message" value="'Este el el flujo de ejecución de la opción 1 que no hace absolutamente nada'"></set>
+			<evaluate expression="output" result="flowScope.output"></evaluate>
+
+            <evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.wording" value="'Hello'" />     
+            <evaluate expression="flowScope.output.audioItemsList.add(audioItem1)"/>
 		</on-entry>
 
-    	<evaluate expression="flowProcessor.process(flowScope.prompt)"/>
+    	<evaluate expression="flowProcessor.process(flowScope.output)"/>
     		
     	<transition to="render" />
     </action-state> 

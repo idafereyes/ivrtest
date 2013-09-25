@@ -11,7 +11,6 @@ import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
-import com.vectorsf.jvoiceframework.core.bean.Prompt;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
@@ -38,11 +37,6 @@ public class VXIRenderer implements Renderer, Serializable {
     static final String EVENT_VAR_DECLARATION = "<var name=\"event\" expr=\"'";
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
-
-    public String render(Prompt prompt, String flowURL) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     public String render(Output output, String flowURL) {
                 
