@@ -17,6 +17,7 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
@@ -557,6 +558,25 @@ public class VXIRendererTest {
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/audioItemsAtRecord.test")); 
+		
+	}
+	
+	@Test
+	public void testEnd() throws FileNotFoundException{
+		
+		//Given
+		End endMock = mock(End.class);
+			
+		//Attributes
+		when(endMock.getName()).thenReturn("testEnd");
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(endMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/end.test")); 
 		
 	}
 
