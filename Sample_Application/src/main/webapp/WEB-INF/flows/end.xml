@@ -3,8 +3,25 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="endState">
+	start-state="outputBeforeEndState">
 
+    <action-state id="outputBeforeEndState">
+        <on-entry>
+        
+            <evaluate expression="output" result="flowScope.byeOutput"/>
+            
+            <evaluate expression="audioItem" result="flowScope.byeAudioItem" />
+            <set name="flowScope.byeAudioItem.wording" value="'Hasta luego. Gracias por usar este servicio.'" />     
+            <evaluate expression="flowScope.byeOutput.audioItemsList.add(byeAudioItem)"/>
+        
+        </on-entry>
+    
+        <evaluate expression="flowProcessor.process(flowScope.byeOutput)"/>
+    
+        <transition to="endState" />
+    
+    </action-state>
+    
 	<action-state id="endState">
 	   <on-entry>
             
@@ -16,7 +33,25 @@
 
         <evaluate expression="flowProcessor.process(flowScope.end_FINALIZACION)"/>
             
+        <transition to="outputAfterEndState" />
+    </action-state>
+    
+    <!-- Solo para probar que no se canta este audio item. -->
+    <action-state id="outputAfterEndState">
+        <on-entry>
+        
+            <evaluate expression="output" result="flowScope.afterByeOutput"/>
+            
+            <evaluate expression="audioItem" result="flowScope.afterByeAudioItem" />
+            <set name="flowScope.afterByeAudioItem.wording" value="'Esta locucion no deberia escucharse nunca porque esta detras de un elemento end.'" />     
+            <evaluate expression="flowScope.afterByeOutput.audioItemsList.add(flowScope.afterByeAudioItem)"/>
+        
+        </on-entry>
+    
+        <evaluate expression="flowProcessor.process(flowScope.afterByeOutput)"/>
+    
         <transition to="render" />
+    
     </action-state>
     
     <view-state id="render" view="render" >

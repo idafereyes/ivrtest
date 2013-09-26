@@ -580,7 +580,13 @@ public class VXIRenderer implements Renderer, Serializable {
 
 	public String render(End end, String flowURL) {
 
-    	return null;
+		StringBuilder endCode = new StringBuilder();
+		
+		endCode.append("<block>");
+		endCode.append("<exit/>");
+		endCode.append("</block>");
+		
+    	return endCode.toString();
     }
 
 }
