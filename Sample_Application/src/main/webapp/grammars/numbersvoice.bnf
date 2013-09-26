@@ -1,0 +1,20 @@
+#ABNF 1.0 ISO8859-1;
+
+root $number;
+
+public $number =
+    ($digits) <1->
+;
+
+private $digits =
+	((cero | sero) {0} |
+    (uno | un | una) {1} |
+    (dos | do) {2} |
+    (tres | tre) {3} |
+    cuatro {4} |
+    (cinco | sinco) {5} |
+    (seis | sei) {6} |
+    (siete | ciete | sete) {7} |
+    (ocho | oso) {8} |
+    (nueve | nove) {9})
+;

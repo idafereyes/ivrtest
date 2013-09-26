@@ -13,6 +13,7 @@ public class Grammar implements Serializable {
 
     private String src;
     private String type;
+    private String mode;
     
     public String getSrc() {
         return src;
@@ -29,4 +30,12 @@ public class Grammar implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
 }

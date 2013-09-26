@@ -65,6 +65,17 @@ public class AppConfigDefaults implements Serializable {
 	@Value(FALSE)
 	private boolean recordKeep;
 
+	@Value(FALSE)
+	private boolean inputBargein;
+	
+	@Value("3")
+	private int inputMaxAttempts;
+	
+	@Value("2")
+	private int inputNoMatchAttempts;
+	
+	@Value("2")
+	private int inputNoInputAttempts;
 	
 	public boolean isBargein() {
 		return bargein;
@@ -160,6 +171,38 @@ public class AppConfigDefaults implements Serializable {
 
 	public void setRecordKeep(boolean recordKeep) {
 		this.recordKeep = recordKeep;
+	}
+
+	public boolean isInputBargein() {
+		return inputBargein;
+	}
+
+	public void setInputBargein(boolean inputBargein) {
+		this.inputBargein = inputBargein;
+	}
+
+	public int getInputMaxAttempts() {
+		return inputMaxAttempts;
+	}
+
+	public void setInputMaxAttempts(int inputMaxAttempts) {
+		this.inputMaxAttempts = inputMaxAttempts;
+	}
+
+	public int getInputNoMatchAttempts() {
+		return inputNoMatchAttempts;
+	}
+
+	public void setInputNoMatchAttempts(int inputNoMatchAttempts) {
+		this.inputNoMatchAttempts = inputNoMatchAttempts;
+	}
+
+	public int getInputNoInputAttempts() {
+		return inputNoInputAttempts;
+	}
+
+	public void setInputNoInputAttempts(int inputNoInputAttempts) {
+		this.inputNoInputAttempts = inputNoInputAttempts;
 	}
 
 }

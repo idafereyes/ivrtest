@@ -31,21 +31,25 @@ public class Input implements Serializable{
     /**
      * Number of max attempts (including no input & no match attempts)
      */
+    @Value("#{appConfigDefaults.inputMaxAttempts}")
     private int maxAttempts;
     
     /**
      * Number of max attempts for No Input event
      */
+    @Value("#{appConfigDefaults.inputNoInputAttempts}")
     private int maxNoInput;
     
     /**
      * Number of max attempts for No Match event
      */
+    @Value("#{appConfigDefaults.inputNoMatchAttempts}")
     private int maxNoMatch;
     
     /**
      * Indicates globally when prompts can be interrupted
      */
+    @Value("#{appConfigDefaults.inputBargein}")
     private boolean bargein;
     
     /**

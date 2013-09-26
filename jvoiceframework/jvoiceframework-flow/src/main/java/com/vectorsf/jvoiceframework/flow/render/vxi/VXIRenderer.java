@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
+import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
@@ -40,6 +41,21 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
 
+	//TODO Meter en un Enum
+    private static final String PARAM_TOTAL_COUNT = "attempts";
+    private static final String PARAM_REC_AVAILABLE = "recAvailable";
+    private static final String EVENT_MAXNOMATCH = "maxnomatch";
+    private static final String EVENT_MAXNOINPUT = "maxnoinput";
+    private static final String EVENT_MAXINT = "maxint";
+    private static final String PARAM_RETURN_CODE = "returnCode";
+    
+    //TODO Put in a configuration file
+    private String grammarType = "application/srgs";
+    private String grammarPath = "grammars/";
+    private String grammarsFileExtension = ".bnf";
+    private String audiosPath = "";
+    private String audiosFileExtension = "";
+    
 	public String render(Output output, String flowURL) {
                 
         StringBuilder code2render = new StringBuilder();
@@ -161,11 +177,347 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return fieldDummyCode.toString();
     }
 
-    public String render(Input prompt, String flowURL) {
-        // TODO Auto-generated method stub
-        return "";
+    public String render(Input input, String flowURL) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(renderInputInitVar(input));
+        sb.append(renderInputStartField(input));
+        sb.append(renderInputProperties(input));
+        sb.append(renderInputGrammars(input));
+        sb.append(renderInputPrompts(input));
+        sb.append(renderInputCatches(input, flowURL));
+        sb.append(renderInputFilled(input, flowURL));
+        
+        sb.append(renderInputEnd());
+        
+        return sb.toString();
     }
 
+    private String renderInputInitVar(Input input) {
+    	StringBuilder sb = new StringBuilder();
+    	
+//    	sb.append("<form>");
+//    	sb.append("<block>");
+//    	sb.append("<assign name=\"" + PARAM_INPUT_ID + "\" expr=\"'" + component.getAttributes().get("name") + "'\" />");
+		//writer.append("<assign name=\"executeField\" expr=\"'true'\" />");
+    	sb.append("<var name=\"" + PARAM_TOTAL_COUNT + "\" expr=\"0\" />");
+    	sb.append("<var name=\"noInputAttempt\" expr=\"0\" />");
+    	sb.append("<var name=\"noMatchAttempt\" expr=\"0\" />");
+		
+    	sb.append("<var name=\"maxNoMatch\" expr=\"" + input.getMaxNoMatch() + "\" />");
+    	sb.append("<var name=\"maxNoInput\" expr=\"" + input.getMaxNoInput() + "\" />");
+    	sb.append("<var name=\"maxInt\" expr=\"" + input.getMaxAttempts() + "\" />");
+		
+		String recAvailable = getRecAvailable(input);
+		sb.append("<var name=\"" + PARAM_REC_AVAILABLE + "\" expr=\"'" + recAvailable + "'\" />");
+		sb.append("<var name=\"" + PARAM_RETURN_CODE + "\" expr=\"''\" />");
+		  		
+//		sb.append("</block>");
+		
+    	return sb.toString();
+    }
+    
+    private String renderInputStartField(Input input) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	sb.append("<field name=\"" + input.getName() + "\" >");
+		
+    	return sb.toString();
+    }
+    
+    private String renderInputProperties(Input input) {
+    	StringBuilder sb = new StringBuilder();
+    		
+		// TIMEOUT
+    	// TODO Añadir el timeout al Input
+//		if() {
+//			writer.append("<property name=\"timeout\" value=\"" + component.getAttributes().get("timeout") + "\" />");
+//		}
+		
+    	// BARGEIN
+    	if(input.isBargein()) {
+    		sb.append("<property name=\"bargein\" value=\"true\" />");
+    	} else {
+    		sb.append("<property name=\"bargein\" value=\"false\" />");
+    	}
+    	
+		// INPUTMODES
+		String recAvailable = getRecAvailable(input);
+		if("ASR".equalsIgnoreCase(recAvailable) || "ASRDTMF".equalsIgnoreCase(recAvailable)) {
+			sb.append("<property name=\"inputmodes\" value=\"voice\" />");
+		}
+		
+    	return sb.toString();
+    }
+    
+    private String renderInputEnd() {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	sb.append("</field>");
+//    	sb.append("</form>");
+    	
+    	return sb.toString();
+    }
+    
+    private String renderInputGrammars(Input input) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for(Grammar grammar : input.getGrammars()) {
+    		if("voice".equalsIgnoreCase(grammar.getMode())) {
+    			if("builtin".equalsIgnoreCase(grammar.getType())) {
+    				//ASR builtin grammars are not implemented at VXI Platform.
+    				//So, if ASR grammar declared as builtin, a log ERROR must be printed
+    				//instead of the field element.
+    				sb.append("<log label=\"ERROR\">ASR builtin grammars are not implemented in VXI platform.</log>");
+    				//TODO Incluir escritura a traza ERROR del CommonLogger y lanzar error
+    				sb.append("<disconnect/>");
+    			} else {
+    				sb.append("<grammar mode=\"voice\" ");
+    				//sb.append("type=\"" + grammarType + "\" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
+    				sb.append(" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
+    			}
+    		} else {
+    			sb.append("<grammar mode=\"dtmf\" ");
+    			if ("builtin".equalsIgnoreCase(grammar.getType())){
+    				sb.append("src=\"builtin:" + grammar.getSrc() + "\"/>");
+    			} else {
+    				sb.append("type=\"" + grammarType + "\" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension +"\"/>");
+    			}
+    		}
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    private String renderInputPrompts(Input input) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	// write no match audios with their condition
+		for(AudioItem ai : input.getNoMatchAudios()) {
+			sb.append("<prompt cond=\"" + ai.getCondition() + " &amp;&amp; returnCode == 'NOMATCH'\">");
+			sb.append(renderInputAudios(ai));
+			sb.append("</prompt>");
+		}
+		
+		// write no input audios with their condition
+		for(AudioItem ai : input.getNoInputAudios()) {
+			sb.append("<prompt cond=\"" + ai.getCondition() + " &amp;&amp; returnCode == 'NOINPUT'\">");
+			sb.append(renderInputAudios(ai));
+			sb.append("</prompt>");
+		}
+		
+		// write initial audios with their condition
+		for(AudioItem ai : input.getMainAudios()) {
+			sb.append("<prompt cond=\"" + ai.getCondition() + "\">");
+			sb.append(renderInputAudios(ai));
+			sb.append("</prompt>");
+		}
+		
+		return sb.toString();
+    }
+    
+	private String renderInputAudios(AudioItem ai) {
+		StringBuilder sb = new StringBuilder();
+		
+		if (ai.getSrc() == null || ai.getSrc().isEmpty()){
+			//TTS
+			//TODO Añadir logs
+//			sb.startElement("mark", component);
+//			sb.writeAttribute("nameexpr", "insertSpeechTrace('', '" +	PromptType.TTS + "', '" + ai.getWording() +	"')", null);
+//			sb.endElement("mark");
+			sb.append(ai.getWording());
+			
+		} else if (ai.getWording() == null || ai.getWording().isEmpty()){
+			//Audio sin TTS de backup
+			//TODO Añadir logs
+//			sb.startElement("mark", component);
+//			sb.writeAttribute("nameexpr", "insertSpeechTrace('"+ ai.getSrc() + "', '" +	PromptType.FILE + "', '')", null);
+//			sb.endElement("mark");
+			sb.append("<audio src=\"" + audiosPath + ai.getSrc()+ audiosFileExtension + "\" />");
+
+		} else{
+			//Audio con TTS de backup
+			//TODO Meter logs
+//			writer.startElement("mark", component);
+//			writer.writeAttribute("nameexpr", "insertSpeechTrace('"+ ai.getSrc() + "', '" + PromptType.FILE + "', '" + ai.getWording() + "')", null);
+//			writer.endElement("mark");
+			sb.append("<audio src=\"" + audiosPath + ai.getSrc() + audiosFileExtension + "\" >");
+			sb.append(ai.getWording());
+			sb.append("</audio>");
+		}
+		return sb.toString();
+	}
+	
+	private String renderInputCatches(Input input, String flowURL) {
+		StringBuilder sb = new StringBuilder();
+		boolean isMaxNoMatch = false;
+		boolean isMaxNoInput = false;
+		boolean isMaxInt = false;
+		List<String> otherEvents = new ArrayList<String>();
+		
+		for(String event : input.getEvents()) {
+			if(event == null ) {
+				continue;
+			}
+			if(event.equalsIgnoreCase(EVENT_MAXNOMATCH)) {
+				isMaxNoMatch = true;
+			} else if(event.equalsIgnoreCase(EVENT_MAXNOINPUT)) {
+				isMaxNoInput = true;
+			} else if(event.equalsIgnoreCase(EVENT_MAXINT)) {
+				isMaxInt = true;
+			} else {
+				otherEvents.add(event);
+			}
+		}
+		
+		//escribimos el catch del no match
+		sb.append("<catch event=\"nomatch\" >");
+		sb.append("<assign name=\"noMatchAttempt\" expr=\"noMatchAttempt + 1\" />");
+		sb.append("<assign name=\"" + PARAM_TOTAL_COUNT + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
+		sb.append("<assign name=\"" + PARAM_RETURN_CODE + "\" expr=\"'NOMATCH'\" />");
+		
+		if(isMaxInt) {
+			sb.append("<if cond=\"" + PARAM_TOTAL_COUNT + " &gt;= maxInt\" >");
+			//escribimos la traza del MAXINT
+			//TODO Hacer trazas
+//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOMATCH");
+			sb.append(renderInputSubmit(flowURL, "maxint"));
+			sb.append("</if>");
+		}
+		if(isMaxNoMatch) {
+			sb.append("<if cond=\"noMatchAttempt == maxNoMatch\" >");
+			//escribimos la traza del MAXNOMATCH
+			//TODO Hacer trazas
+//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOMATCH");
+			sb.append(renderInputSubmit(flowURL, "maxnomatch"));
+			sb.append("</if>");
+		}
+		
+		//escribimos la traza del NOMATCH
+		//TODO Hacer trazas
+//		WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOMATCH");
+		sb.append("<reprompt />");
+		sb.append("</catch>");
+		
+		//escribimos el catch no input
+		
+		sb.append("<catch event=\"noinput\" >");
+		sb.append("<assign name=\"noInputAttempt\" expr=\"noInputAttempt + 1\" />");
+		sb.append("<assign name=\"" + PARAM_TOTAL_COUNT + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
+		sb.append("<assign name=\"" + PARAM_RETURN_CODE + "\" expr=\"'NOINPUT'\" />");
+		
+		if(isMaxInt) {
+			sb.append("<if cond=\"" + PARAM_TOTAL_COUNT + " &gt;= maxInt\" >");
+			//escribimos la traza del MAXINT
+			//TODO Escribir trazas
+//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOINPUT");
+			sb.append(renderInputSubmit(flowURL, "maxint"));
+			sb.append("</if>");
+		}
+		
+		if(isMaxNoInput) {
+			sb.append("<if cond=\"noInputAttempt == maxNoInput\" >");
+			//escribimos la traza del MAXNOINPUT
+			//TODO Escribir trazas
+//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOINPUT");
+			sb.append(renderInputSubmit(flowURL, "maxnoinput"));
+			sb.append("</if>");
+		}
+		
+		//escribimos la traza del NOINPUT
+		//TODO Escribir trazas
+//		WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOINPUT");
+		sb.append("<reprompt />");
+		sb.append("</catch>");
+		
+		
+		// escribimos los otros eventos
+		for(String otherEvent : otherEvents) {
+			if(otherEvent == null) continue;
+			
+			sb.append("<catch event=\"" + otherEvent + "\" >");
+			//TODO Añadir trazas
+//			WriteVxml.writeDebugTraceScript(writer, "Catch Input " + type.toString().toLowerCase());
+			sb.append(renderInputSubmit(flowURL, otherEvent));
+			sb.append("</catch>");
+		}
+				
+		return sb.toString();
+	}
+	
+	private String renderInputFilled(Input input, String flowURL) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<filled>");
+		//TODO Añadir log
+//		writeDialogueLog(writer, context, component);
+		
+		//escribimos los datos del resultado
+		sb.append("<var name=\"_eventId\" expr=\"'match'\" />");
+		sb.append("<var name=\"interpretation\" />");
+		sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
+		sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
+		sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
+		sb.append("<script>");
+		sb.append("<![CDATA[");
+		sb.append("if(inputmode == 'voice') {");
+		sb.append("interpretation = lastresult$.interpretation.out;");
+		sb.append("} else {");
+		sb.append("interpretation = utterance;");
+		sb.append("}");
+		sb.append("]]>");
+		sb.append("</script>");
+//		sb.append("<log expr=\"'  -----------  ' + interpretation\" />");
+		//TODO Mirar si devuelve los valores correctos
+		
+		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId event interpretation utterance inputmode confidence\" />");
+		sb.append("</filled>");
+		
+		return sb.toString();
+	}
+	
+	private String renderInputSubmit(String url, String event) {
+		StringBuilder sb = new StringBuilder();
+			
+		//Different information to be stored at componentId variable depending on the parent
+		//TODO Tener en cuenta al Transfer
+//		if (component.getParent() instanceof InputComponent){
+		sb.append("<var name=\"_eventId\" expr=\"'" + event + "'\" />");
+		sb.append("<var name=\"interpretation\" expr=\"null\" />");
+		sb.append("<var name=\"utterance\" expr=\"null\" />");
+		sb.append("<var name=\"inputmode\" expr=\"null\" />");
+		sb.append("<var name=\"confidence\" expr=\"null\" />");
+//		}else if (component.getParent() instanceof TransferComponent || component instanceof TransferComponent){
+//			//if the event is filled the event passed is the content of the ivrTransfer variable, not a defined string.
+//			if (event.equalsIgnoreCase("filled")){
+//				//Parses the information to be stored later at TransferResultInfo
+//				writer.writeText(componentId + "=" + TransferResultInfo.retrieveJS(Constants.TRANSFER_RESULT_VAR) + ";", null);					
+//			}else{
+//				//Parses the information to be stored later at TransferResultInfo
+//				writer.writeText(componentId + "=" + TransferResultInfo.retrieveJS(event) + ";", null);					
+//			}
+//		}
+		
+		sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
+		
+		return sb.toString();
+	}
+	
+    private String getRecAvailable(Input input) {
+		boolean isAsr = false;
+		boolean isDtmf = false;
+		
+		for(Grammar grammar : input.getGrammars()) {
+			if(grammar.getMode().trim().equalsIgnoreCase("voice")) {
+				isAsr = true;
+			} else if (grammar.getMode().trim().equalsIgnoreCase("dtmf")) {
+				isDtmf = true;
+			}
+		}
+		
+		return (isAsr && isDtmf) ? "ASRDTMF" : ( isAsr ? "ASR" : "DTMF");
+	}
+    
     public String render(Transfer transfer, String flowURL) {
         
         StringBuilder code2render = new StringBuilder();
