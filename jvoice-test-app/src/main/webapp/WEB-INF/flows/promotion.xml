@@ -23,7 +23,7 @@
 			<set name="flowScope.promotionAudioItem.wording" value="flowScope.promotion.getWording()"/> 
 	
 			<evaluate expression="output" result="flowScope.promotionOutput"></evaluate>	
-			<evaluate expression="flowScope.promotionOutput.addAudioItem(flowScope.promotionAudioItem)"/> 
+			<evaluate expression="flowScope.promotionOutput.audioItems.add(flowScope.promotionAudioItem)"/> 
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.promotionOutput)"/> 		

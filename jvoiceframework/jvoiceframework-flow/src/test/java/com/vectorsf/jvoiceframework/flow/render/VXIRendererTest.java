@@ -54,7 +54,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(outputMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(outputMock.getAudioItems()).thenReturn(audioItemsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -90,7 +90,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(outputMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(outputMock.getAudioItems()).thenReturn(audioItemsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -126,7 +126,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(outputMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(outputMock.getAudioItems()).thenReturn(audioItemsList);
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put("other.property", "20s");
@@ -169,7 +169,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(outputMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(outputMock.getAudioItems()).thenReturn(audioItemsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 

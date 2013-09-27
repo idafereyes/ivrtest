@@ -1,13 +1,12 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>Aplicación prototipo jVoice Framework</title>
+	<link rel="stylesheet" type="text/css" href="resources/css/HTMLRenderer.css" />
 </head>
 <body>
-
-<h1>Aplicación prototipo jVoice Framework</h1>
-<P> The time on the server is ${serverTime}.</P>
-<a href="main.flow">Inicio</a>
-
+	<h1>Aplicación prototipo jVoice Framework</h1>
+	<p>La hora en el servidor es ${serverTime}.</p>	
+	<span class="header"><a href="main.flow">Acceso al menú principal</a></span>
 </body>
 </html>

@@ -66,7 +66,7 @@ public class VXIRenderer implements Renderer, Serializable {
         
         StringBuilder audioItemsCode = new StringBuilder();
 
-        List<AudioItem> audioItemsList = output.getAudioItemsList();
+        List<AudioItem> audioItemsList = output.getAudioItems();
         
         for (int i=0;i<audioItemsList.size();i++){
             

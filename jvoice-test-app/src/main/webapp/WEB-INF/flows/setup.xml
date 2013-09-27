@@ -3,8 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="retreiveCTIData">
+	start-state="setupDefaults">
 
+	<!-- De momento no tenemos un mecanismo de carga de la configuración por defecto. Faltan las gramaticas, y el max attempts por defecto -->
+	<action-state id="setupDefaults">
+		<evaluate expression="appConfigDefaults.setBargein(true)"></evaluate>
+		<transition to="setupLanguage"></transition>
+	</action-state>
+	
+	<!-- Esto lo hacemos por que las locuciones iniciales sólo están en español -->
+	<action-state id="setupLanguage">
+		<evaluate expression="userLocale.setLocale(new java.util.Locale('es','ES'))"></evaluate>
+		<transition to="retreiveCTIData"></transition>
+	</action-state>
+	
 	<action-state id="retreiveCTIData">
 		<evaluate expression="ctiData.retreive()"></evaluate>
 		<transition to="end"></transition>

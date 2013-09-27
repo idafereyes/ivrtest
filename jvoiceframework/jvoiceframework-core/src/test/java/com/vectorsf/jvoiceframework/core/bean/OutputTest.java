@@ -76,7 +76,7 @@ public class OutputTest {
 		
 		//Then
 		//Verifies that audioItemList has been injected so it is not null
-		assertNotNull("audioItemsList is null.", output.getAudioItemsList());
+		assertNotNull("audioItemsList is null.", output.getAudioItems());
 		
 		//Finally
 		context.close();

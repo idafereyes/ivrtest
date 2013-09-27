@@ -1,6 +1,8 @@
 package com.vectorsf.jvoiceframework.flow.render;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
 import java.util.Iterator;
 
 import org.springframework.stereotype.Component;
@@ -33,22 +35,43 @@ public class HTMLRenderer implements Renderer, Serializable {
     private String endSpanHtml = "</span><br/>";
     
     public String render(Input input, String flowURL) {
-        StringBuilder html = new StringBuilder();
-
-        html.append("<h1>Input</h1>");
-        // Input name
-        html.append("<p>Name = " + input.getName() + "</p>");
-        
-        html.append(renderInputParameters(input));
-        
+    	
+    	// Identificador del elemento en la página
+    	String identifier = UUID.randomUUID().toString();
+    	StringBuilder html = new StringBuilder();
+    	
+    	// control para expandir información
+    	html.append("<a onclick=\"javascript:toggle_visibility('" + identifier + "');\">Input </a>");
+    	html.append(renderSummary(input.getMainAudios()));
+    	
+    	// Acceso rápido para hacer sumbit
+    	html.append("<span style=\"display: inline-block;\">");
+    	html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+        html.append("Event:");
+        html.append("<select name=\"event\">");
+        html.append("<option value=\"_eventId_match\">Match</option>");
+        html.append("<option value=\"_eventId_maxnomatch\">No match (Max)</option>");
+        html.append("<option value=\"_eventId_maxnoinput\">No input (Max)</option>");
+        html.append("</select>");
+        html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation\" />");
+        html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
+        html.append("</form>");
+        html.append("</span>");
+    	html.append("<div id='" + identifier + "' style='display:none'>");  
+    	
+    	//html.append("<p>Name = " + input.getName() + "</p>"); // Para qué vale el name???
+    	//html.append(renderInputEvent(input)); // Esto para que todos los input no lanzan los mismos eventos?
+    	
+    	   	
+        html.append(renderInputParameters(input));         
+        html.append(render(input.getMainAudios(), "Main audio items"));
+        html.append(render(input.getNoMatchAudios(), "No Match audio items"));
+        html.append(render(input.getNoInputAudios(), "No input audio items"));
         html.append(renderInputGrammars(input));
-        
-        html.append(renderInputAudios(input));
-        
-        html.append(renderInputEvent(input));
-        
         html.append(renderInputResults(flowURL));
-        
+    	
+    	html.append("</div>");
+    	html.append("<br>");
         return html.toString();
     }
     
@@ -133,6 +156,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         return html.toString();
     }
     
+
     private String renderInputEvent(Input input) {
         StringBuilder html = new StringBuilder();
         //Eventos
@@ -147,6 +171,7 @@ public class HTMLRenderer implements Renderer, Serializable {
     
     private String renderInputResults(String flowURL) {
         StringBuilder html = new StringBuilder();
+        
         //Resultados
         html.append("<script>");
         html.append("function eventChanged() {");
@@ -178,26 +203,78 @@ public class HTMLRenderer implements Renderer, Serializable {
         return html.toString();
     }
         
-    public String render(Output output, String flowURL){
-        String renderCode = "";
-        renderCode += "<b><span>Output:"+ endSpanHtml + "</b>";
-        renderCode += "<span>bargein: " + output.isBargein() + endSpanHtml;
-        renderCode += "<span>flush: " + output.isFlush() + endSpanHtml;
-        renderCode += "<span>catchHangup: " + output.isCatchHangup() + endSpanHtml;
-        renderCode += "<br>";
-        
-        Iterator<AudioItem> it = output.getAudioItemsList().iterator();
-        while (it.hasNext()){
-            AudioItem prompt = it.next();
-            renderCode += "<b><span>Audio Item" + endSpanHtml + "</b>";          
-            renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;            
-            renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;            
-            renderCode += "<span>cond: " + prompt.getCondition() + endSpanHtml;     
-            renderCode += "<br>";
+    
+    private String renderSummary(List<AudioItem> audioItems) {
+    	String summary = null; 
+    	// Mostramos el primer audio item como resumen
+        AudioItem audioItem = audioItems.get(0);
+        if (audioItem != null){
+        	if (audioItem.getSrc() != null) {
+        		summary = audioItem.getSrc();
+        	}
+        	else if (audioItem.getWording() != null) {
+        		summary = audioItem.getWording();
+        	}
+        	else {
+        		summary = "No audio item";
+        	}
         }
-        
-        return renderCode;
+        return summary;
     }
+    
+    private String render(List<AudioItem> audioItems, String title) {
+    	StringBuilder html = new StringBuilder();
+    	html.append("<span class=\"property_title\">"+ title +"</span>");
+    	if (audioItems.size() > 0) {
+    		 Iterator<AudioItem> it = audioItems.iterator();
+    		
+    		 html.append("<table class=\"datagrid\" cellpadding=\"0\" cellspacing=\"0\">");    		 
+    		 html.append("<thead class=\"datagrid\"><tr><th>Wording</th><th>Source</th><th>Condition</th></tr></thead>");
+    		 
+    		 while (it.hasNext()){
+                 AudioItem prompt = it.next();
+                 html.append("<tr class=\"datagrid\">");
+                 html.append("<td>" + prompt.getWording() + "</td>");           
+                 html.append("<td>" + prompt.getSrc() + "</td>");         
+                 html.append("<td>" + prompt.getCondition() + "</td>");  
+                 html.append("</tr>");
+             }
+    		 html.append("</table>");
+
+    	}
+    	return  html.toString();
+    }
+    
+    public String render(Output output, String flowURL){
+      // Identificador del elemento en la página
+    	String identifier = UUID.randomUUID().toString();
+    	StringBuilder html = new StringBuilder();
+    	
+    	
+    	
+    	html.append("<a title=\"Expandir / contrater\" onclick=\"javascript:toggle_visibility('" + identifier + "');\">Output </a>");
+  
+
+    	html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + "</span>");
+    	
+    	
+    	html.append("<div id='" + identifier + "' style='display:none'>");
+    	
+    	html.append("</br>");
+    	html.append("<span class=\"property_title\">Bargein: </span><span class=\"property_value\">" + output.isBargein() + "</span><br>");
+    	html.append("<span class=\"property_title\">Flush: </span><span class=\"property_value\">" + output.isFlush() + "</span><br>");
+    	html.append("<span class=\"property_title\">CatchHangup: </span><span class=\"property_value\">" + output.isCatchHangup() + "</span><br>");
+
+    	html.append(render(output.getAudioItems(), "Audio items:"));
+    	html.append("</br>"); 
+    	html.append("</div>"); 
+    	html.append("</br>"); 
+    	
+    	
+        return html.toString();
+    }
+    
+    
 
     public String render(Transfer transfer, String flowURL) {
         String renderCode = "";

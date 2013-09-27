@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.testapp.service.promo;
+package com.vectorsf.jvoiceframework.testapp.service.promotion;
 
 import java.util.Calendar;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service("promotionProvider")
 public class PromotionProvider {
 	
-	private static final String PROMOTION_WORDING = "Esta promoción es falsa, pero ¿Acaso no lo son todas?";
+	private static final String PROMOTION_WORDING = "Contrate ahora nuestras nuevas tarjetas blah blah blah ...";
 	
 	public Promotion retrieve() {
 		Promotion promotion = null;

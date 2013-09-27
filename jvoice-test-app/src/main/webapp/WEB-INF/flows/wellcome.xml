@@ -20,9 +20,9 @@
 			<set name="flowScope.wellcomeULineRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.bean.CTIDataVector).APPLICATION_ULINE_RETAIL)"/>
 
 			<evaluate expression="output" result="flowScope.wellcomeOutput"></evaluate>	
-			<evaluate expression="flowScope.wellcomeOutput.addAudioItem(flowScope.wellcomeRetailOutputAudioItem)"/> 
-			<evaluate expression="flowScope.wellcomeOutput.addAudioItem(flowScope.wellcomePymeRetailOutputAudioItem)"/> 
-			<evaluate expression="flowScope.wellcomeOutput.addAudioItem(flowScope.wellcomeULineRetailOutputAudioItem)"/> 			 
+			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeRetailOutputAudioItem)"/> 
+			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomePymeRetailOutputAudioItem)"/> 
+			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeULineRetailOutputAudioItem)"/> 			 
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.wellcomeOutput)"/> 		
@@ -64,12 +64,12 @@
 			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation"/>			
 		</transition>
 		
-		<transition  to="menu"/>
+		<transition  to="end"/>
 	</view-state>
 	
 	<action-state id="setLanguageInputCheck">
 		<evaluate expression="flowScope.lastInputResult.interpretation"/>
-		<transition on="1" to="menu">
+		<transition on="1" to="end">
 			<evaluate expression="userLocale.setLocale(new java.util.Locale('en','US'))" /> <!-- OTRO ESTADO??? -->
 		</transition>
 		<transition to="end"/>

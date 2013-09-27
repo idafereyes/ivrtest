@@ -58,6 +58,7 @@
 		</beans:property>
 	</beans:bean>
 	
+	<!-- Habilitamos el ámbito flujo -->
 	<beans:bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
 		<beans:property name="scopes">
 			<beans:map>

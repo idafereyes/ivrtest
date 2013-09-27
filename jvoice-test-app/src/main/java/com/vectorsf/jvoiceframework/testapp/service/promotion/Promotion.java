@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.testapp.service.promo;
+package com.vectorsf.jvoiceframework.testapp.service.promotion;
 
 import java.io.Serializable;
 import java.util.Calendar;

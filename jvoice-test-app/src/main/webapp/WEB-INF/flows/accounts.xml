@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="wellcomeOutput">
+
+   	<action-state id="wellcomeOutput">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.wellcomeRetailOutputAudioItem" /> 			
+  			<set name="flowScope.wellcomeRetailOutputAudioItem.wording" value="'Aqui saldrá el menú de cuentas...'"/> 
+			
+			<evaluate expression="output" result="flowScope.wellcomeOutput"></evaluate>	
+			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeRetailOutputAudioItem)"/> 
+					 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.wellcomeOutput)"/> 		
+		<transition on="" to="render" />
+	</action-state>
+
+	<view-state id="render" view="render">
+		<transition  to="end"/>
+	</view-state>
+	
+	<action-state id="setLanguageInputCheck">
+		<evaluate expression="flowScope.lastInputResult.interpretation"/>
+		<transition on="1" to="end">
+			<evaluate expression="userLocale.setLocale(new java.util.Locale('en','US'))" /> <!-- OTRO ESTADO??? -->
+		</transition>
+		<transition to="end"/>
+	</action-state>
+	
+	
+	
+	
+	<end-state id="end"/>	
+</flow>

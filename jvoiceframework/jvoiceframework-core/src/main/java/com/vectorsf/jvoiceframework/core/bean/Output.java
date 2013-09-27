@@ -12,8 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * Output component used at jVoice framework.
- * Represents a group of audio items to be played.
+ * Output component used at jVoice framework. Represents a group of audio items to be played.
  * They share some attributes specified in this class but each audio item can have different features.
  * 
  * @author idafereyes
@@ -23,13 +22,10 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Output implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4392125518171018331L;
     
     public Output(){
-        audioItemsList = new ArrayList<AudioItem>();
+        audioItems = new ArrayList<AudioItem>();
 		properties = new HashMap<String, String>();
     }
         
@@ -59,10 +55,8 @@ public class Output implements Serializable {
     
     /**
      * List of audio items to play in the output block.
-     * 
-     * 
      */
-    private List<AudioItem> audioItemsList;
+    private List<AudioItem> audioItems;
     
     /**
      * VXML properties to enhance transfer functionality provided.
@@ -94,12 +88,12 @@ public class Output implements Serializable {
         this.catchHangup = catchHangup;
     }
 
-    public List<AudioItem> getAudioItemsList() {
-        return this.audioItemsList;
+    public List<AudioItem> getAudioItems() {
+        return this.audioItems;
     }
 
-    public void setAudioItemsList(List<AudioItem> audioItemsList) {
-        this.audioItemsList = audioItemsList;
+    public void setAudioItems(List<AudioItem> audioItemsList) {
+        this.audioItems = audioItemsList;
     }
 
     public Map<String,String> getProperties() {
@@ -110,8 +104,4 @@ public class Output implements Serializable {
         this.properties = properties;
     }  
     
-    public void addAudioItem(AudioItem audioItem){
-    	this.audioItemsList.add(audioItem);
-    }
-
 }

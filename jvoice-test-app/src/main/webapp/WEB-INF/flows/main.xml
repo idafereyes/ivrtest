@@ -26,10 +26,13 @@
 	<action-state id="menuDecision">	
 		<evaluate expression="flowScope.menuOption"></evaluate>
 	    <transition on="1" to="accounts" />
-	    <transition on="2" to="trx" />
-	    
 	 	<transition to="end" /> <!-- Opción por defecto -->
 	</action-state>
+	
+	<subflow-state id="accounts" subflow="accounts">
+		<transition  to="end"/>
+	</subflow-state>
+	
 	
 	
 	<end-state id="end"/>
