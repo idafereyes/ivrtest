@@ -533,8 +533,8 @@ public class VXIRenderer implements Renderer, Serializable {
             audioItemsCode.append("<prompt");
                         
             //Adds cond prompt attribute if specified
-            if (audioItemsList.get(i).getCond() != null){
-                audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCond() + "\"");
+            if (audioItemsList.get(i).getCondition() != null){
+                audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCondition() + "\"");
             }
             
             //Ends prompt start tag
