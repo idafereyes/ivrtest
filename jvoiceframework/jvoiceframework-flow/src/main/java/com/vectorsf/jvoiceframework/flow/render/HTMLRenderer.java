@@ -183,9 +183,9 @@ public class HTMLRenderer implements Renderer, Serializable {
     		 while (it.hasNext()){
                  AudioItem prompt = it.next();
                  html.append("<tr class=\"datagrid\">");
-                 html.append(startTdHtml + prompt.getWording() + "</td>");           
-                 html.append(startTdHtml + prompt.getSrc() + "</td>");         
-                 html.append(startTdHtml + prompt.getCondition() + "</td>");  
+                 html.append(startTdHtml + prompt.getWording() + endTdHtml);           
+                 html.append(startTdHtml + prompt.getSrc() + endTdHtml);         
+                 html.append(startTdHtml + prompt.getCondition() + endTdHtml);  
                  html.append("</tr>");
              }
     		 html.append("</table>");
