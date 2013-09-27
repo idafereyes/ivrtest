@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import java.util.Iterator;
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -72,9 +71,9 @@ public class HTMLRenderer implements Renderer, Serializable {
     	
     	   	
         html.append(renderInputParameters(input));         
-        html.append(render(input.getMainAudios(), "Main audio items"));
-        html.append(render(input.getNoMatchAudios(), "No Match audio items"));
-        html.append(render(input.getNoInputAudios(), "No input audio items"));
+        html.append(renderAudioItems(input.getMainAudios(), "Main audio items"));
+        html.append(renderAudioItems(input.getNoMatchAudios(), "No Match audio items"));
+        html.append(renderAudioItems(input.getNoInputAudios(), "No input audio items"));
         html.append(renderInputGrammars(input));
         html.append(renderInputResults(flowURL));
     	
@@ -172,7 +171,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         return summary;
     }
     
-    private String render(List<AudioItem> audioItems, String title) {
+    private String renderAudioItems(List<AudioItem> audioItems, String title) {
     	StringBuilder html = new StringBuilder();
     	html.append("<span class=\"property_title\">"+ title +"</span>");
     	if (audioItems.size() > 0) {
@@ -215,7 +214,7 @@ public class HTMLRenderer implements Renderer, Serializable {
     	html.append("<span class=\"property_title\">Flush: </span><span class=\"property_value\">" + output.isFlush() + "</span><br>");
     	html.append("<span class=\"property_title\">CatchHangup: </span><span class=\"property_value\">" + output.isCatchHangup() + "</span><br>");
 
-    	html.append(render(output.getAudioItems(), "Audio items:"));
+    	html.append(renderAudioItems(output.getAudioItems(), "Audio items:"));
     	html.append("</br>"); 
     	html.append("</div>"); 
     	html.append("</br>"); 
