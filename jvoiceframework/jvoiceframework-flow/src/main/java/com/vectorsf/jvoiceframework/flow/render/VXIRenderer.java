@@ -642,8 +642,6 @@ public class VXIRenderer implements Renderer, Serializable {
 		
 		startPageCode.append("<form>");
 		
-		System.out.println("startPage: " + startPageCode);
-
 		return startPageCode.toString();
 	}
 
@@ -654,8 +652,6 @@ public class VXIRenderer implements Renderer, Serializable {
 		endPageCode.append("</form>");
 
 		endPageCode.append("</vxml>");
-
-		System.out.println("endPage: " + endPageCode);
 
 		return endPageCode.toString();
 	}
