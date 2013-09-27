@@ -28,11 +28,13 @@ public class HTMLRenderer implements Renderer, Serializable {
     //String literals reuse
     private String tableHtml = "<table cellpadding=\"0\" cellspacing=\"0\">";
     private String tdHtml = "<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">";
+    private String startTdHtml = "<td>";
     private String endTdHtml = "</td>";
     private String endTableHtml = "</table><br/>";
     private String trStyledHtml = "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\" >";
     private String endTrHtml = "</td></tr>";
     private String endSpanHtml = "</span><br/>";
+    
     
     public String render(Input input, String flowURL) {
     	
@@ -110,65 +112,7 @@ public class HTMLRenderer implements Renderer, Serializable {
         return html.toString();
     }
     
-    private String renderInputAudios(Input input) {
-        StringBuilder html = new StringBuilder();
-        //Audios
-        html.append(tableHtml);
-        html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Audios</b></td></tr>");
-        html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Cond</td>");
-        html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td>");
-        html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Wording</td></tr>");
-        
-        html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>Main</b></td></tr>");
-        if(!input.getMainAudios().isEmpty()) {
-            for(AudioItem ai : input.getMainAudios()) {
-                html.append(trStyledHtml + ai.getCondition() + endTdHtml);
-                html.append(tdHtml + ai.getSrc() + endTdHtml);
-                html.append(tdHtml + ai.getWording() + endTrHtml);
-            }
-        } else {
-            html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
-        }
-        
-        html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Match</b></td></tr>");
-        if(!input.getNoMatchAudios().isEmpty()) {
-            for(AudioItem ai : input.getNoMatchAudios()) {
-                html.append(trStyledHtml + ai.getCondition() + endTdHtml);
-                html.append(tdHtml + ai.getSrc() + endTdHtml);
-                html.append(tdHtml + ai.getWording() + endTrHtml);
-            }
-        } else {
-            html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
-        }
-        
-        html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black; background-color: #7070FF; text-align: center;\"><b>No Input</b></td></tr>");
-        if(!input.getNoInputAudios().isEmpty()) {
-            for(AudioItem ai : input.getNoInputAudios()) {
-                html.append(trStyledHtml + ai.getCondition() + endTdHtml);
-                html.append(tdHtml + ai.getSrc() + endTdHtml);
-                html.append(tdHtml + ai.getWording() + endTrHtml);
-            }
-        } else {
-            html.append("<tr><td colspan=\"3\" style=\"padding: 0 10px 0 10px; border: solid 1px black;\">No audios</td></tr>");
-        }
-        
-        html.append(endTableHtml);
-        return html.toString();
-    }
-    
-
-    private String renderInputEvent(Input input) {
-        StringBuilder html = new StringBuilder();
-        //Eventos
-        html.append(tableHtml);
-        html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\"><b>Events</b></td></tr>");
-        for(String event: input.getEvents()) {
-            html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">" + event + endTrHtml);
-        }
-        html.append(endTableHtml);
-        return html.toString();
-    }
-    
+   
     private String renderInputResults(String flowURL) {
         StringBuilder html = new StringBuilder();
         
@@ -234,9 +178,9 @@ public class HTMLRenderer implements Renderer, Serializable {
     		 while (it.hasNext()){
                  AudioItem prompt = it.next();
                  html.append("<tr class=\"datagrid\">");
-                 html.append("<td>" + prompt.getWording() + "</td>");           
-                 html.append("<td>" + prompt.getSrc() + "</td>");         
-                 html.append("<td>" + prompt.getCondition() + "</td>");  
+                 html.append(startTdHtml + prompt.getWording() + "</td>");           
+                 html.append(startTdHtml + prompt.getSrc() + "</td>");         
+                 html.append(startTdHtml + prompt.getCondition() + "</td>");  
                  html.append("</tr>");
              }
     		 html.append("</table>");
