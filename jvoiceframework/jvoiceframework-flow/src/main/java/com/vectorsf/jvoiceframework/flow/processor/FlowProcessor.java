@@ -72,19 +72,9 @@ public class FlowProcessor implements Serializable {
      */
     public String render(String flowURL){
         String code = "";
-        for (Object element: states){
-            if (element instanceof Input) {
-                code += this.renderer.render((Input)element, flowURL);
-            }else if (element instanceof Output) {
-                code += this.renderer.render((Output)element, flowURL);            
-            }else if (element instanceof Transfer) {
-                code += this.renderer.render((Transfer) element, flowURL) ;
-            }else if (element instanceof End) {
-                code += this.renderer.render((End) element, flowURL) ;
-            }else if (element instanceof Record) {
-            	code += this.renderer.render((Record) element, flowURL) ;
-            } 
-        }
+        
+        code += this.renderer.render(states, flowURL);
+        	
         states.clear();
         return code;
         

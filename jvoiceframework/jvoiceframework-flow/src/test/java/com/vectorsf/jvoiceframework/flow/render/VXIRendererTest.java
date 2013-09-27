@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -21,6 +22,7 @@ import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.bean.UserLocale;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
@@ -579,6 +581,37 @@ public class VXIRendererTest {
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/end.test")); 
 		
 	}
+	
+	@Test
+	public void testStartPage() throws FileNotFoundException{
+		
+		//Given
+		VXIRenderer vxiRenderer = new VXIRenderer();
+		
+		//When
+		String vxmlCode = vxiRenderer.renderStartPage();
+		
+		//Then
+//		System.out.println(vxmlCode);
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/startPage.test")); 
+		
+	}
+	
+	@Test
+	public void testEndPage() throws FileNotFoundException{
+		
+		//Given
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.renderEndPage();
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/endPage.test")); 
+		
+	}
+
+
 
 	public String readResourceFile(String filename) throws FileNotFoundException{
 

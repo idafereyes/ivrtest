@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Input;
@@ -20,7 +21,7 @@ import com.vectorsf.jvoiceframework.core.enums.TransferType;
 public class VXIRenderer implements Renderer, Serializable {
 
     private static final long serialVersionUID = -5854263044507481102L;
-
+    
     static final String BLOCK_START_TAG = "<block>";
     static final String BLOCK_END_TAG = "</block>";
     static final String SUBMIT_TAG = "<submit next=\"";
@@ -38,7 +39,32 @@ public class VXIRenderer implements Renderer, Serializable {
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
 
-    public String render(Output output, String flowURL) {
+	public String render(List<Object> states, String flowURL) {
+	      
+		StringBuilder code = new StringBuilder();
+		
+		code.append(renderStartPage());
+      
+		  for (Object element: states){
+		      if (element instanceof Input) {
+		          code.append(render((Input)element, flowURL));
+		      }else if (element instanceof Output) {
+		          code.append(render((Output)element, flowURL));            
+		      }else if (element instanceof Transfer) {
+		          code.append(render((Transfer) element, flowURL));
+		      }else if (element instanceof End) {
+		          code.append(render((End) element, flowURL));
+		      }else if (element instanceof Record) {
+		    	  code.append(render((Record) element, flowURL));
+		      } 
+		  }
+		  
+		 code.append(renderEndPage());
+      
+      return code.toString();
+	}
+
+	public String render(Output output, String flowURL) {
                 
         StringBuilder code2render = new StringBuilder();
         
@@ -588,5 +614,50 @@ public class VXIRenderer implements Renderer, Serializable {
 		
     	return endCode.toString();
     }
+
+	public String renderStartPage() {
+
+		StringBuilder startPageCode = new StringBuilder();
+		
+		startPageCode.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		
+		startPageCode.append("<vxml ");
+
+		//TODO Versión en una constante o por configuración?
+		startPageCode.append("version=\""+ "2.1" + QUOTE_SPACE);
+
+		//TODO Namespace en una constante o por configuración?
+		startPageCode.append("xmlns=\""+ "http://www.w3.org/2001/vxml" + QUOTE_SPACE);
+
+		//TODO Con esto del locutionProvider, qué lenguaje ponemos? Podemos hacer un getLocale()?
+		startPageCode.append("xml:lang=\""+ "es-ES" + QUOTE_SPACE);
+		
+		//TODO Añadir el atributo application? (en el que se hace referencia a la página root.
+
+		startPageCode.append(CLOSE_TAG);
+		
+		//Forces VXML interpreter to not cache VXML pages
+		//TODO dejar esto?
+		startPageCode.append("<meta http-equiv=\"Expires\" content=\"0\"/>");
+		
+		startPageCode.append("<form>");
+		
+		System.out.println("startPage: " + startPageCode);
+
+		return startPageCode.toString();
+	}
+
+	public String renderEndPage() {
+		
+		StringBuilder endPageCode = new StringBuilder();
+		
+		endPageCode.append("</form>");
+
+		endPageCode.append("</vxml>");
+
+		System.out.println("endPage: " + endPageCode);
+
+		return endPageCode.toString();
+	}
 
 }

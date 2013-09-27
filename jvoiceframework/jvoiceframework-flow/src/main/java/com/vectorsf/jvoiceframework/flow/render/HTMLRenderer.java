@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,12 @@ public class HTMLRenderer implements Renderer, Serializable {
     private String endSpanHtml = "</span><br/>";
     
     
-    public String render(Input input, String flowURL) {
+	public String render(List<Object> states, String flowURL) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String render(Input input, String flowURL) {
     	
     	// Identificador del elemento en la página
     	String identifier = UUID.randomUUID().toString();
@@ -308,4 +314,15 @@ public class HTMLRenderer implements Renderer, Serializable {
     	
     	return sb.toString();
     }
+
+	public String renderStartPage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String renderEndPage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
