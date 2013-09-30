@@ -217,10 +217,11 @@ public class VXIRenderer implements Renderer, Serializable {
     private String renderInputInitVar(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
-//    	sb.append("<form>");
-//    	sb.append("<block>");
-//    	sb.append("<assign name=\"" + PARAM_INPUT_ID + "\" expr=\"'" + component.getAttributes().get("name") + "'\" />");
-		//writer.append("<assign name=\"executeField\" expr=\"'true'\" />");
+    	//Renders properties if there are
+        if (!input.getProperties().isEmpty()){
+            sb.append(renderProperties(input.getProperties()));            
+        }
+        
     	sb.append("<var name=\"" + InputVars.ATTEMPTS.getName() + "\" expr=\"0\" />");
     	sb.append("<var name=\"noInputAttempt\" expr=\"0\" />");
     	sb.append("<var name=\"noMatchAttempt\" expr=\"0\" />");
@@ -232,8 +233,6 @@ public class VXIRenderer implements Renderer, Serializable {
 		String recAvailable = getRecAvailable(input);
 		sb.append("<var name=\"" + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'\" />");
 		sb.append("<var name=\"" + InputVars.RETURNCODE.getName() + "\" expr=\"''\" />");
-		  		
-//		sb.append("</block>");
 		
     	return sb.toString();
     }

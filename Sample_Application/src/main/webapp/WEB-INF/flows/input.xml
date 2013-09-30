@@ -20,6 +20,10 @@
 			<set name="flowScope.inputTest.maxNoMatch" value="3" />
 			<set name="flowScope.inputTest.bargein" value="false" />
 
+            <!-- Seteamos propiedades -->
+            <evaluate expression="flowScope.inputTest.properties.put('maxspeechtimeout', '10s')" />
+            <evaluate expression="flowScope.inputTest.properties.put('timeout', '1s')" />
+            
             <!-- Gramaticas -->
 			<evaluate expression="grammar" result="flowScope.grammar1" />
 			<set name="flowScope.grammar1.src" value="'dtmf/digits?length=2'" />
