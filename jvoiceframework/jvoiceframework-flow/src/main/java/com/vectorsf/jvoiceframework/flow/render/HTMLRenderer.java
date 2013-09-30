@@ -37,8 +37,27 @@ public class HTMLRenderer implements Renderer, Serializable {
     
     
 	public String render(List<Object> states, String flowURL) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder code = new StringBuilder();
+		
+		code.append(renderStartPage());
+      
+		  for (Object element: states){
+		      if (element instanceof Input) {
+		          code.append(render((Input)element, flowURL));
+		      }else if (element instanceof Output) {
+		          code.append(render((Output)element, flowURL));            
+		      }else if (element instanceof Transfer) {
+		          code.append(render((Transfer) element, flowURL));
+		      }else if (element instanceof End) {
+		          code.append(render((End) element, flowURL));
+		      }else if (element instanceof Record) {
+		    	  code.append(render((Record) element, flowURL));
+		      } 
+		  }
+		  
+		 code.append(renderEndPage());
+      
+      return code.toString();
 	}
 
 	public String render(Input input, String flowURL) {
@@ -315,13 +334,25 @@ public class HTMLRenderer implements Renderer, Serializable {
     }
 
 	public String renderStartPage() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<html>");
+		sb.append("<head>");
+		sb.append("<title>");
+		sb.append("Aplicación prototipo jVoice Framework");
+		sb.append("</title>");
+		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"resources/css/HTMLRenderer.css\" />");
+		sb.append("</head>");
+		
+		return sb.toString();
 	}
 
 	public String renderEndPage() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("</html>");
+		
+		return sb.toString();
 	}
 
 }

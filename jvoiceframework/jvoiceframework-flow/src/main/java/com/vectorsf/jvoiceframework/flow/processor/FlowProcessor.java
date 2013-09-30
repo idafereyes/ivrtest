@@ -71,12 +71,12 @@ public class FlowProcessor implements Serializable {
      * @return
      */
     public String render(String flowURL){
-        String code = "";
+        StringBuilder code = new StringBuilder();
         
-        code += this.renderer.render(states, flowURL);
+        code.append(this.renderer.render(states, flowURL));
         	
         states.clear();
-        return code;
+        return code.toString();
         
     }
 }
