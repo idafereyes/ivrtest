@@ -7,6 +7,7 @@
 	<bean id="states" class="java.util.ArrayList" scope="session" />
 	
 	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor" scope="session">
+
 		<property name="states" ref="states"></property>
 		<property name="renderer" ref="renderer"></property>
 	</bean>

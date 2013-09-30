@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.flow.render.vxi;
+package com.vectorsf.jvoiceframework.flow.render;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
@@ -19,10 +21,8 @@ import com.vectorsf.jvoiceframework.core.enums.InputVars;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
-import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
-import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
-public class VXIRenderer extends AbstractRenderer implements Renderer, Serializable {
+public class VXIRenderer implements Renderer, Serializable {
 
     private static final long serialVersionUID = -5854263044507481102L;
     
@@ -52,6 +52,31 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String audiosPath = "";
     private String audiosFileExtension = "";
     
+	public String render(List<Object> states, String flowURL) {
+	      
+		StringBuilder code = new StringBuilder();
+		
+		code.append(renderStartPage());
+      
+		  for (Object element: states){
+		      if (element instanceof Input) {
+		          code.append(render((Input)element, flowURL));
+		      }else if (element instanceof Output) {
+		          code.append(render((Output)element, flowURL));            
+		      }else if (element instanceof Transfer) {
+		          code.append(render((Transfer) element, flowURL));
+		      }else if (element instanceof End) {
+		          code.append(render((End) element, flowURL));
+		      }else if (element instanceof Record) {
+		    	  code.append(render((Record) element, flowURL));
+		      } 
+		  }
+		  
+		 code.append(renderEndPage());
+      
+      return code.toString();
+	}
+        
 	public String render(Output output, String flowURL) {
                 
         StringBuilder code2render = new StringBuilder();
@@ -287,6 +312,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     
     private String renderInputPrompts(Input input) {
     	StringBuilder sb = new StringBuilder();
+    	
     	
     	// write no match audios with their condition
 		for(AudioItem ai : input.getNoMatchAudios()) {
@@ -559,8 +585,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
     	//Required attributes
     	attributesCode.append("dest=\"" + transfer.getDest() +    QUOTE_SPACE);
-    	//TODO Revisar si lo pasamos a minúscula siempre. En VXML debe estar en minuscula.
-        String transferType = transfer.getType();
+        String transferType = transfer.getType().toLowerCase();
         attributesCode.append("type=\"" + transferType + QUOTE_SPACE);
         
         //Optional attributes
