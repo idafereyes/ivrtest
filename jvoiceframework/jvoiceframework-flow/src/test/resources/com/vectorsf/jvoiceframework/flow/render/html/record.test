@@ -1,0 +1,33 @@
+<span>Record</span><br/>
+<span>beep: true</span><br/>
+<span>dtmfterm: false</span><br/>
+<span>maxtime: 30s</span><br/>
+<span>finalsilence: 3s</span><br/>
+<span>fileName: null</span><br/>
+<span>filePath: null</span><br/>
+<span>keep: false</span><br/>
+<span>audioItemsList</span><br/>
+<span>Audio Item</span><br/>
+<span>src: SAN-RECORDING</span><br/>
+<span>wording: Por favor, diga su nombre</span><br/>
+<span>cond: null</span><br/>
+<span>Audio Item</span><br/>
+<span>src: SAN-RECORDING-B</span><br/>
+<span>wording: null</span><br/>
+<span>cond: null</span><br/>
+<span>Audio Item</span><br/>
+<span>src: null</span><br/>
+<span>wording: Despues del beep</span><br/>
+<span>cond: null</span><br/>
+<span>Events:</span><br>
+<span>RECORDED</span><br/>
+<span>com.nortel.ivr.record.notstored</span><br/>
+<span>HANGUP</span><br/>
+<span>ERROR</span><br/>
+<span>RECORDUNSUPPORTED</span><br/>
+<span>NORESOURCE</span><br/>
+<span>Properties</span><br/>
+<span>Property: other.property</span><br/>
+<span>Value: 20s</span><br/>
+<span>Property: second.other.property</span><br/>
+<span>Value: 35s</span><br/>

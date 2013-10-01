@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.flow.render;
+package com.vectorsf.jvoiceframework.flow.render.html;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +14,8 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
+import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
 /**
  * Implementación de renderizador que genera código HTML
@@ -21,7 +23,7 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
  * @author dmartina
  */
 @Component("renderer")
-public class HTMLRenderer implements Renderer, Serializable {
+public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializable {
 
     private static final long serialVersionUID = 4511972601190155577L;
     
@@ -35,31 +37,6 @@ public class HTMLRenderer implements Renderer, Serializable {
     private String endTrHtml = "</td></tr>";
     private String endSpanHtml = "</span><br/>";
     
-    
-	public String render(List<Object> states, String flowURL) {
-		StringBuilder code = new StringBuilder();
-		
-		code.append(renderStartPage());
-      
-		  for (Object element: states){
-		      if (element instanceof Input) {
-		          code.append(render((Input)element, flowURL));
-		      }else if (element instanceof Output) {
-		          code.append(render((Output)element, flowURL));            
-		      }else if (element instanceof Transfer) {
-		          code.append(render((Transfer) element, flowURL));
-		      }else if (element instanceof End) {
-		          code.append(render((End) element, flowURL));
-		      }else if (element instanceof Record) {
-		    	  code.append(render((Record) element, flowURL));
-		      } 
-		  }
-		  
-		 code.append(renderEndPage());
-      
-      return code.toString();
-	}
-
 	public String render(Input input, String flowURL) {
     	
     	// Identificador del elemento en la página
@@ -68,7 +45,9 @@ public class HTMLRenderer implements Renderer, Serializable {
     	
     	// control para expandir información
     	html.append("<a onclick=\"javascript:toggle_visibility('" + identifier + "');\">Input </a>");
-    	html.append(renderSummary(input.getMainAudios()));
+    	if (input.getMainAudios() != null && !input.getMainAudios().isEmpty()){
+        	html.append(renderSummary(input.getMainAudios()));
+    	}
     	
     	// Acceso rápido para hacer sumbit
     	html.append("<span style=\"display: inline-block;\">");
@@ -222,8 +201,9 @@ public class HTMLRenderer implements Renderer, Serializable {
     	
     	html.append("<a title=\"Expandir / contrater\" onclick=\"javascript:toggle_visibility('" + identifier + "');\">Output </a>");
   
-
-    	html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + "</span>");
+    	if (output.getAudioItems() != null && !output.getAudioItems().isEmpty()){
+    		html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + "</span>");
+    	}
     	
     	
     	html.append("<div id='" + identifier + "' style='display:none'>");
@@ -233,7 +213,9 @@ public class HTMLRenderer implements Renderer, Serializable {
     	html.append("<span class=\"property_title\">Flush: </span><span class=\"property_value\">" + output.isFlush() + "</span><br>");
     	html.append("<span class=\"property_title\">CatchHangup: </span><span class=\"property_value\">" + output.isCatchHangup() + "</span><br>");
 
-    	html.append(renderAudioItems(output.getAudioItems(), "Audio items:"));
+    	if (output.getAudioItems() != null && !output.getAudioItems().isEmpty()){
+    		html.append(renderAudioItems(output.getAudioItems(), "Audio items:"));
+    	}
     	html.append("</br>"); 
     	html.append("</div>"); 
     	html.append("</br>"); 
@@ -279,7 +261,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 	public String render(Record record, String flowURL) {
         String renderCode = "";
         
-        renderCode += "<span>Record</span>";
+        renderCode += "<span>Record" + endSpanHtml;
         renderCode += "<span>beep: " + record.isBeep() + endSpanHtml;
         renderCode += "<span>dtmfterm: " + record.isDtmfterm() + endSpanHtml;
         renderCode += "<span>maxtime: " + record.getMaxtime() + endSpanHtml;
@@ -339,7 +321,7 @@ public class HTMLRenderer implements Renderer, Serializable {
 		sb.append("<html>");
 		sb.append("<head>");
 		sb.append("<title>");
-		sb.append("Aplicación prototipo jVoice Framework");
+		sb.append("Aplicacion prototipo jVoice Framework");
 		sb.append("</title>");
 		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"resources/css/HTMLRenderer.css\" />");
 		sb.append("</head>");

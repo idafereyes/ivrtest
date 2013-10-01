@@ -3,7 +3,6 @@ package com.vectorsf.jvoiceframework.flow.processor;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
@@ -36,6 +35,5 @@ public class FlowProcessorTest {
 		
 		// Then
 		verify(rendererMock, times(1)).render(flowProcessor.getStates(), FLOW_URL);
-		verify(rendererMock, times(1)).render(flowProcessor.getStates(),FLOW_URL);
 	}
 }

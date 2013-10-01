@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.flow.render;
+package com.vectorsf.jvoiceframework.flow.render.vxi;
 
 
 import static org.junit.Assert.assertEquals;
@@ -18,17 +18,63 @@ import org.junit.Test;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
+import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
+import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer;
 
 public class VXIRendererTest {
 	
 	static final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/";
+	static final String RESOURCE_FILE_PATH = "src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/";
 
+
+	@Test
+	public void testRenderEmptyStatesList(){
+		
+		//Given
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+		
+		List<Object> states = new ArrayList<Object>();
+
+		//When
+		String vxmlCode =  vxiRenderer.render(states, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, ""); 
+	}
+	
+	@Test
+	public void testRenderEveryState() throws FileNotFoundException {
+		
+		//Given
+				
+		List<Object> states = new ArrayList<Object>();
+		Output outputMock = mock(Output.class);
+		states.add(outputMock);
+		Input inputMock = mock(Input.class);
+		states.add(inputMock);
+		Transfer transferMock = mock(Transfer.class);
+		states.add(transferMock);
+		Record recordMock = mock(Record.class);
+		states.add(recordMock);
+		End endMock = mock(End.class);
+		states.add(endMock);
+
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(states, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "everyState.test")); 
+
+	}
 
 	@Test
 	public void testCatchHangupFlushFalseAtOutput() throws FileNotFoundException{
@@ -62,7 +108,7 @@ public class VXIRendererTest {
 		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/catchHangupFlushFalseAtOutput.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "catchHangupFlushFalseAtOutput.test")); 
 		
 	}
 	
@@ -98,7 +144,7 @@ public class VXIRendererTest {
 		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/flushTrueAtOutput.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "flushTrueAtOutput.test")); 
 		
 	}
 	
@@ -141,7 +187,7 @@ public class VXIRendererTest {
 		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/propertiesAtOutput.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "propertiesAtOutput.test")); 
 		
 	}
 	
@@ -177,7 +223,7 @@ public class VXIRendererTest {
 		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/catchHangupTrueAtOutput.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "catchHangupTrueAtOutput.test")); 
 		
 	}
 
@@ -187,7 +233,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString());
+		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(TransferEvents.TRANSFERRED.toString());
@@ -205,7 +251,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/blindTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "blindTransfer.test")); 
 
 	}
 		
@@ -215,7 +261,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.CONSULTATION.toString());
+		when(transferMock.getType()).thenReturn(TransferType.CONSULTATION.toString().toLowerCase());
 		when(transferMock.getTimeout()).thenReturn("15s");
 
 		List<String> eventsList = new ArrayList<String>();
@@ -234,7 +280,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/consultationTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "consultationTransfer.test")); 
 		
 	}
 
@@ -244,7 +290,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BRIDGE.toString());
+		when(transferMock.getType()).thenReturn(TransferType.BRIDGE.toString().toLowerCase());
 		when(transferMock.getTimeout()).thenReturn("15s");
 		when(transferMock.getMaxtime()).thenReturn("30s");
 
@@ -264,7 +310,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/bridgeTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "bridgeTransfer.test")); 
 		
 	}
 	
@@ -274,7 +320,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString());
+		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(TransferEvents.TRANSFERRED.toString());
@@ -293,7 +339,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/propertiesAtTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "propertiesAtTransfer.test")); 
 		
 	}
 
@@ -303,7 +349,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString());
+		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(TransferEvents.TRANSFERRED.toString());
@@ -318,7 +364,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/customEventsAtTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "customEventsAtTransfer.test")); 
 		
 	}
 
@@ -329,7 +375,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString());
+		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 		when(transferMock.getTimeout()).thenReturn("10s");
 		when(transferMock.getMaxtime()).thenReturn("60s");
 
@@ -344,7 +390,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/attributesNotApplicableAtTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "attributesNotApplicableAtTransfer.test")); 
 		
 	}
 
@@ -354,7 +400,7 @@ public class VXIRendererTest {
 		//Given
 		Transfer transferMock = mock(Transfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString());
+		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 		when(transferMock.getTransferaudio()).thenReturn("idleMusic");
 
 		List<String> eventsList = new ArrayList<String>();
@@ -368,7 +414,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/transferaudioAtTransfer.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "transferaudioAtTransfer.test")); 
 		
 	}
 	
@@ -426,7 +472,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/record.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "record.test")); 
 		
 	}
 	
@@ -470,7 +516,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/propertiesAtRecord.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "propertiesAtRecord.test")); 
 		
 	}
 	
@@ -512,7 +558,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/customEventsAtRecord.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "customEventsAtRecord.test")); 
 		
 	}
 
@@ -557,7 +603,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/audioItemsAtRecord.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "audioItemsAtRecord.test")); 
 		
 	}
 	
@@ -576,7 +622,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.render(endMock, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/end.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "end.test")); 
 		
 	}
 	
@@ -590,7 +636,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.renderStartPage();
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/startPage.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "startPage.test")); 
 		
 	}
 	
@@ -604,7 +650,7 @@ public class VXIRendererTest {
 		String vxmlCode = vxiRenderer.renderEndPage();
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/endPage.test")); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "endPage.test")); 
 		
 	}
 

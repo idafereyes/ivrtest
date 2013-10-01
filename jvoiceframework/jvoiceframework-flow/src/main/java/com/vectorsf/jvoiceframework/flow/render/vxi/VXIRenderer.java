@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.flow.render;
+package com.vectorsf.jvoiceframework.flow.render.vxi;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.End;
@@ -17,8 +16,10 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
+import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
+import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
-public class VXIRenderer implements Renderer, Serializable {
+public class VXIRenderer extends AbstractRenderer implements Renderer, Serializable {
 
     private static final long serialVersionUID = -5854263044507481102L;
     
@@ -38,31 +39,6 @@ public class VXIRenderer implements Renderer, Serializable {
     static final String EVENT_VAR_DECLARATION = "<var name=\"event\" expr=\"'";
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
-
-	public String render(List<Object> states, String flowURL) {
-	      
-		StringBuilder code = new StringBuilder();
-		
-		code.append(renderStartPage());
-      
-		  for (Object element: states){
-		      if (element instanceof Input) {
-		          code.append(render((Input)element, flowURL));
-		      }else if (element instanceof Output) {
-		          code.append(render((Output)element, flowURL));            
-		      }else if (element instanceof Transfer) {
-		          code.append(render((Transfer) element, flowURL));
-		      }else if (element instanceof End) {
-		          code.append(render((End) element, flowURL));
-		      }else if (element instanceof Record) {
-		    	  code.append(render((Record) element, flowURL));
-		      } 
-		  }
-		  
-		 code.append(renderEndPage());
-      
-      return code.toString();
-	}
 
 	public String render(Output output, String flowURL) {
                 
@@ -187,7 +163,7 @@ public class VXIRenderer implements Renderer, Serializable {
 
     public String render(Input prompt, String flowURL) {
         // TODO Auto-generated method stub
-        return null;
+        return "";
     }
 
     public String render(Transfer transfer, String flowURL) {
@@ -223,7 +199,8 @@ public class VXIRenderer implements Renderer, Serializable {
 
     	//Required attributes
     	attributesCode.append("dest=\"" + transfer.getDest() +    QUOTE_SPACE);
-        String transferType = transfer.getType().toLowerCase();
+    	//TODO Revisar si lo pasamos a minúscula siempre. En VXML debe estar en minuscula.
+        String transferType = transfer.getType();
         attributesCode.append("type=\"" + transferType + QUOTE_SPACE);
         
         //Optional attributes

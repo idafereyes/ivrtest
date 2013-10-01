@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xml:lang="es-ES" >
+<meta http-equiv="Expires" content="0"/>
+<form>
+<block>
+</block>
+<transfer name="transferResult" dest="null" type="null" >
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'transferred'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>
+<record type="audio/x-wav" name="temprecording" beep="false" dtmfterm="false" finalsilence="null" maxtime="null" >
+<filled>
+<var name="duration" expr="temprecording$.duration" />
+<var name="size" expr="temprecording$.size" />
+<var name="termchar" expr="temprecording$.termchar" />
+<var name="maxtime" expr="temprecording$.maxtime" />
+<var name="event" expr="'recorded'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording event duration size termchar maxtime" method="post" enctype="multipart/form-data" />
+</filled>
+</record>
+<block>
+<exit/>
+</block>
+</form>
+</vxml>

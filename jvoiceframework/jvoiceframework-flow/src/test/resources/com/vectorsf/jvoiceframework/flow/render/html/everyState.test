@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Aplicación prototipo jVoice Framework</title>
+<link rel="stylesheet" type="text/css" href="resources/css/HTMLRenderer.css" />
+</head>
+<a title="Expandir / contrater" onclick="javascript:toggle_visibility('identifier');">Output </a>
+<div id='identifier' style='display:none'></br>
+<span class="property_title">Bargein: </span><span class="property_value">false</span><br>
+<span class="property_title">Flush: </span><span class="property_value">false</span><br>
+<span class="property_title">CatchHangup: </span><span class="property_value">false</span><br></br>
+</div></br>
+<a onclick="javascript:toggle_visibility('610d5026-bcc2-4a20-820b-b733e086705b');">Input </a>
+<span style="display: inline-block;">
+<form method="post" action="http://flowExecutionUrl/">Event:
+<select name="event">
+<option value="_eventId_match">Match</option>
+<option value="_eventId_maxnomatch">No match (Max)</option>
+<option value="_eventId_maxnoinput">No input (Max)</option>
+</select>
+Interpretation: 
+<input type="text" value="" name="interpretation" />
+<input type="submit" id="inputSubmit" value="Enter" name="_eventId_match">
+</form>
+</span>
+<div id='610d5026-bcc2-4a20-820b-b733e086705b' style='display:none'>
+<table cellpadding="0" cellspacing="0"><tr>
+<td style="padding: 0 10px 0 10px; border: solid 1px black;">Max Attempts</td>
+<td style="padding: 0 10px 0 10px; border: solid 1px black;">0</td></tr>
+<tr><td style="padding: 0 10px 0 10px; border: solid 1px black;">Max No Input Attempts</td>
+<td style="padding: 0 10px 0 10px; border: solid 1px black;">0</td></tr>
+<tr><td style="padding: 0 10px 0 10px; border: solid 1px black;">Max No Match Attempts</td>
+<td style="padding: 0 10px 0 10px; border: solid 1px black;">0</td>
+</tr><tr><td style="padding: 0 10px 0 10px; border: solid 1px black;">Bargein</td>
+<td style="padding: 0 10px 0 10px; border: solid 1px black;">false</td>
+</tr></table><br/><span class="property_title">Main audio items</span>
+<span class="property_title">No Match audio items</span>
+<span class="property_title">No input audio items</span>
+<table cellpadding="0" cellspacing="0">
+<tr><td colspan="2" style="padding: 0 10px 0 10px; border: solid 1px black;"><b>Grammars</b></td></tr><tr>
+<td colspan="2" style="padding: 0 10px 0 10px; border: solid 1px black;">No grammars</td></tr>
+</table>
+<br/>
+<script>function eventChanged() {    var e = document.getElementById('selectEvent');    var opt = e.options[e.selectedIndex].value;    document.getElementById('inputSubmit').name = '_eventId_' + opt;}</script>
+<form method="post" action="http://flowExecutionUrl/">Event:<select name="event" id="selectEvent" onchange="eventChanged();" ><option value="match">match</option><option value="maxnomatch">maxnomatch</option><option value="maxnoinput">maxnoinput</option></select><br/><div style="border: solid 1px black;" >Result<br/>Interpretation: <input type="text" value="" name="interpretation" /><br/>Utterance: <input type="text" value="" name="utterance" /><br/>Confidence: <input type="text" value="" name="confidence" /><br/>Input mode: <input type="text" value="" name="inputmode" /><br/></div><br/><input type="submit" id="inputSubmit" value="Enter" name="_eventId_match"></form></div><br>
+<span>Transfer</span><span>dest: null</span><br/><span>type: null</span><br/><span>transferaudio: null</span><br/><span>timeout: null</span><br/><span>maxtime: null</span><br/><span>Events:</span><br>
+<span>Record</span><br/><span>beep: false</span><br/><span>dtmfterm: false</span><br/><span>maxtime: null</span><br/><span>finalsilence: null</span><br/><span>fileName: null</span><br/><span>filePath: null</span><br/><span>keep: false</span><br/><span>audioItemsList</span><br/><span>Events:</span><br><span>Properties</span><br/>
+<h1>End</h1><p>null</p>
+</html>

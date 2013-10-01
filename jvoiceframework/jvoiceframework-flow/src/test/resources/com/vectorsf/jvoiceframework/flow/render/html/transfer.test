@@ -1,0 +1,18 @@
+<span>Transfer</span><span>dest: tel:666777888</span><br/>
+<span>type: BRIDGE</span><br/>
+<span>transferaudio: idleMusic</span><br/>
+<span>timeout: 10s</span><br/>
+<span>maxtime: 30s</span><br/>
+<span>Events:</span><br>
+<span>TRANSFERRED</span><br/>
+<span>HANGUP</span><br/>
+<span>CONNECTIONERROR</span><br/>
+<span>ERROR</span><br/>
+<span>NOANSWER</span><br/>
+<span>error.unsupported.transfer</span><br/>
+<span>Properties</span><br/>
+<span>Property: other.property</span><br/>
+<span>Value: 20s</span><br/>
+<span>Properties</span><br/>
+<span>Property: second.other.property</span><br/>
+<span>Value: 35s</span><br/>
