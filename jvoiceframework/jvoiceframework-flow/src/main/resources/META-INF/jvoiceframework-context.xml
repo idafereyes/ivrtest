@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer" />
+	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer" />
 	<bean id="states" class="java.util.ArrayList" scope="session" />
 	
 	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor" scope="session">

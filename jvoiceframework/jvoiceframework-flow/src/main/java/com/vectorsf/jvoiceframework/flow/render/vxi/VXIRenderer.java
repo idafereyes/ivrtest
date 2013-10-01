@@ -28,11 +28,15 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     
     static final String BLOCK_START_TAG = "<block>";
     static final String BLOCK_END_TAG = "</block>";
-    static final String FORM_START_TAG = "<form>";
-    static final String FORM_END_TAG = "</form>";
     static final String SUBMIT_TAG = "<submit next=\"";
     static final String AMPERSAND = "&amp;";
     static final String CATCH_END_TAG = "</catch>";
+    static final String FILLED_START_TAG = "<filled>";
+    static final String FILLED_END_TAG = "</filled>";
+    static final String IF_END_TAG = "</if>";
+    static final String PROMPT_END_TAG = "</prompt>";
+    static final String ASSIGN = "<assign name=\"";
+    static final String PROMPT_COND = "<prompt cond=\"";
     static final String CLOSE_TAG = ">"; 
     static final String END_TAG = "/>"; 
     static final String QUOTE_SPACE = "\" ";
@@ -51,7 +55,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String grammarsFileExtension = ".bnf";
     private String audiosPath = "";
     private String audiosFileExtension = "";
-    
+        
 	public String render(Output output, String flowURL) {
                 
         StringBuilder code2render = new StringBuilder();
@@ -114,7 +118,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             }
             
             //Prompt end tag
-            audioItemsCode.append("</prompt>");
+            audioItemsCode.append(PROMPT_END_TAG);
         }
         
         return audioItemsCode.toString();
@@ -153,12 +157,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append("<grammar mode=\"dtmf\" src=\"builtin:dtmf/digits?minlength=1;maxlength=1\"/>");
         
         //Just in case it gets a match, but should never happen with this timeout.
-        fieldDummyCode.append("<filled>");
+        fieldDummyCode.append(FILLED_START_TAG);
         
         //redirects back to the application server with success as _eventId param value. 
         fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + "_eventId_success\" />");
         
-        fieldDummyCode.append("</filled>");
+        fieldDummyCode.append(FILLED_END_TAG);
         
         //Render a catch for NOINPUT(normally will always happen with this timeout) and NOMATCH(just in case) events.
         fieldDummyCode.append("<catch event=\"noinput nomatch\" >");
@@ -182,7 +186,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         sb.append(renderInputGrammars(input));
         sb.append(renderInputPrompts(input));
         sb.append(renderInputCatches(input, flowURL));
-        sb.append(renderInputFilled(input, flowURL));
+        sb.append(renderInputFilled(flowURL));
         
         sb.append(renderInputEnd());
         
@@ -192,23 +196,22 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String renderInputInitVar(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
-//    	sb.append("<form>");
-//    	sb.append("<block>");
-//    	sb.append("<assign name=\"" + PARAM_INPUT_ID + "\" expr=\"'" + component.getAttributes().get("name") + "'\" />");
-		//writer.append("<assign name=\"executeField\" expr=\"'true'\" />");
+    	//Renders properties if there are
+        if (!input.getProperties().isEmpty()){
+            sb.append(renderProperties(input.getProperties()));            
+        }
+        
     	sb.append("<var name=\"" + InputVars.ATTEMPTS.getName() + "\" expr=\"0\" />");
     	sb.append("<var name=\"noInputAttempt\" expr=\"0\" />");
     	sb.append("<var name=\"noMatchAttempt\" expr=\"0\" />");
 		
-    	sb.append("<var name=\"maxNoMatch\" expr=\"" + input.getMaxNoMatch() + "\" />");
-    	sb.append("<var name=\"maxNoInput\" expr=\"" + input.getMaxNoInput() + "\" />");
-    	sb.append("<var name=\"maxInt\" expr=\"" + input.getMaxAttempts() + "\" />");
+    	sb.append("<var name=\"maxNoMatch\" expr=\"" + input.getMaxNoMatch() + QUOTE_SPACE + END_TAG);
+    	sb.append("<var name=\"maxNoInput\" expr=\"" + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
+    	sb.append("<var name=\"maxInt\" expr=\"" + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
 		
 		String recAvailable = getRecAvailable(input);
-		sb.append("<var name=\"" + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'\" />");
+		sb.append("<var name=\"" + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
 		sb.append("<var name=\"" + InputVars.RETURNCODE.getName() + "\" expr=\"''\" />");
-		  		
-//		sb.append("</block>");
 		
     	return sb.toString();
     }
@@ -226,9 +229,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     		
 		// TIMEOUT
     	// TODO Añadir el timeout al Input
-//		if() {
-//			writer.append("<property name=\"timeout\" value=\"" + component.getAttributes().get("timeout") + "\" />");
-//		}
 		
     	// BARGEIN
     	if(input.isBargein()) {
@@ -250,7 +250,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	StringBuilder sb = new StringBuilder();
     	
     	sb.append("</field>");
-//    	sb.append("</form>");
     	
     	return sb.toString();
     }
@@ -269,7 +268,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     				sb.append("<disconnect/>");
     			} else {
     				sb.append("<grammar mode=\"voice\" ");
-    				//sb.append("type=\"" + grammarType + "\" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
     				sb.append(" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
     			}
     		} else {
@@ -288,37 +286,38 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String renderInputPrompts(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
+    	
     	// write no match audios with their condition
 		for(AudioItem ai : input.getNoMatchAudios()) {
 			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append("<prompt cond=\"" + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\">");
+				sb.append(PROMPT_COND + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\">");
 			} else {
-				sb.append("<prompt cond=\"" + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\">");
+				sb.append(PROMPT_COND + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\">");
 			}
 			sb.append(renderInputAudios(ai));
-			sb.append("</prompt>");
+			sb.append(PROMPT_END_TAG);
 		}
 		
 		// write no input audios with their condition
 		for(AudioItem ai : input.getNoInputAudios()) {
 			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append("<prompt cond=\"" + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\">");
+				sb.append(PROMPT_COND + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\">");
 			} else {
-				sb.append("<prompt cond=\"" + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\">");
+				sb.append(PROMPT_COND + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\">");
 			}
 			sb.append(renderInputAudios(ai));
-			sb.append("</prompt>");
+			sb.append(PROMPT_END_TAG);
 		}
 		
 		// write initial audios with their condition
 		for(AudioItem ai : input.getMainAudios()) {
 			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append("<prompt cond=\"" + ai.getCondition() + "\">");
+				sb.append(PROMPT_COND + ai.getCondition() + "\">");
 			} else {
 				sb.append("<prompt>");
 			}
 			sb.append(renderInputAudios(ai));
-			sb.append("</prompt>");
+			sb.append(PROMPT_END_TAG);
 		}
 		
 		return sb.toString();
@@ -330,25 +329,16 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		if (ai.getSrc() == null || ai.getSrc().isEmpty()){
 			//TTS
 			//TODO Añadir logs
-//			sb.startElement("mark", component);
-//			sb.writeAttribute("nameexpr", "insertSpeechTrace('', '" +	PromptType.TTS + "', '" + ai.getWording() +	"')", null);
-//			sb.endElement("mark");
 			sb.append(ai.getWording());
 			
 		} else if (ai.getWording() == null || ai.getWording().isEmpty()){
 			//Audio sin TTS de backup
 			//TODO Añadir logs
-//			sb.startElement("mark", component);
-//			sb.writeAttribute("nameexpr", "insertSpeechTrace('"+ ai.getSrc() + "', '" +	PromptType.FILE + "', '')", null);
-//			sb.endElement("mark");
-			sb.append("<audio src=\"" + audiosPath + ai.getSrc()+ audiosFileExtension + "\" />");
+			sb.append("<audio src=\"" + audiosPath + ai.getSrc()+ audiosFileExtension + QUOTE_SPACE + END_TAG);
 
 		} else{
 			//Audio con TTS de backup
 			//TODO Meter logs
-//			writer.startElement("mark", component);
-//			writer.writeAttribute("nameexpr", "insertSpeechTrace('"+ ai.getSrc() + "', '" + PromptType.FILE + "', '" + ai.getWording() + "')", null);
-//			writer.endElement("mark");
 			sb.append("<audio src=\"" + audiosPath + ai.getSrc() + audiosFileExtension + "\" >");
 			sb.append(ai.getWording());
 			sb.append("</audio>");
@@ -378,87 +368,93 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			}
 		}
 		
-		//escribimos el catch del no match
-		sb.append("<catch event=\"nomatch\" >");
-		sb.append("<assign name=\"noMatchAttempt\" expr=\"noMatchAttempt + 1\" />");
-		sb.append("<assign name=\"" + InputVars.ATTEMPTS.getName() + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
-		sb.append("<assign name=\"" + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
+		sb.append(renderInputCatchNoMatch(flowURL, isMaxNoMatch, isMaxInt));
+		sb.append(renderInputCatchNoInput(flowURL, isMaxNoInput, isMaxInt));
 		
-		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= maxInt\" >");
-			//escribimos la traza del MAXINT
-			//TODO Hacer trazas
-//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOMATCH");
-			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
-			sb.append("</if>");
+		// escribimos los otros eventos
+		for(String otherEvent : otherEvents) {
+			if(otherEvent == null) {
+				continue;
+			}
+			
+			sb.append("<catch event=\"" + otherEvent + "\" >");
+			//TODO Añadir trazas
+			sb.append(renderInputSubmit(flowURL, otherEvent));
+			sb.append(CATCH_END_TAG);
 		}
-		if(isMaxNoMatch) {
-			sb.append("<if cond=\"noMatchAttempt == maxNoMatch\" >");
-			//escribimos la traza del MAXNOMATCH
-			//TODO Hacer trazas
-//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOMATCH");
-			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOMATCH.getName()));
-			sb.append("</if>");
-		}
-		
-		//escribimos la traza del NOMATCH
-		//TODO Hacer trazas
-//		WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOMATCH");
-		sb.append("<reprompt />");
-		sb.append("</catch>");
-		
+				
+		return sb.toString();
+	}
+
+	private String renderInputCatchNoInput(String flowURL, boolean isMaxNoInput, boolean isMaxInt) {
+		StringBuilder sb = new StringBuilder();
 		//escribimos el catch no input
-		
 		sb.append("<catch event=\"noinput\" >");
-		sb.append("<assign name=\"noInputAttempt\" expr=\"noInputAttempt + 1\" />");
-		sb.append("<assign name=\"" + InputVars.ATTEMPTS.getName() + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
-		sb.append("<assign name=\"" + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
+		sb.append(ASSIGN + "noInputAttempt\" expr=\"noInputAttempt + 1\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
+		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
 		
 		if(isMaxInt) {
 			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= maxInt\" >");
 			//escribimos la traza del MAXINT
 			//TODO Escribir trazas
-//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOINPUT");
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
-			sb.append("</if>");
+			sb.append(IF_END_TAG);
 		}
 		
 		if(isMaxNoInput) {
 			sb.append("<if cond=\"noInputAttempt == maxNoInput\" >");
 			//escribimos la traza del MAXNOINPUT
 			//TODO Escribir trazas
-//			WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOINPUT");
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOINPUT.getName()));
-			sb.append("</if>");
+			sb.append(IF_END_TAG);
 		}
 		
 		//escribimos la traza del NOINPUT
 		//TODO Escribir trazas
-//		WriteVxml.writeDialogueTraceScript(context, writer, catchComponent, "NOINPUT");
 		sb.append("<reprompt />");
-		sb.append("</catch>");
+		sb.append(CATCH_END_TAG);
 		
+		return sb.toString();
+	}
+
+	private String renderInputCatchNoMatch(String flowURL, boolean isMaxNoMatch, boolean isMaxInt) {
+		StringBuilder sb = new StringBuilder();
 		
-		// escribimos los otros eventos
-		for(String otherEvent : otherEvents) {
-			if(otherEvent == null) continue;
-			
-			sb.append("<catch event=\"" + otherEvent + "\" >");
-			//TODO Añadir trazas
-//			WriteVxml.writeDebugTraceScript(writer, "Catch Input " + type.toString().toLowerCase());
-			sb.append(renderInputSubmit(flowURL, otherEvent));
-			sb.append("</catch>");
+		//escribimos el catch del no match
+		sb.append("<catch event=\"nomatch\" >");
+		sb.append(ASSIGN + "noMatchAttempt\" expr=\"noMatchAttempt + 1\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
+		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
+		
+		if(isMaxInt) {
+			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= maxInt\" >");
+			//escribimos la traza del MAXINT
+			//TODO Hacer trazas
+			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
+			sb.append(IF_END_TAG);
 		}
-				
+		if(isMaxNoMatch) {
+			sb.append("<if cond=\"noMatchAttempt == maxNoMatch\" >");
+			//escribimos la traza del MAXNOMATCH
+			//TODO Hacer trazas
+			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOMATCH.getName()));
+			sb.append(IF_END_TAG);
+		}
+		
+		//escribimos la traza del NOMATCH
+		//TODO Hacer trazas
+		sb.append("<reprompt />");
+		sb.append(CATCH_END_TAG);
+		
 		return sb.toString();
 	}
 	
-	private String renderInputFilled(Input input, String flowURL) {
+	private String renderInputFilled(String flowURL) {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("<filled>");
+		sb.append(FILLED_START_TAG);
 		//TODO Añadir log
-//		writeDialogueLog(writer, context, component);
 		
 		//escribimos los datos del resultado
 		sb.append("<var name=\"_eventId\" expr=\"'match'\" />");
@@ -475,11 +471,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append("}");
 		sb.append("]]>");
 		sb.append("</script>");
-//		sb.append("<log expr=\"'  -----------  ' + interpretation\" />");
 		//TODO Mirar si devuelve los valores correctos
 		
 		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
-		sb.append("</filled>");
+		sb.append(FILLED_END_TAG);
 		
 		return sb.toString();
 	}
@@ -489,22 +484,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			
 		//Different information to be stored at componentId variable depending on the parent
 		//TODO Tener en cuenta al Transfer
-//		if (component.getParent() instanceof InputComponent){
 		sb.append("<var name=\"_eventId\" expr=\"'" + event + "'\" />");
 		sb.append("<var name=\"interpretation\" expr=\"null\" />");
 		sb.append("<var name=\"utterance\" expr=\"null\" />");
 		sb.append("<var name=\"inputmode\" expr=\"null\" />");
 		sb.append("<var name=\"confidence\" expr=\"null\" />");
-//		}else if (component.getParent() instanceof TransferComponent || component instanceof TransferComponent){
-//			//if the event is filled the event passed is the content of the ivrTransfer variable, not a defined string.
-//			if (event.equalsIgnoreCase("filled")){
-//				//Parses the information to be stored later at TransferResultInfo
-//				writer.writeText(componentId + "=" + TransferResultInfo.retrieveJS(Constants.TRANSFER_RESULT_VAR) + ";", null);					
-//			}else{
-//				//Parses the information to be stored later at TransferResultInfo
-//				writer.writeText(componentId + "=" + TransferResultInfo.retrieveJS(event) + ";", null);					
-//			}
-//		}
 		
 		sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
 		
@@ -697,13 +681,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         StringBuilder filledEventsCode = new StringBuilder();
 
         //Events filled at the transfer Javascript variable
-        filledEventsCode.append("<filled>");    
+        filledEventsCode.append(FILLED_START_TAG);    
         //Redirects back to the application server with the value of the transfer javascript variable as _eventId param value. event and duration also as request parameters.          
         filledEventsCode.append("<var name=\"url\" expr=\"'"+ flowURL +"'+'" + AMPERSAND +"' + '"+ EVENT_ID +"' + transferResult\" "+ END_TAG);
         filledEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
         filledEventsCode.append("<var name=\"event\" expr=\"transferResult\" />");
         filledEventsCode.append("<submit expr=\"url\" namelist=\"duration event\" />");        
-        filledEventsCode.append("</filled>");
+        filledEventsCode.append(FILLED_END_TAG);
         
         return filledEventsCode;
     }
@@ -796,7 +780,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		
 		StringBuilder filledEventCode = new StringBuilder();
 		
-		filledEventCode.append("<filled>");
+		filledEventCode.append(FILLED_START_TAG);
 		//Takes values from record result.
 		filledEventCode.append("<var name=\"duration\" expr=\"temprecording$.duration\" />");
 		filledEventCode.append("<var name=\"size\" expr=\"temprecording$.size\" />");
@@ -809,7 +793,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//method must be "post" and enctype must be "multipart/form-data" because the recording is being sent at the request.
 		filledEventCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.RECORDED.toString().toLowerCase() + QUOTE_SPACE + "namelist=\"temprecording event duration size termchar maxtime\" method=\"post\" enctype=\"multipart/form-data\" " + END_TAG);
 
-		filledEventCode.append("</filled>");
+		filledEventCode.append(FILLED_END_TAG);
 		
 		
 		return filledEventCode;
@@ -916,7 +900,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             }
             
             //Prompt end tag
-            audioItemsCode.append("</prompt>");
+            audioItemsCode.append(PROMPT_END_TAG);
         }
         
         return audioItemsCode;
@@ -994,3 +978,4 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 	}
 
 }
+

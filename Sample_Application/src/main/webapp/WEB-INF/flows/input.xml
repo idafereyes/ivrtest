@@ -69,7 +69,7 @@
 
 			<evaluate expression="flowScope.inputTest.events.add('maxnoinput')" />
 			<evaluate expression="flowScope.inputTest.events.add('maxnomatch')" />
-			<evaluate expression="flowScope.inputTest.events.add('maxint')" />
+			<evaluate expression="flowScope.inputTest.events.add('maxattempts')" />
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.inputTest)" />
