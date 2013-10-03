@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import ch.qos.cal10n.MessageConveyor;
 
-import com.vectorsf.jvoiceframework.core.bean.UserLocale;
+import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
 
 /**
@@ -28,13 +28,13 @@ public class Cal10NLocutionProviderTest {
 	  public void setUp() {
 		  defaultLocale = new Locale("es", "ES");
 		  
-		  UserLocale userLocale = mock(UserLocale.class);
-		  when(userLocale.getLocale()).thenReturn(defaultLocale);
+		  User user = mock(User.class);
+		  when(user.getLocale()).thenReturn(defaultLocale);
 		  
 		  ExtendedLocLogger logger = mock(ExtendedLocLogger.class);
 		  
 		  locutionprovider = new Cal10NLocutionProvider();	 
-		  locutionprovider.setUserLocale(userLocale);
+		  locutionprovider.setUser(user);
 		  locutionprovider.setLogger(logger);
 	  }
 		

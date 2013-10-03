@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-@Component("userLocale")
+@Component("jvoiceUser")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class UserLocale {
+public class User {
 	
 	@Value("#{appConfigDefaults.userLocale}")
 	private Locale locale;
-	
+
 	public Locale getLocale() {
 		return locale;
 	}

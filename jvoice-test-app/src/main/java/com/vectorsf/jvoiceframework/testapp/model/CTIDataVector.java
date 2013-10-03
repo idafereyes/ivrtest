@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.testapp.bean;
+package com.vectorsf.jvoiceframework.testapp.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

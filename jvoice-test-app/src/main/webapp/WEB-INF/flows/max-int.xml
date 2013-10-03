@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+    abstract="true">
+
+	<action-state id="maxIntOutput">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.maxIntOutputAudioItem" /> 			
+  			<set name="flowScope.maxIntOutputAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Error).MAX_INT)"/> 
+
+			<evaluate expression="output" result="flowScope.maxIntOutput"></evaluate>	
+			<evaluate expression="flowScope.maxIntOutput.audioItems.add(flowScope.maxIntOutputAudioItem)"/> 			 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.maxIntOutput)"/> 		
+		<transition to="transfer" />
+	</action-state>
+	
+	
+	<subflow-state id="transfer" subflow="transfer">
+		<transition  to="end"/>
+	</subflow-state>
+	
+	<end-state id="end"/>
+	
+	<!-- Los dos eventos  se tratan igual -->
+	 <global-transitions>
+          <transition on="maxnomatch" to="maxIntOutput"/>
+          <transition on="maxnoinput" to="maxIntOutput"/>
+    </global-transitions>
+	
+</flow>

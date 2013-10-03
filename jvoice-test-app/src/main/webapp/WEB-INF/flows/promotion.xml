@@ -6,7 +6,7 @@
 	start-state="retirevePromotion">
 	
 	<action-state id="retirevePromotion">
-		<evaluate expression="promotionProvider.retrieve()" result="flowScope.promotion"/> 		
+		<evaluate expression="promotions.retrieve()" result="flowScope.promotion"/> 		
 		<transition  to="checkPromotionExpiration" />
 	</action-state>
 	

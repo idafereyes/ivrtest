@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="transferOutput">
+
+   <action-state id="transferOutput">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.transferOutputAudioItem" /> 			
+  			<set name="flowScope.transferOutputAudioItem.wording" value="'Pendiente...'"/> 
+
+			<evaluate expression="output" result="flowScope.transferOutput"></evaluate>
+			<set name="flowScope.transferOutput.flush" value="true"/> 	
+			<evaluate expression="flowScope.transferOutput.audioItems.add(flowScope.transferOutputAudioItem)"/> 			 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.transferOutput)"/> 		
+		<transition to="render" />
+	</action-state>
+	
+	<view-state id="render" view="render">
+		<transition to="end"/>
+	</view-state>
+	
+	<end-state id="end"/>
+	
+</flow>

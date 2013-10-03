@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow 	xmlns="http://www.springframework.org/schema/webflow"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+		start-state="checklogin" parent="navigation">
+
+		<action-state id="checklogin">	
+			<evaluate expression="user.isLoggedIn()"></evaluate> <!-- Esto incluye la recuperación de las cuentas. Por qué está pegado al login??? -->
+		    <transition on="yes" to="accountSelectionSetup"/>
+		 	<transition on="no" to="login"/> 
+		</action-state>
+		
+		<subflow-state id="login" subflow="login">
+			<transition to="accountSelectionSetup"/> <!-- Confiamos en que si el login da error acabe en un transfer??? -->
+		</subflow-state>
+	
+	
+	
+		<action-state id="accountSelectionSetup"> <!-- Y esto??? -->
+			 <evaluate expression="new Integer(0)" result="flowScope.offset"></evaluate>
+			<transition to= "accountSelectionInput"/>
+		</action-state>
+	
+ 		<action-state id="accountSelectionInput">
+			<on-entry>
+				<evaluate expression="input" result="flowScope.accountSelectionInput" />
+	
+				<evaluate expression="grammar" result="flowScope.grammar" />
+				<set name="flowScope.grammar.type" value="'builtin'"/>
+				<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
+				<evaluate expression="flowScope.accountSelectionInput.grammars.add(flowScope.grammar)"/>
+	
+				<evaluate expression="audioItem" result="flowScope.accountSelectionInputPT1AudioItem" />
+				<set name="flowScope.accountSelectionInputPT1AudioItem.wording" value="accountsLocutions.getAccountSelectionLocution(user.getAccounts(), T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_PT1, T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).REMAINING_ACCOUNT_SELECTION, flowScope.offset.intValue())"/> 
+				<evaluate expression="flowScope.accountSelectionInput.mainAudios.add(flowScope.accountSelectionInputPT1AudioItem)"/>
+
+				<evaluate expression="audioItem" result="flowScope.accountsSelectionNMAudioItem" />
+				<set name="flowScope.accountsSelectionNMAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NM)"/> 
+				<evaluate expression="flowScope.accountSelectionInput.noMatchAudios.add(flowScope.accountsSelectionNMAudioItem)"/>
+	
+				<evaluate expression="audioItem" result="flowScope.accountsSelectionNIAudioItem" />
+				<set name="flowScope.accountsSelectionNIAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NI)"/> 
+				<evaluate expression="flowScope.accountSelectionInput.noInputAudios.add(flowScope.accountsSelectionNIAudioItem)"/>
+			</on-entry>
+
+			<evaluate expression="flowProcessor.process(flowScope.accountSelectionInput)" />
+
+			<transition to="renderInput"></transition>
+	</action-state>
+
+	<!-- los eventos maxnomatch y maxnoinput los tratamos en el superflujo max_int -->
+	<view-state id="renderInput" view="render">
+		<on-entry>
+			<evaluate expression="lastInputResult" result="flowScope.lastInputResult"/>
+		</on-entry>
+		<transition on="match" to="menuDecision">
+			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation"/>			
+		</transition>
+	</view-state>
+		
+	<!--  Decisiones dinámicas??? -->	
+	<action-state id="menuDecision">	
+		<evaluate expression="flowScope.lastInputResult.interpretation"></evaluate>
+		<transition on="1" to="balanceOutput">
+			<evaluate expression="user.accounts.get(flowScope.offset)" result="flowScope.selectedAccount"></evaluate>
+		</transition>
+		<transition on="2" to="balanceOutput">
+			<evaluate expression="user.accounts.get(flowScope.offset + 1)" result="flowScope.selectedAccount"></evaluate>
+		</transition>
+		<transition on="3" to="balanceOutput">
+			<evaluate expression="user.accounts.get(flowScope.offset + 2)" result="flowScope.selectedAccount"></evaluate>
+		</transition>
+		<transition on="4" to="balanceOutput">
+			<evaluate expression="user.accounts.get(flowScope.offset + 3)" result="flowScope.selectedAccount"></evaluate>
+		</transition>
+		<transition on="5" to="balanceOutput">
+			<evaluate expression="user.accounts.get(flowScope.offset + 4)" result="flowScope.selectedAccount"></evaluate>
+		</transition>
+	    <transition on="6" to="accountSelectionInput">
+	    	<evaluate expression="flowScope.offset + 5" result="flowScope.offset + 5"/> <!-- Usar una constante -->
+	    </transition>
+		<transition on="8" to="menuBack"/>
+		<transition on="9" to="mainMenu"/>
+	</action-state>
+	
+	
+	<action-state id="balanceOutput">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.balanceOutputAudioItem" /> 			
+  			<set name="flowScope.balanceOutputAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE, flowScope.selectedAccount.getIdEnding() , flowScope.selectedAccount.getBalance())"/> 
+			
+			<evaluate expression="output" result="flowScope.balanceOutput"></evaluate>	
+			<evaluate expression="flowScope.balanceOutput.audioItems.add(flowScope.balanceOutputAudioItem)"/> 				 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.balanceOutput)"/> 		
+		<transition to="renderBalance" />
+	</action-state>
+	
+	<view-state id="renderBalance" view="render">
+		<transition to="end"/>		
+	</view-state>
+	
+	<end-state id="end"/>
+</flow>

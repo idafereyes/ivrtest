@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vectorsf.jvoiceframework.core.bean.UserLocale;
+import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
 import com.vectorsf.jvoiceframework.core.log.Log;
 
@@ -23,7 +23,7 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 	private ExtendedLocLogger logger;
 
 	@Autowired
-	private UserLocale userLocale;
+	private User user;
 	
 	public ExtendedLocLogger getLogger() {
 		return logger;
@@ -35,17 +35,17 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 	
 	private ConcurrentMap<Locale, IMessageConveyor> conveyors = new ConcurrentHashMap<Locale, IMessageConveyor>();
 	
-	public UserLocale getUserLocale() {
-		return userLocale;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserLocale(UserLocale userLocale) {
-		this.userLocale = userLocale;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
 	public String getLocution(Enum<?> key, Object... args) throws LocutionProviderException {
-		return this.getLocution(key, this.userLocale.getLocale(), args);
+		return this.getLocution(key, this.user.getLocale(), args);
 	}
 
 	@Override

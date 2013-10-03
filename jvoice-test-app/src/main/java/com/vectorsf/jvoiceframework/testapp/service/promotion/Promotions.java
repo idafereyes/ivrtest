@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 import org.springframework.stereotype.Service;
 
-@Service("promotionProvider")
-public class PromotionProvider {
+@Service("promotions")
+public class Promotions {
 	
 	private static final String PROMOTION_WORDING = "Contrate ahora nuestras nuevas tarjetas blah blah blah ...";
 	

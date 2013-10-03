@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="retrieveSocialSecurityNumber" parent="max-int">
+
+   	<action-state id="retrieveSocialSecurityNumber">
+		<on-entry>
+			<evaluate expression="input" result="flowScope.SSNInput" />
+
+			<evaluate expression="grammar" result="flowScope.grammar" />
+			<set name="flowScope.grammar.type" value="'builtin'"/>
+			<set name="flowScope.grammar.src" value="'dtmf/digits?length=9'"/> <!-- El chequeo del número de la seguridad social lo hace la gramática -->
+			<evaluate expression="flowScope.SSNInput.grammars.add(flowScope.grammar)"/>
+
+			<evaluate expression="audioItem" result="flowScope.SSPT1AudioItem" />
+			<set name="flowScope.SSPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT1)"/> 
+			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT1AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.SSPT2AudioItem" />
+			<set name="flowScope.SSPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT2)"/> 
+			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT2AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.SSPT3AudioItem" />
+			<set name="flowScope.SSPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT3)"/> 
+			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT3AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.SSNMPT1AudioItem" />
+			<set name="flowScope.SSNMPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT1)"/> 
+			<evaluate expression="flowScope.SSNInput.noMatchAudios.add(flowScope.SSNMPT1AudioItem)"/>
+
+			<evaluate expression="audioItem" result="flowScope.SSNMPT2AudioItem" />
+			<set name="flowScope.SSNMPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT2)"/> 
+			<evaluate expression="flowScope.SSNInput.noMatchAudios.add(flowScope.SSNMPT2AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.SSNMPT3AudioItem" />
+			<set name="flowScope.SSNMPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT3)"/> 
+			<evaluate expression="flowScope.SSNInput.noMatchAudios.add(flowScope.SSNMPT3AudioItem)"/>
+
+			<evaluate expression="audioItem" result="flowScope.SSNIPT1AudioItem" />
+			<set name="flowScope.SSNIPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT1)"/> 
+			<evaluate expression="flowScope.SSNInput.noInputAudios.add(flowScope.SSNIPT1AudioItem)"/>	
+			
+			<evaluate expression="audioItem" result="flowScope.SSNIPT2AudioItem" />
+			<set name="flowScope.SSNIPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT2)"/> 
+			<evaluate expression="flowScope.SSNInput.noInputAudios.add(flowScope.SSNIPT2AudioItem)"/>	
+			
+			<evaluate expression="audioItem" result="flowScope.SSNIPT3AudioItem" />
+			<set name="flowScope.SSNIPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT3)"/> 
+			<evaluate expression="flowScope.SSNInput.noInputAudios.add(flowScope.SSNIPT3AudioItem)"/>	
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.SSNInput)" />
+
+		<transition to="renderSSN"></transition>
+	</action-state>
+	
+	<view-state id="renderSSN" view="render">
+		<transition on="match" to="retrievePIN"> <!-- También tendríamos que moverlo a l last result para tener acceso al margen de confianza y demás -->
+			<set name="flowScope.ssn" value="requestParameters.interpretation"/>		
+		</transition>	
+	</view-state>
+	
+	 <action-state id="retrievePIN">
+		<on-entry>
+			<evaluate expression="input" result="flowScope.PINInput" />
+
+			<evaluate expression="grammar" result="flowScope.grammar" />
+			<set name="flowScope.grammar.type" value="'builtin'"/>
+			<set name="flowScope.grammar.src" value="'dtmf/digits?length=4'"/> 
+			<evaluate expression="flowScope.PINInput.grammars.add(flowScope.grammar)"/>
+
+			<evaluate expression="audioItem" result="flowScope.PINPT1AudioItem" />
+			<set name="flowScope.PINPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT1)"/> 
+			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT1AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.PINPT2AudioItem" />
+			<set name="flowScope.PINPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT2)"/> 
+			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT2AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.PINPT3AudioItem" />
+			<set name="flowScope.PINPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT3)"/> 
+			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT3AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.PINNMPT1AudioItem" />
+			<set name="flowScope.PINNMPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT1)"/> 
+			<evaluate expression="flowScope.PINInput.noMatchAudios.add(flowScope.PINNMPT1AudioItem)"/>
+
+			<evaluate expression="audioItem" result="flowScope.PINNMPT2AudioItem" />
+			<set name="flowScope.PINNMPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT2)"/> 
+			<evaluate expression="flowScope.PINInput.noMatchAudios.add(flowScope.PINNMPT2AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.PINNMPT3AudioItem" />
+			<set name="flowScope.PINNMPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT3)"/> 
+			<evaluate expression="flowScope.PINInput.noMatchAudios.add(flowScope.PINNMPT3AudioItem)"/>
+
+			<evaluate expression="audioItem" result="flowScope.PINNIPT1AudioItem" />
+			<set name="flowScope.PINNIPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT1)"/> 
+			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT1AudioItem)"/>	
+			
+			<evaluate expression="audioItem" result="flowScope.PINNIPT2AudioItem" />
+			<set name="flowScope.PINNIPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT2)"/> 
+			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT2AudioItem)"/>	
+			
+			<evaluate expression="audioItem" result="flowScope.PINNIPT3AudioItem" />
+			<set name="flowScope.PINNIPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT3)"/> 
+			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT3AudioItem)"/>	
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.PINInput)" />
+
+		<transition to="renderPIN"></transition>
+	</action-state>
+	
+	<view-state id="renderPIN" view="render">
+		<transition on="match" to="login">
+			<set name="flowScope.pin" value="requestParameters.interpretation"/>
+		</transition>
+	</view-state>
+	
+	<action-state id="login">
+		<evaluate expression="authentication.login(flowScope.ssn, flowScope.pin)"/>
+		<transition on="success" to="portfolio">
+			<set name="user.loggedIn" value ="true"/>
+			<set name="user.socialSecurityNumber" value ="flowScope.ssn"/>
+		</transition>
+		<transition on-exception="java.lang.Exception" to="loginErrorOutput"/> <!-- Y los reintentos?? -->
+	</action-state>
+	
+	<action-state id="loginErrorOutput">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.loginErrorOutputAudioItem" /> 			
+  			<set name="flowScope.loginErrorOutputAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).ERROR)"/> 		
+			<evaluate expression="output" result="flowScope.loginErrorOutput"></evaluate>	
+			<evaluate expression="flowScope.loginErrorOutput.audioItems.add(flowScope.loginErrorOutputAudioItem)"/> 		 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.loginErrorOutput)"/> 		
+		<transition to="retrieveSocialSecurityNumber" />
+	</action-state>
+	
+	<action-state id="portfolio">	
+			<evaluate expression="portfolio.retrieve(user.getSocialSecurityNumber())" result="user.accounts"></evaluate>
+		    <transition to="end"/>
+	</action-state>
+	
+	<end-state id="end"/>	
+</flow>

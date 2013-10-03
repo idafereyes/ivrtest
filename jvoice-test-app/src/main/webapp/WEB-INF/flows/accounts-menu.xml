@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="menu" parent="max-int">
+
+   <action-state id="menu">
+		<on-entry>
+			<evaluate expression="input" result="flowScope.menuInput" />
+
+			<evaluate expression="grammar" result="flowScope.grammar" />
+			<set name="flowScope.grammar.type" value="'builtin'"/>
+			<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/>
+			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
+
+			<evaluate expression="audioItem" result="flowScope.accountsMenuPT1AudioItem" />
+			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/> 
+			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT1AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.accountsMenuPT2AudioItem" />
+			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/> 
+			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT2AudioItem)"/>
+			
+			<evaluate expression="audioItem" result="flowScope.accountsMenuPT3AudioItem" />
+			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/> 
+			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT3AudioItem)"/>
+
+			<evaluate expression="audioItem" result="flowScope.accountsMenuNMAudioItem" />
+			<set name="accountsMenuNMAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NM)"/> 
+			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNMAudioItem)"/>
+
+			<evaluate expression="audioItem" result="flowScope.accountsMenuNIAudioItem" />
+			<set name="accountsMenuNIAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NI)"/> 
+			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNIAudioItem)"/>
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.menuInput)" />
+
+		<transition to="render"></transition>
+	</action-state>
+
+	<!-- los eventos maxnomatch y maxnoinput los tratamos en el superflujo max_int -->
+	<view-state id="render" view="render">
+		<on-entry>
+			<evaluate expression="lastInputResult" result="flowScope.lastInputResult"/>
+		</on-entry>
+		<transition on="match" to="end">
+			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation"/>			
+		</transition>
+	</view-state>
+	
+	 <end-state id="end" >
+		<output name="menuOption" value="flowScope.lastInputResult.interpretation" />
+	</end-state>
+</flow>

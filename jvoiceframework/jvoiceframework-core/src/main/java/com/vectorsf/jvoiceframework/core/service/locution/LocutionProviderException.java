@@ -1,6 +1,6 @@
 package com.vectorsf.jvoiceframework.core.service.locution;
 
-public class LocutionProviderException extends Exception {
+public class LocutionProviderException extends RuntimeException {
 
 	private static final long serialVersionUID = 3425019913246371383L;
 

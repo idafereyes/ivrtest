@@ -17,23 +17,59 @@
 		<transition  to="menu"/>
 	</subflow-state>
 
-	<subflow-state id="menu" subflow="menu">
-		<transition  to="menuDecision">
+	<subflow-state id="menu" subflow="main-menu">
+		<transition to="menuDecision">
 			<set name="flowScope.menuOption" value="currentEvent.attributes.menuOption"></set> <!--  PUFF -->
 		</transition>
 	</subflow-state>
 	
 	<action-state id="menuDecision">	
 		<evaluate expression="flowScope.menuOption"></evaluate>
-	    <transition on="1" to="accounts" />
-	 	<transition to="end" /> <!-- Opción por defecto -->
+		<transition on="0" to="error"/>
+	    <transition on="1" to="accounts"/>
+	    <transition on="2" to="transactions"/>
+	    <transition on="3" to="transfer"/>
+	    <transition on="4" to="transfer"/>
+	    <transition on="5" to="transfer"/>
+	    <transition on="6" to="transfer"/>
+	    <transition on="7" to="error"/>
+	    <transition on="8" to="noMenuBack"/>
+	    <transition on="9" to="noMainMenu"/>
+	    <transition to="wellcome"></transition>
 	</action-state>
 	
 	<subflow-state id="accounts" subflow="accounts">
-		<transition  to="end"/>
+		<transition to="end"/>
+		<transition on="menuBack" to="menu"/> <!-- Webflow coge el id del estado fin como un evento a la vuelta. "menuBack es el id del estado que se usa para ir hacia atrás en el menú en el superflujo navigation" -->
 	</subflow-state>
 	
+
+	<action-state id="noMenuBack">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.noMenuBackAudioItem" /> 			
+  			<set name="flowScope.noMenuBackAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MENU_BACK)"/> 
+
+			<evaluate expression="output" result="flowScope.noMenuBackOutput"/>	
+			<evaluate expression="flowScope.noMenuBackOutput.audioItems.add(flowScope.noMenuBackAudioItem)"/> 			 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.noMenuBackOutput)"/> 		
+		<transition to="menu" />
+	</action-state>
 	
-	
+	<action-state id="noMainMenu">   		
+		<on-entry>
+			<evaluate expression="audioItem" result="flowScope.noMainMenuAudioItem" /> 			
+  			<set name="flowScope.noMainMenuAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MAIN_MENU)"/> 
+
+			<evaluate expression="output" result="flowScope.noMainMenuOutput"/>
+			<evaluate expression="flowScope.noMainMenuOutput.audioItems.add(flowScope.noMainMenuAudioItem)"/> 			 
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.noMainMenuOutput)"/> 		
+		<transition to="menu" />
+	</action-state>
+
 	<end-state id="end"/>
+	
 </flow>

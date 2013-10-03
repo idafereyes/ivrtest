@@ -53,10 +53,10 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	html.append("<span style=\"display: inline-block;\">");
     	html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
         html.append("Event:");
-        html.append("<select name=\"event\">");
-        html.append("<option value=\"_eventId_match\">Match</option>");
-        html.append("<option value=\"_eventId_maxnomatch\">No match (Max)</option>");
-        html.append("<option value=\"_eventId_maxnoinput\">No input (Max)</option>");
+        html.append("<select name=\"_eventId\">");
+        html.append("<option value=\"match\">Match</option>");
+        html.append("<option value=\"maxnomatch\">No match (Max)</option>");
+        html.append("<option value=\"maxnoinput\">No input (Max)</option>");
         html.append("</select>");
         html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation\" />");
         html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
