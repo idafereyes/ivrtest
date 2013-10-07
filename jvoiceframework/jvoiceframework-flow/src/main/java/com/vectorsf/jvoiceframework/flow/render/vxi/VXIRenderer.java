@@ -53,8 +53,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String grammarType = "application/srgs";
     private String grammarPath = "grammars/";
     private String grammarsFileExtension = ".bnf";
-    private String audiosPath = "";
-    private String audiosFileExtension = "";
         
 	public String render(Output output, String flowURL) {
                 
@@ -334,12 +332,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		} else if (ai.getWording() == null || ai.getWording().isEmpty()){
 			//Audio sin TTS de backup
 			//TODO Añadir logs
-			sb.append("<audio src=\"" + audiosPath + ai.getSrc()+ audiosFileExtension + QUOTE_SPACE + END_TAG);
+			sb.append("<audio src=\"" + ai.getSrc() + QUOTE_SPACE + END_TAG);
 
 		} else{
 			//Audio con TTS de backup
 			//TODO Meter logs
-			sb.append("<audio src=\"" + audiosPath + ai.getSrc() + audiosFileExtension + "\" >");
+			sb.append("<audio src=\"" + ai.getSrc() + "\" >");
 			sb.append(ai.getWording());
 			sb.append("</audio>");
 		}
