@@ -15,23 +15,23 @@
 			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
 
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT1AudioItem" />
-			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/> 
+			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/> 
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT2AudioItem" />
-			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/> 
+			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/> 
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT3AudioItem" />
-			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/> 
+			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/> 
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT3AudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.accountsMenuNMAudioItem" />
-			<set name="accountsMenuNMAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NM)"/> 
+			<set name="accountsMenuNMAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NM)"/> 
 			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNMAudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.accountsMenuNIAudioItem" />
-			<set name="accountsMenuNIAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NI)"/> 
+			<set name="accountsMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NI)"/> 
 			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNIAudioItem)"/>
 		</on-entry>
 

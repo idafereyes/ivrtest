@@ -47,7 +47,7 @@
 	<action-state id="noMenuBack">   		
 		<on-entry>
 			<evaluate expression="audioItem" result="flowScope.noMenuBackAudioItem" /> 			
-  			<set name="flowScope.noMenuBackAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MENU_BACK)"/> 
+  			<set name="flowScope.noMenuBackAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MENU_BACK)"/> 
 
 			<evaluate expression="output" result="flowScope.noMenuBackOutput"/>	
 			<evaluate expression="flowScope.noMenuBackOutput.audioItems.add(flowScope.noMenuBackAudioItem)"/> 			 
@@ -60,7 +60,7 @@
 	<action-state id="noMainMenu">   		
 		<on-entry>
 			<evaluate expression="audioItem" result="flowScope.noMainMenuAudioItem" /> 			
-  			<set name="flowScope.noMainMenuAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MAIN_MENU)"/> 
+  			<set name="flowScope.noMainMenuAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MAIN_MENU)"/> 
 
 			<evaluate expression="output" result="flowScope.noMainMenuOutput"/>
 			<evaluate expression="flowScope.noMainMenuOutput.audioItems.add(flowScope.noMainMenuAudioItem)"/> 			 

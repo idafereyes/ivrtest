@@ -15,39 +15,39 @@
 			<evaluate expression="flowScope.SSNInput.grammars.add(flowScope.grammar)"/>
 
 			<evaluate expression="audioItem" result="flowScope.SSPT1AudioItem" />
-			<set name="flowScope.SSPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT1)"/> 
+			<set name="flowScope.SSPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT1)"/> 
 			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.SSPT2AudioItem" />
-			<set name="flowScope.SSPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT2)"/> 
+			<set name="flowScope.SSPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT2)"/> 
 			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.SSPT3AudioItem" />
-			<set name="flowScope.SSPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT3)"/> 
+			<set name="flowScope.SSPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT3)"/> 
 			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT3AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.SSNMPT1AudioItem" />
-			<set name="flowScope.SSNMPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT1)"/> 
+			<set name="flowScope.SSNMPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT1)"/> 
 			<evaluate expression="flowScope.SSNInput.noMatchAudios.add(flowScope.SSNMPT1AudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.SSNMPT2AudioItem" />
-			<set name="flowScope.SSNMPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT2)"/> 
+			<set name="flowScope.SSNMPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT2)"/> 
 			<evaluate expression="flowScope.SSNInput.noMatchAudios.add(flowScope.SSNMPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.SSNMPT3AudioItem" />
-			<set name="flowScope.SSNMPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT3)"/> 
+			<set name="flowScope.SSNMPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NM_PT3)"/> 
 			<evaluate expression="flowScope.SSNInput.noMatchAudios.add(flowScope.SSNMPT3AudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.SSNIPT1AudioItem" />
-			<set name="flowScope.SSNIPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT1)"/> 
+			<set name="flowScope.SSNIPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT1)"/> 
 			<evaluate expression="flowScope.SSNInput.noInputAudios.add(flowScope.SSNIPT1AudioItem)"/>	
 			
 			<evaluate expression="audioItem" result="flowScope.SSNIPT2AudioItem" />
-			<set name="flowScope.SSNIPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT2)"/> 
+			<set name="flowScope.SSNIPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT2)"/> 
 			<evaluate expression="flowScope.SSNInput.noInputAudios.add(flowScope.SSNIPT2AudioItem)"/>	
 			
 			<evaluate expression="audioItem" result="flowScope.SSNIPT3AudioItem" />
-			<set name="flowScope.SSNIPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT3)"/> 
+			<set name="flowScope.SSNIPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_NI_PT3)"/> 
 			<evaluate expression="flowScope.SSNInput.noInputAudios.add(flowScope.SSNIPT3AudioItem)"/>	
 		</on-entry>
 
@@ -72,39 +72,39 @@
 			<evaluate expression="flowScope.PINInput.grammars.add(flowScope.grammar)"/>
 
 			<evaluate expression="audioItem" result="flowScope.PINPT1AudioItem" />
-			<set name="flowScope.PINPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT1)"/> 
+			<set name="flowScope.PINPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT1)"/> 
 			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.PINPT2AudioItem" />
-			<set name="flowScope.PINPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT2)"/> 
+			<set name="flowScope.PINPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT2)"/> 
 			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.PINPT3AudioItem" />
-			<set name="flowScope.PINPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT3)"/> 
+			<set name="flowScope.PINPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT3)"/> 
 			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT3AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.PINNMPT1AudioItem" />
-			<set name="flowScope.PINNMPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT1)"/> 
+			<set name="flowScope.PINNMPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT1)"/> 
 			<evaluate expression="flowScope.PINInput.noMatchAudios.add(flowScope.PINNMPT1AudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.PINNMPT2AudioItem" />
-			<set name="flowScope.PINNMPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT2)"/> 
+			<set name="flowScope.PINNMPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT2)"/> 
 			<evaluate expression="flowScope.PINInput.noMatchAudios.add(flowScope.PINNMPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.PINNMPT3AudioItem" />
-			<set name="flowScope.PINNMPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT3)"/> 
+			<set name="flowScope.PINNMPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NM_PT3)"/> 
 			<evaluate expression="flowScope.PINInput.noMatchAudios.add(flowScope.PINNMPT3AudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.PINNIPT1AudioItem" />
-			<set name="flowScope.PINNIPT1AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT1)"/> 
+			<set name="flowScope.PINNIPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT1)"/> 
 			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT1AudioItem)"/>	
 			
 			<evaluate expression="audioItem" result="flowScope.PINNIPT2AudioItem" />
-			<set name="flowScope.PINNIPT2AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT2)"/> 
+			<set name="flowScope.PINNIPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT2)"/> 
 			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT2AudioItem)"/>	
 			
 			<evaluate expression="audioItem" result="flowScope.PINNIPT3AudioItem" />
-			<set name="flowScope.PINNIPT3AudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT3)"/> 
+			<set name="flowScope.PINNIPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT3)"/> 
 			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT3AudioItem)"/>	
 		</on-entry>
 
@@ -131,7 +131,7 @@
 	<action-state id="loginErrorOutput">   		
 		<on-entry>
 			<evaluate expression="audioItem" result="flowScope.loginErrorOutputAudioItem" /> 			
-  			<set name="flowScope.loginErrorOutputAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Login).ERROR)"/> 		
+  			<set name="flowScope.loginErrorOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).ERROR)"/> 		
 			<evaluate expression="output" result="flowScope.loginErrorOutput"></evaluate>	
 			<evaluate expression="flowScope.loginErrorOutput.audioItems.add(flowScope.loginErrorOutputAudioItem)"/> 		 
 		</on-entry>

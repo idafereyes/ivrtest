@@ -36,11 +36,11 @@
 				<evaluate expression="flowScope.accountSelectionInput.mainAudios.add(flowScope.accountSelectionInputPT1AudioItem)"/>
 
 				<evaluate expression="audioItem" result="flowScope.accountsSelectionNMAudioItem" />
-				<set name="flowScope.accountsSelectionNMAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NM)"/> 
+				<set name="flowScope.accountsSelectionNMAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NM)"/> 
 				<evaluate expression="flowScope.accountSelectionInput.noMatchAudios.add(flowScope.accountsSelectionNMAudioItem)"/>
 	
 				<evaluate expression="audioItem" result="flowScope.accountsSelectionNIAudioItem" />
-				<set name="flowScope.accountsSelectionNIAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NI)"/> 
+				<set name="flowScope.accountsSelectionNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NI)"/> 
 				<evaluate expression="flowScope.accountSelectionInput.noInputAudios.add(flowScope.accountsSelectionNIAudioItem)"/>
 			</on-entry>
 
@@ -83,7 +83,7 @@
 	<action-state id="balanceOutput">   		
 		<on-entry>
 			<evaluate expression="audioItem" result="flowScope.balanceOutputAudioItem" /> 			
-  			<set name="flowScope.balanceOutputAudioItem.wording" value="locutionProvider.getLocution(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE, flowScope.selectedAccount.getIdEnding() , flowScope.selectedAccount.getBalance())"/> 
+  			<set name="flowScope.balanceOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE, flowScope.selectedAccount.getIdEnding() , flowScope.selectedAccount.getBalance())"/> 
 			
 			<evaluate expression="output" result="flowScope.balanceOutput"></evaluate>	
 			<evaluate expression="flowScope.balanceOutput.audioItems.add(flowScope.balanceOutputAudioItem)"/> 				 
