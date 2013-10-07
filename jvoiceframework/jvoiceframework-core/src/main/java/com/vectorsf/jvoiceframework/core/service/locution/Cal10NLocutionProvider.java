@@ -28,10 +28,10 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 	@Value("#{appConfigDefaults.audiosLocationPrefix}")
 	private String locationPrefix;
 	
-	@Value("#{appConfigDefaults.audioslocaleSuffix}")
+	@Value("#{appConfigDefaults.audiosLocaleSuffix}")
 	private String localeSuffix;
 
-	@Value("#{appConfigDefaults.formatSuffix}")
+	@Value("#{appConfigDefaults.audiosFormatSuffix}")
 	private String formatSuffix;
 
 	public ExtendedLocLogger getLogger() {
