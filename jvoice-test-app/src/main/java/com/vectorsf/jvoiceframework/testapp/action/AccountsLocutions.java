@@ -27,14 +27,14 @@ public class AccountsLocutions {
 			
 			if (index < accounts.size()) {			
 				account = accounts.get(index);
-				locution += " " + locutionProvider.getLocution(key, account.getIdEnding(), index + 1);
+				locution += " " + locutionProvider.getWording(key, account.getIdEnding(), index + 1);
 			}
 			else {
 				break;
 			}
 		}
 		if (index >= offset +  ACCOUNT_NUMBER) {
-			locution += " "  + locutionProvider.getLocution(remainingKey);
+			locution += " "  + locutionProvider.getWording(remainingKey);
 		}	
 		return locution;
 	}

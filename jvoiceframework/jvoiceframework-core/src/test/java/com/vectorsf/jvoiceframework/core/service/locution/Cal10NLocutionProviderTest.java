@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import ch.qos.cal10n.MessageConveyor;
 
@@ -36,27 +35,43 @@ public class Cal10NLocutionProviderTest {
 		  locutionprovider = new Cal10NLocutionProvider();	 
 		  locutionprovider.setUser(user);
 		  locutionprovider.setLogger(logger);
+		  locutionprovider.setLocationPrefix("builtin:jvoice-test-app/");
+		  locutionprovider.setLocaleSuffix("/");
+		  locutionprovider.setFormatSuffix("");
 	  }
 		
 	
 	  @Test
-	  public void testDefaultLocale() throws Exception {
-		  String wording = locutionprovider.getLocution(TestLocution.TEST_KEY);	
-		  assertEquals(wording, new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_KEY));
+	  public void testWordingWithDefaultLocale() throws Exception {
+		  String wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY);	
+		  assertEquals(wording, new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_WORDING_KEY));
 	  }
-	  
+
 	  @Test
-	  public void testCustomLocale() throws Exception {	
-		  Locale locale = new Locale("en", "US");	
-		  String wording = locutionprovider.getLocution(TestLocution.TEST_KEY, locale);		
-		  assertEquals(wording, new MessageConveyor(locale).getMessage(TestLocution.TEST_KEY));
+	  public void testSrcWithDefaultLocaleSrc() throws Exception {
+		  String src = locutionprovider.getAudioSrc(TestLocution.TEST_AUDIO_SRC_KEY);	
+		  assertEquals(src, locutionprovider.getLocationPrefix() + defaultLocale + locutionprovider.getLocaleSuffix() + new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_AUDIO_SRC_KEY) + locutionprovider.getFormatSuffix());
 	  }
-	  
+
+	  @Test
+	  public void testWordingWithCustomLocale() throws Exception {	
+		  Locale locale = new Locale("en", "US");	
+		  String wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY, locale);		
+		  assertEquals(wording, new MessageConveyor(locale).getMessage(TestLocution.TEST_WORDING_KEY));
+	  }
+
+	  @Test
+	  public void testSrcWithCustomLocale() throws Exception {	
+		  Locale locale = new Locale("en", "US");	
+		  String src = locutionprovider.getAudioSrc(TestLocution.TEST_AUDIO_SRC_KEY, locale);
+		  assertEquals(src, locutionprovider.getLocationPrefix() + locale + locutionprovider.getLocaleSuffix() + new MessageConveyor(locale).getMessage(TestLocution.TEST_AUDIO_SRC_KEY) + locutionprovider.getFormatSuffix());
+	  }
+
 	  @Test
 	  public void testArgs() throws Exception {
 		  final String arg = "etc";
-		  String wording = locutionprovider.getLocution(TestLocution.TEST_KEY_WITH_ARGS, arg);
-		  assertEquals(wording, new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_KEY_WITH_ARGS, arg));
+		  String wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY_WITH_ARGS, arg);
+		  assertEquals(wording, new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_WORDING_KEY_WITH_ARGS, arg));
 	  }
 	  
 	  @Test
@@ -64,7 +79,7 @@ public class Cal10NLocutionProviderTest {
 		  Exception ex = null;
 		  try {
 			  Locale locale = new Locale("en", "UK");
-			  locutionprovider.getLocution(TestLocution.TEST_KEY, locale);	
+			  locutionprovider.getWording(TestLocution.TEST_WORDING_KEY, locale);	
 		  } catch (LocutionProviderException lpe) {
 				ex = lpe;
 		  }	

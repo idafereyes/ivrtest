@@ -15,7 +15,7 @@ public interface LocutionProvider {
 	 * @param args Argumentos para componer la frase de forma dinamica
 	 * @return Frase asociada a la clave y los argumentos proporcionados
 	 */
-	String getLocution(Enum<?> key, Object... args) throws LocutionProviderException;
+	String getWording(Enum<?> key, Object... args) throws LocutionProviderException;
 	
 	/**
 	 * Devuelve una frase a partir de su clave. Se utiliza el locale pasado como parámetro
@@ -24,6 +24,10 @@ public interface LocutionProvider {
 	 * @param args Argumentos para componer la frase de forma dinamica
 	 * @return Frase asociada a la clave el locale y los argumentos porporcionados
 	 */
-	String getLocution(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException;
+	String getWording(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException;
+	
+	String getAudioSrc(Enum<?> key) throws LocutionProviderException;
+
+	String getAudioSrc(Enum<?> key, Locale locale) throws LocutionProviderException;
 	
 }
