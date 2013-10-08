@@ -7,10 +7,15 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(defaultCharset="UTF8", value={@Locale(value="es_ES", charset="ISO8859_1"), @Locale(value="en_US")})
 public enum Menu {
 	MAIN_MENU_PT1,
+	MAIN_MENU_PT1_SRC,
 	MAIN_MENU_PT2,
+	MAIN_MENU_PT2_SRC,
 	MAIN_MENU_PT3,
+	MAIN_MENU_PT3_SRC,
 	MAIN_MENU_NI,
+	MAIN_MENU_NI_SRC,
 	MAIN_MENU_NM,
+	MAIN_MENU_NM_SRC,
 	ACCOUNTS_MENU_PT1,
 	ACCOUNTS_MENU_PT2,
 	ACCOUNTS_MENU_PT3,

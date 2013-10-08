@@ -7,6 +7,9 @@ import ch.qos.cal10n.LocaleData;
 @LocaleData(defaultCharset="UTF8", value={@Locale(value="es_ES", charset="ISO8859_1")})
 public enum Wellcome {
 	WELLCOME_RETAIL,
+	WELLCOME_RETAIL_SRC,
 	WELLCOME_PYME_RETAIL,
-	WELLCOME_ULINE_RETAIL;
+	WELLCOME_PYME_RETAIL_SRC,
+	WELLCOME_ULINE_RETAIL,
+	WELLCOME_ULINE_RETAIL_SRC;
 }

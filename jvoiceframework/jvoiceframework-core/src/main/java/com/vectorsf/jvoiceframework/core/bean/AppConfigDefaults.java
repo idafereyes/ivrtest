@@ -80,7 +80,7 @@ public class AppConfigDefaults implements Serializable {
 	@Value("builtin:jvoice-test-app/")
 	private String audiosLocationPrefix;
 	
-	@Value("builtin:/")
+	@Value("/")
 	private String audiosLocaleSuffix;
 	
 	@Value("")
