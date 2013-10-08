@@ -41,13 +41,8 @@
 	</action-state>
 
 	<!-- los eventos maxnomatch y maxnoinput los tratamos en el superflujo max_int -->
-	<view-state id="render" view="render">
-		<on-entry>
-			<evaluate expression="lastInputResult" result="flowScope.lastInputResult"/>
-		</on-entry>
-		<transition on="match" to="end">
-			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation"/>			
-		</transition>
+	<view-state id="render" view="render" model="lastInputResult">	
+		<transition on="match" to="end"/>	
 	</view-state>
 	
 	 <end-state id="end" >

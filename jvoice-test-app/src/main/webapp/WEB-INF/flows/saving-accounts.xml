@@ -50,13 +50,8 @@
 	</action-state>
 
 	<!-- los eventos maxnomatch y maxnoinput los tratamos en el superflujo max_int -->
-	<view-state id="renderInput" view="render">
-		<on-entry>
-			<evaluate expression="lastInputResult" result="flowScope.lastInputResult"/>
-		</on-entry>
-		<transition on="match" to="menuDecision">
-			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation"/>			
-		</transition>
+	<view-state id="renderInput" view="render" model="lastInputResult">
+		<transition on="match" to="menuDecision"/>		
 	</view-state>
 		
 	<!--  Decisiones dinámicas??? -->	

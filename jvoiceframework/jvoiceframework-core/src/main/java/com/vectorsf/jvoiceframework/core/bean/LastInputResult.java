@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("lastInputResult")
-@Scope("session")
+@Scope("flow")
 public class LastInputResult implements Serializable {
 
     private static final long serialVersionUID = -8072514116803473643L;

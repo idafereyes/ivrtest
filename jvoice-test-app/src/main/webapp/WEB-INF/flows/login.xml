@@ -56,8 +56,8 @@
 		<transition to="renderSSN"></transition>
 	</action-state>
 	
-	<view-state id="renderSSN" view="render">
-		<transition on="match" to="retrievePIN"> <!-- También tendríamos que moverlo a l last result para tener acceso al margen de confianza y demás -->
+	<view-state id="renderSSN" view="render" model="lastInputResult">
+		<transition on="match" to="retrievePIN"> <!-- También tenemos que moverlo a l last result para tener acceso al margen de confianza y demás -->
 			<set name="flowScope.ssn" value="requestParameters.interpretation"/>		
 		</transition>	
 	</view-state>
@@ -113,7 +113,7 @@
 		<transition to="renderPIN"></transition>
 	</action-state>
 	
-	<view-state id="renderPIN" view="render">
+	<view-state id="renderPIN" view="render" model="lastInputResult">
 		<transition on="match" to="login">
 			<set name="flowScope.pin" value="requestParameters.interpretation"/>
 		</transition>

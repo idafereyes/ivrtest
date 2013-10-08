@@ -56,13 +56,8 @@
 	</action-state>
 
 
-	<view-state id="render" view="render">
-		<on-entry>
-			<evaluate expression="lastInputResult" result="flowScope.lastInputResult"/>
-		</on-entry>
-		<transition on="match" to="setLanguageInputCheck">
-			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation"/>			
-		</transition>		
+	<view-state id="render" view="render" model="lastInputResult">
+		<transition on="match" to="setLanguageInputCheck"/>
 		<transition to="end"/>
 	</view-state>
 	
