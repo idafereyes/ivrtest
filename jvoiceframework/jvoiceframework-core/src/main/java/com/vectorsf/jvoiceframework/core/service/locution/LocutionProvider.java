@@ -3,7 +3,7 @@ package com.vectorsf.jvoiceframework.core.service.locution;
 import java.util.Locale;
 
 /**
- * Iterfaz para el servicio proveedor de locuciones
+ * Interfaz para el servicio proveedor de locuciones
  * 
  * @author dmartina
  */
@@ -26,8 +26,19 @@ public interface LocutionProvider {
 	 */
 	String getWording(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException;
 	
+	/**
+	 * Devuelve el nombre del audio a partir de su clave. Se utiliza un locale calculado por el servicio.
+	 * @param key Clave para el nombre del audio.
+	 * @return nombre del audio asociado a la clave.
+	 */
 	String getAudioSrc(Enum<?> key) throws LocutionProviderException;
 
+	/**
+	 * Devuelve el nombre del audio a partir de su clave y para el locale pasado como parámetro.
+	 * @param key Clave para el nombre del audio.
+	 * @param locale Locale para internacionalización
+	 * @return nombre del audio asociado a la clave y el locale pasado como parámetro.
+	 */
 	String getAudioSrc(Enum<?> key, Locale locale) throws LocutionProviderException;
 	
 }

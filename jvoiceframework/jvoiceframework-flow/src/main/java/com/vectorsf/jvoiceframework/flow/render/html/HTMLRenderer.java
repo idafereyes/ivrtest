@@ -175,7 +175,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	if (audioItems.size() > 0) {
     		 Iterator<AudioItem> it = audioItems.iterator();
     		
-    		 html.append("<table class=\"datagrid\" cellpadding=\"0\" cellspacing=\"0\">");    		 
+    		 html.append("<table class=\"datagrid\" cellpadding=\"0\" cellspacing=\"5\">");    		 
     		 html.append("<thead class=\"datagrid\"><tr><th>Wording</th><th>Source</th><th>Condition</th></tr></thead>");
     		 
     		 while (it.hasNext()){

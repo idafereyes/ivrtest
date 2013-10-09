@@ -28,9 +28,6 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 	@Value("#{appConfigDefaults.audiosLocationPrefix}")
 	private String locationPrefix;
 	
-	@Value("#{appConfigDefaults.audiosLocaleSuffix}")
-	private String localeSuffix;
-
 	@Value("#{appConfigDefaults.audiosFormatSuffix}")
 	private String formatSuffix;
 
@@ -58,14 +55,6 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 
 	public void setLocationPrefix(String locationPrefix) {
 		this.locationPrefix = locationPrefix;
-	}
-
-	public String getLocaleSuffix() {
-		return localeSuffix;
-	}
-
-	public void setLocaleSuffix(String localeSuffix) {
-		this.localeSuffix = localeSuffix;
 	}
 
 	public String getFormatSuffix() {
@@ -125,7 +114,8 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 			throw new LocutionProviderException(mce);
 		}
 		
-		String src = locationPrefix + locale.toString() + localeSuffix +  audioName + formatSuffix;
+		//Para implementar la funcionalidad de plataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
+		String src = locationPrefix + audioName + formatSuffix;
 		
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC_RETURN, src);
 		return src;

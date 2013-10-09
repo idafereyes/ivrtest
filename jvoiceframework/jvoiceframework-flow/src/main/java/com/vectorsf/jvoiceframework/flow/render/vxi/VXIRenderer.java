@@ -938,6 +938,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
 		StringBuilder startPageCode = new StringBuilder();
 		
+		//TODO Revisar el encoding.
 		startPageCode.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		
 		startPageCode.append("<vxml ");
