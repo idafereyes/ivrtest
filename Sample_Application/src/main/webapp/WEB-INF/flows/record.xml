@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
+    start-state="testRecord">
+ 	
+ 	<action-state id="testRecord">
+		<on-entry>
+			<evaluate expression="record" result="flowScope.testRecord"/>
+			
+            <!-- Se setean los atributos del record -->
+			<set name="flowScope.testRecord.beep" value="true" />
+            <set name="flowScope.testRecord.dtmfterm" value="true" />
+            <set name="flowScope.testRecord.maxtime" value="'3s'" />
+            <set name="flowScope.testRecord.finalsilence" value="'2s'" />
+            <!-- <set name="flowScope.testRecord.fileName" value="'transactionNameRec.wav'" />-->
+            <!-- <set name="flowScope.testRecord.keep" value="true" /> -->
+            
+            <!-- Se añaden audios -->
+            <!-- <evaluate expression="audioItem" result="flowScope.audioItemRecord1" />
+            <set name="flowScope.audioItemRecord1.src" value="'SAN-RECORD-GET-NAME'" />
+            <set name="flowScope.audioItemRecord1.wording" value="'Por favor diga su nombre'" />     
+            <evaluate expression="flowScope.testRecord.audioItemsList.add(flowScope.audioItemRecord1)"/> -->
+
+            <evaluate expression="audioItem" result="flowScope.audioItemRecord2" />
+            <set name="flowScope.audioItemRecord2.wording" value="'Por favor diga su nombre despues del sonido'" />     
+            <evaluate expression="flowScope.testRecord.audioItemsList.add(flowScope.audioItemRecord2)"/>
+
+            <!-- Se añaden los eventos a controlar -->
+            <evaluate expression="flowScope.testRecord.eventsList.add('recorded')"/>
+            <evaluate expression="flowScope.testRecord.eventsList.add('hangup')"/>
+            <evaluate expression="flowScope.testRecord.eventsList.add('error')"/>
+            <evaluate expression="flowScope.testRecord.eventsList.add('recordunsupported')"/>
+            <evaluate expression="flowScope.testRecord.eventsList.add('noresource')"/>
+
+            <!-- Se setean otras propiedades no contempladas en los atributos. -->
+            <!-- <evaluate expression="flowScope.testRecord.properties.put('new.property','15s')"/>-->												
+		</on-entry>
+
+       	<evaluate expression="flowProcessor.process(flowScope.testRecord)"/>
+    		
+    	<transition to="render" />
+    </action-state>
+    
+    <view-state id="render" view="render">
+        
+        <transition on="recorded" to="recordedState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+            <set name="lastRecordResult.duration" value="requestParameters.duration"/>      
+            <set name="lastRecordResult.size" value="requestParameters.size"/>      
+            <set name="lastRecordResult.termchar" value="requestParameters.termchar"/>      
+            <set name="lastRecordResult.maxtime" value="requestParameters.maxtime"/>
+            <evaluate expression="recordingService.saveRecording(requestParameters.temprecording, flowScope.testRecord.fileName)"/>      
+            <set name="lastRecordResult.file" value="flowScope.testRecord.filePath + flowScope.testRecord.fileName" />
+        </transition>
+        
+        <transition on="hangup" to="hangupState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+        </transition>
+        
+        <transition on="error" to="errorState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+        </transition>
+        
+        <transition on="recordunsupported" to="recordunsupportedState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+        </transition>
+        
+        <transition on="noresource" to="noresourceState">
+            <set name="lastRecordResult.event" value="requestParameters.event"/>      
+        </transition>
+        
+    </view-state>
+    
+    <action-state id="recordedState"/>    
+    <action-state id="hangupState"/>
+    <action-state id="errorState"/>
+    <action-state id="noresourceState"/>
+    <action-state id="recordunsupportedState"/>
+   
+</flow>

@@ -1,0 +1,9 @@
+<xsd:schema 
+ targetNamespace="urn:SchemaTemplates"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:complexType name="EXNoAccount">
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="reason" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="testOutput">
+
+    <action-state id="testOutput">
+        <on-entry>
+            <!-- Se crea un bean para pruebas de condiciones -->
+            <evaluate expression="inputCB" result="flowScope.user"/>
+            <set name="flowScope.user.migrated" value="true"/>
+            <set name="flowScope.user.securityLevel" value="'ID'"/>
+            
+            <evaluate expression="output" result="flowScope.testOutput"/>
+
+            <set name="flowScope.testOutput.flush" value="false"/>
+            <set name="flowScope.testOutput.bargein" value="true"/>
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.wording" value="'Esto es una prueba de barge in.'" />     
+            <set name="flowScope.audioItem1.bargein" value="true" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem1)"/>
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem2" />
+            <set name="flowScope.audioItem2.wording" value="'Esta es la primera locucion y puedes intentar interrumpirla.'" />
+            <set name="flowScope.audioItem2.bargein" value="true" />        
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem2)"/>
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem3" />
+            <set name="flowScope.audioItem3.wording" value="'Esta es la segunda locucion y puedes intentar interrumpirla.'" />
+            <set name="flowScope.audioItem3.bargein" value="true" />        
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem3)"/>
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem4" />
+            <set name="flowScope.audioItem4.wording" value="'Esta es la tercera locucion y puedes intentar interrumpirla.'" />
+            <set name="flowScope.audioItem4.bargein" value="true" />        
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem4)"/>
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem5" />
+            <set name="flowScope.audioItem5.wording" value="'Esta es la cuarta locucion y puedes intentar interrumpirla.'" />
+            <set name="flowScope.audioItem5.bargein" value="true" />        
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem5)"/>
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flowScope.testOutput)"/>
+            
+        <transition to="inputTest" />
+    </action-state>
+    
+	<action-state id="inputTest">
+		<on-entry>
+			<evaluate expression="lastInputResult" result="flowScope.lastInputResult" />
+			<evaluate expression="input" result="flowScope.inputTest" />
+
+			<!-- Mapeo de datos de entrada. Esto lo podemos hacer con un evaluate 
+				llamando al setter correspondiente. Cómo queda más claro? -->
+			<set name="flowScope.inputTest.name" value="'INITIAL_MENU'" />
+			<set name="flowScope.inputTest.maxAttempts" value="4" />
+			<set name="flowScope.inputTest.maxNoInput" value="3" />
+			<set name="flowScope.inputTest.maxNoMatch" value="3" />
+			<set name="flowScope.inputTest.bargein" value="false" />
+
+            <!-- Seteamos propiedades -->
+            <evaluate expression="flowScope.inputTest.properties.put('maxspeechtimeout', '15s')" />
+            <evaluate expression="flowScope.inputTest.properties.put('timeout', '4s')" />
+            
+            <!-- Gramaticas -->
+			<evaluate expression="grammar" result="flowScope.grammar1" />
+			<set name="flowScope.grammar1.src" value="'dtmf/digits?length=2'" />
+			<set name="flowScope.grammar1.type" value="'builtin'" />
+			<set name="flowScope.grammar1.mode" value="'dtmf'" />
+			<evaluate expression="flowScope.inputTest.grammars.add(flowScope.grammar1)" />
+			
+<!-- 			<evaluate expression="grammar" result="flowScope.grammar2" /> -->
+<!--             <set name="flowScope.grammar2.src" value="'numbersvoice'" /> -->
+<!--             <set name="flowScope.grammar2.type" value="'file'" /> -->
+<!--             <set name="flowScope.grammar2.mode" value="'voice'" /> -->
+<!--             <evaluate expression="flowScope.inputTest.grammars.add(flowScope.grammar2)" /> -->
+
+            <evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.src" value="'LOC0'" />
+            <set name="flowScope.audioItem1.wording" value="'Por favor, digame su DNI.'" />
+            <set name="flowScope.audioItem1.condition" value="''" />
+            <evaluate expression="flowScope.inputTest.mainAudios.add(flowScope.audioItem1)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem2" />
+            <set name="flowScope.audioItem2.src" value="'LOC1'" />
+            <set name="flowScope.audioItem2.wording" value="'No le he entendido.'" />
+            <set name="flowScope.audioItem2.condition" value="'noMatchAttempt == 1'" />
+            <evaluate expression="flowScope.inputTest.noMatchAudios.add(flowScope.audioItem2)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem3" />
+            <set name="flowScope.audioItem3.src" value="'LOC1'" />
+            <set name="flowScope.audioItem3.wording" value="'Intente hablar mas claro. No le he entendido.'" />
+            <set name="flowScope.audioItem3.condition" value="'noMatchAttempt == 2'" />
+            <evaluate expression="flowScope.inputTest.noMatchAudios.add(flowScope.audioItem3)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem4" />
+            <set name="flowScope.audioItem4.src" value="'LOC1'" />
+            <set name="flowScope.audioItem4.wording" value="'No le he oido.'" />
+<!--             <set name="flowScope.audioItem4.condition" value="'noInputAttempt == 1'" /> -->
+            <evaluate expression="flowScope.inputTest.noInputAudios.add(flowScope.audioItem4)" />
+            
+<!--             <evaluate expression="audioItem" result="flowScope.audioItem5" /> -->
+<!--             <set name="flowScope.audioItem5.src" value="'LOC1'" /> -->
+<!--             <set name="flowScope.audioItem5.wording" value="'Por favor, responda a la siguiente cuestion.'" /> -->
+<!--             <set name="flowScope.audioItem5.condition" value="'noInputAttempt == 2'" /> -->
+<!--             <evaluate expression="flowScope.inputTest.noInputAudios.add(flowScope.audioItem5)" /> -->
+
+			<evaluate expression="flowScope.inputTest.events.add('maxnoinput')" />
+			<evaluate expression="flowScope.inputTest.events.add('maxnomatch')" />
+			<evaluate expression="flowScope.inputTest.events.add('maxattempts')" />
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.inputTest)" />
+
+		<transition to="render1"></transition>
+	</action-state>
+
+
+	<view-state id="render1" view="render">
+		<transition on="match" to="promptMatch" >
+		    <set name="flowScope.lastInputResult.event" value="requestParameters._eventId" />
+			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation" />
+			<set name="flowScope.lastInputResult.utterance" value="requestParameters.utterance" />
+			<set name="flowScope.lastInputResult.confidence" value="requestParameters.confidence" />
+			<set name="flowScope.lastInputResult.inputmode" value="requestParameters.inputmode" />
+		</transition>
+
+		<transition on="maxnomatch" to="promptNoMatch">
+            <set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation" />
+            <set name="flowScope.lastInputResult.utterance" value="requestParameters.utterance" />
+            <set name="flowScope.lastInputResult.confidence" value="requestParameters.confidence" />
+            <set name="flowScope.lastInputResult.inputmode" value="requestParameters.inputmode" />
+		</transition>
+		
+		<transition on="maxnoinput" to="promptNoInput">
+            <set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation" />
+            <set name="flowScope.lastInputResult.utterance" value="requestParameters.utterance" />
+            <set name="flowScope.lastInputResult.confidence" value="requestParameters.confidence" />
+            <set name="flowScope.lastInputResult.inputmode" value="requestParameters.inputmode" />
+        </transition>
+
+		<transition on="maxattempts" to="promptMaxInt">
+            <set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation" />
+            <set name="flowScope.lastInputResult.utterance" value="requestParameters.utterance" />
+            <set name="flowScope.lastInputResult.confidence" value="requestParameters.confidence" />
+            <set name="flowScope.lastInputResult.inputmode" value="requestParameters.inputmode" />
+        </transition>
+
+		
+	</view-state>
+
+	<action-state id="promptMatch">
+		<on-entry>
+			<evaluate expression="output" result="flowScope.testOutput" />
+
+			<!-- Se setean los atributos -->
+			<!-- <set name="flowScope.testOutput.bargein" value="true"/> -->
+			<set name="flowScope.testOutput.flush" value="true" />
+			<set name="flowScope.testOutput.catchHangup" value="false" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem9" />
+            <set name="flowScope.audioItem9.wording" value="'El evento es'" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem9)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem10" />
+            <set name="flowScope.audioItem10.wording" value="flowScope.lastInputResult.event" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem10)" />
+            
+			<evaluate expression="audioItem" result="flowScope.audioItem1" />
+			<set name="flowScope.audioItem1.wording" value="'La interpretacion es'" />
+			<evaluate expression="flowScope.testOutput.audioItems.add(audioItem1)" />
+
+			<evaluate expression="audioItem" result="flowScope.audioItem2" />
+			<set name="flowScope.audioItem2.wording" value="flowScope.lastInputResult.interpretation" />
+			<evaluate expression="flowScope.testOutput.audioItems.add(audioItem2)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem3" />
+            <set name="flowScope.audioItem3.wording" value="'La uterance es'" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem3)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem4" />
+            <set name="flowScope.audioItem4.wording" value="flowScope.lastInputResult.utterance" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem4)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem5" />
+            <set name="flowScope.audioItem5.wording" value="'El input mode es'" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem5)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem6" />
+            <set name="flowScope.audioItem6.wording" value="flowScope.lastInputResult.inputmode" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem6)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem7" />
+            <set name="flowScope.audioItem7.wording" value="'La confianza es'" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem7)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem8" />
+            <set name="flowScope.audioItem8.wording" value="flowScope.lastInputResult.confidence" />
+            <evaluate expression="flowScope.testOutput.audioItems.add(audioItem8)" />
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.testOutput)" />
+
+		<transition to="render2" />
+	</action-state>
+
+
+
+	<action-state id="promptNoMatch">
+		<on-entry>
+			<evaluate expression="output" result="flowScope.outputNoMatch" />
+
+			<!-- Se setean los atributos -->
+			<!-- <set name="flowScope.testOutput.bargein" value="true"/> -->
+			<set name="flowScope.outputNoMatch.flush" value="true" />
+			<set name="flowScope.outputNoMatch.catchHangup" value="false" />
+
+			<!-- Se setea la lista de locuciones -->
+			<evaluate expression="audioItem" result="flowScope.audioItem9" />
+			<set name="flowScope.audioItem9.wording" value="'Lo siento, se ha equivocado demasiadas veces.'" />
+			<evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem9)" />
+			
+			<evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.wording" value="'La interpretacion es'" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem1)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem2" />
+            <set name="flowScope.audioItem2.wording" value="flowScope.lastInputResult.interpretation" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem2)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem3" />
+            <set name="flowScope.audioItem3.wording" value="'La uterance es'" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem3)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem4" />
+            <set name="flowScope.audioItem4.wording" value="flowScope.lastInputResult.utterance" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem4)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem5" />
+            <set name="flowScope.audioItem5.wording" value="'El input mode es'" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem5)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem6" />
+            <set name="flowScope.audioItem6.wording" value="flowScope.lastInputResult.inputmode" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem6)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem7" />
+            <set name="flowScope.audioItem7.wording" value="'La confianza es'" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem7)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem8" />
+            <set name="flowScope.audioItem8.wording" value="flowScope.lastInputResult.confidence" />
+            <evaluate expression="flowScope.outputNoMatch.audioItems.add(audioItem8)" />
+		</on-entry>
+
+		<evaluate expression="flowProcessor.process(flowScope.outputNoMatch)" />
+
+		<transition to="render2" />
+	</action-state>
+
+
+    <action-state id="promptNoInput">
+        <on-entry>
+            <evaluate expression="output" result="flowScope.outputNoInput" />
+
+            <!-- Se setean los atributos -->
+            <!-- <set name="flowScope.testOutput.bargein" value="true"/> -->
+            <set name="flowScope.outputNoInput.flush" value="true" />
+            <set name="flowScope.outputNoInput.catchHangup" value="false" />
+
+            <!-- Se setea la lista de locuciones -->
+            <evaluate expression="audioItem" result="flowScope.audioItem9" />
+            <set name="flowScope.audioItem9.wording" value="'Lo siento, no me ha dicho nada.'" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem9)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.wording" value="'La interpretacion es'" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem1)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem2" />
+            <set name="flowScope.audioItem2.wording" value="flowScope.lastInputResult.interpretation" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem2)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem3" />
+            <set name="flowScope.audioItem3.wording" value="'La uterance es'" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem3)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem4" />
+            <set name="flowScope.audioItem4.wording" value="flowScope.lastInputResult.utterance" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem4)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem5" />
+            <set name="flowScope.audioItem5.wording" value="'El input mode es'" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem5)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem6" />
+            <set name="flowScope.audioItem6.wording" value="flowScope.lastInputResult.inputmode" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem6)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem7" />
+            <set name="flowScope.audioItem7.wording" value="'La confianza es'" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem7)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem8" />
+            <set name="flowScope.audioItem8.wording" value="flowScope.lastInputResult.confidence" />
+            <evaluate expression="flowScope.outputNoInput.audioItems.add(audioItem8)" />
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flowScope.outputNoInput)" />
+
+        <transition to="render2" />
+    </action-state>
+    
+    <action-state id="promptMaxInt">
+        <on-entry>
+            <evaluate expression="output" result="flowScope.outputMaxInt" />
+
+            <!-- Se setean los atributos -->
+            <!-- <set name="flowScope.testOutput.bargein" value="true"/> -->
+            <set name="flowScope.outputMaxInt.flush" value="true" />
+            <set name="flowScope.outputMaxInt.catchHangup" value="false" />
+
+            <!-- Se setea la lista de locuciones -->
+            <evaluate expression="audioItem" result="flowScope.audioItem9" />
+            <set name="flowScope.audioItem9.wording" value="'Has superado todos los intentos posibles.'" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem9)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem1" />
+            <set name="flowScope.audioItem1.wording" value="'La interpretacion es'" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem1)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem2" />
+            <set name="flowScope.audioItem2.wording" value="flowScope.lastInputResult.interpretation" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem2)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem3" />
+            <set name="flowScope.audioItem3.wording" value="'La uterance es'" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem3)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem4" />
+            <set name="flowScope.audioItem4.wording" value="flowScope.lastInputResult.utterance" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem4)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem5" />
+            <set name="flowScope.audioItem5.wording" value="'El input mode es'" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem5)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem6" />
+            <set name="flowScope.audioItem6.wording" value="flowScope.lastInputResult.inputmode" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem6)" />
+            
+            <evaluate expression="audioItem" result="flowScope.audioItem7" />
+            <set name="flowScope.audioItem7.wording" value="'La confianza es'" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem7)" />
+
+            <evaluate expression="audioItem" result="flowScope.audioItem8" />
+            <set name="flowScope.audioItem8.wording" value="flowScope.lastInputResult.confidence" />
+            <evaluate expression="flowScope.outputMaxInt.audioItems.add(audioItem8)" />
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flowScope.outputMaxInt)" />
+
+        <transition to="render2" />
+    </action-state>
+    
+	<view-state id="render2" view="render">
+		<transition to="end">
+			<!-- <set name="flowScope.wellcome_input.value" value="requestParameters.user" 
+				/> Mapeo de salida -->
+		</transition>
+	</view-state>
+
+	<end-state id="end"></end-state> <!-- De estos se pueden poner varios -->
+
+
+</flow>
