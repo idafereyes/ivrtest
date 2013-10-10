@@ -6,15 +6,15 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import com.vectorsf.jvoiceframework.core.bean.User;
-import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
-import com.vectorsf.jvoiceframework.core.log.Log;
+import org.springframework.stereotype.Service;
 
 import ch.qos.cal10n.IMessageConveyor;
 import ch.qos.cal10n.MessageConveyor;
 
-import org.springframework.stereotype.Service;
+import com.vectorsf.jvoiceframework.core.bean.User;
+import com.vectorsf.jvoiceframework.core.bean.Wording;
+import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
+import com.vectorsf.jvoiceframework.core.log.Log;
 
 @Service("locutionProvider")
 public class Cal10NLocutionProvider implements LocutionProvider {
@@ -64,15 +64,16 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 	public void setFormatSuffix(String formatSuffix) {
 		this.formatSuffix = formatSuffix;
 	}
-
+	
 	@Override
-	public String getWording(Enum<?> key, Object... args) throws LocutionProviderException {
+	public Wording getWording(Enum<?> key, Object... args) throws LocutionProviderException {
 		return this.getWording(key, this.user.getLocale(), args);
 	}
 
 	@Override
-	public String getWording(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException {
+	public Wording getWording(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException {
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_WORDING, key, locale, args);
+
 		IMessageConveyor messageConveyor = conveyors.get(locale);
 		if (messageConveyor == null) {
 			messageConveyor = new MessageConveyor(locale);
@@ -86,8 +87,9 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 			logger.error(Cal10NLocutionProviderMessages.ERROR_GET_WORDING, mce);
 			throw new LocutionProviderException(mce);
 		}
+
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_WORDING_RETURN, message);
-		return message;
+		return new Wording(message, locale);
 	}
 
 	@Override

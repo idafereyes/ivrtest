@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.Test;
@@ -89,11 +90,11 @@ public class InputTest {
 
 		// audios
 		mainAudioItem1.setSrc("MAIN-AUDIO-01");
-		mainAudioItem1.setWording("Locución de prueba 01");
+		mainAudioItem1.setWording(new Wording("Locución de prueba 01", new Locale("es-ES")));
 		mainAudioItem1.setCondition("attempts==1");
 		input.getMainAudios().add(mainAudioItem1);
 		mainAudioItem2.setSrc("MAIN-AUDIO-02");
-		mainAudioItem2.setWording("Locución de prueba 02");
+		mainAudioItem2.setWording(new Wording("Locución de prueba 02", new Locale("es-ES")));
 		mainAudioItem2.setCondition("attempts==2");
 		input.getMainAudios().add(mainAudioItem2);
 		assertEquals("Checking input main audios list size", input
@@ -101,16 +102,16 @@ public class InputTest {
 		assertEquals("Checking input main audio src", input.getMainAudios()
 				.get(0).getSrc(), "MAIN-AUDIO-01");
 		assertEquals("Checking input main audio type", input.getMainAudios()
-				.get(0).getWording(), "Locución de prueba 01");
+				.get(0).getWording().getText(), "Locución de prueba 01");
 		assertEquals("Checking input main audio cond", input.getMainAudios()
 				.get(0).getCondition(), "attempts==1");
 
 		noInputAudioItem1.setSrc("NO-INPUT-AUDIO-01");
-		noInputAudioItem1.setWording("Locución de prueba 01");
+		noInputAudioItem1.setWording(new Wording("Locución de prueba 01", new Locale("es-ES")));
 		noInputAudioItem1.setCondition("attempts==1");
 		input.getNoInputAudios().add(noInputAudioItem1);
 		noInputAudioItem2.setSrc("NO-INPUT-AUDIO-02");
-		noInputAudioItem2.setWording("Locución de prueba 02");
+		noInputAudioItem2.setWording(new Wording("Locución de prueba 02", new Locale("es-ES")));
 		noInputAudioItem2.setCondition("attempts==2");
 		input.getNoInputAudios().add(noInputAudioItem2);
 		assertEquals("Checking input no input audios list size", input
@@ -118,17 +119,17 @@ public class InputTest {
 		assertEquals("Checking input no input audio src", input
 				.getNoInputAudios().get(0).getSrc(), "NO-INPUT-AUDIO-01");
 		assertEquals("Checking input no input audio type", input
-				.getNoInputAudios().get(0).getWording(),
+				.getNoInputAudios().get(0).getWording().getText(),
 				"Locución de prueba 01");
 		assertEquals("Checking input no input audio cond", input
 				.getNoInputAudios().get(0).getCondition(), "attempts==1");
 
 		noMatchAudioItem1.setSrc("NO-INPUT-AUDIO-01");
-		noMatchAudioItem1.setWording("Locución de prueba 01");
+		noMatchAudioItem1.setWording(new Wording("Locución de prueba 01", new Locale("es-ES")));
 		noMatchAudioItem1.setCondition("attempts==1");
 		input.getNoMatchAudios().add(noMatchAudioItem1);
 		noMatchAudioItem2.setSrc("NO-INPUT-AUDIO-02");
-		noMatchAudioItem2.setWording("Locución de prueba 02");
+		noMatchAudioItem2.setWording(new Wording("Locución de prueba 02", new Locale("es-ES")));
 		noMatchAudioItem2.setCondition("attempts==2");
 		input.getNoMatchAudios().add(noMatchAudioItem2);
 		assertEquals("Checking input no match audios list size", input
@@ -136,7 +137,7 @@ public class InputTest {
 		assertEquals("Checking input no match audio src", input
 				.getNoMatchAudios().get(0).getSrc(), "NO-INPUT-AUDIO-01");
 		assertEquals("Checking input no match audio type", input
-				.getNoMatchAudios().get(0).getWording(),
+				.getNoMatchAudios().get(0).getWording().getText(),
 				"Locución de prueba 01");
 		assertEquals("Checking input no match audio cond", input
 				.getNoMatchAudios().get(0).getCondition(), "attempts==1");

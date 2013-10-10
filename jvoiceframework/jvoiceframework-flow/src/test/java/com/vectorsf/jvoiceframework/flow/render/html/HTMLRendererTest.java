@@ -21,10 +21,10 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
-import com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer;
 
 public class HTMLRendererTest {
 
@@ -87,13 +87,13 @@ public class HTMLRendererTest {
 
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
-		when(audioItem1.getWording()).thenReturn("Bienvenido");
+		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-WELCOME-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Gracias por llamar");
+		when(audioItem3.getWording().getText()).thenReturn("Gracias por llamar");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -170,13 +170,15 @@ public class HTMLRendererTest {
 		//AudioItemsList
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
-		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Por favor, diga su nombre");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-RECORDING-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Despues del beep");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Despues del beep");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);

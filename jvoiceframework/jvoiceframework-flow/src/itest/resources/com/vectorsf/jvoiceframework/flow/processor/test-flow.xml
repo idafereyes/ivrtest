@@ -10,7 +10,9 @@
 			<evaluate expression="output" result="flowScope.output"></evaluate>
 
             <evaluate expression="audioItem" result="flowScope.audioItem1" />
-            <set name="flowScope.audioItem1.wording" value="'Hello'" />     
+            <evaluate expression="wording" result="flowScope.wording1" />
+            <set name="flowScope.wording1.text" value="'Hello'" />
+            <set name="flowScope.audioItem1.wording" value="wording1" />     
             <evaluate expression="flowScope.output.audioItems.add(audioItem1)"/>
 		</on-entry>
 

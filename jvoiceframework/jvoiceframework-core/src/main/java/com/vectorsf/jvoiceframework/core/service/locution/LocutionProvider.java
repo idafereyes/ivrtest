@@ -2,6 +2,8 @@ package com.vectorsf.jvoiceframework.core.service.locution;
 
 import java.util.Locale;
 
+import com.vectorsf.jvoiceframework.core.bean.Wording;
+
 /**
  * Interfaz para el servicio proveedor de locuciones
  * 
@@ -15,7 +17,7 @@ public interface LocutionProvider {
 	 * @param args Argumentos para componer la frase de forma dinamica
 	 * @return Frase asociada a la clave y los argumentos proporcionados
 	 */
-	String getWording(Enum<?> key, Object... args) throws LocutionProviderException;
+	Wording getWording(Enum<?> key, Object... args) throws LocutionProviderException;
 	
 	/**
 	 * Devuelve una frase a partir de su clave. Se utiliza el locale pasado como parámetro
@@ -24,7 +26,7 @@ public interface LocutionProvider {
 	 * @param args Argumentos para componer la frase de forma dinamica
 	 * @return Frase asociada a la clave el locale y los argumentos porporcionados
 	 */
-	String getWording(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException;
+	Wording getWording(Enum<?> key, Locale locale, Object... args) throws LocutionProviderException;
 	
 	/**
 	 * Devuelve el nombre del audio a partir de su clave. Se utiliza un locale calculado por el servicio.

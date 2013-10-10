@@ -12,7 +12,7 @@
 <var name="maxInt" expr="0" />
 <var name="recAvailable" expr="'DTMF'" />
 <var name="returnCode" expr="''" />
-<field name="null" >
+<field>
 <property name="bargein" value="false" />
 <catch event="nomatch" >
 <assign name="noMatchAttempt" expr="noMatchAttempt + 1" />

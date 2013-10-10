@@ -100,18 +100,25 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
                 audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCondition() + "\"");
             }
             
+            if(audioItemsList.get(i).getWording() != null
+            		&& audioItemsList.get(i).getWording().getLocale() != null) {
+            	audioItemsCode.append(" xml:lang=\"");
+            	audioItemsCode.append(audioItemsList.get(i).getWording().getLocale().toString());
+            	audioItemsCode.append("\"");
+            }
+            
             //Ends prompt start tag
             audioItemsCode.append(">");
 
             if (audioItemsList.get(i).getSrc() == null){
                 //TTS
-                audioItemsCode.append(audioItemsList.get(i).getWording());                
-            }else if (audioItemsList.get(i).getWording() == null){
+                audioItemsCode.append(audioItemsList.get(i).getWording().getText());                
+            }else if (audioItemsList.get(i).getWording() == null || audioItemsList.get(i).getWording().getText() == null){
                 audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + END_TAG);
             }else{
                 //Audio with TTS backup prompt
                 audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + CLOSE_TAG);
-                audioItemsCode.append(audioItemsList.get(i).getWording());
+                audioItemsCode.append(audioItemsList.get(i).getWording().getText());
                 audioItemsCode.append("</audio>");
             }
             
@@ -217,7 +224,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String renderInputStartField(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
-    	sb.append("<field name=\"" + input.getName() + "\" >");
+    	if(input.getName() != null) {
+    		sb.append("<field name=\"" + input.getName() + "\" >");
+    	} else {
+    		sb.append("<field>");
+    	}
 		
     	return sb.toString();
     }
@@ -287,33 +298,52 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	
     	// write no match audios with their condition
 		for(AudioItem ai : input.getNoMatchAudios()) {
+			sb.append("<prompt");
 			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append(PROMPT_COND + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\">");
+				sb.append(" cond=\"" + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\"");
 			} else {
-				sb.append(PROMPT_COND + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\">");
+				sb.append(" cond=\"" + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\"");
 			}
+			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
+				sb.append(" xml:lang=\"");
+				sb.append(ai.getWording().getLocale().toString());
+				sb.append("\"");
+			}
+			sb.append(">");
 			sb.append(renderInputAudios(ai));
 			sb.append(PROMPT_END_TAG);
 		}
 		
 		// write no input audios with their condition
 		for(AudioItem ai : input.getNoInputAudios()) {
+			sb.append("<prompt");
 			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append(PROMPT_COND + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\">");
+				sb.append(" cond=\"" + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\"");
 			} else {
-				sb.append(PROMPT_COND + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\">");
+				sb.append(" cond=\"" + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\"");
 			}
+			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
+				sb.append(" xml:lang=\"");
+				sb.append(ai.getWording().getLocale().toString());
+				sb.append("\"");
+			}
+			sb.append(">");
 			sb.append(renderInputAudios(ai));
 			sb.append(PROMPT_END_TAG);
 		}
 		
 		// write initial audios with their condition
 		for(AudioItem ai : input.getMainAudios()) {
+			sb.append("<prompt");
 			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append(PROMPT_COND + ai.getCondition() + "\">");
-			} else {
-				sb.append("<prompt>");
+				sb.append(PROMPT_COND + ai.getCondition() + "\"");
 			}
+			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
+				sb.append(" xml:lang=\"");
+				sb.append(ai.getWording().getLocale().toString());
+				sb.append("\"");
+			}
+			sb.append(">");
 			sb.append(renderInputAudios(ai));
 			sb.append(PROMPT_END_TAG);
 		}
@@ -327,9 +357,9 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		if (ai.getSrc() == null || ai.getSrc().isEmpty()){
 			//TTS
 			//TODO Añadir logs
-			sb.append(ai.getWording());
+			sb.append(ai.getWording().getText());
 			
-		} else if (ai.getWording() == null || ai.getWording().isEmpty()){
+		} else if (ai.getWording() == null || ai.getWording().getText().isEmpty()){
 			//Audio sin TTS de backup
 			//TODO Añadir logs
 			sb.append("<audio src=\"" + ai.getSrc() + QUOTE_SPACE + END_TAG);
@@ -338,7 +368,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			//Audio con TTS de backup
 			//TODO Meter logs
 			sb.append("<audio src=\"" + ai.getSrc() + "\" >");
-			sb.append(ai.getWording());
+			sb.append(ai.getWording().getText());
 			sb.append("</audio>");
 		}
 		return sb.toString();
@@ -882,18 +912,22 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
                 audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCondition() + "\"");
             }
             
+            if (audioItemsList.get(i).getWording() != null && audioItemsList.get(i).getWording().getLocale() != null){
+                audioItemsCode.append(" xml:lang=\"" + audioItemsList.get(i).getWording().getLocale().toString() + "\"");
+            }
+            
             //Ends prompt start tag
             audioItemsCode.append(">");
 
             if (audioItemsList.get(i).getSrc() == null){
                 //TTS
-                audioItemsCode.append(audioItemsList.get(i).getWording());                
-            }else if (audioItemsList.get(i).getWording() == null){
+                audioItemsCode.append(audioItemsList.get(i).getWording().getText());                
+            }else if (audioItemsList.get(i).getWording() == null || audioItemsList.get(i).getWording().getText() == null){
                 audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + END_TAG);
             }else{
                 //Audio with TTS backup prompt
                 audioItemsCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItemsList.get(i).getSrc() + QUOTE + CLOSE_TAG);
-                audioItemsCode.append(audioItemsList.get(i).getWording());
+                audioItemsCode.append(audioItemsList.get(i).getWording().getText());
                 audioItemsCode.append("</audio>");
             }
             
@@ -938,7 +972,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
 		StringBuilder startPageCode = new StringBuilder();
 		
-		//TODO Revisar el encoding.
 		startPageCode.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		
 		startPageCode.append("<vxml ");

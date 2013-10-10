@@ -8,10 +8,12 @@
    <action-state id="menu">
 		<on-entry>
 			<evaluate expression="input" result="flowScope.menuInput" />
+            <set name="flowScope.menuInput.name" value="'MENU_INPUT'"/>
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
 			<set name="flowScope.grammar.type" value="'builtin'"/>
 			<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/>
+			<set name="flowScope.grammar.mode" value="'dtmf'"/>
 			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
 
 			<evaluate expression="audioItem" result="flowScope.mainMenutPT1AudioItem" />

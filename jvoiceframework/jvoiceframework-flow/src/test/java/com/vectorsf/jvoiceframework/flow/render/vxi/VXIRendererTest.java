@@ -24,6 +24,7 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
@@ -89,13 +90,15 @@ public class VXIRendererTest {
 
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
-		when(audioItem1.getWording()).thenReturn("Bienvenido");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-WELCOME-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Gracias por llamar");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Gracias por llamar");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -125,13 +128,15 @@ public class VXIRendererTest {
 
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
-		when(audioItem1.getWording()).thenReturn("Bienvenido");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-WELCOME-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Gracias por llamar");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Gracias por llamar");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -161,13 +166,15 @@ public class VXIRendererTest {
 
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
-		when(audioItem1.getWording()).thenReturn("Bienvenido");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-WELCOME-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Gracias por llamar");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Gracias por llamar");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -204,13 +211,15 @@ public class VXIRendererTest {
 
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
-		when(audioItem1.getWording()).thenReturn("Bienvenido");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-WELCOME-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Gracias por llamar");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Gracias por llamar");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -435,13 +444,15 @@ public class VXIRendererTest {
 		//AudioItemsList
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
-		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Por favor, diga su nombre");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-RECORDING-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Despues del beep");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Despues del beep");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -493,7 +504,8 @@ public class VXIRendererTest {
 		//AudioItemsList
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
-		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Por favor, diga su nombre");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -537,7 +549,8 @@ public class VXIRendererTest {
 		//AudioItemsList
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
-		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Por favor, diga su nombre");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -579,13 +592,15 @@ public class VXIRendererTest {
 		//AudioItemsList
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
-		when(audioItem1.getWording()).thenReturn("Por favor, diga su nombre");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Por favor, diga su nombre");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-RECORDING-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
-		when(audioItem3.getWording()).thenReturn("Despues del beep");
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("Despues del beep");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
@@ -675,11 +690,13 @@ public class VXIRendererTest {
 		when(inputMock.getGrammars()).thenReturn(grammarList);
 		
 		AudioItem ai1 = mock(AudioItem.class);
-		when(ai1.getWording()).thenReturn("No le he entendido.");
+		when(ai1.getWording()).thenReturn(mock(Wording.class));
+		when(ai1.getWording().getText()).thenReturn("No le he entendido.");
 		when(ai1.getCondition()).thenReturn("noMatchAttempt == 1");
 		
 		AudioItem ai2 = mock(AudioItem.class);
-		when(ai2.getWording()).thenReturn("Intente hablar mas claro. No le he entendido.");
+		when(ai2.getWording()).thenReturn(mock(Wording.class));
+		when(ai2.getWording().getText()).thenReturn("Intente hablar mas claro. No le he entendido.");
 		when(ai2.getCondition()).thenReturn("noMatchAttempt == 2");
 		List<AudioItem> noMatchAudios = new ArrayList<AudioItem>();
 		noMatchAudios.add(ai1);
@@ -687,13 +704,15 @@ public class VXIRendererTest {
 		when(inputMock.getNoMatchAudios()).thenReturn(noMatchAudios);
 		
 		AudioItem ai3 = mock(AudioItem.class);
-		when(ai3.getWording()).thenReturn("No le he oido.");
+		when(ai3.getWording()).thenReturn(mock(Wording.class));
+		when(ai3.getWording().getText()).thenReturn("No le he oido.");
 		List<AudioItem> noInputAudios = new ArrayList<AudioItem>();
 		noInputAudios.add(ai3);
 		when(inputMock.getNoInputAudios()).thenReturn(noInputAudios);
 		
 		AudioItem ai4 = mock(AudioItem.class);
-		when(ai4.getWording()).thenReturn("Por favor, digame su DNI.");
+		when(ai4.getWording()).thenReturn(mock(Wording.class));
+		when(ai4.getWording().getText()).thenReturn("Por favor, digame su DNI.");
 		List<AudioItem> mainAudios = new ArrayList<AudioItem>();
 		mainAudios.add(ai4);
 		when(inputMock.getMainAudios()).thenReturn(mainAudios);

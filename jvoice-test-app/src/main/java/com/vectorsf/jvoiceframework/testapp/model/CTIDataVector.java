@@ -1,8 +1,8 @@
 package com.vectorsf.jvoiceframework.testapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.context.annotation.Scope;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("ctiData")
 @Scope("session")
-public class CTIDataVector {
+public class CTIDataVector implements Serializable {
 	
 	private static final long serialVersionUID = -2975216216233134928L;
 	public static final String CONTEXT_KEY = "CTI_DATA_VECTOR";

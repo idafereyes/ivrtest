@@ -156,11 +156,11 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	// Mostramos el primer audio item como resumen
         AudioItem audioItem = audioItems.get(0);
         if (audioItem != null){
-        	if (audioItem.getWording() != null) {
-        		summary = audioItem.getWording();
-        	}
-        	else if (audioItem.getSrc() != null) {
+        	if (audioItem.getSrc() != null) {
         		summary = audioItem.getSrc();
+        	}
+        	else if (audioItem.getWording() != null && audioItem.getWording().getText() != null) {
+        		summary = audioItem.getWording().getText();
         	}
         	else {
         		summary = "No audio item";
@@ -181,7 +181,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     		 while (it.hasNext()){
                  AudioItem prompt = it.next();
                  html.append("<tr class=\"datagrid\">");
-                 html.append(startTdHtml + prompt.getWording() + endTdHtml);           
+                 html.append(startTdHtml + (prompt.getWording()==null || prompt.getWording().getText()==null ? "null" : prompt.getWording().getText()) + endTdHtml);           
                  html.append(startTdHtml + prompt.getSrc() + endTdHtml);         
                  html.append(startTdHtml + prompt.getCondition() + endTdHtml);  
                  html.append("</tr>");
@@ -277,8 +277,8 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         while (itAudios.hasNext()){
             AudioItem prompt = itAudios.next();
             renderCode += "<span>Audio Item" + endSpanHtml;            
-            renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;            
-            renderCode += "<span>wording: " + prompt.getWording() + endSpanHtml;            
+            renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;
+            renderCode += "<span>wording: " + (prompt.getWording()==null || prompt.getWording().getText()==null ? "null" : prompt.getWording().getText()) + endSpanHtml;
             renderCode += "<span>cond: " + prompt.getCondition() + endSpanHtml;            
         }
 

@@ -20,8 +20,9 @@
    		
 		<on-entry>		
 			<evaluate expression="audioItem" result="flowScope.promotionAudioItem" />
-			<set name="flowScope.promotionAudioItem.wording" value="flowScope.promotion.getWording()"/> 
-	
+			<evaluate expression="wording" result="flowScope.promotionAudioItem.wording" />
+			<set name="flowScope.promotionAudioItem.wording.text" value="flowScope.promotion.getWording()"/> 
+	        
 			<evaluate expression="output" result="flowScope.promotionOutput"></evaluate>	
 			<evaluate expression="flowScope.promotionOutput.audioItems.add(flowScope.promotionAudioItem)"/> 
 		</on-entry>
@@ -30,5 +31,5 @@
 		<transition on="" to="end" />
 	</action-state>
 	
-	<end-state id="end"/>	
+	<end-state id="end" />	
 </flow>

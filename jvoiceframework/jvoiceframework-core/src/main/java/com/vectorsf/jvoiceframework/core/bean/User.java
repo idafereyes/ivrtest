@@ -1,5 +1,6 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Component("jvoiceUser")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -3614942114649284940L;
 	
 	@Value("#{appConfigDefaults.userLocale}")
 	private Locale locale;

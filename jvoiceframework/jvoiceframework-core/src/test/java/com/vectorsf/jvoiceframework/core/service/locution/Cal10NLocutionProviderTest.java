@@ -1,5 +1,6 @@
 package com.vectorsf.jvoiceframework.core.service.locution;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +12,7 @@ import org.junit.Test;
 import ch.qos.cal10n.MessageConveyor;
 
 import com.vectorsf.jvoiceframework.core.bean.User;
+import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
 
 /**
@@ -42,8 +44,8 @@ public class Cal10NLocutionProviderTest {
 	
 	  @Test
 	  public void testGetWordingWithDefaultLocale() throws Exception {
-		  String wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY);	
-		  assertEquals(wording, new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_WORDING_KEY));
+		  Wording wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY);	
+		  assertEquals(wording.getText(), new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_WORDING_KEY));
 	  }
 
 	  @Test
@@ -51,12 +53,18 @@ public class Cal10NLocutionProviderTest {
 		  String src = locutionprovider.getAudioSrc(TestLocution.TEST_AUDIO_SRC_KEY);	
 		  assertEquals(src, locutionprovider.getLocationPrefix() + new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_AUDIO_SRC_KEY) + locutionprovider.getFormatSuffix());
 	  }
+	  
+	  public void testCustomLocale() throws Exception {	
+		  Locale locale = new Locale("en", "US");	
+		  Wording wording = locutionprovider.getLocution(TestLocution.TEST_KEY, locale);		
+		  assertEquals(wording.getText(), new MessageConveyor(locale).getMessage(TestLocution.TEST_KEY));
+	  }
 
 	  @Test
 	  public void testGetWordingWithCustomLocale() throws Exception {	
 		  Locale locale = new Locale("en", "US");	
-		  String wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY, locale);		
-		  assertEquals(wording, new MessageConveyor(locale).getMessage(TestLocution.TEST_WORDING_KEY));
+		  Wording wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY, locale);		
+		  assertEquals(wording.getText(), new MessageConveyor(locale).getMessage(TestLocution.TEST_WORDING_KEY));
 	  }
 
 	  @Test
@@ -69,8 +77,8 @@ public class Cal10NLocutionProviderTest {
 	  @Test
 	  public void testArgs() throws Exception {
 		  final String arg = "etc";
-		  String wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY_WITH_ARGS, arg);
-		  assertEquals(wording, new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_WORDING_KEY_WITH_ARGS, arg));
+		  Wording wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY_WITH_ARGS, arg);
+		  assertEquals(wording.getText(), new MessageConveyor(defaultLocale).getMessage(TestLocution.TEST_WORDING_KEY_WITH_ARGS, arg));
 	  }
 	  
 	  @Test

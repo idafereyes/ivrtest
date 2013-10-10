@@ -28,9 +28,12 @@ public class AudioItem implements Serializable{
 	private String src;
 	
 	/**
-	 * The wording of the synthesized speech (TTS) to play. If src attribute has a value as well, it will only work as a backup in case of the loading of the prerecorded file fails.
+	 * The wording of the synthesized speech (TTS) to play. 
+	 * If src attribute has a value as well, it will only 
+	 * work as a backup in case of the loading of the 
+	 * prerecorded file fails.
 	 */
-	private String wording;
+	private Wording wording;
 
 	/**
 	 * The javascript condition to play the audio item
@@ -45,11 +48,11 @@ public class AudioItem implements Serializable{
 		this.src = src;
 	}
 
-	public String getWording() {
+	public Wording getWording() {
 		return wording;
 	}
 
-	public void setWording(String wording) {
+	public void setWording(Wording wording) {
 		this.wording = wording;
 	}
 

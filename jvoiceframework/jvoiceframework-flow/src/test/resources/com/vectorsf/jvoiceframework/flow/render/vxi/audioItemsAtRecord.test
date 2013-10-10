@@ -1,7 +1,13 @@
 <record type="audio/x-wav" name="temprecording" beep="true" dtmfterm="false" finalsilence="3s" maxtime="30s" >
-<prompt><audio src="SAN-RECORDING">Por favor, diga su nombre</audio></prompt>
-<prompt><audio src="SAN-RECORDING-B"/></prompt>
-<prompt>Despues del beep</prompt>
+<prompt>
+<audio src="SAN-RECORDING">
+Por favor, diga su nombre</audio>
+</prompt>
+<prompt>
+<audio src="SAN-RECORDING-B"/>
+</prompt>
+<prompt>
+Despues del beep</prompt>
 <filled>
 <var name="duration" expr="temprecording$.duration" />
 <var name="size" expr="temprecording$.size" />
