@@ -56,8 +56,8 @@ public class Cal10NLocutionProviderTest {
 	  
 	  public void testCustomLocale() throws Exception {	
 		  Locale locale = new Locale("en", "US");	
-		  Wording wording = locutionprovider.getLocution(TestLocution.TEST_KEY, locale);		
-		  assertEquals(wording.getText(), new MessageConveyor(locale).getMessage(TestLocution.TEST_KEY));
+		  Wording wording = locutionprovider.getWording(TestLocution.TEST_WORDING_KEY, locale);		
+		  assertEquals(wording.getText(), new MessageConveyor(locale).getMessage(TestLocution.TEST_WORDING_KEY));
 	  }
 
 	  @Test
