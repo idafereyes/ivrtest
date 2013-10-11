@@ -33,8 +33,8 @@ public class Wording implements Serializable{
 	public Wording() { }
 	
 	public Wording(String text, Locale locale) {
-		this.setText(text);
-		this.setLocale(locale);
+		this.text = text;
+		this.locale = locale;
 	}
 	
 	public String getText() {

@@ -34,9 +34,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String FILLED_START_TAG = "<filled>";
     static final String FILLED_END_TAG = "</filled>";
     static final String IF_END_TAG = "</if>";
+    static final String PROMPT_START_TAG = "<prompt";
     static final String PROMPT_END_TAG = "</prompt>";
     static final String ASSIGN = "<assign name=\"";
     static final String PROMPT_COND = "<prompt cond=\"";
+    static final String COND_ATTR = " cond=\"";
     static final String CLOSE_TAG = ">"; 
     static final String END_TAG = "/>"; 
     static final String QUOTE_SPACE = "\" ";
@@ -48,6 +50,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String EVENT_VAR_DECLARATION = "<var name=\"event\" expr=\"'";
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
+    static final String LANG_ATTR = " xml:lang=\"";
     
     //TODO Put in a configuration file
     private String grammarType = "application/srgs";
@@ -86,7 +89,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         
         for (int i=0;i<audioItemsList.size();i++){
             
-            audioItemsCode.append("<prompt");
+            audioItemsCode.append(PROMPT_START_TAG);
             
             //Adds bargeIn prompt attribute only if specified
             if (output.isBargein()){
@@ -97,14 +100,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             
             //Adds cond prompt attribute if specified
             if (audioItemsList.get(i).getCondition() != null){
-                audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCondition() + "\"");
+                audioItemsCode.append(COND_ATTR + audioItemsList.get(i).getCondition() + QUOTE);
             }
             
             if(audioItemsList.get(i).getWording() != null
             		&& audioItemsList.get(i).getWording().getLocale() != null) {
-            	audioItemsCode.append(" xml:lang=\"");
+            	audioItemsCode.append(LANG_ATTR);
             	audioItemsCode.append(audioItemsList.get(i).getWording().getLocale().toString());
-            	audioItemsCode.append("\"");
+            	audioItemsCode.append(QUOTE);
             }
             
             //Ends prompt start tag
@@ -295,60 +298,59 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String renderInputPrompts(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
-    	
-    	// write no match audios with their condition
-		for(AudioItem ai : input.getNoMatchAudios()) {
-			sb.append("<prompt");
-			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append(" cond=\"" + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\"");
-			} else {
-				sb.append(" cond=\"" + InputVars.RETURNCODE.getName() + " == 'NOMATCH'\"");
-			}
-			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
-				sb.append(" xml:lang=\"");
-				sb.append(ai.getWording().getLocale().toString());
-				sb.append("\"");
-			}
-			sb.append(">");
-			sb.append(renderInputAudios(ai));
-			sb.append(PROMPT_END_TAG);
-		}
-		
-		// write no input audios with their condition
-		for(AudioItem ai : input.getNoInputAudios()) {
-			sb.append("<prompt");
-			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append(" cond=\"" + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\"");
-			} else {
-				sb.append(" cond=\"" + InputVars.RETURNCODE.getName() + " == 'NOINPUT'\"");
-			}
-			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
-				sb.append(" xml:lang=\"");
-				sb.append(ai.getWording().getLocale().toString());
-				sb.append("\"");
-			}
-			sb.append(">");
-			sb.append(renderInputAudios(ai));
-			sb.append(PROMPT_END_TAG);
-		}
-		
-		// write initial audios with their condition
-		for(AudioItem ai : input.getMainAudios()) {
-			sb.append("<prompt");
-			if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-				sb.append(PROMPT_COND + ai.getCondition() + "\"");
-			}
-			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
-				sb.append(" xml:lang=\"");
-				sb.append(ai.getWording().getLocale().toString());
-				sb.append("\"");
-			}
-			sb.append(">");
-			sb.append(renderInputAudios(ai));
-			sb.append(PROMPT_END_TAG);
-		}
+    	sb.append(renderInputPromptsList(input.getNoMatchAudios(), "NOMATCH"));
+    	sb.append(renderInputPromptsList(input.getNoInputAudios(), "NOINPUT"));
+    	sb.append(renderInputPromptsList(input.getMainAudios(), null));
 		
 		return sb.toString();
+    }
+    
+    /**
+     * Writes VXML code for a list of prompts associated with an event.
+     * 
+     * @param audioItems List of AudioItems to parse to VXML
+     * @param event Event name (NOMATCH or NOINPUT) or null if no event 
+     * 				is associated
+     * @return VXML code.
+     */
+    private String renderInputPromptsList(List<AudioItem> audioItems, String event) {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for(AudioItem ai : audioItems) {
+    		// Start tag
+			sb.append(PROMPT_START_TAG);
+			
+			// Conditions
+			if(event != null) {
+				if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
+					sb.append(COND_ATTR + ai.getCondition() + " &amp;&amp; " + InputVars.RETURNCODE.getName() + " == '" + event + "'\"");
+				} else {
+					sb.append(COND_ATTR + InputVars.RETURNCODE.getName() + " == '" + event + "'\"");
+				}
+			} else {
+				if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
+					sb.append(COND_ATTR + ai.getCondition() );
+				}
+			}
+			
+			// Wording language
+			if(ai.getWording() != null && ai.getWording().getLocale() != null) {
+				sb.append(LANG_ATTR);
+				sb.append(ai.getWording().getLocale().toString());
+				sb.append(QUOTE);
+			}
+			
+			// End tag
+			sb.append(">");
+			
+			// Body tag
+			sb.append(renderInputAudios(ai));
+			
+			// Close tag
+			sb.append(PROMPT_END_TAG);
+		}
+    	
+    	return sb.toString();
     }
     
 	private String renderInputAudios(AudioItem ai) {
@@ -905,15 +907,15 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         
         for (int i=0;i<audioItemsList.size();i++){
             
-            audioItemsCode.append("<prompt");
+            audioItemsCode.append(PROMPT_START_TAG);
                         
             //Adds cond prompt attribute if specified
             if (audioItemsList.get(i).getCondition() != null){
-                audioItemsCode.append(" cond=\"" + audioItemsList.get(i).getCondition() + "\"");
+                audioItemsCode.append(COND_ATTR + audioItemsList.get(i).getCondition() + QUOTE);
             }
             
             if (audioItemsList.get(i).getWording() != null && audioItemsList.get(i).getWording().getLocale() != null){
-                audioItemsCode.append(" xml:lang=\"" + audioItemsList.get(i).getWording().getLocale().toString() + "\"");
+                audioItemsCode.append(LANG_ATTR + audioItemsList.get(i).getWording().getLocale().toString() + QUOTE);
             }
             
             //Ends prompt start tag

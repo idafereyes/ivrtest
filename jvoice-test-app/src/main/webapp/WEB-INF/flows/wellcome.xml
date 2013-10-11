@@ -42,6 +42,7 @@
 			<evaluate expression="input" result="flowScope.setLanguageInput" />
 			<set name="flowScope.setLanguageInput.name" value="'WELLCOME'" />
 			<set name="flowScope.setLanguageInput.bargein" value="true" />
+			<set name="flowScope.setLanguageInput.maxAttempts" value="1" />
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
 			<set name="flowScope.grammar.type" value="'builtin'"/>
