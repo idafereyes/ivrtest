@@ -41,7 +41,7 @@
 		<on-entry>
 			<evaluate expression="input" result="flowScope.setLanguageInput" />
 			<set name="flowScope.setLanguageInput.name" value="'WELLCOME'" />
-			<set name="flowScope.setLanguageInput.bargein" value="true" />
+			<set name="flowScope.setLanguageInput.bargein" value="false" />
 			<set name="flowScope.setLanguageInput.maxAttempts" value="1" />
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
@@ -54,6 +54,8 @@
 			<set name="flowScope.setLanguageAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION_SRC, new java.util.Locale('en','US'))"/> 
             <set name="flowScope.setLanguageAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION, new java.util.Locale('en','US'))"/> 
 			<evaluate expression="flowScope.setLanguageInput.mainAudios.add(flowScope.setLanguageAudioItem)" />
+			
+			<evaluate expression="flowScope.setLanguageInput.events.add('maxattempts')" />
 
 		</on-entry>
 

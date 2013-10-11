@@ -8,9 +8,12 @@
    <action-state id="menu">
 		<on-entry>
 			<evaluate expression="input" result="flowScope.menuInput" />
+			<set name="flowScope.menuInput.name" value="'MENU_ACCOUNTS'"/>
+			<set name="flowScope.menuInput.bargein" value="true"/>
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
 			<set name="flowScope.grammar.type" value="'builtin'"/>
+			<set name="flowScope.grammar.mode" value="'dtmf'"/>
 			<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/>
 			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
 
@@ -33,6 +36,10 @@
 			<evaluate expression="audioItem" result="flowScope.accountsMenuNIAudioItem" />
 			<set name="accountsMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NI)"/> 
 			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNIAudioItem)"/>
+			
+			<evaluate expression="flowScope.menuInput.events.add('maxattempts')"/>
+			<evaluate expression="flowScope.menuInput.events.add('maxnoinput')"/>
+			<evaluate expression="flowScope.menuInput.events.add('maxnomatch')"/>
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.menuInput)" />
