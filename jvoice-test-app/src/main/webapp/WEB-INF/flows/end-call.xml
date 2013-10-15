@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow 	xmlns="http://www.springframework.org/schema/webflow"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+		start-state="endCallState" parent="navigation">
+  		
+	<action-state id="endCallState">
+		<on-entry>
+			<evaluate expression="end" result="flowScope.endState"></evaluate>
+			<set name="flowScope.endState.name" value="'Para que vale el nombre?'"></set>
+		</on-entry>
+		<evaluate expression="flowProcessor.process(flowScope.endState)"></evaluate>
+		<transition to="end-call"/>
+	</action-state>
+
+	
+</flow>

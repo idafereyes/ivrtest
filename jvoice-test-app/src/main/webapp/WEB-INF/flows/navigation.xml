@@ -5,11 +5,15 @@
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
     abstract="true">
 
-	<subflow-state id="mainMenu" subflow="main-menu">
-		<transition to="end"/>
-	</subflow-state>
+	<view-state id="mainMenu" view="flowRedirect:main"/>
 	
 	<end-state id="menuBack"/>
 	
 	<end-state id="end"/>
+	
+	<end-state id="end-call" view="render"/>
+	
+	<global-transitions>
+		<transition on="end-call" to="end-call"/>
+	</global-transitions>
 </flow>
