@@ -73,11 +73,7 @@ public class FlowProcessor implements Serializable {
      * @return
      */
     public String render(String flowURL){
-    	
-    	
-    	//RequestContext requestContext = org.springframework.webflow.execution.RequestContextHolder.getRequestContext();
-        //String flowURL = requestContext.getFlowExecutionUrl();
-         
+ 
         StringBuilder code = new StringBuilder();
         
         code.append(this.renderer.render(states, flowURL));
