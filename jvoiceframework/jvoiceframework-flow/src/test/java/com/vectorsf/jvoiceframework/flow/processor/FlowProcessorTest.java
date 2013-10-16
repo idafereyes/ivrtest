@@ -31,7 +31,7 @@ public class FlowProcessorTest {
 		flowProcessor.process(outputMock);
 		
 		// When
-		flowProcessor.render(FLOW_URL);
+		flowProcessor.render();
 		
 		// Then
 		verify(rendererMock, times(1)).render(flowProcessor.getStates(), FLOW_URL);

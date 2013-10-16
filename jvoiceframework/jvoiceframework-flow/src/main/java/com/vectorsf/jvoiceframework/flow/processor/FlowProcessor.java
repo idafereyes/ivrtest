@@ -3,6 +3,9 @@ package com.vectorsf.jvoiceframework.flow.processor;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.webflow.execution.RequestContext;
+
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
@@ -19,8 +22,7 @@ import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
 public class FlowProcessor implements Serializable {
 
-    private static final long serialVersionUID = -8138696103238359798L;
-    
+	private static final long serialVersionUID = -8138696103238359798L;
     
     private List<Object> states;
     
@@ -70,7 +72,12 @@ public class FlowProcessor implements Serializable {
      * @param flowURL
      * @return
      */
-    public String render(String flowURL){
+    public String render(){
+    	
+    	
+    	RequestContext requestContext = org.springframework.webflow.execution.RequestContextHolder.getRequestContext();
+        String flowURL = requestContext.getFlowExecutionUrl();
+         
         StringBuilder code = new StringBuilder();
         
         code.append(this.renderer.render(states, flowURL));
