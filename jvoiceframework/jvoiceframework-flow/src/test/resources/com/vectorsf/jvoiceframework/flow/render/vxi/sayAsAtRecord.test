@@ -1,0 +1,29 @@
+<record type="audio/x-wav" name="temprecording" beep="true" dtmfterm="false" finalsilence="3s" maxtime="30s" >
+<prompt>
+<audio src="SAN-RECORDING">Por favor, diga algo</audio>
+</prompt>
+<prompt>
+<say-as interpret-as="vxml:digits" >1234</say-as>
+</prompt>
+<prompt>
+<say-as interpret-as="vxml:date" format="dmy" >12-10-2012</say-as>
+</prompt>
+<prompt>
+<audio src="TEST-SAY-AS">
+<say-as interpret-as="vxml:digits" >1234</say-as>
+</audio>
+</prompt>
+<prompt>
+<audio src="TEST-SAY-AS">
+<say-as interpret-as="vxml:date" format="dmy" >12-10-2012</say-as>
+</audio>
+</prompt>
+<filled>
+<var name="duration" expr="temprecording$.duration" />
+<var name="size" expr="temprecording$.size" />
+<var name="termchar" expr="temprecording$.termchar" />
+<var name="maxtime" expr="temprecording$.maxtime" />
+<var name="event" expr="'recorded'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording event duration size termchar maxtime" method="post" enctype="multipart/form-data" />
+</filled>
+</record>

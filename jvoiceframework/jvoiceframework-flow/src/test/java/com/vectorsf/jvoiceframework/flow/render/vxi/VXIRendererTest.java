@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
@@ -23,8 +22,10 @@ import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
+import com.vectorsf.jvoiceframework.core.bean.SayAs;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
+import com.vectorsf.jvoiceframework.core.enums.InterpretAs;
 import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
 import com.vectorsf.jvoiceframework.core.enums.TransferType;
@@ -116,6 +117,68 @@ public class VXIRendererTest {
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "catchHangupFlushFalseAtOutput.test")); 
 		
 	}
+	
+	@Test
+	public void testSayAsAtOutput() throws FileNotFoundException{
+		
+		//Given	
+		Output outputMock = mock(Output.class);
+		when(outputMock.isBargein()).thenReturn(true);
+		when(outputMock.isCatchHangup()).thenReturn(false);
+		when(outputMock.isFlush()).thenReturn(false);
+
+		AudioItem audioItem1 = mock(AudioItem.class);
+		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
+
+		AudioItem audioItem2 = mock(AudioItem.class);
+		when(audioItem2.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem2.getWording().getText()).thenReturn("1234");
+		when(audioItem2.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem2.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DIGITS);
+
+		AudioItem audioItem3 = mock(AudioItem.class);
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("12-10-2012");
+		when(audioItem3.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem3.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DATE);
+		when(audioItem3.getWording().getSayAs().getFormat()).thenReturn("dmy");
+
+		AudioItem audioItem4 = mock(AudioItem.class);
+		when(audioItem4.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem4.getSrc()).thenReturn("TEST-SAY-AS");
+		when(audioItem4.getWording().getText()).thenReturn("1234");
+		when(audioItem4.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem4.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DIGITS);
+
+		AudioItem audioItem5 = mock(AudioItem.class);
+		when(audioItem5.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem5.getSrc()).thenReturn("TEST-SAY-AS");
+		when(audioItem5.getWording().getText()).thenReturn("12-10-2012");
+		when(audioItem5.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem5.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DATE);
+		when(audioItem5.getWording().getSayAs().getFormat()).thenReturn("dmy");
+
+		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
+		audioItemsList.add(audioItem1);
+		audioItemsList.add(audioItem2);
+		audioItemsList.add(audioItem3);
+		audioItemsList.add(audioItem4);
+		audioItemsList.add(audioItem5);
+		
+		when(outputMock.getAudioItems()).thenReturn(audioItemsList);
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "sayAsAtOutput.test")); 
+		
+	}
+
 	
 	@Test
 	public void testFlushTrueAtOutput() throws FileNotFoundException{
@@ -533,6 +596,77 @@ public class VXIRendererTest {
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "propertiesAtRecord.test")); 
 		
 	}
+	
+	@Test
+	public void testSayAsAtRecord() throws FileNotFoundException{
+		
+		//Given
+		Record recordMock = mock(Record.class);
+			
+		//Attributes
+		when(recordMock.isBeep()).thenReturn(true);
+		when(recordMock.isDtmfterm()).thenReturn(false);
+		when(recordMock.getFinalsilence()).thenReturn("3s");
+		when(recordMock.getMaxtime()).thenReturn("30s");
+
+		//AudioItemsList
+		AudioItem audioItem1 = mock(AudioItem.class);
+		when(audioItem1.getSrc()).thenReturn("SAN-RECORDING");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem1.getWording().getText()).thenReturn("Por favor, diga algo");
+
+		AudioItem audioItem2 = mock(AudioItem.class);
+		when(audioItem2.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem2.getWording().getText()).thenReturn("1234");
+		when(audioItem2.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem2.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DIGITS);
+
+		AudioItem audioItem3 = mock(AudioItem.class);
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem3.getWording().getText()).thenReturn("12-10-2012");
+		when(audioItem3.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem3.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DATE);
+		when(audioItem3.getWording().getSayAs().getFormat()).thenReturn("dmy");
+
+		AudioItem audioItem4 = mock(AudioItem.class);
+		when(audioItem4.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem4.getSrc()).thenReturn("TEST-SAY-AS");
+		when(audioItem4.getWording().getText()).thenReturn("1234");
+		when(audioItem4.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem4.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DIGITS);
+
+		AudioItem audioItem5 = mock(AudioItem.class);
+		when(audioItem5.getWording()).thenReturn(mock(Wording.class));
+		when(audioItem5.getSrc()).thenReturn("TEST-SAY-AS");
+		when(audioItem5.getWording().getText()).thenReturn("12-10-2012");
+		when(audioItem5.getWording().getSayAs()).thenReturn(mock(SayAs.class));
+		when(audioItem5.getWording().getSayAs().getInterpretAs()).thenReturn(InterpretAs.DATE);
+		when(audioItem5.getWording().getSayAs().getFormat()).thenReturn("dmy");
+
+		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
+		audioItemsList.add(audioItem1);
+		audioItemsList.add(audioItem2);
+		audioItemsList.add(audioItem3);
+		audioItemsList.add(audioItem4);
+		audioItemsList.add(audioItem5);
+		
+		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+
+		List<String> eventsList = new ArrayList<String>();
+		eventsList.add(RecordEvents.RECORDED.toString());
+		
+		when(recordMock.getEventsList()).thenReturn(eventsList);
+		
+		VXIRenderer vxiRenderer = new VXIRenderer();
+
+		//When
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "sayAsAtRecord.test")); 
+		
+	}
+
 	
 	@Test
 	public void testCustomEventsAtRecord() throws FileNotFoundException{
