@@ -156,11 +156,11 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	// Mostramos el primer audio item como resumen
         AudioItem audioItem = audioItems.get(0);
         if (audioItem != null){
-        	if (audioItem.getSrc() != null) {
-        		summary = audioItem.getSrc();
-        	}
-        	else if (audioItem.getWording() != null && audioItem.getWording().getText() != null) {
+        	if (audioItem.getWording() != null && audioItem.getWording().getText() != null) {
         		summary = audioItem.getWording().getText();
+        	}
+        	else if (audioItem.getSrc() != null) {        		
+        		summary = audioItem.getSrc();
         	}
         	else {
         		summary = "No audio item";

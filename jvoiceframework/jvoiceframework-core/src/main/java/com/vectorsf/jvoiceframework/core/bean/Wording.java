@@ -30,6 +30,8 @@ public class Wording implements Serializable{
 	 */
 	private Locale locale;
 	
+	private SayAs sayAs;
+		
 	public Wording() { }
 	
 	public Wording(String text, Locale locale) {
@@ -37,6 +39,13 @@ public class Wording implements Serializable{
 		this.locale = locale;
 	}
 	
+
+	public Wording(String text, Locale locale, SayAs sayAs) {
+		this.text = text;
+		this.locale = locale;
+		this.sayAs = sayAs;
+	}
+
 	public String getText() {
 		return text;
 	}
@@ -51,6 +60,14 @@ public class Wording implements Serializable{
 
 	public void setLocale(Locale locale) {
 		this.locale = locale;
+	}
+
+	public SayAs getSayAs() {
+		return sayAs;
+	}
+
+	public void setSayAs(SayAs sayAs) {
+		this.sayAs = sayAs;
 	}
 	
 }
