@@ -16,14 +16,20 @@
 
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT1AudioItem" />
 			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/> 
+			<evaluate expression="sayAs" result="flowScope.accountsMenuPT1AudioItem.wording.sayAs" />
+            <set name="flowScope.accountsMenuPT1AudioItem.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT2AudioItem" />
 			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/> 
+            <evaluate expression="sayAs" result="flowScope.accountsMenuPT2AudioItem.wording.sayAs" />
+            <set name="flowScope.accountsMenuPT2AudioItem.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT3AudioItem" />
 			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/> 
+            <evaluate expression="sayAs" result="flowScope.accountsMenuPT3AudioItem.wording.sayAs" />
+            <set name="flowScope.accountsMenuPT3AudioItem.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT3AudioItem)"/>
 
 			<evaluate expression="audioItem" result="flowScope.accountsMenuNMAudioItem" />
