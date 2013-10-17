@@ -21,4 +21,5 @@ public interface Renderer {
     String render(End end, String flowURL);
     String renderStartPage();
     String renderEndPage();
+    String getView();
 }

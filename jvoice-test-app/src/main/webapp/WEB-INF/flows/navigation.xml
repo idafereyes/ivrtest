@@ -11,7 +11,7 @@
 	
 	<end-state id="end"/>
 	
-	<end-state id="end-call" view="render"/>
+	<end-state id="end-call" view="#{flowProcessor.getRenderer().getView()}"/>
 	
 	<global-transitions>
 		<transition on="end-call" to="end-call"/>

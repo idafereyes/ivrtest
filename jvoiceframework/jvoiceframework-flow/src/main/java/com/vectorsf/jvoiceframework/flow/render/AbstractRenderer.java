@@ -18,6 +18,16 @@ public abstract class AbstractRenderer {
     protected abstract String renderStartPage();
     protected abstract String renderEndPage();
     
+    private String view;
+	
+    public String getView() {
+		return view;
+	}
+
+	public void setView(String view) {
+		this.view = view;
+	}
+	
 	public String render(List<Object> states, String flowURL) {
 	      
 		StringBuilder code = new StringBuilder();

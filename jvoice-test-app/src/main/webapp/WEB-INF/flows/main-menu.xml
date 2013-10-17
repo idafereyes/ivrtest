@@ -48,7 +48,7 @@
 	</action-state>
 
 	<!-- los eventos maxnomatch y maxnoinput los tratamos en el superflujo max-int -->
-	<view-state id="render" view="render" model="lastInputResult">	
+	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">	
 		<transition on="match" to="end"/>		
 	</view-state>
 

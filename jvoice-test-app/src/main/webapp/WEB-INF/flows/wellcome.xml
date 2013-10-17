@@ -63,7 +63,7 @@
 	</action-state>
 
 
-	<view-state id="render" view="render" model="lastInputResult">
+	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">
 		<transition on="match" to="setLanguageInputCheck"/>
 		<transition to="end"/>
 	</view-state>

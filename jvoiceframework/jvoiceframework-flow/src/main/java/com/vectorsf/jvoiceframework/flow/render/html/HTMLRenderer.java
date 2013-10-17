@@ -25,7 +25,7 @@ import com.vectorsf.jvoiceframework.flow.render.Renderer;
 @Component("renderer")
 public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializable {
 
-    private static final long serialVersionUID = 4511972601190155577L;
+	private static final long serialVersionUID = 4511972601190155577L;
     
     //String literals reuse
     private String tableHtml = "<table cellpadding=\"0\" cellspacing=\"0\">";

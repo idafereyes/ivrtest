@@ -55,8 +55,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
     static final String LANG_ATTR = " xml:lang=\"";
-    
-    //TODO Put in a configuration file
+
+	//TODO Put in a configuration file
     private String grammarType = "application/srgs";
     private String grammarPath = "grammars/";
     private String grammarsFileExtension = ".bnf";

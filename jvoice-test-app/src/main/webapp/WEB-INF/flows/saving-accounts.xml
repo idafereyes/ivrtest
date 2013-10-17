@@ -50,7 +50,7 @@
 	</action-state>
 
 	<!-- los eventos maxnomatch y maxnoinput los tratamos en el superflujo max_int -->
-	<view-state id="renderInput" view="render" model="lastInputResult">
+	<view-state id="renderInput" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">
 		<transition on="match" to="menuDecision"/>		
 	</view-state>
 		
@@ -93,7 +93,7 @@
 		<transition to="renderBalance" />
 	</action-state>
 	
-	<view-state id="renderBalance" view="render">
+	<view-state id="renderBalance" view="#{flowProcessor.getRenderer().getView()}">
 		<transition to="end"/>		
 	</view-state>
 	
