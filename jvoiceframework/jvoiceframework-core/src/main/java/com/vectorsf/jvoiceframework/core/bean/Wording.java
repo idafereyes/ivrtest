@@ -9,8 +9,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 
 /**
  * Wording component used at jVoice framework.
- * Represents a text message with its locale. This wording
- * is useful when text should be played by TTS.
+ * Represents a text message with its locale and, optionally, the way the TTS should interpret it.
+ *  This wording is useful when text should be played by TTS.
  * 
  * @author sergiomilla
  */
@@ -30,6 +30,9 @@ public class Wording implements Serializable{
 	 */
 	private Locale locale;
 	
+	/**
+	 * Information about the type of the text that indicate how should be interpreted.
+	 */
 	private SayAs sayAs;
 		
 	public Wording() { }

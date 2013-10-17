@@ -117,6 +117,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             //Ends prompt start tag
             audioItemsCode.append(">");
             
+            //Renders prompt tag body
             audioItemsCode.append(renderAudioItem(audioItemsList.get(i)));
             
             //Prompt end tag
@@ -129,33 +130,41 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     private String renderAudioItem(AudioItem audioItem) {
     	StringBuilder audioItemCode = new StringBuilder();
     	    	
+        //TTS
     	if (audioItem.getSrc() == null){
-            //TTS
+    		//Adds say-as tag if specified.
         	if (audioItem.getWording().getSayAs() != null){
         		audioItemCode.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + audioItem.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
+        		//With format specified
         		if (audioItem.getWording().getSayAs().getFormat() != null){
         			audioItemCode.append(FORMAT_ATTR + audioItem.getWording().getSayAs().getFormat() + QUOTE_SPACE);
         		}
         		audioItemCode.append(CLOSE_TAG);
                 audioItemCode.append(audioItem.getWording().getText());
                 audioItemCode.append(SAY_AS_END_TAG);
+        	//Without say-as
         	} else {
                 audioItemCode.append(audioItem.getWording().getText());            		
         	}
+        
+        //Audio without TTS backup prompt
         }else if (audioItem.getWording() == null || audioItem.getWording().getText() == null){
-        	//Audio without TTS backup prompt
             audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItem.getSrc() + QUOTE + END_TAG);
+        
+        //Audio with TTS backup prompt
         }else{
-            //Audio with TTS backup prompt
             audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItem.getSrc() + QUOTE + CLOSE_TAG);
+    		//Adds say-as tag if specified.
         	if (audioItem.getWording().getSayAs() != null){
         		audioItemCode.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + audioItem.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
+        		//With format specified
         		if (audioItem.getWording().getSayAs().getFormat() != null){
         			audioItemCode.append(FORMAT_ATTR + audioItem.getWording().getSayAs().getFormat() + QUOTE_SPACE);
         		}
         		audioItemCode.append(CLOSE_TAG);
                 audioItemCode.append(audioItem.getWording().getText());
                 audioItemCode.append(SAY_AS_END_TAG);
+            //Without say-as
         	} else {
                 audioItemCode.append(audioItem.getWording().getText());            		
         	}
@@ -389,38 +398,44 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 	private String renderInputAudios(AudioItem ai) {
 		StringBuilder sb = new StringBuilder();
 		
+		//TTS
 		if (ai.getSrc() == null || ai.getSrc().isEmpty()){
-			//TTS
 			//TODO Añadir logs
+    		//Adds say-as tag if specified.
         	if (ai.getWording().getSayAs() != null){
         		sb.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + ai.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
+        		//With format
         		if (ai.getWording().getSayAs().getFormat() != null){
         			sb.append(FORMAT_ATTR + ai.getWording().getSayAs().getFormat() + QUOTE_SPACE);
         		}
         		sb.append(CLOSE_TAG);
                 sb.append(ai.getWording().getText());
                 sb.append(SAY_AS_END_TAG);
+        	//Without say-as
         	} else {
                 sb.append(ai.getWording().getText());        		
         	}
 			
+        //Audio without TTS backup prompt
 		} else if (ai.getWording() == null || ai.getWording().getText().isEmpty()){
-			//Audio sin TTS de backup
 			//TODO Añadir logs
 			sb.append("<audio src=\"" + ai.getSrc() + QUOTE_SPACE + END_TAG);
 
+		//Audio with TTS backup prompt
 		} else{
-			//Audio con TTS de backup
 			//TODO Meter logs
 			sb.append("<audio src=\"" + ai.getSrc() + "\" >");
+    		//Adds say-as tag if specified.
         	if (ai.getWording().getSayAs() != null){
         		sb.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + ai.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
+        		//With format
         		if (ai.getWording().getSayAs().getFormat() != null){
         			sb.append(FORMAT_ATTR + ai.getWording().getSayAs().getFormat() + QUOTE_SPACE);
         		}
         		sb.append(CLOSE_TAG);
                 sb.append(ai.getWording().getText());
                 sb.append(SAY_AS_END_TAG);
+            //Without say-as
         	} else {
                 sb.append(ai.getWording().getText());        		
         	}
@@ -974,6 +989,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             //Ends prompt start tag
             audioItemsCode.append(">");
             
+            //Renders prompt tag body
             audioItemsCode.append(renderAudioItem(audioItemsList.get(i)));
                         
             //Prompt end tag

@@ -1,5 +1,12 @@
 package com.vectorsf.jvoiceframework.core.enums;
 
+/**
+ * This enumeration represents all possible types
+ * of text interpretation when played by a TTS engine.
+ * 
+ * @author idafereyes
+ */
+
 public enum InterpretAs {
 
 	BOOLEAN ("boolean"),
