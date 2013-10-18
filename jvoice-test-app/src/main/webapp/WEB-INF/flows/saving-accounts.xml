@@ -30,11 +30,7 @@
 				<set name="flowScope.grammar.type" value="'builtin'"/>
 				<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
 				<evaluate expression="flowScope.accountSelectionInput.grammars.add(flowScope.grammar)"/>
-	
-				<!-- <evaluate expression="audioItem" result="flowScope.accountSelectionInputPT1AudioItem" />
-				<set name="flowScope.accountSelectionInputPT1AudioItem.wording" value="accountsLocutions.getAccountSelectionLocution(user.getAccounts(), T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_PT1, T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).REMAINING_ACCOUNT_SELECTION, flowScope.offset.intValue())"/> 
-				<evaluate expression="flowScope.accountSelectionInput.mainAudios.add(flowScope.accountSelectionInputPT1AudioItem)"/> -->
-                
+
                 <set name="flowScope.accountSelectionInput.mainAudios" value="accountsLocutions.getAccountSelectionLocutions(user.getAccounts(), flowScope.offset.intValue())" />
                 
 				<evaluate expression="audioItem" result="flowScope.accountsSelectionNMAudioItem" />
@@ -87,24 +83,19 @@
             <evaluate expression="audioItem" result="flowScope.balanceOutputAudioItemA" />          
             <set name="flowScope.balanceOutputAudioItemA.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE_A)"/> 
 
-			<evaluate expression="audioItem" result="flowScope.balanceOutputAudioItemB" /> 			
-  			<set name="flowScope.balanceOutputAudioItemB.wording" value="flowScope.selectedAccount.getIdEnding()"/> 
+			<evaluate expression="audioItem" result="flowScope.balanceOutputAudioItemB" />
+			<evaluate expression="wording" result="flowScope.balanceOutputAudioItemB.wording" /> 			
+  			<set name="flowScope.balanceOutputAudioItemB.wording.text" value="flowScope.selectedAccount.getIdEnding()"/> 
             <evaluate expression="sayAs" result="flowScope.balanceOutputAudioItemB.wording.sayAs" />
             <set name="flowScope.balanceOutputAudioItemB.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
 
             <evaluate expression="audioItem" result="flowScope.balanceOutputAudioItemC" />          
-            <set name="flowScope.balanceOutputAudioItemC.wording" value="flowScope.selectedAccount.getBalance()"/> 
-            <evaluate expression="sayAs" result="flowScope.balanceOutputAudioItemC.wording.sayAs" />
-            <set name="flowScope.balanceOutputAudioItemC.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).CURRENCY"/>
-
-            <evaluate expression="audioItem" result="flowScope.balanceOutputAudioItemD" />          
-            <set name="flowScope.balanceOutputAudioItemD.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE_D)"/> 
+            <set name="flowScope.balanceOutputAudioItemC.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE_C, flowScope.selectedAccount.getBalance())"/> 
 			
 			<evaluate expression="output" result="flowScope.balanceOutput"></evaluate>	
 			<evaluate expression="flowScope.balanceOutput.audioItems.add(flowScope.balanceOutputAudioItemA)"/> 				 
             <evaluate expression="flowScope.balanceOutput.audioItems.add(flowScope.balanceOutputAudioItemB)"/>                
             <evaluate expression="flowScope.balanceOutput.audioItems.add(flowScope.balanceOutputAudioItemC)"/>                
-            <evaluate expression="flowScope.balanceOutput.audioItems.add(flowScope.balanceOutputAudioItemD)"/>                
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.balanceOutput)"/> 		
