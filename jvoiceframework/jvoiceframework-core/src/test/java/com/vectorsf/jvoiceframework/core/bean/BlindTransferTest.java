@@ -6,14 +6,12 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class TransferTest {
-	
+public class BlindTransferTest {
+
 	static String SCAN_BASE_PACKAGE = "com.vectorsf.jvoiceframework.core.bean";
-	static String TRANSFERAUDIO = "idleMusicDefault";
 	static String DEST = "666777888";
-	static String TIMEOUT = "15s";
-	static String MAXTIME = "35s";
-	
+	static String TRANSFERAUDIO = "idleMusicDefault";
+		
 	@Test
 	public void testSetAfterInjection(){
 		
@@ -21,23 +19,23 @@ public class TransferTest {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.scan(SCAN_BASE_PACKAGE);
 		context.refresh();
-		Transfer transfer = (Transfer)context.getBean("transfer");
+		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
 		
 		//When
-		transfer.setDest(DEST);
-		transfer.setTransferaudio(TRANSFERAUDIO);
+		blindTransfer.setDest(DEST);
+		blindTransfer.setTransferaudio(TRANSFERAUDIO);
 		
 		//Then
 		//Verifies that transfer attributes transferaudio and dest have been set properly.
-		assertEquals("dest value is not correct.",transfer.getDest(), DEST);
-		assertEquals("transferaudio value is not correct.",transfer.getTransferaudio(), TRANSFERAUDIO);
+		assertEquals("dest value is not correct.",blindTransfer.getDest(), DEST);
+		assertEquals("transferaudio value is not correct.",blindTransfer.getTransferaudio(), TRANSFERAUDIO);
 		
 		//Finally
 		context.close();		
 	}
 
 	@Test
-	public void testEventsListInitialization(){
+	public void testEventsInjection(){
 		
 		//Given
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -45,11 +43,11 @@ public class TransferTest {
 		context.refresh();
 		
 		//When
-		Transfer transfer = (Transfer)context.getBean("transfer");
+		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
 		
 		//Then
-		//Verifies that eventsList has been initialized so it is not null
-		assertNotNull("eventsList is null.", transfer.getEvents());
+		//Verifies that events list has been initialized so it is not null
+		assertNotNull("events is null.", blindTransfer.getEvents());
 		
 		//Finally
 		context.close();
@@ -57,7 +55,7 @@ public class TransferTest {
 	}
 
 	@Test
-	public void testPropertiesMapInitialization(){
+	public void testPropertiesInjection(){
 		
 		//Given
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -65,15 +63,16 @@ public class TransferTest {
 		context.refresh();
 		
 		//When
-		Transfer transfer = (Transfer)context.getBean("transfer");
+		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
 		
 		//Then
 		//Verifies that properties map has been initialized so it is not null
-		assertNotNull("properties map is null.", transfer.getProperties());
+		assertNotNull("properties map is null.", blindTransfer.getProperties());
 		
 		//Finally
 		context.close();
 
 	}
+
 
 }

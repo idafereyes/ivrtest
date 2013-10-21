@@ -1,8 +1,5 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,60 +15,32 @@ import org.springframework.stereotype.Component;
  * 
  * @author idafereyes
  */
-
 @Component("transfer")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Transfer implements Serializable {
-
-	private static final long serialVersionUID = 2983400074451108607L;
+public class Transfer {
 	
-	public Transfer(){
-		eventsList = new ArrayList<String>();
-		properties = new HashMap<String, String>();
-	}
-
 	/**
 	 * The URI of the destination (telephone, IP telephony address)
 	 */
 	private String dest;
-
-	/**
-	 * The type of transfer. The value can be "bridge", "blind", or "consultation".
-	 */
-	private String type;
 	
 	/**
 	 * The URI of audio source to play while the transfer attempt is in progress.
 	 */
 	private String transferaudio;
-	
-	/**
-	 * The time to wait while trying to connect the call before returning the noanswer event.
-	 * Takes its value from the bean that stores the app configuration defaults, 
-	 * although it can be given other value later. 
-	 */	
-	@Value("#{appConfigDefaults.transferConnectiontimeout}")
-	private String timeout;
-	
-	/**
-	 * The time that the transferred call is allowed to last, or 0s if no limit is imposed. 
-	 * Only applies for bridge transfer type.
-	 * Takes its value from the bean that stores the app configuration defaults, 
-	 * although it can be given other value later. 
-	 */	
-	@Value("#{appConfigDefaults.transferMaxtime}")
-	private String maxtime;
-	
+		
 	/**
 	 * VXML properties to enhance transfer functionality provided.
 	 * Represented as key(property)/value.
 	 */	
+    @Value("#{new java.util.HashMap()}")
 	private Map<String,String> properties;
 
 	/**
 	 * List of events to be controlled during the transfer.
 	 */	
-	private List<String> eventsList;
+    @Value("#{new java.util.ArrayList()}")
+    private List<String> events;
 
 	public String getDest() {
 		return dest;
@@ -79,14 +48,6 @@ public class Transfer implements Serializable {
 
 	public void setDest(String dest) {
 		this.dest = dest;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 	public String getTransferaudio() {
@@ -97,22 +58,6 @@ public class Transfer implements Serializable {
 		this.transferaudio = transferaudio;
 	}
 
-	public String getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(String timeout) {
-		this.timeout = timeout;
-	}
-
-	public String getMaxtime() {
-		return maxtime;
-	}
-
-	public void setMaxtime(String maxtime) {
-		this.maxtime = maxtime;
-	}
-
 	public Map<String, String> getProperties() {
 		return properties;
 	}
@@ -121,14 +66,12 @@ public class Transfer implements Serializable {
 		this.properties = properties;
 	}
 
-	public List<String> getEventsList() {
-		return eventsList;
+	public List<String> getEvents() {
+		return events;
 	}
 
-	public void setEventsList(List<String> eventsList) {
-		this.eventsList = eventsList;
+	public void setEvents(List<String> events) {
+		this.events = events;
 	}
-
-
 	
 }
