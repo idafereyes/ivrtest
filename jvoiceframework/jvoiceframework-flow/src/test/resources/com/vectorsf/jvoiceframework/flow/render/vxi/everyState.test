@@ -29,6 +29,7 @@
 <filled>
 <var name="_eventId" expr="'match'" />
 <var name="interpretation" />
+<var name="interpretation"/>
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
 <var name="confidence" expr="application.lastresult$.confidence" />

@@ -58,8 +58,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
 	//TODO Put in a configuration file
     private String grammarType = "application/srgs";
-    private String grammarPath = "grammars/";
-    private String grammarsFileExtension = ".bnf";
+    private String grammarPath = "resources/grammars/";
+    private String grammarsFileExtension = ".grxml";
         
 	public String render(Output output, String flowURL) {
                 
@@ -321,7 +321,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     				//TODO Incluir escritura a traza ERROR del CommonLogger y lanzar error
     				sb.append("<disconnect/>");
     			} else {
-    				sb.append("<grammar mode=\"voice\" ");
+    				sb.append("<grammar mode=\"voice\"");
+    				sb.append(" type=\"" + grammar.getType() + "\"");
     				sb.append(" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
     			}
     		} else {
@@ -380,6 +381,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 				sb.append(LANG_ATTR);
 				sb.append(ai.getWording().getLocale().toString().replaceAll("\\_", "-"));
 				sb.append(QUOTE);
+			}
+			
+			// Bargein
+			if(ai.isBargein()) {
+				sb.append(" bargein=\"true\"");
+			} else {
+				sb.append(" bargein=\"false\"");
 			}
 			
 			// End tag
@@ -557,11 +565,19 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//escribimos los datos del resultado
 		sb.append("<var name=\"_eventId\" expr=\"'match'\" />");
 		sb.append("<var name=\"interpretation\" />");
+		sb.append("<var name=\"interpretation\"/>");
 		sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
 		sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
 		sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
 		sb.append("<script>");
 		sb.append("<![CDATA[");
+//		sb.append("var lastInputResult = function() {");
+//		sb.append("this.event = 'match';");
+//		sb.append("this.interpretation = application.lastresult$.utterance;");
+//		sb.append("this.utterance = application.lastresult$.utterance;");
+//		sb.append("this.inputmode = 'dtmf';");
+//		sb.append("this.confidence = application.lastresult$.confidence;");
+//		sb.append("};");
 		sb.append("if(inputmode == 'voice') {");
 		sb.append("interpretation = lastresult$.interpretation.out;");
 		sb.append("} else {");
@@ -572,6 +588,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//TODO Mirar si devuelve los valores correctos
 		
 		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
+//		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId lastInputResult_2E_interpretation\"/>");
 		sb.append(FILLED_END_TAG);
 		
 		return sb.toString();
@@ -588,7 +605,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append("<var name=\"inputmode\" expr=\"null\" />");
 		sb.append("<var name=\"confidence\" expr=\"null\" />");
 		
-		sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
+		//sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
+		sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId\" />");
 		
 		return sb.toString();
 	}

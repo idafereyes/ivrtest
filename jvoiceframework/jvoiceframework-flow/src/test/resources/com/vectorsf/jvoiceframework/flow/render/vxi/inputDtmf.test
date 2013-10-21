@@ -8,14 +8,14 @@
 <var name="returnCode" expr="''" />
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
-<grammar mode="dtmf" type="application/srgs" src="grammars/dtmf/digits?length=1.bnf"/>
-<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'">
+<grammar mode="dtmf" type="application/srgs" src="grammars/dtmf/digits?length=1.grxml"/>
+<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
 No le he entendido.</prompt>
-<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'">
+<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
 Intente hablar mas claro. No le he entendido.</prompt>
-<prompt cond="returnCode == 'NOINPUT'">
+<prompt cond="returnCode == 'NOINPUT'" bargein="false">
 No le he oido.</prompt>
-<prompt>
+<prompt bargein="false">
 Por favor, digame su DNI.</prompt>
 <catch event="nomatch" >
 <assign name="noMatchAttempt" expr="noMatchAttempt + 1" />
@@ -27,7 +27,7 @@ Por favor, digame su DNI.</prompt>
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
 </if>
 <reprompt />
 </catch>
@@ -41,7 +41,7 @@ Por favor, digame su DNI.</prompt>
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
 </if>
 <reprompt />
 </catch>
@@ -51,11 +51,12 @@ Por favor, digame su DNI.</prompt>
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
 </catch>
 <filled>
 <var name="_eventId" expr="'match'" />
 <var name="interpretation" />
+<var name="interpretation"/>
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
 <var name="confidence" expr="application.lastresult$.confidence" />
