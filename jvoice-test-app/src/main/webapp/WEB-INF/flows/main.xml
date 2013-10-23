@@ -39,12 +39,12 @@
 	    <transition on="7" to="error"/>
 	    <transition on="8" to="noMenuBack"/>
 	    <transition on="9" to="noMainMenu"/>
-	    <transition to="wellcome"></transition>
+	    <transition to="wellcome"/>
 	</action-state>
 	
-	<subflow-state id="accounts" subflow="accounts">
-		<transition to="end"/>
+	<subflow-state id="accounts" subflow="accounts">	
 		<transition on="menuBack" to="menu"/> <!-- Webflow coge el id del estado fin como un evento a la vuelta. "menuBack es el id del estado que se usa para ir hacia atrás en el menú en el superflujo navigation" -->
+		<transition to="end"/>
 	</subflow-state>
 	
 

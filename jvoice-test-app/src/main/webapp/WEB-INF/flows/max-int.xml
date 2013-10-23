@@ -15,15 +15,11 @@
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.maxIntOutput)"/> 		
-		<transition to="transfer" />
+		<transition to="transfer"/>
 	</action-state>
 	
 	
-	<subflow-state id="transfer" subflow="transfer">
-		<transition  to="end"/>
-	</subflow-state>
-	
-	<end-state id="end"/>
+	<subflow-state id="transfer" subflow="transfer"/>
 	
 	<!-- Los dos eventos  se tratan igual -->
 	 <global-transitions>

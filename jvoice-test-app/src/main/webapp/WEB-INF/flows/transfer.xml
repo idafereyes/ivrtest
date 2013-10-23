@@ -47,6 +47,6 @@
 		<transition on="transferred" to="transferred"/>
 	</view-state>
 	
-	<end-state id="end" />
+	<view-state id="transferred" view="flowRedirect:hangup"/>
 	
 </flow>

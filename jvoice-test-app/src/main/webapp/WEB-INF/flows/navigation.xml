@@ -9,11 +9,12 @@
 	
 	<end-state id="menuBack"/>
 	
+	<!-- 
 	<end-state id="end"/>
 	
 	<end-state id="end-call" view="#{flowProcessor.getRenderer().getView()}"/>
 	
 	<global-transitions>
 		<transition on="end-call" to="end-call"/>
-	</global-transitions>
+	</global-transitions> -->
 </flow>

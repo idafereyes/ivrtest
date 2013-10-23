@@ -3,17 +3,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-		start-state="sub" parent="navigation">
+		start-state="end" parent="navigation">
 
-
-  	
-    		
-	<subflow-state id="sub" subflow="end-call">
-		<transition on="success" to="end"/> <!-- Si no ponemos success se tragaria el evento end-call -->
-	</subflow-state>
-	
-	
-
-	<end-state id="end"/>
+	<end-state id="end" view="#{flowProcessor.getRenderer().getView()}"/>
 	
 </flow>

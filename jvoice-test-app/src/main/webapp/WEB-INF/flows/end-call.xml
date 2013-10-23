@@ -11,8 +11,9 @@
 			<set name="flowScope.endState.name" value="'Para que vale el nombre?'"></set>
 		</on-entry>
 		<evaluate expression="flowProcessor.process(flowScope.endState)"></evaluate>
-		<transition to="end-call"/>
+		<transition to="redirect"/>
 	</action-state>
-
+	
+<view-state id="redirect" view="flowRedirect:hangup"></view-state>
 	
 </flow>
