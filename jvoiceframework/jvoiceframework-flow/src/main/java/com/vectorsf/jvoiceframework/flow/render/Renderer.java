@@ -19,6 +19,7 @@ public interface Renderer {
 	String render(List<Object> states, String flowURL);
     String render(Output output, String flowURL);
     String render(Input prompt, String flowURL);
+    String render(Transfer blindTx, String flowURL);
     String render(BlindTransfer blindTx, String flowURL);
     String render(ConsultationTransfer consultationTx, String flowURL);
     String render(BridgeTransfer bridgeTx, String flowURL);

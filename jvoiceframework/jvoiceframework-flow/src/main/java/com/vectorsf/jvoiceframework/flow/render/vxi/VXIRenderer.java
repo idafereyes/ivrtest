@@ -184,7 +184,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         //Renders a catch tag for the hangup event and redirects back to the application server with hangup as _eventId param value. 
         catchHangupCode.append("<catch event=\"connection.disconnect.hangup\">");
         
-        catchHangupCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.HANGUP_EVENT + "\" />");
+        catchHangupCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.HANGUP_EVENT + QUOTE_SPACE + END_TAG);
         
         catchHangupCode.append(CATCH_END_TAG);
 
@@ -213,7 +213,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append(FILLED_START_TAG);
         
         //redirects back to the application server with success as _eventId param value. 
-        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + "\" />");
+        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + QUOTE_SPACE + END_TAG);
         
         fieldDummyCode.append(FILLED_END_TAG);
         
@@ -221,7 +221,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append("<catch event=\"noinput nomatch\" >");
         
         //redirects back to the application server with success as _eventId param value. 
-        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + "\" />");
+        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + QUOTE_SPACE + END_TAG);
 
         fieldDummyCode.append(CATCH_END_TAG);
 
@@ -500,7 +500,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//escribimos el catch no input
 		sb.append("<catch event=\"noinput\" >");
 		sb.append(ASSIGN + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOINPUTATTEMPTS.getName() + " + 1\" />");
-		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_SPACE + END_TAG);
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
 		
 		if(isMaxInt) {
@@ -533,7 +533,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//escribimos el catch del no match
 		sb.append("<catch event=\"nomatch\" >");
 		sb.append(ASSIGN + "" + InputVars.NOMATCHATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + 1\" />");
-		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_SPACE + END_TAG);
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
 		
 		if(isMaxInt) {
@@ -1051,7 +1051,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         //Renders each property
         while (it.hasNext()){
             Entry<String, String> pair = it.next();           
-            propsCode.append("<property name=\""+ pair.getKey() + "\" value=\"" + pair.getValue() + "\" />");
+            propsCode.append("<property name=\""+ pair.getKey() + "\" value=\"" + pair.getValue() + QUOTE_SPACE + END_TAG);
         }
         
         return propsCode;

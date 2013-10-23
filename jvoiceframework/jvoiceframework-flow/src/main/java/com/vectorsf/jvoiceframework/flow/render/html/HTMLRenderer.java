@@ -16,7 +16,6 @@ import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
-import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
@@ -38,7 +37,9 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     private String endTableHtml = "</table><br/>";
     private String trStyledHtml = "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\" >";
     private String endTrHtml = "</td></tr>";
-    private String endSpanHtml = "</span><br/>";
+    private String endSpanBrHtml = "</span><br/>";
+    private String startSpanHtml = "<span>";
+    private String endSpanHtml = "</span>";
     
 	public String render(Input input, String flowURL) {
     	
@@ -64,7 +65,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation\" />");
         html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
         html.append("</form>");
-        html.append("</span>");
+        html.append(endSpanHtml);
     	html.append("<div id='" + identifier + "' style='display:none'>");  
     	
     	//html.append("<p>Name = " + input.getName() + "</p>"); // Para qué vale el name???
@@ -174,7 +175,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     
     private String renderAudioItems(List<AudioItem> audioItems, String title) {
     	StringBuilder html = new StringBuilder();
-    	html.append("<span class=\"property_title\">"+ title +"</span>");
+    	html.append("<span class=\"property_title\">"+ title +endSpanHtml);
     	if (audioItems.size() > 0) {
     		 Iterator<AudioItem> it = audioItems.iterator();
     		
@@ -205,7 +206,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	html.append("<a title=\"Expandir / contrater\" onclick=\"javascript:toggle_visibility('" + identifier + "');\">Output </a>");
   
     	if (output.getAudioItems() != null && !output.getAudioItems().isEmpty()){
-    		html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + "</span>");
+    		html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + endSpanHtml);
     	}
     	
     	
@@ -230,51 +231,51 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
 	public String render(Record record, String flowURL) {
         String renderCode = "";
         
-        renderCode += "<span>Record" + endSpanHtml;
-        renderCode += "<span>beep: " + record.isBeep() + endSpanHtml;
-        renderCode += "<span>dtmfterm: " + record.isDtmfterm() + endSpanHtml;
-        renderCode += "<span>maxtime: " + record.getMaxtime() + endSpanHtml;
-        renderCode += "<span>finalsilence: " + record.getFinalsilence() + endSpanHtml;
-        renderCode += "<span>fileName: " + record.getFileName() + endSpanHtml;
-        renderCode += "<span>filePath: " + record.getFilePath() + endSpanHtml;
-        renderCode += "<span>keep: " + record.isKeep() + endSpanHtml;
+        renderCode += "<span>Record" + endSpanBrHtml;
+        renderCode += "<span>beep: " + record.isBeep() + endSpanBrHtml;
+        renderCode += "<span>dtmfterm: " + record.isDtmfterm() + endSpanBrHtml;
+        renderCode += "<span>maxtime: " + record.getMaxtime() + endSpanBrHtml;
+        renderCode += "<span>finalsilence: " + record.getFinalsilence() + endSpanBrHtml;
+        renderCode += "<span>fileName: " + record.getFileName() + endSpanBrHtml;
+        renderCode += "<span>filePath: " + record.getFilePath() + endSpanBrHtml;
+        renderCode += "<span>keep: " + record.isKeep() + endSpanBrHtml;
 
         
         Iterator<AudioItem> itAudios = record.getAudioItemsList().iterator();
-        renderCode += "<span>audioItemsList" + endSpanHtml;            
+        renderCode += "<span>audioItemsList" + endSpanBrHtml;            
        
         while (itAudios.hasNext()){
             AudioItem prompt = itAudios.next();
-            renderCode += "<span>Audio Item" + endSpanHtml;            
-            renderCode += "<span>src: " + prompt.getSrc() + endSpanHtml;
-            renderCode += "<span>wording: " + (prompt.getWording()==null || prompt.getWording().getText()==null ? "null" : prompt.getWording().getText()) + endSpanHtml;
-            renderCode += "<span>cond: " + prompt.getCondition() + endSpanHtml;            
+            renderCode += "<span>Audio Item" + endSpanBrHtml;            
+            renderCode += "<span>src: " + prompt.getSrc() + endSpanBrHtml;
+            renderCode += "<span>wording: " + (prompt.getWording()==null || prompt.getWording().getText()==null ? "null" : prompt.getWording().getText()) + endSpanBrHtml;
+            renderCode += "<span>cond: " + prompt.getCondition() + endSpanBrHtml;            
         }
 
         Iterator<String> it = record.getEvents().iterator();
         renderCode += "<span>Events:</span><br>";            
         while (it.hasNext()){
             String event = it.next();
-            renderCode += "<span>" + event + endSpanHtml;            
+            renderCode += startSpanHtml + event + endSpanBrHtml;            
         }
 
         Iterator<String> itCustom = record.getCustomEvents().iterator();
         renderCode += "<span>Custom Events:</span><br>";            
         while (itCustom.hasNext()){
             String event = itCustom.next();
-            renderCode += "<span>" + event + endSpanHtml;            
+            renderCode += startSpanHtml + event + endSpanBrHtml;            
         }
 
         Iterator itMap = record.getProperties().keySet().iterator();
 
-        renderCode += "<span>Properties" + endSpanHtml;            
+        renderCode += "<span>Properties" + endSpanBrHtml;            
 
         while (itMap.hasNext()){
             String property = (String) itMap.next();
             String value = record.getProperties().get(property);
             
-            renderCode += "<span>Property: "+ property + endSpanHtml;            
-            renderCode += "<span>Value: "+ value + endSpanHtml;            
+            renderCode += "<span>Property: "+ property + endSpanBrHtml;            
+            renderCode += "<span>Value: "+ value + endSpanBrHtml;            
         }
 
         return renderCode;
@@ -334,7 +335,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         html.append("</select>");
         html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_transferred\">"); 
         html.append("</form>");
-        html.append("</span>");
+        html.append(endSpanHtml);
     	html.append("<div id='" + identifier + "' style='display:none'>");  
 
     	html.append("</div>");
@@ -347,16 +348,16 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         String renderCode = "";
         
         renderCode += "<span>Transfer</span>";
-        renderCode += "<span>dest: " + consultationTx.getDest() + endSpanHtml;
-        renderCode += "<span>transferaudio: " + consultationTx.getTransferaudio() + endSpanHtml;
-        renderCode += "<span>timeout: " + consultationTx.getTimeout() + endSpanHtml;
+        renderCode += "<span>dest: " + consultationTx.getDest() + endSpanBrHtml;
+        renderCode += "<span>transferaudio: " + consultationTx.getTransferaudio() + endSpanBrHtml;
+        renderCode += "<span>timeout: " + consultationTx.getTimeout() + endSpanBrHtml;
 
         Iterator<String> it = consultationTx.getEvents().iterator();
         
         renderCode += "<span>Events:</span><br>";            
         while (it.hasNext()){
             String event = it.next();
-            renderCode += "<span>" + event + endSpanHtml;            
+            renderCode += startSpanHtml + event + endSpanBrHtml;            
         }
         
         Iterator itMap = consultationTx.getProperties().keySet().iterator();
@@ -365,9 +366,9 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
             String property = (String) itMap.next();
             String value = consultationTx.getProperties().get(property);
             
-            renderCode += "<span>Properties" + endSpanHtml;            
-            renderCode += "<span>Property: "+property+endSpanHtml;            
-            renderCode += "<span>Value: "+value+endSpanHtml;            
+            renderCode += "<span>Properties" + endSpanBrHtml;            
+            renderCode += "<span>Property: "+property+endSpanBrHtml;            
+            renderCode += "<span>Value: "+value+endSpanBrHtml;            
         }
 
         return renderCode;
@@ -377,17 +378,17 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         String renderCode = "";
         
         renderCode += "<span>Transfer</span>";
-        renderCode += "<span>dest: " + bridgeTx.getDest() + endSpanHtml;
-        renderCode += "<span>transferaudio: " + bridgeTx.getTransferaudio() + endSpanHtml;
-        renderCode += "<span>timeout: " + bridgeTx.getTimeout() + endSpanHtml;
-        renderCode += "<span>maxtime: " + bridgeTx.getMaxtime() + endSpanHtml;
+        renderCode += "<span>dest: " + bridgeTx.getDest() + endSpanBrHtml;
+        renderCode += "<span>transferaudio: " + bridgeTx.getTransferaudio() + endSpanBrHtml;
+        renderCode += "<span>timeout: " + bridgeTx.getTimeout() + endSpanBrHtml;
+        renderCode += "<span>maxtime: " + bridgeTx.getMaxtime() + endSpanBrHtml;
 
         Iterator<String> it = bridgeTx.getEvents().iterator();
         
         renderCode += "<span>Events:</span><br>";            
         while (it.hasNext()){
             String event = it.next();
-            renderCode += "<span>" + event + endSpanHtml;            
+            renderCode += startSpanHtml + event + endSpanBrHtml;            
         }
         
         Iterator itMap = bridgeTx.getProperties().keySet().iterator();
@@ -396,9 +397,9 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
             String property = (String) itMap.next();
             String value = bridgeTx.getProperties().get(property);
             
-            renderCode += "<span>Properties" + endSpanHtml;            
-            renderCode += "<span>Property: "+property+endSpanHtml;            
-            renderCode += "<span>Value: "+value+endSpanHtml;            
+            renderCode += "<span>Properties" + endSpanBrHtml;            
+            renderCode += "<span>Property: "+property+endSpanBrHtml;            
+            renderCode += "<span>Value: "+value+endSpanBrHtml;            
         }
 
         return renderCode;

@@ -27,6 +27,6 @@ public class BlindTransfer extends Transfer implements Serializable {
 	 * Events defined by the framework for blind transfer type.
 	 * In addition to events defined for all transfer types.
 	 */
-	static public final String TRANSFERRED_EVENT = "transferred";
+	public static final String TRANSFERRED_EVENT = "transferred";
 
 }

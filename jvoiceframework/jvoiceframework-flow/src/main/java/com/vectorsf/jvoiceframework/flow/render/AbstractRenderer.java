@@ -46,12 +46,8 @@ public abstract class AbstractRenderer {
 			      code.append(render((Input)element, flowURL));
 			  }else if (element instanceof Output) {
 			      code.append(render((Output)element, flowURL));            
-			  }else if (element instanceof BlindTransfer) {
-			      code.append(render((BlindTransfer) element, flowURL));
-			  }else if (element instanceof ConsultationTransfer) {
-			      code.append(render((ConsultationTransfer) element, flowURL));
-			  }else if (element instanceof BridgeTransfer) {
-			      code.append(render((BridgeTransfer) element, flowURL));
+			  }else if (element instanceof Transfer) {
+			      code.append(render((Transfer) element, flowURL));
 			  }else if (element instanceof End) {
 			      code.append(render((End) element, flowURL));
 			  }else if (element instanceof Record) {
@@ -64,5 +60,20 @@ public abstract class AbstractRenderer {
       
       return code.toString();
 	}
+	
+	public String render(Transfer transfer, String flowURL) {
+		
+		StringBuilder renderCode = new StringBuilder();
+		
+		if (transfer instanceof BlindTransfer){
+			renderCode.append(render((BlindTransfer)transfer, flowURL));
+		}else if (transfer instanceof ConsultationTransfer){
+			renderCode.append(render((ConsultationTransfer) transfer, flowURL));
+		}else if (transfer instanceof BridgeTransfer){
+			renderCode.append(render((BridgeTransfer) transfer, flowURL));			
+		}
+		return renderCode.toString();
+	}
+
 
 }

@@ -17,11 +17,11 @@ public abstract class Transfer {
 	/**
 	 * Events defined by the framework for all transfer types.
 	 */
-	static public final String HANGUP_EVENT = "hangup";
-	static public final String ERROR_EVENT = "error";
-	static public final String CONNECTIONERROR_EVENT = "connectionerror";
-	static public final String UNKNOWN_EVENT = "unknown";
-	static public final String NEAR_END_DISCONNECT_EVENT = "near_end_disconnect";
+	public static final String HANGUP_EVENT = "hangup";
+	public static final String ERROR_EVENT = "error";
+	public static final String CONNECTIONERROR_EVENT = "connectionerror";
+	public static final String UNKNOWN_EVENT = "unknown";
+	public static final String NEAR_END_DISCONNECT_EVENT = "near_end_disconnect";
 	
 	/**
 	 * The URI of the destination (telephone, IP telephony address)

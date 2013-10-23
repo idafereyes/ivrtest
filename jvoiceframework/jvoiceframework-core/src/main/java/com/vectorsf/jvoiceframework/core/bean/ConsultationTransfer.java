@@ -27,10 +27,10 @@ public class ConsultationTransfer extends Transfer implements Serializable {
 	 * Events defined by the framework for consultation transfer type.
 	 * In addition to events defined for all transfer types.
 	 */
-	static public final String TRANSFERRED_EVENT = "transferred";
-	static public final String NOANSWER_EVENT = "noanswer";
-	static public final String BUSY_EVENT = "busy";
-	static public final String NETWORK_BUSY_EVENT = "network_busy";
+	public static final String TRANSFERRED_EVENT = "transferred";
+	public static final String NOANSWER_EVENT = "noanswer";
+	public static final String BUSY_EVENT = "busy";
+	public static final String NETWORK_BUSY_EVENT = "network_busy";
 
 	/**
 	 * The time to wait while trying to connect the call before returning the noanswer event.
