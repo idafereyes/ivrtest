@@ -1,8 +1,6 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +22,11 @@ public class Output implements Serializable {
 
     private static final long serialVersionUID = 4392125518171018331L;
     
-    public Output(){
-        audioItems = new ArrayList<AudioItem>();
-		properties = new HashMap<String, String>();
-    }
+	/**
+	 * Events defined by the framework for an output element.
+	 */
+    public static final String SUCCESS_EVENT = "success";
+    public static final String HANGUP_EVENT = "hangup";
         
     /**
      * Specifies whether a user can interrupt the output block using speech or DTMF input.
@@ -56,12 +55,14 @@ public class Output implements Serializable {
     /**
      * List of audio items to play in the output block.
      */
+    @Value("#{new java.util.ArrayList()}")
     private List<AudioItem> audioItems;
     
     /**
      * VXML properties to enhance transfer functionality provided.
      * Represented as key(property)/value.
      */    
+    @Value("#{new java.util.HashMap()}")
     private Map<String,String> properties;
 
     public boolean isBargein() {

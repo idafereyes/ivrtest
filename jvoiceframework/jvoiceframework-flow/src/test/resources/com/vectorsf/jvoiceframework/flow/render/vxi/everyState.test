@@ -38,12 +38,33 @@
 <submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
 </filled>
 </field>
-<transfer name="transferResult" dest="null" type="null" >
+<transfer name="transferResult" type="blind" dest="null" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
 <var name="event" expr="'transferred'" />
 <submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
 </catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>
+<transfer name="transferResult" type="consultation" dest="null" >
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'transferred'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>
+<transfer name="transferResult" type="bridge" dest="null" >
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
 <var name="duration" expr="transferResult$.duration" />

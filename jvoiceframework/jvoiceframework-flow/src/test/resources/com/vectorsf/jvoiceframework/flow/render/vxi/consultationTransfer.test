@@ -1,4 +1,4 @@
-<transfer name="transferResult" dest="tel:666777888" type="consultation" connecttimeout="15s" >
+<transfer name="transferResult" type="consultation" dest="tel:666777888" connecttimeout="15s" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
 <var name="event" expr="'transferred'" />

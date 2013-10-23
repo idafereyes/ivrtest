@@ -22,6 +22,17 @@ public class BridgeTransfer extends Transfer implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4036016705639826571L;
+	
+	/**
+	 * Events defined by the framework for bridge transfer type.
+	 * In addition to events defined for all transfer types.
+	 */
+	static public final String NOANSWER_EVENT = "noanswer";
+	static public final String BUSY_EVENT = "busy";
+	static public final String NETWORK_BUSY_EVENT = "network_busy";
+	static public final String MAXTIME_DISCONNECT_EVENT = "maxtime_disconnect";
+	static public final String NETWORK_DISCONNECT_EVENT = "network_disconnect";
+	static public final String FAR_END_DISCONNECT_EVENT = "network_disconnect";
 
 	/**
 	 * The time to wait while trying to connect the call before returning the noanswer event.

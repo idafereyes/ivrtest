@@ -8,6 +8,9 @@ import java.util.Iterator;
 import org.springframework.stereotype.Component;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
+import com.vectorsf.jvoiceframework.core.bean.BridgeTransfer;
+import com.vectorsf.jvoiceframework.core.bean.ConsultationTransfer;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
@@ -224,40 +227,6 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         return html.toString();
     }
     
-    
-
-    public String render(Transfer transfer, String flowURL) {
-        String renderCode = "";
-        
-        renderCode += "<span>Transfer</span>";
-        renderCode += "<span>dest: " + transfer.getDest() + endSpanHtml;
-        renderCode += "<span>type: " + transfer.getType() + endSpanHtml;
-        renderCode += "<span>transferaudio: " + transfer.getTransferaudio() + endSpanHtml;
-        renderCode += "<span>timeout: " + transfer.getTimeout() + endSpanHtml;
-        renderCode += "<span>maxtime: " + transfer.getMaxtime() + endSpanHtml;
-
-        Iterator<String> it = transfer.getEventsList().iterator();
-        
-        renderCode += "<span>Events:</span><br>";            
-        while (it.hasNext()){
-            String event = it.next();
-            renderCode += "<span>" + event + endSpanHtml;            
-        }
-        
-        Iterator itMap = transfer.getProperties().keySet().iterator();
-
-        while (itMap.hasNext()){
-            String property = (String) itMap.next();
-            String value = transfer.getProperties().get(property);
-            
-            renderCode += "<span>Properties" + endSpanHtml;            
-            renderCode += "<span>Property: "+property+endSpanHtml;            
-            renderCode += "<span>Value: "+value+endSpanHtml;            
-        }
-
-        return renderCode;
-    }
-
 	public String render(Record record, String flowURL) {
         String renderCode = "";
         
@@ -282,13 +251,20 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
             renderCode += "<span>cond: " + prompt.getCondition() + endSpanHtml;            
         }
 
-        Iterator<String> it = record.getEventsList().iterator();
+        Iterator<String> it = record.getEvents().iterator();
         renderCode += "<span>Events:</span><br>";            
         while (it.hasNext()){
             String event = it.next();
             renderCode += "<span>" + event + endSpanHtml;            
         }
-        
+
+        Iterator<String> itCustom = record.getCustomEvents().iterator();
+        renderCode += "<span>Custom Events:</span><br>";            
+        while (itCustom.hasNext()){
+            String event = itCustom.next();
+            renderCode += "<span>" + event + endSpanHtml;            
+        }
+
         Iterator itMap = record.getProperties().keySet().iterator();
 
         renderCode += "<span>Properties" + endSpanHtml;            
@@ -335,6 +311,97 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
 		sb.append("</html>");
 		
 		return sb.toString();
+	}
+
+	public String render(BlindTransfer blindTx, String flowURL) {
+        
+    	// Identificador del elemento en la página
+    	String identifier = UUID.randomUUID().toString();
+    	StringBuilder html = new StringBuilder();
+    	
+    	// control para expandir información
+    	html.append("<a onclick=\"javascript:toggle_visibility('" + identifier + "');\">Blind Transfer </a>");
+        html.append( " Destination: " + blindTx.getDest());
+    	
+    	// Acceso rápido para hacer sumbit
+    	html.append("<span style=\"display: inline-block;\">");
+    	html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+        html.append(" Event:");
+        html.append("<select name=\"_eventId\">");
+        html.append("<option value=\"transferred\"> Transferred </option>");
+        html.append("<option value=\"error\"> Error </option>");
+        html.append("<option value=\"unknown\"> Unknown </option>");
+        html.append("</select>");
+        html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_transferred\">"); 
+        html.append("</form>");
+        html.append("</span>");
+    	html.append("<div id='" + identifier + "' style='display:none'>");  
+
+    	html.append("</div>");
+    	html.append("<br>");
+
+        return html.toString();
+	}
+
+	public String render(ConsultationTransfer consultationTx, String flowURL) {
+        String renderCode = "";
+        
+        renderCode += "<span>Transfer</span>";
+        renderCode += "<span>dest: " + consultationTx.getDest() + endSpanHtml;
+        renderCode += "<span>transferaudio: " + consultationTx.getTransferaudio() + endSpanHtml;
+        renderCode += "<span>timeout: " + consultationTx.getTimeout() + endSpanHtml;
+
+        Iterator<String> it = consultationTx.getEvents().iterator();
+        
+        renderCode += "<span>Events:</span><br>";            
+        while (it.hasNext()){
+            String event = it.next();
+            renderCode += "<span>" + event + endSpanHtml;            
+        }
+        
+        Iterator itMap = consultationTx.getProperties().keySet().iterator();
+
+        while (itMap.hasNext()){
+            String property = (String) itMap.next();
+            String value = consultationTx.getProperties().get(property);
+            
+            renderCode += "<span>Properties" + endSpanHtml;            
+            renderCode += "<span>Property: "+property+endSpanHtml;            
+            renderCode += "<span>Value: "+value+endSpanHtml;            
+        }
+
+        return renderCode;
+	}
+
+	public String render(BridgeTransfer bridgeTx, String flowURL) {
+        String renderCode = "";
+        
+        renderCode += "<span>Transfer</span>";
+        renderCode += "<span>dest: " + bridgeTx.getDest() + endSpanHtml;
+        renderCode += "<span>transferaudio: " + bridgeTx.getTransferaudio() + endSpanHtml;
+        renderCode += "<span>timeout: " + bridgeTx.getTimeout() + endSpanHtml;
+        renderCode += "<span>maxtime: " + bridgeTx.getMaxtime() + endSpanHtml;
+
+        Iterator<String> it = bridgeTx.getEvents().iterator();
+        
+        renderCode += "<span>Events:</span><br>";            
+        while (it.hasNext()){
+            String event = it.next();
+            renderCode += "<span>" + event + endSpanHtml;            
+        }
+        
+        Iterator itMap = bridgeTx.getProperties().keySet().iterator();
+
+        while (itMap.hasNext()){
+            String property = (String) itMap.next();
+            String value = bridgeTx.getProperties().get(property);
+            
+            renderCode += "<span>Properties" + endSpanHtml;            
+            renderCode += "<span>Property: "+property+endSpanHtml;            
+            renderCode += "<span>Value: "+value+endSpanHtml;            
+        }
+
+        return renderCode;
 	}
 
 }

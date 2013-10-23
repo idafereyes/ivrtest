@@ -93,7 +93,7 @@ public class RecordTest {
 		
 		//Then
 		//Verifies that eventsList has been initialized so it is not null
-		assertNotNull("eventsList is null.", record.getEventsList());
+		assertNotNull("eventsList is null.", record.getEvents());
 		
 		//Finally
 		context.close();

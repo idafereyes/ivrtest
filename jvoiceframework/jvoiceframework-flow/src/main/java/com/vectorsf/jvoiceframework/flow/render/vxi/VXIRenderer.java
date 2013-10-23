@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
+import com.vectorsf.jvoiceframework.core.bean.BridgeTransfer;
+import com.vectorsf.jvoiceframework.core.bean.ConsultationTransfer;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
@@ -16,9 +19,6 @@ import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.enums.InputEvents;
 import com.vectorsf.jvoiceframework.core.enums.InputVars;
-import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
-import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
-import com.vectorsf.jvoiceframework.core.enums.TransferType;
 import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
@@ -184,7 +184,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         //Renders a catch tag for the hangup event and redirects back to the application server with hangup as _eventId param value. 
         catchHangupCode.append("<catch event=\"connection.disconnect.hangup\">");
         
-        catchHangupCode.append(SUBMIT_TAG + flowURL + AMPERSAND + "_eventId_hangup\" />");
+        catchHangupCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.HANGUP_EVENT + "\" />");
         
         catchHangupCode.append(CATCH_END_TAG);
 
@@ -213,7 +213,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append(FILLED_START_TAG);
         
         //redirects back to the application server with success as _eventId param value. 
-        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + "_eventId_success\" />");
+        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + "\" />");
         
         fieldDummyCode.append(FILLED_END_TAG);
         
@@ -221,7 +221,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append("<catch event=\"noinput nomatch\" >");
         
         //redirects back to the application server with success as _eventId param value. 
-        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + "_eventId_success\" />");
+        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + "\" />");
 
         fieldDummyCode.append(CATCH_END_TAG);
 
@@ -619,116 +619,206 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return (isAsr && isDtmf) ? "ASRDTMF" : ( isAsr ? "ASR" : "DTMF");
 	}
     
-    public String render(Transfer transfer, String flowURL) {
-        
+	public String render(BlindTransfer blindTx, String flowURL) {
         StringBuilder code2render = new StringBuilder();
 
         //Transfer start tag
         code2render.append("<transfer name=\"transferResult\" ");
         
-        //Renders transfer attributes
-        code2render.append(renderTransferAttributes(transfer));
+        //Renders transfer attributes        
+        code2render.append(renderBlindTxAttributes(blindTx));
 
         //Ends transfer start tag
         code2render.append(">");
                 
         //Renders properties if there are
-        if (!transfer.getProperties().isEmpty()){
-            code2render.append(renderProperties(transfer.getProperties()));            
+        if (!blindTx.getProperties().isEmpty()){
+            code2render.append(renderProperties(blindTx.getProperties()));            
         }
         
-        //Renders eventsList
-        code2render.append(renderTransferEventsList(transfer, flowURL));
+        //Renders events catch
+        code2render.append(renderTransferredCatch(flowURL));
+        code2render.append(renderCommonTxEvents(blindTx, flowURL));
+        //Renders a filled tag to catch the events that are known because of the content of the transfer variable.
+        code2render.append(renderFilledTxEvents(flowURL));
         
         //Transfer end tag
         code2render.append("</transfer>");
 
         return code2render.toString();
-    }
-    
-    private StringBuilder renderTransferAttributes(Transfer transfer) {
+	}
 
-    	StringBuilder attributesCode = new StringBuilder();
 
-    	//Required attributes
-    	attributesCode.append("dest=\"" + transfer.getDest() +    QUOTE_SPACE);
-    	//TODO Revisar si lo pasamos a minúscula siempre. En VXML debe estar en minuscula.
-        String transferType = transfer.getType();
-        attributesCode.append("type=\"" + transferType + QUOTE_SPACE);
+	private StringBuilder renderCommonTxAttributes(Transfer transfer) {
         
-        //Optional attributes
-        //Sets "timeout" optional attribute. N/A for blind transfer type.
-        if (transfer.getTimeout() != null && !TransferType.BLIND.toString().equalsIgnoreCase(transferType)){
-        	attributesCode.append("connecttimeout=\"" + transfer.getTimeout()  + QUOTE_SPACE);           
-        }
-        //Sets "maxtime" optional attribute. N/A for blind and consultation transfer types.
-        if (transfer.getMaxtime() != null && TransferType.BRIDGE.toString().equalsIgnoreCase(transferType)){
-        	attributesCode.append("maxtime=\"" + transfer.getMaxtime()  + QUOTE_SPACE);           
-        }
-        //Sets "transferaudio" optional attribute. 
-        //TODO Completar la URI
-        if (transfer.getTransferaudio() != null){
-        	attributesCode.append("transferaudio=\"" + transfer.getTransferaudio()  + QUOTE_SPACE);           
-        }
-        return attributesCode;
-    }
+		StringBuilder sb = new StringBuilder();
 
-	private StringBuilder renderTransferEventsList(Transfer transfer,  String flowURL) {
+    	//Required attribute
+    	sb.append("dest=\"" + transfer.getDest() + QUOTE_SPACE);
+        
+        //Sets "transferaudio" optional attribute. 
+        if (transfer.getTransferaudio() != null){
+        	sb.append("transferaudio=\"" + transfer.getTransferaudio()  + QUOTE_SPACE);           
+        }
+
+        return sb;
+	}
+	
+	private StringBuilder renderBlindTxAttributes(BlindTransfer blindTx) {
+
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("type=\"blind" + QUOTE_SPACE);
+		sb.append(renderCommonTxAttributes(blindTx));
+		
+		return sb;
+	}
+
+
+	public String render(ConsultationTransfer consultationTx, String flowURL) {
+        StringBuilder code2render = new StringBuilder();
+
+        //Transfer start tag
+        code2render.append("<transfer name=\"transferResult\" ");
+        
+        //Renders transfer attributes        
+        code2render.append(renderConTxAttributes(consultationTx));
+
+        //Ends transfer start tag
+        code2render.append(">");
+                
+        //Renders properties if there are
+        if (!consultationTx.getProperties().isEmpty()){
+            code2render.append(renderProperties(consultationTx.getProperties()));            
+        }
+        
+        //Renders events catch
+        code2render.append(renderTransferredCatch(flowURL));
+        code2render.append(renderCommonTxEvents(consultationTx, flowURL));
+        //Renders a filled tag to catch the events that are known because of the content of the transfer variable.
+        code2render.append(renderFilledTxEvents(flowURL));
+        
+        //Transfer end tag
+        code2render.append("</transfer>");
+
+        return code2render.toString();
+	}
+
+	private StringBuilder renderConTxAttributes(ConsultationTransfer consultationTx) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("type=\"consultation" + QUOTE_SPACE);
+		sb.append(renderCommonTxAttributes(consultationTx));
+        //Optional attributes
+        //Sets "timeout" optional attribute.
+        if (consultationTx.getTimeout() != null){
+        	sb.append("connecttimeout=\"" + consultationTx.getTimeout()  + QUOTE_SPACE);           
+        }
+		
+		return sb;
+	}
+
+	public String render(BridgeTransfer bridgeTx, String flowURL) {
+        StringBuilder code2render = new StringBuilder();
+
+        //Transfer start tag
+        code2render.append("<transfer name=\"transferResult\" ");
+        
+        //Renders transfer attributes        
+        code2render.append(renderBridgeTxAttributes(bridgeTx));
+
+        //Ends transfer start tag
+        code2render.append(">");
+                
+        //Renders properties if there are
+        if (!bridgeTx.getProperties().isEmpty()){
+            code2render.append(renderProperties(bridgeTx.getProperties()));            
+        }
+        
+        //Renders events catch
+        code2render.append(renderCommonTxEvents(bridgeTx, flowURL));
+        //Renders a filled tag to catch the events that are known because of the content of the transfer variable.
+        code2render.append(renderFilledTxEvents(flowURL));
+        
+        //Transfer end tag
+        code2render.append("</transfer>");
+
+        return code2render.toString();
+	}
+	
+    private StringBuilder renderBridgeTxAttributes(BridgeTransfer bridgeTx) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("type=\"bridge" + QUOTE_SPACE);
+		sb.append(renderCommonTxAttributes(bridgeTx));
+       
+		//Optional attributes
+        //Sets "timeout" optional attribute.
+        if (bridgeTx.getTimeout() != null){
+        	sb.append("connecttimeout=\"" + bridgeTx.getTimeout()  + QUOTE_SPACE);           
+        }
+
+        //Sets "maxtime" optional attribute.
+        if (bridgeTx.getMaxtime() != null){
+        	sb.append("maxtime=\"" + bridgeTx.getMaxtime()  + QUOTE_SPACE);           
+        }
+
+		return sb;
+	}
+
+	private StringBuilder renderCommonTxEvents(Transfer transfer,  String flowURL) {
                 
         boolean isConnectionerror = false;
         boolean isError = false;
         boolean isHangup = false;
-        String transferType = transfer.getType();
-
-        List<String> customEvents = new ArrayList<String>();
         
         StringBuilder eventsListCode = new StringBuilder();
         
-        Iterator<String> it = transfer.getEventsList().iterator();
+        Iterator<String> it = transfer.getEvents().iterator();
 
         //Parses the events added to the eventsList to be in control at this specific transfer.
         while (it.hasNext()) {
             String event = it.next();
             
-            if (TransferEvents.HANGUP.toString().equalsIgnoreCase(event)) {
+            if (Transfer.HANGUP_EVENT.equalsIgnoreCase(event)) {
                 isHangup = true;
-            } else if (TransferEvents.ERROR.toString().equalsIgnoreCase(event)){
+            } else if (Transfer.ERROR_EVENT.equalsIgnoreCase(event)){
                 isError = true;
-            } else if (TransferEvents.CONNECTIONERROR.toString().equalsIgnoreCase(event)) {
+            } else if (Transfer.CONNECTIONERROR_EVENT.equalsIgnoreCase(event)) {
                 isConnectionerror = true;
-            //If it is not any of the defined events, it must be a custom event.
-            } else if (isNotAnyFilledEvent(event)) {
-                customEvents.add(event);
-            }                
-
+            }
         }
         
+        List<String> customEvents = transfer.getCustomEvents();
+
         //Renders catch tags for the specified events
-        eventsListCode.append(catchEvents(flowURL, transferType, isHangup, isError, isConnectionerror, customEvents ));
-        
-        //Renders a filled tag to catch the events that are known because of the content of the transfer variable.
-        eventsListCode.append(filledEvents(flowURL));
-                
+        eventsListCode.append(renderCommonTxCatches(flowURL, isHangup, isError, isConnectionerror, customEvents ));
+                        
         return eventsListCode;
     }
 
-    private StringBuilder catchEvents(String flowURL, String transferType, boolean isHangup,
-                                        boolean isError, boolean isConnectionerror, List<String> customEvents) {
+	private StringBuilder renderTransferredCatch(String flowURL){
 
         StringBuilder catchEventsCode = new StringBuilder();
-
+        
         /********* CATCH for connection.disconnect.transfer *********/
         /*********       N/A for bridge transfer type    *********/
-        if (!TransferType.BRIDGE.toString().equalsIgnoreCase(transferType)){
  
-        	catchEventsCode.append("<catch event=\"connection.disconnect.transfer\">");
-            //Redirects back to the application server with transferred as _eventId param value. event and duration also as request parameters.          
-            catchEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
-            catchEventsCode.append(EVENT_VAR_DECLARATION+ TransferEvents.TRANSFERRED.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + TransferEvents.TRANSFERRED.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT_DURATION + END_TAG);
-            catchEventsCode.append(CATCH_END_TAG);
-            
-        }
+    	catchEventsCode.append("<catch event=\"connection.disconnect.transfer\">");
+        //Redirects back to the application server with transferred as _eventId param value. event and duration also as request parameters.          
+        catchEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
+        //TODO Revisar porque puede ser un evento de Blind o de Consultation
+        catchEventsCode.append(EVENT_VAR_DECLARATION+ BlindTransfer.TRANSFERRED_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + BlindTransfer.TRANSFERRED_EVENT + QUOTE_SPACE + NAMELIST_EVENT_DURATION + END_TAG);
+        catchEventsCode.append(CATCH_END_TAG);
+        
+        return catchEventsCode;
+	}
+	
+    private StringBuilder renderCommonTxCatches(String flowURL, boolean isHangup, boolean isError,
+                                        boolean isConnectionerror, List<String> customEvents) {
+
+        StringBuilder catchEventsCode = new StringBuilder();
         
         /**************** CATCH for connection.disconnect.hangup *************************/
         /***************** Present only if specified at the list of events to be controlled **************************/
@@ -737,8 +827,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             catchEventsCode.append("<catch event=\"connection.disconnect.hangup\">");
             //Redirects back to the application server with hangup as _eventId param value. event and duration also as request parameters.          
             catchEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
-            catchEventsCode.append(EVENT_VAR_DECLARATION + TransferEvents.HANGUP.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + TransferEvents.HANGUP.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT_DURATION + END_TAG);
+            catchEventsCode.append(EVENT_VAR_DECLARATION + Transfer.HANGUP_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.HANGUP_EVENT + QUOTE_SPACE + NAMELIST_EVENT_DURATION + END_TAG);
             catchEventsCode.append(CATCH_END_TAG);
 
         }
@@ -746,7 +836,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         /*************************** CATCH for Custom Events *****************************/
         /***************** Custom events specified at the list of events to be controlled **************************/
         /*********It must be before error or error.connection catch. Otherwise, it would be overridden by them.**********/
-        if (customEvents != null){
+        if (customEvents != null && !customEvents.isEmpty()){
             
             for(String event : customEvents) {
                 catchEventsCode.append("<catch event=\""+ event +"\">");
@@ -765,8 +855,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             
             catchEventsCode.append("<catch event=\"error.connection\">");
             //Redirects back to the application server with connectionerror as _eventId param value. event also as request parameter.          
-            catchEventsCode.append(EVENT_VAR_DECLARATION + TransferEvents.CONNECTIONERROR.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + TransferEvents.CONNECTIONERROR.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+            catchEventsCode.append(EVENT_VAR_DECLARATION + Transfer.CONNECTIONERROR_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.CONNECTIONERROR_EVENT+ QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
             catchEventsCode.append(CATCH_END_TAG);
 
         }
@@ -777,15 +867,15 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         if (isError){            
             catchEventsCode.append("<catch event=\"error\">");
             //Redirects back to the application server with error as _eventId param value. event also as request parameter.          
-            catchEventsCode.append(EVENT_VAR_DECLARATION + TransferEvents.ERROR.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + TransferEvents.ERROR.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+            catchEventsCode.append(EVENT_VAR_DECLARATION + Transfer.ERROR_EVENT+ SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+            catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.ERROR_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
             catchEventsCode.append(CATCH_END_TAG);            
         }
         
         return catchEventsCode;
     }
 
-    private StringBuilder filledEvents(String flowURL) {
+    private StringBuilder renderFilledTxEvents(String flowURL) {
         
         StringBuilder filledEventsCode = new StringBuilder();
 
@@ -799,16 +889,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         filledEventsCode.append(FILLED_END_TAG);
         
         return filledEventsCode;
-    }
-
-    private boolean isNotAnyFilledEvent(String event) {
-        for (TransferEvents transferEvents : TransferEvents.values()) {
-            if (transferEvents.name().equalsIgnoreCase(event)) {
-                return false;
-            }
-        }
-
-        return true;        
     }
 
     public String render(Record record, String flowURL) {
@@ -847,35 +927,32 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         boolean isHangup = false;
         boolean isNoresource = false;
         boolean isRecordunsupported = false;
-        
-        List<String> customEvents = new ArrayList<String>();
-        
+                
         StringBuilder eventsListCode = new StringBuilder();
         
-        Iterator<String> it = record.getEventsList().iterator();
+        Iterator<String> it = record.getEvents().iterator();
 
         //Parses the events added to the eventsList to be in control at this specific record to know which they are.
         while (it.hasNext()) {
             String event = it.next();
             
-            if (RecordEvents.HANGUP.toString().equalsIgnoreCase(event)) {
+            if (Record.HANGUP_EVENT.equalsIgnoreCase(event)) {
                 isHangup = true;
                 continue;
-            } else if (RecordEvents.ERROR.toString().equalsIgnoreCase(event)){
+            } else if (Record.ERROR_EVENT.equalsIgnoreCase(event)){
                 isError = true;
                 continue;
-            } else if (RecordEvents.NORESOURCE.toString().equalsIgnoreCase(event)) {
+            } else if (Record.NORESOURCE_EVENT.equalsIgnoreCase(event)) {
             	isNoresource = true;
                 continue;
-            } else if (RecordEvents.RECORDUNSUPPORTED.toString().equalsIgnoreCase(event)) {
+            } else if (Record.RECORDUNSUPPORTED_EVENT.equalsIgnoreCase(event)) {
             	isRecordunsupported = true;
                 continue;
-            //If it is not any of the defined events, it must be a custom event.
-            } else if (!RecordEvents.RECORDED.toString().equalsIgnoreCase(event)) {
-                customEvents.add(event);
             }
         }
         
+        List<String> customEvents = record.getCustomEvents();
+
         //Renders VXML catches for the events in the list.
         eventsListCode.append(renderRecordCatchEvents(flowURL, isHangup, isError, isNoresource, isRecordunsupported, customEvents));
         
@@ -895,12 +972,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		filledEventCode.append("<var name=\"size\" expr=\"temprecording$.size\" />");
 		filledEventCode.append("<var name=\"termchar\" expr=\"temprecording$.termchar\" />");
 		filledEventCode.append("<var name=\"maxtime\" expr=\"temprecording$.maxtime\" />");
-		filledEventCode.append(EVENT_VAR_DECLARATION + RecordEvents.RECORDED.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+		filledEventCode.append(EVENT_VAR_DECLARATION + Record.RECORDED_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
 		
 		//Redirects back to the application server with recorded as _eventId param value.
 		//Other request parameters are: temprecording, event, duration, size, termchar and maxtime.
 		//method must be "post" and enctype must be "multipart/form-data" because the recording is being sent at the request.
-		filledEventCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.RECORDED.toString().toLowerCase() + QUOTE_SPACE + "namelist=\"temprecording event duration size termchar maxtime\" method=\"post\" enctype=\"multipart/form-data\" " + END_TAG);
+		filledEventCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.RECORDED_EVENT + QUOTE_SPACE + "namelist=\"temprecording event duration size termchar maxtime\" method=\"post\" enctype=\"multipart/form-data\" " + END_TAG);
 
 		filledEventCode.append(FILLED_END_TAG);
 		
@@ -917,14 +994,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//Hangup event
 		if (isHangup){
 	    	catchEventsCode.append("<catch event=\"connection.disconnect.hangup\">");
-	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.HANGUP.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.HANGUP_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
 	        //Redirects back to the application server with hangup as _eventId param value.          
-	        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.HANGUP.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.HANGUP_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
 	        catchEventsCode.append(CATCH_END_TAG);			
 		}
 
 		//Custom Events. Defined directly by the developer.
-		if (customEvents != null){
+		if (customEvents != null && !customEvents.isEmpty()){
             
             for(String event : customEvents) {
                 catchEventsCode.append("<catch event=\""+ event +"\">");
@@ -939,27 +1016,27 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//noresource event
 		if (isNoresource){
 	    	catchEventsCode.append("<catch event=\"error.noresource\">");
-	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.NORESOURCE.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.NORESOURCE_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
 	        //Redirects back to the application server with noresource as _eventId param value.
-	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.NORESOURCE.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.NORESOURCE_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
 	        catchEventsCode.append(CATCH_END_TAG);			
 		}
 
 		//recordunsupported event
 		if (isRecordunsupported){
 	    	catchEventsCode.append("<catch event=\"error.unsupported.record\">");
-	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.RECORDUNSUPPORTED.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.RECORDUNSUPPORTED_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
 	        //Redirects back to the application server with recordunsupported as _eventId param value.
-	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.RECORDUNSUPPORTED.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.RECORDUNSUPPORTED_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
 	        catchEventsCode.append(CATCH_END_TAG);			
 		}
 
 		//error event
 		if (isError){
 	    	catchEventsCode.append("<catch event=\"error\">");
-	    	catchEventsCode.append(EVENT_VAR_DECLARATION + RecordEvents.ERROR.toString().toLowerCase() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+	    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.ERROR_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
 	        //Redirects back to the application server with error as _eventId param value.
-	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + RecordEvents.ERROR.toString().toLowerCase() + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+	    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.ERROR_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
 	        catchEventsCode.append(CATCH_END_TAG);			
 		}
 

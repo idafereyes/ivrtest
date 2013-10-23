@@ -1,4 +1,4 @@
-<transfer name="transferResult" dest="tel:666777888" type="bridge" connecttimeout="15s" maxtime="30s" >
+<transfer name="transferResult" type="bridge" dest="tel:666777888" connecttimeout="15s" maxtime="30s" >
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
 <var name="event" expr="'hangup'" />

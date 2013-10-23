@@ -20,12 +20,13 @@
 <span>wording: Despues del beep</span><br/>
 <span>cond: null</span><br/>
 <span>Events:</span><br>
-<span>RECORDED</span><br/>
+<span>recorded</span><br/>
+<span>hangup</span><br/>
+<span>error</span><br/>
+<span>recordunsupported</span><br/>
+<span>noresource</span><br/>
+<span>Custom Events:</span><br>
 <span>com.nortel.ivr.record.notstored</span><br/>
-<span>HANGUP</span><br/>
-<span>ERROR</span><br/>
-<span>RECORDUNSUPPORTED</span><br/>
-<span>NORESOURCE</span><br/>
 <span>Properties</span><br/>
 <span>Property: other.property</span><br/>
 <span>Value: 20s</span><br/>

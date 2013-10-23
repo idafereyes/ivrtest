@@ -1,8 +1,6 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +21,14 @@ public class Record implements Serializable{
 
     private static final long serialVersionUID = 1632187224952805670L;
     
-    public Record(){
-        audioItemsList = new ArrayList<AudioItem>();
-        eventsList = new ArrayList<String>();
-        properties = new HashMap<String, String>();        
-    }
+	/**
+	 * Events defined by the framework for a record element.
+	 */
+    public static final String RECORDED_EVENT = "recorded";
+    public static final String HANGUP_EVENT = "hangup";
+    public static final String ERROR_EVENT = "error";
+    public static final String NORESOURCE_EVENT = "noresource";
+    public static final String RECORDUNSUPPORTED_EVENT = "recordunsupported";
     
     /** Allows the developer to insert a ‘beep tone’ to indicate to the caller that the application has begun recording.
      * Takes its value from the bean that stores the app configuration defaults, 
@@ -85,19 +86,27 @@ public class Record implements Serializable{
     /**
      * List of audio items to play before the recording starts.
      */
+    @Value("#{new java.util.ArrayList()}")
     private List<AudioItem> audioItemsList; 
 
     /**
      * VXML properties to enhance record functionality provided.
      * Represented as key(property)/value.
      */    
+    @Value("#{new java.util.HashMap()}")
     private Map<String,String> properties;
 
     /**
-     * List of events to be controlled during the record.
+     * List of events, within events defined by the framework, to be controlled during the record.
      */    
-    private List<String> eventsList;
+    @Value("#{new java.util.ArrayList()}")
+    private List<String> events;
 
+    /**
+     * List of events, within events defined by the user, to be controlled during the record.
+     */    
+    @Value("#{new java.util.ArrayList()}")
+    private List<String> customEvents;
 
     public boolean isBeep() {
         return beep;
@@ -171,12 +180,20 @@ public class Record implements Serializable{
         this.properties = properties;
     }
 
-    public List<String> getEventsList() {
-        return eventsList;
+    public List<String> getEvents() {
+        return events;
     }
 
-    public void setEventsList(List<String> eventsList) {
-        this.eventsList = eventsList;
+    public void setEvents(List<String> events) {
+        this.events = events;
     }
+
+	public List<String> getCustomEvents() {
+		return customEvents;
+	}
+
+	public void setCustomEvents(List<String> customEvents) {
+		this.customEvents = customEvents;
+	}
     
 }

@@ -16,15 +16,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
-import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
-import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
-import com.vectorsf.jvoiceframework.core.enums.TransferType;
 
 public class HTMLRendererTest {
 
@@ -120,36 +118,37 @@ public class HTMLRendererTest {
 	}
 	
 	@Test
-	public void testTransfer() throws FileNotFoundException{
+	@Ignore
+	public void testBlindTransfer() throws FileNotFoundException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
-		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BRIDGE.toString());
-		when(transferMock.getMaxtime()).thenReturn("30s");
-		when(transferMock.getTimeout()).thenReturn("10s");
-		when(transferMock.getTransferaudio()).thenReturn("idleMusic");
+		BlindTransfer blindTxMock = mock(BlindTransfer.class);
+		when(blindTxMock.getDest()).thenReturn("tel:666777888");
+		when(blindTxMock.getTransferaudio()).thenReturn("idleMusic");
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
-		eventsList.add(TransferEvents.HANGUP.toString());
-		eventsList.add(TransferEvents.CONNECTIONERROR.toString());
-		eventsList.add(TransferEvents.ERROR.toString());
-		eventsList.add(TransferEvents.NOANSWER.toString());
-		eventsList.add("error.unsupported.transfer");
+		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
+		eventsList.add(BlindTransfer.HANGUP_EVENT);
+		eventsList.add(BlindTransfer.CONNECTIONERROR_EVENT);
+		eventsList.add(BlindTransfer.ERROR_EVENT);
 		
-		when(transferMock.getEventsList()).thenReturn(eventsList);
+		when(blindTxMock.getEvents()).thenReturn(eventsList);
+
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("error.unsupported.transfer");
+
+		when(blindTxMock.getCustomEvents()).thenReturn(customEvents);
 
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put("other.property", "20s");
 		properties.put("second.other.property", "35s");
 
-		when(transferMock.getProperties()).thenReturn(properties);
+		when(blindTxMock.getProperties()).thenReturn(properties);
 
 		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode =  htmlRenderer.render(transferMock, FLOW_EXECUTION_URL);
+		String htmlCode =  htmlRenderer.render(blindTxMock, FLOW_EXECUTION_URL);
 		
 		//Then
 		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "transfer.test")); 
@@ -189,15 +188,19 @@ public class HTMLRendererTest {
 
 		//EventsList
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(RecordEvents.RECORDED.toString());
-		eventsList.add("com.nortel.ivr.record.notstored");
-		eventsList.add(RecordEvents.HANGUP.toString());
-		eventsList.add(RecordEvents.ERROR.toString());
-		eventsList.add(RecordEvents.RECORDUNSUPPORTED.toString());
-		eventsList.add(RecordEvents.NORESOURCE.toString());
+		eventsList.add(Record.RECORDED_EVENT);
+		eventsList.add(Record.HANGUP_EVENT);
+		eventsList.add(Record.ERROR_EVENT);
+		eventsList.add(Record.RECORDUNSUPPORTED_EVENT);
+		eventsList.add(Record.NORESOURCE_EVENT);
 				
-		when(recordMock.getEventsList()).thenReturn(eventsList);
+		when(recordMock.getEvents()).thenReturn(eventsList);
 		
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("com.nortel.ivr.record.notstored");
+
+		when(recordMock.getCustomEvents()).thenReturn(customEvents);
+
 		//Properties
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put("other.property", "20s");

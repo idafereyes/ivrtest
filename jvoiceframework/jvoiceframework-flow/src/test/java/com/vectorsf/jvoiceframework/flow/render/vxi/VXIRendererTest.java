@@ -17,18 +17,17 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
+import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
+import com.vectorsf.jvoiceframework.core.bean.BridgeTransfer;
+import com.vectorsf.jvoiceframework.core.bean.ConsultationTransfer;
 import com.vectorsf.jvoiceframework.core.bean.End;
 import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.SayAs;
-import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.core.enums.InterpretAs;
-import com.vectorsf.jvoiceframework.core.enums.RecordEvents;
-import com.vectorsf.jvoiceframework.core.enums.TransferEvents;
-import com.vectorsf.jvoiceframework.core.enums.TransferType;
 import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer;
 
 public class VXIRendererTest {
@@ -63,8 +62,12 @@ public class VXIRendererTest {
 		states.add(outputMock);
 		Input inputMock = mock(Input.class);
 		states.add(inputMock);
-		Transfer transferMock = mock(Transfer.class);
-		states.add(transferMock);
+		BlindTransfer blindTxMock = mock(BlindTransfer.class);
+		states.add(blindTxMock);
+		ConsultationTransfer consultationTxMock = mock(ConsultationTransfer.class);
+		states.add(consultationTxMock);
+		BridgeTransfer bridgeTxMock = mock(BridgeTransfer.class);
+		states.add(bridgeTxMock);
 		Record recordMock = mock(Record.class);
 		states.add(recordMock);
 		End endMock = mock(End.class);
@@ -305,24 +308,27 @@ public class VXIRendererTest {
 	public void testBlindTransfer() throws IOException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
-		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
+		BlindTransfer blindTxMock = mock(BlindTransfer.class);
+		when(blindTxMock.getDest()).thenReturn("tel:666777888");
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
-		eventsList.add(TransferEvents.HANGUP.toString());
-		eventsList.add(TransferEvents.CONNECTIONERROR.toString());
-		eventsList.add(TransferEvents.ERROR.toString());
-		eventsList.add(TransferEvents.NOANSWER.toString());
-		eventsList.add("error.unsupported.transfer");
+		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
+		eventsList.add(BlindTransfer.HANGUP_EVENT);
+		eventsList.add(BlindTransfer.CONNECTIONERROR_EVENT);
+		eventsList.add(BlindTransfer.ERROR_EVENT);
+
+		when(blindTxMock.getEvents()).thenReturn(eventsList);
 		
-		when(transferMock.getEventsList()).thenReturn(eventsList);
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("error.unsupported.transfer");
+		
+		when(blindTxMock.getCustomEvents()).thenReturn(customEvents);
+
 				
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(blindTxMock, FLOW_EXECUTION_URL);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "blindTransfer.test")); 
@@ -333,25 +339,29 @@ public class VXIRendererTest {
 	public void testConsultationTransfer() throws FileNotFoundException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
-		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.CONSULTATION.toString().toLowerCase());
-		when(transferMock.getTimeout()).thenReturn("15s");
+		ConsultationTransfer consultationTxMock = mock(ConsultationTransfer.class);
+		when(consultationTxMock.getDest()).thenReturn("tel:666777888");
+		when(consultationTxMock.getTimeout()).thenReturn("15s");
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
-		eventsList.add(TransferEvents.HANGUP.toString());
-		eventsList.add(TransferEvents.CONNECTIONERROR.toString());
-		eventsList.add(TransferEvents.ERROR.toString());
-		eventsList.add(TransferEvents.NOANSWER.toString());
-		eventsList.add("error.unsupported.transfer");
+		eventsList.add(ConsultationTransfer.TRANSFERRED_EVENT);
+		eventsList.add(ConsultationTransfer.HANGUP_EVENT);
+		eventsList.add(ConsultationTransfer.CONNECTIONERROR_EVENT);
+		eventsList.add(ConsultationTransfer.ERROR_EVENT);
+		eventsList.add(ConsultationTransfer.NOANSWER_EVENT);
 		
-		when(transferMock.getEventsList()).thenReturn(eventsList);
+		when(consultationTxMock.getEvents()).thenReturn(eventsList);
+
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("error.unsupported.transfer");
+
+		when(consultationTxMock.getCustomEvents()).thenReturn(customEvents);
+		
 				
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(consultationTxMock, FLOW_EXECUTION_URL);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "consultationTransfer.test")); 
@@ -362,26 +372,28 @@ public class VXIRendererTest {
 	public void testBridgeTransfer() throws FileNotFoundException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
-		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BRIDGE.toString().toLowerCase());
-		when(transferMock.getTimeout()).thenReturn("15s");
-		when(transferMock.getMaxtime()).thenReturn("30s");
+		BridgeTransfer bridgeTxMock = mock(BridgeTransfer.class);
+		when(bridgeTxMock.getDest()).thenReturn("tel:666777888");
+		when(bridgeTxMock.getTimeout()).thenReturn("15s");
+		when(bridgeTxMock.getMaxtime()).thenReturn("30s");
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
-		eventsList.add(TransferEvents.HANGUP.toString());
-		eventsList.add(TransferEvents.CONNECTIONERROR.toString());
-		eventsList.add(TransferEvents.ERROR.toString());
-		eventsList.add(TransferEvents.NOANSWER.toString());
-		eventsList.add("error.unsupported.transfer");
+		eventsList.add(BridgeTransfer.HANGUP_EVENT);
+		eventsList.add(BridgeTransfer.CONNECTIONERROR_EVENT);
+		eventsList.add(BridgeTransfer.ERROR_EVENT);
+		eventsList.add(BridgeTransfer.NOANSWER_EVENT);
 		
-		when(transferMock.getEventsList()).thenReturn(eventsList);
-				
+		when(bridgeTxMock.getEvents()).thenReturn(eventsList);
+
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("error.unsupported.transfer");
+
+		when(bridgeTxMock.getCustomEvents()).thenReturn(customEvents);
+
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(bridgeTxMock, FLOW_EXECUTION_URL);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "bridgeTransfer.test")); 
@@ -392,14 +404,13 @@ public class VXIRendererTest {
 	public void testPropertiesAtTransfer() throws FileNotFoundException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
+		BlindTransfer transferMock = mock(BlindTransfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
+		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
 
-		when(transferMock.getEventsList()).thenReturn(eventsList);
+		when(transferMock.getEvents()).thenReturn(eventsList);
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put("other.property", "20s");
@@ -421,17 +432,20 @@ public class VXIRendererTest {
 	public void testCustomEventsAtTransfer() throws FileNotFoundException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
+		BlindTransfer transferMock = mock(BlindTransfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
-		eventsList.add("error.unsupported.transfer");
-		eventsList.add("error.connection.baddestination");				
+		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
 				
-		when(transferMock.getEventsList()).thenReturn(eventsList);
+		when(transferMock.getEvents()).thenReturn(eventsList);
 		
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("error.unsupported.transfer");
+		customEvents.add("error.connection.baddestination");	
+
+		when(transferMock.getCustomEvents()).thenReturn(customEvents);
+
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
@@ -441,46 +455,19 @@ public class VXIRendererTest {
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "customEventsAtTransfer.test")); 
 		
 	}
-
-
-	@Test
-	public void testAttributesNotApplicableAtTransfer() throws FileNotFoundException{
-		
-		//Given
-		Transfer transferMock = mock(Transfer.class);
-		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
-		when(transferMock.getTimeout()).thenReturn("10s");
-		when(transferMock.getMaxtime()).thenReturn("60s");
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
-				
-		when(transferMock.getEventsList()).thenReturn(eventsList);
-		
-		VXIRenderer vxiRenderer = new VXIRenderer();
-
-		//When
-		String vxmlCode = vxiRenderer.render(transferMock, FLOW_EXECUTION_URL);
-		
-		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "attributesNotApplicableAtTransfer.test")); 
-		
-	}
-
+	
 	@Test
 	public void testTransferaudioAtTransfer() throws FileNotFoundException{
 		
 		//Given
-		Transfer transferMock = mock(Transfer.class);
+		BlindTransfer transferMock = mock(BlindTransfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-		when(transferMock.getType()).thenReturn(TransferType.BLIND.toString().toLowerCase());
 		when(transferMock.getTransferaudio()).thenReturn("idleMusic");
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(TransferEvents.TRANSFERRED.toString());
+		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
 				
-		when(transferMock.getEventsList()).thenReturn(eventsList);
+		when(transferMock.getEvents()).thenReturn(eventsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -526,14 +513,18 @@ public class VXIRendererTest {
 
 		//EventsList
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(RecordEvents.RECORDED.toString());
-		eventsList.add("com.nortel.ivr.record.notstored");
-		eventsList.add(RecordEvents.HANGUP.toString());
-		eventsList.add(RecordEvents.ERROR.toString());
-		eventsList.add(RecordEvents.RECORDUNSUPPORTED.toString());
-		eventsList.add(RecordEvents.NORESOURCE.toString());
+		eventsList.add(Record.RECORDED_EVENT);
+		eventsList.add(Record.HANGUP_EVENT);
+		eventsList.add(Record.ERROR_EVENT);
+		eventsList.add(Record.RECORDUNSUPPORTED_EVENT);
+		eventsList.add(Record.NORESOURCE_EVENT);
 				
-		when(recordMock.getEventsList()).thenReturn(eventsList);
+		when(recordMock.getEvents()).thenReturn(eventsList);
+
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("com.nortel.ivr.record.notstored");
+
+		when(recordMock.getCustomEvents()).thenReturn(customEvents);
 		
 		//Properties
 		Map<String, String> properties = new HashMap<String, String>();
@@ -576,9 +567,9 @@ public class VXIRendererTest {
 		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(RecordEvents.RECORDED.toString());
+		eventsList.add(Record.RECORDED_EVENT);
 		
-		when(recordMock.getEventsList()).thenReturn(eventsList);
+		when(recordMock.getEvents()).thenReturn(eventsList);
 
 		//Properties
 		Map<String, String> properties = new HashMap<String, String>();
@@ -653,9 +644,9 @@ public class VXIRendererTest {
 		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(RecordEvents.RECORDED.toString());
+		eventsList.add(Record.RECORDED_EVENT);
 		
-		when(recordMock.getEventsList()).thenReturn(eventsList);
+		when(recordMock.getEvents()).thenReturn(eventsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -692,14 +683,18 @@ public class VXIRendererTest {
 		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(RecordEvents.RECORDED.toString());
-		eventsList.add("com.nortel.ivr.record.notstored");
-		eventsList.add(RecordEvents.HANGUP.toString());
-		eventsList.add(RecordEvents.ERROR.toString());
-		eventsList.add(RecordEvents.RECORDUNSUPPORTED.toString());
-		eventsList.add(RecordEvents.NORESOURCE.toString());
+		eventsList.add(Record.RECORDED_EVENT);
+		eventsList.add(Record.HANGUP_EVENT);
+		eventsList.add(Record.ERROR_EVENT);
+		eventsList.add(Record.RECORDUNSUPPORTED_EVENT);
+		eventsList.add(Record.NORESOURCE_EVENT);
 		
-		when(recordMock.getEventsList()).thenReturn(eventsList);
+		when(recordMock.getEvents()).thenReturn(eventsList);
+		
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("com.nortel.ivr.record.notstored");
+		
+		when(recordMock.getCustomEvents()).thenReturn(customEvents);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -744,9 +739,9 @@ public class VXIRendererTest {
 		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(RecordEvents.RECORDED.toString());
+		eventsList.add(Record.RECORDED_EVENT);
 		
-		when(recordMock.getEventsList()).thenReturn(eventsList);
+		when(recordMock.getEvents()).thenReturn(eventsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 

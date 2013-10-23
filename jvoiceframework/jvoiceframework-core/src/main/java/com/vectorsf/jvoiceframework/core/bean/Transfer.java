@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Transfer component used at jVoice framework.
@@ -15,9 +12,16 @@ import org.springframework.stereotype.Component;
  * 
  * @author idafereyes
  */
-@Component("transfer")
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class Transfer {
+public abstract class Transfer {
+	
+	/**
+	 * Events defined by the framework for all transfer types.
+	 */
+	static public final String HANGUP_EVENT = "hangup";
+	static public final String ERROR_EVENT = "error";
+	static public final String CONNECTIONERROR_EVENT = "connectionerror";
+	static public final String UNKNOWN_EVENT = "unknown";
+	static public final String NEAR_END_DISCONNECT_EVENT = "near_end_disconnect";
 	
 	/**
 	 * The URI of the destination (telephone, IP telephony address)
@@ -37,10 +41,16 @@ public class Transfer {
 	private Map<String,String> properties;
 
 	/**
-	 * List of events to be controlled during the transfer.
+	 * List of events, within events defined by the framework, to be controlled during the transfer.
 	 */	
     @Value("#{new java.util.ArrayList()}")
     private List<String> events;
+
+	/**
+	 * List of events, within events defined by the user, to be controlled during the transfer.
+	 */	
+    @Value("#{new java.util.ArrayList()}")
+    private List<String> customEvents;
 
 	public String getDest() {
 		return dest;
@@ -72,6 +82,14 @@ public class Transfer {
 
 	public void setEvents(List<String> events) {
 		this.events = events;
+	}
+
+	public List<String> getCustomEvents() {
+		return customEvents;
+	}
+
+	public void setCustomEvents(List<String> customEvents) {
+		this.customEvents = customEvents;
 	}
 	
 }

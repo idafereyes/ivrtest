@@ -1,4 +1,4 @@
-<transfer name="transferResult" dest="tel:666777888" type="blind" transferaudio="idleMusic" >
+<transfer name="transferResult" type="blind" dest="tel:666777888" transferaudio="idleMusic" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
 <var name="event" expr="'transferred'" />
