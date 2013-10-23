@@ -28,11 +28,11 @@
             <evaluate expression="flowScope.testRecord.audioItemsList.add(flowScope.audioItemRecord2)"/>
 
             <!-- Se añaden los eventos a controlar -->
-            <evaluate expression="flowScope.testRecord.eventsList.add('recorded')"/>
-            <evaluate expression="flowScope.testRecord.eventsList.add('hangup')"/>
-            <evaluate expression="flowScope.testRecord.eventsList.add('error')"/>
-            <evaluate expression="flowScope.testRecord.eventsList.add('recordunsupported')"/>
-            <evaluate expression="flowScope.testRecord.eventsList.add('noresource')"/>
+            <evaluate expression="flowScope.testRecord.events.add('recorded')"/>
+            <evaluate expression="flowScope.testRecord.events.add('hangup')"/>
+            <evaluate expression="flowScope.testRecord.events.add('error')"/>
+            <evaluate expression="flowScope.testRecord.events.add('recordunsupported')"/>
+            <evaluate expression="flowScope.testRecord.events.add('noresource')"/>
 
             <!-- Se setean otras propiedades no contempladas en los atributos. -->
             <!-- <evaluate expression="flowScope.testRecord.properties.put('new.property','15s')"/>-->												
@@ -43,7 +43,7 @@
     	<transition to="render" />
     </action-state>
     
-    <view-state id="render" view="render">
+    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
         
         <transition on="recorded" to="recordedState">
             <set name="lastRecordResult.event" value="requestParameters.event"/>      

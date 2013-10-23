@@ -3,26 +3,50 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="transferOutput">
+	start-state="transferInfoOutput"
+	parent="navigation">
 
-   <action-state id="transferOutput">   		
+   <action-state id="transferInfoOutput">   		
 		<on-entry>
-			<evaluate expression="audioItem" result="flowScope.transferOutputAudioItem" /> 			
-  			<set name="flowScope.transferOutputAudioItem.wording" value="'Pendiente...'"/> 
+			<evaluate expression="audioItem" result="flowScope.transferInfoComunOutputAudioItem" /> 			
+            <set name="flowScope.transferInfoComunOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_INFO_COMUN)"/> 
 
-			<evaluate expression="output" result="flowScope.transferOutput"></evaluate>
-			<set name="flowScope.transferOutput.flush" value="true"/> 	
-			<evaluate expression="flowScope.transferOutput.audioItems.add(flowScope.transferOutputAudioItem)"/> 			 
+            <evaluate expression="audioItem" result="flowScope.transferOutputAudioItem" />             
+            <set name="flowScope.transferOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER)"/> 
+            <!-- <set name="flowScope.transferOutputAudioItem.condition" value="" />-->
+ 
+            <evaluate expression="audioItem" result="flowScope.transferExternoOutputAudioItem" />             
+            <set name="flowScope.transferExternoOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_EXTERNO)"/> 
+            <!-- <set name="flowScope.transferExternoOutputAudioItem.condition" value="" />-->
+            				
+            <evaluate expression="output" result="flowScope.transferInfoOutput"></evaluate> 
+            <set name="flowScope.transferInfoOutput.bargein" value="false"/>   
+            <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferInfoComunOutputAudioItem)"/> 
+            <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferOutputAudioItem)"/> 
+            <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferExternoOutputAudioItem)"/> 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.transferOutput)"/> 		
-		<transition to="render" />
+		<evaluate expression="flowProcessor.process(flowScope.transferInfoOutput)"/> 		
+		<transition to="testBlindTx" />
 	</action-state>
 	
+    <action-state id="testBlindTx">
+        <on-entry>
+            <evaluate expression="blindTransfer" result="flowScope.testBlindTx"/>
+            <set name="flowScope.testBlindTx.dest" value="'tel:666777888'"/>
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flowScope.testBlindTx)"/>
+            
+        <transition to="render" />
+    </action-state>    	
+	
 	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
-		<transition to="end"/>
+		<transition on="error" to="error"/>
+		<transition on="unknown" to="transferInfoOutput"/>
+		<transition on="transferred" to="transferred"/>
 	</view-state>
 	
-	<end-state id="end"/>
+	<end-state id="end" />
 	
 </flow>

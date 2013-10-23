@@ -77,7 +77,7 @@
 	</action-state>
 
 
-	<view-state id="render1" view="render">
+	<view-state id="render1" view="#{flowProcessor.getRenderer().getView()}">
 		<transition on="match" to="promptMatch">
 		    <set name="flowScope.lastInputResult.event" value="requestParameters._eventId" />
 			<set name="flowScope.lastInputResult.interpretation" value="requestParameters.interpretation" />
@@ -323,7 +323,7 @@
         <transition to="render2" />
     </action-state>
     
-	<view-state id="render2" view="render">
+	<view-state id="render2" view="#{flowProcessor.getRenderer().getView()}">
 		<transition to="end">
 			<!-- <set name="flowScope.wellcome_input.value" value="requestParameters.user" 
 				/> Mapeo de salida -->

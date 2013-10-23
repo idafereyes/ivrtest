@@ -55,6 +55,6 @@
     	<transition to="render" />
     </action-state>
     
-    <view-state id="render" view="render"/>
+    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}"/>
    
 </flow>

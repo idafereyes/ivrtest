@@ -3,35 +3,32 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd" 
-    start-state="testTransfer">
+    start-state="testBridgeTx">
  	
- 	<action-state id="testTransfer">
+ 	<action-state id="testBridgeTx">
 		<on-entry>
 			
-			<evaluate expression="consultationTransfer" result="flowScope.testTransfer"/>
+			<evaluate expression="bridgeTransfer" result="flowScope.testBridgeTx"/>
 
 			<!-- Se setean los atributos -->
-			<set name="flowScope.testTransfer.dest" value="'tel:649691219'"/>
-			<set name="flowScope.testTransfer.type" value="'consultation'"/>
-			<!-- <set name="flowScope.testTransfer.transferaudio" value="'idleMusic'"/> -->
-			<!-- <set name="flowScope.testTransfer.timeout" value="'20s'"/>-->
-			<!-- <set name="flowScope.testTransfer.maxtime" value="'25s'"/> -->
+			<set name="flowScope.testBridgeTx.dest" value="'tel:649691219'"/>
+			<!-- <set name="flowScope.testBridgeTx.transferaudio" value="'idleMusic'"/> -->
+			<set name="flowScope.testBridgeTx.timeout" value="'20s'"/>
+			<set name="flowScope.testBridgeTx.maxtime" value="'40s'"/>
 			
 			<!-- Se añaden los eventos a controlar -->
-			<evaluate expression="flowScope.testTransfer.events.add('transferred')"/>
-			<evaluate expression="flowScope.testTransfer.events.add('hangup')"/>
-            <evaluate expression="flowScope.testTransfer.events.add('error')"/>
-            <evaluate expression="flowScope.testTransfer.events.add('connectionerror')"/>
-			<evaluate expression="flowScope.testTransfer.events.add('noanswer')"/>
-            
-            <evaluate expression="flowScope.testTransfer.customEvents.add('error.unsupported')"/>
+            <evaluate expression="flowScope.testBridgeTx.events.add(T(com.vectorsf.jvoiceframework.core.bean.BridgeTransfer).HANGUP_EVENT)"/>
+            <evaluate expression="flowScope.testBridgeTx.events.add(T(com.vectorsf.jvoiceframework.core.bean.BridgeTransfer).ERROR_EVENT)"/>
+            <evaluate expression="flowScope.testBridgeTx.events.add(T(com.vectorsf.jvoiceframework.core.bean.BridgeTransfer).CONNECTIONERROR_EVENT)"/>
+            <evaluate expression="flowScope.testBridgeTx.events.add(T(com.vectorsf.jvoiceframework.core.bean.BridgeTransfer).NOANSWER_EVENT)"/>
+            <evaluate expression="flowScope.testBridgeTx.customEvents.add('error.unsupported')"/>
 			
 			<!-- Se setean otras propiedades no contempladas en los atributos. -->
-			<!-- <evaluate expression="flowScope.testTransfer.properties.put('new.property','15s')"/> -->
+			<!-- <evaluate expression="flowScope.testBridgeTx.properties.put('new.property','15s')"/> -->
 									
 		</on-entry>
 
-       	<evaluate expression="flowProcessor.process(flowScope.testTransfer)"/>
+       	<evaluate expression="flowProcessor.process(flowScope.testBridgeTx)"/>
     		
     	<transition to="render" />
     </action-state>

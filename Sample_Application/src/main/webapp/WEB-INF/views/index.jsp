@@ -8,7 +8,9 @@
 <body>
 <a href="input.flow">Input</a><br/>
 <a href="output.flow">Output</a><br/>
-<a href="transfer.flow">Transfer</a><br/>
+<a href="blindTransfer.flow">Blind Transfer</a><br/>
+<a href="consultationTransfer.flow">Consultation Transfer</a><br/>
+<a href="bridgeTransfer.flow">Bridge Transfer</a><br/>
 <a href="record.flow">Record</a><br/>
 <a href="end.flow">End</a><br/>
 </body>
