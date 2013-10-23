@@ -5,31 +5,30 @@
 <block>
 </block>
 <var name="attempts" expr="0" />
-<var name="noInputAttempt" expr="0" />
-<var name="noMatchAttempt" expr="0" />
-<var name="maxNoMatch" expr="0" />
-<var name="maxNoInput" expr="0" />
-<var name="maxInt" expr="0" />
+<var name="noInputAttempts" expr="0" />
+<var name="noMatchAttempts" expr="0" />
+<var name="maxNoMatchAttempts" expr="0" />
+<var name="maxNoInputAttempts" expr="0" />
+<var name="maxAttempts" expr="0" />
 <var name="recAvailable" expr="'DTMF'" />
 <var name="returnCode" expr="''" />
 <field>
 <property name="bargein" value="false" />
 <catch event="nomatch" >
-<assign name="noMatchAttempt" expr="noMatchAttempt + 1" />
-<assign name="attempts" expr="noMatchAttempt + noInputAttempt" />
+<assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOMATCH'" />
 <reprompt />
 </catch>
 <catch event="noinput" >
-<assign name="noInputAttempt" expr="noInputAttempt + 1" />
-<assign name="attempts" expr="noMatchAttempt + noInputAttempt" />
+<assign name="noInputAttempts" expr="noInputAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOINPUT'" />
 <reprompt />
 </catch>
 <filled>
 <var name="_eventId" expr="'match'" />
 <var name="interpretation" />
-<var name="interpretation"/>
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
 <var name="confidence" expr="application.lastresult$.confidence" />

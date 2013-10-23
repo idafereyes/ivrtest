@@ -1,48 +1,67 @@
-<html>
-<head>
-<title>Aplicación prototipo jVoice Framework</title>
-<link rel="stylesheet" type="text/css" href="resources/css/HTMLRenderer.css" />
-</head>
-<a title="Expandir / contrater" onclick="javascript:toggle_visibility('identifier');">Output </a>
-<div id='identifier' style='display:none'></br>
-<span class="property_title">Bargein: </span><span class="property_value">false</span><br>
-<span class="property_title">Flush: </span><span class="property_value">false</span><br>
-<span class="property_title">CatchHangup: </span><span class="property_value">false</span><br></br>
-</div></br>
-<a onclick="javascript:toggle_visibility('610d5026-bcc2-4a20-820b-b733e086705b');">Input </a>
-<span style="display: inline-block;">
-<form method="post" action="http://flowExecutionUrl/">Event:
-<select name="event">
-<option value="_eventId_match">Match</option>
-<option value="_eventId_maxnomatch">No match (Max)</option>
-<option value="_eventId_maxnoinput">No input (Max)</option>
-</select>
-Interpretation: 
-<input type="text" value="" name="interpretation" />
-<input type="submit" id="inputSubmit" value="Enter" name="_eventId_match">
-</form>
-</span>
-<div id='610d5026-bcc2-4a20-820b-b733e086705b' style='display:none'>
-<table cellpadding="0" cellspacing="0"><tr>
-<td style="padding: 0 10px 0 10px; border: solid 1px black;">Max Attempts</td>
-<td style="padding: 0 10px 0 10px; border: solid 1px black;">0</td></tr>
-<tr><td style="padding: 0 10px 0 10px; border: solid 1px black;">Max No Input Attempts</td>
-<td style="padding: 0 10px 0 10px; border: solid 1px black;">0</td></tr>
-<tr><td style="padding: 0 10px 0 10px; border: solid 1px black;">Max No Match Attempts</td>
-<td style="padding: 0 10px 0 10px; border: solid 1px black;">0</td>
-</tr><tr><td style="padding: 0 10px 0 10px; border: solid 1px black;">Bargein</td>
-<td style="padding: 0 10px 0 10px; border: solid 1px black;">false</td>
-</tr></table><br/><span class="property_title">Main audio items</span>
-<span class="property_title">No Match audio items</span>
-<span class="property_title">No input audio items</span>
-<table cellpadding="0" cellspacing="0">
-<tr><td colspan="2" style="padding: 0 10px 0 10px; border: solid 1px black;"><b>Grammars</b></td></tr><tr>
-<td colspan="2" style="padding: 0 10px 0 10px; border: solid 1px black;">No grammars</td></tr>
-</table>
-<br/>
-<script>function eventChanged() {    var e = document.getElementById('selectEvent');    var opt = e.options[e.selectedIndex].value;    document.getElementById('inputSubmit').name = '_eventId_' + opt;}</script>
-<form method="post" action="http://flowExecutionUrl/">Event:<select name="event" id="selectEvent" onchange="eventChanged();" ><option value="match">match</option><option value="maxnomatch">maxnomatch</option><option value="maxnoinput">maxnoinput</option></select><br/><div style="border: solid 1px black;" >Result<br/>Interpretation: <input type="text" value="" name="interpretation" /><br/>Utterance: <input type="text" value="" name="utterance" /><br/>Confidence: <input type="text" value="" name="confidence" /><br/>Input mode: <input type="text" value="" name="inputmode" /><br/></div><br/><input type="submit" id="inputSubmit" value="Enter" name="_eventId_match"></form></div><br>
-<span>Transfer</span><span>dest: null</span><br/><span>type: null</span><br/><span>transferaudio: null</span><br/><span>timeout: null</span><br/><span>maxtime: null</span><br/><span>Events:</span><br>
-<span>Record</span><br/><span>beep: false</span><br/><span>dtmfterm: false</span><br/><span>maxtime: null</span><br/><span>finalsilence: null</span><br/><span>fileName: null</span><br/><span>filePath: null</span><br/><span>keep: false</span><br/><span>audioItemsList</span><br/><span>Events:</span><br><span>Properties</span><br/>
-<h1>End</h1><p>null</p>
-</html>
+<var name="attempts" expr="0" />
+<var name="noInputAttempts" expr="0" />
+<var name="noMatchAttempts" expr="0" />
+<var name="maxNoMatchAttempts" expr="3" />
+<var name="maxNoInputAttempts" expr="3" />
+<var name="maxAttempts" expr="4" />
+<var name="recAvailable" expr="'DTMF'" />
+<var name="returnCode" expr="''" />
+<field name="INITIAL_MENU" >
+<property name="bargein" value="true" />
+<grammar mode="dtmf" type="application/srgs+xml" src="resources/grammars/dtmf/digits?length=1.grxml"/>
+<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
+No le he entendido.</prompt>
+<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
+Intente hablar mas claro. No le he entendido.</prompt>
+<prompt cond="returnCode == 'NOINPUT'" bargein="false">
+No le he oido.</prompt>
+<prompt bargein="false">
+Por favor, digame su DNI.</prompt>
+<catch event="nomatch" >
+<assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
+<assign name="returnCode" expr="'NOMATCH'" />
+<if cond="noMatchAttempt == maxNoMatch" >
+<var name="_eventId" expr="'maxnomatch'" />
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
+</if>
+<reprompt />
+</catch>
+<catch event="noinput" >
+<assign name="noInputAttempts" expr="noInputAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
+<assign name="returnCode" expr="'NOINPUT'" />
+<if cond="noInputAttempts == maxNoInputAttempts" >
+<var name="_eventId" expr="'maxnoinput'" />
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
+</if>
+<reprompt />
+</catch>
+<catch event="maxint" >
+<var name="_eventId" expr="'maxint'" />
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
+</catch>
+<filled>
+<var name="_eventId" expr="'match'" />
+<var name="interpretation" />
+<var name="utterance" expr="application.lastresult$.utterance" />
+<var name="inputmode" expr="application.lastresult$.inputmode" />
+<var name="confidence" expr="application.lastresult$.confidence" />
+<script>
+<![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
+</script>
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+</filled>
+</field>

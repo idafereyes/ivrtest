@@ -57,7 +57,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String LANG_ATTR = " xml:lang=\"";
 
 	//TODO Put in a configuration file
-    private String grammarType = "application/srgs";
+    private String grammarType = "application/srgs+xml";
     private String grammarPath = "resources/grammars/";
     private String grammarsFileExtension = ".grxml";
         
@@ -252,12 +252,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         }
         
     	sb.append("<var name=\"" + InputVars.ATTEMPTS.getName() + "\" expr=\"0\" />");
-    	sb.append("<var name=\"noInputAttempt\" expr=\"0\" />");
-    	sb.append("<var name=\"noMatchAttempt\" expr=\"0\" />");
+    	sb.append("<var name=\"" + InputVars.NOINPUTATTEMPTS.getName() + "\" expr=\"0\" />");
+    	sb.append("<var name=\"" + InputVars.NOMATCHATTEMPTS.getName() + "\" expr=\"0\" />");
 		
-    	sb.append("<var name=\"maxNoMatch\" expr=\"" + input.getMaxNoMatch() + QUOTE_SPACE + END_TAG);
-    	sb.append("<var name=\"maxNoInput\" expr=\"" + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
-    	sb.append("<var name=\"maxInt\" expr=\"" + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
+    	sb.append("<var name=\"" + InputVars.MAXNOMATCHATTEMPTS.getName() + "\" expr=\"" + input.getMaxNoMatch() + QUOTE_SPACE + END_TAG);
+    	sb.append("<var name=\"" + InputVars.MAXNOINPUTATTEMPTS.getName() + "\" expr=\"" + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
+    	sb.append("<var name=\"" + InputVars.MAXATTEMPTS.getName() + "\" expr=\"" + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
 		
 		String recAvailable = getRecAvailable(input);
 		sb.append("<var name=\"" + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
@@ -313,7 +313,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	
     	for(Grammar grammar : input.getGrammars()) {
     		if("voice".equalsIgnoreCase(grammar.getMode())) {
-    			if("builtin".equalsIgnoreCase(grammar.getType())) {
+    			if(grammar.getSrc().startsWith("builtin:")) {
     				//ASR builtin grammars are not implemented at VXI Platform.
     				//So, if ASR grammar declared as builtin, a log ERROR must be printed
     				//instead of the field element.
@@ -322,13 +322,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     				sb.append("<disconnect/>");
     			} else {
     				sb.append("<grammar mode=\"voice\"");
-    				sb.append(" type=\"" + grammar.getType() + "\"");
+    				sb.append(" type=\"" + grammarType + "\"");
     				sb.append(" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
     			}
     		} else {
     			sb.append("<grammar mode=\"dtmf\" ");
-    			if ("builtin".equalsIgnoreCase(grammar.getType())){
-    				sb.append("src=\"builtin:" + grammar.getSrc() + "\"/>");
+    			if(grammar.getSrc().startsWith("builtin:")) {
+    				sb.append("src=\"" + grammar.getSrc() + "\"/>");
     			} else {
     				sb.append("type=\"" + grammarType + "\" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension +"\"/>");
     			}
@@ -372,7 +372,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 				}
 			} else {
 				if(ai.getCondition() != null && !ai.getCondition().isEmpty()) {
-					sb.append(COND_ATTR + ai.getCondition() );
+					sb.append(COND_ATTR + ai.getCondition() + QUOTE_SPACE);
 				}
 			}
 			
@@ -496,12 +496,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		StringBuilder sb = new StringBuilder();
 		//escribimos el catch no input
 		sb.append("<catch event=\"noinput\" >");
-		sb.append(ASSIGN + "noInputAttempt\" expr=\"noInputAttempt + 1\" />");
-		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
+		sb.append(ASSIGN + InputVars.NOINPUTATTEMPTS.getName() + "\" expr=\"" + InputVars.NOINPUTATTEMPTS.getName() + " + 1\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
 		
 		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= maxInt\" >");
+			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + "\" >");
 			//escribimos la traza del MAXINT
 			//TODO Escribir trazas
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
@@ -509,7 +509,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		}
 		
 		if(isMaxNoInput) {
-			sb.append("<if cond=\"noInputAttempt == maxNoInput\" >");
+			sb.append("<if cond=\"" + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + "\" >");
 			//escribimos la traza del MAXNOINPUT
 			//TODO Escribir trazas
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOINPUT.getName()));
@@ -529,12 +529,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		
 		//escribimos el catch del no match
 		sb.append("<catch event=\"nomatch\" >");
-		sb.append(ASSIGN + "noMatchAttempt\" expr=\"noMatchAttempt + 1\" />");
-		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"noMatchAttempt + noInputAttempt\" />");
+		sb.append(ASSIGN + "" + InputVars.NOMATCHATTEMPTS.getName() + "\" expr=\"" + InputVars.NOMATCHATTEMPTS.getName() + " + 1\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
 		
 		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= maxInt\" >");
+			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + "\" >");
 			//escribimos la traza del MAXINT
 			//TODO Hacer trazas
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
@@ -565,7 +565,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//escribimos los datos del resultado
 		sb.append("<var name=\"_eventId\" expr=\"'match'\" />");
 		sb.append("<var name=\"interpretation\" />");
-		sb.append("<var name=\"interpretation\"/>");
 		sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
 		sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
 		sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");

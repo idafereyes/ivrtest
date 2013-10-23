@@ -861,7 +861,7 @@ public class VXIRendererTest {
 
 		//When
 		String vxmlCode = vxiRenderer.render(inputMock, FLOW_EXECUTION_URL);
-		
+
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/inputDtmf.test")); 
 		

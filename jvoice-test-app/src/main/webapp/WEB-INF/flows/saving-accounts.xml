@@ -27,8 +27,7 @@
 				<evaluate expression="input" result="flowScope.accountSelectionInput" />
 	
 				<evaluate expression="grammar" result="flowScope.grammar" />
-				<set name="flowScope.grammar.type" value="'builtin'"/>
-				<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
+				<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
 				<evaluate expression="flowScope.accountSelectionInput.grammars.add(flowScope.grammar)"/>
 
                 <set name="flowScope.accountSelectionInput.mainAudios" value="accountsLocutions.getAccountSelectionLocutions(user.getAccounts(), flowScope.offset.intValue())" />

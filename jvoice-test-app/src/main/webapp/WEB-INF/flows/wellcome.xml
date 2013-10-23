@@ -45,8 +45,7 @@
 			<set name="flowScope.setLanguageInput.maxAttempts" value="1" />
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
-			<set name="flowScope.grammar.type" value="'builtin'"/>
-			<set name="flowScope.grammar.src" value="'dtmf/digits?length=1'"/>
+			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/>
 			<set name="flowScope.grammar.mode" value="'dtmf'"/>
 			<evaluate expression="flowScope.setLanguageInput.grammars.add(flowScope.grammar)" />
 

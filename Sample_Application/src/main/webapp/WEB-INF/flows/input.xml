@@ -26,8 +26,7 @@
             
             <!-- Gramaticas -->
 			<evaluate expression="grammar" result="flowScope.grammar1" />
-			<set name="flowScope.grammar1.src" value="'dtmf/digits?length=2'" />
-			<set name="flowScope.grammar1.type" value="'builtin'" />
+			<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=2'" />
 			<set name="flowScope.grammar1.mode" value="'dtmf'" />
 			<evaluate expression="flowScope.inputTest.grammars.add(flowScope.grammar1)" />
 			

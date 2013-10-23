@@ -73,10 +73,8 @@ public class InputTest {
 		// grammars
 		List<Grammar> grammars = input.getGrammars();
 		grammar1.setSrc("builtin:touchtone");
-		grammar1.setType("digits");
 		grammars.add(grammar1);
 		grammar2.setSrc("builtin:otra");
-		grammar2.setType("letters");
 		grammars.add(grammar2);
 		grammar3.setSrc("/grammars/");
 		grammar3.setSrc("cities.bnf");
@@ -85,8 +83,6 @@ public class InputTest {
 				.size(), 3);
 		assertEquals("Checking input grammar src", input.getGrammars().get(0)
 				.getSrc(), "builtin:touchtone");
-		assertEquals("Checking input grammar type", input.getGrammars().get(0)
-				.getType(), "digits");
 
 		// audios
 		mainAudioItem1.setSrc("MAIN-AUDIO-01");

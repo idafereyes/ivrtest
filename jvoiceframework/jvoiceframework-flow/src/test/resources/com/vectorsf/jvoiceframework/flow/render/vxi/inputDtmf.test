@@ -1,14 +1,14 @@
 <var name="attempts" expr="0" />
-<var name="noInputAttempt" expr="0" />
-<var name="noMatchAttempt" expr="0" />
-<var name="maxNoMatch" expr="3" />
-<var name="maxNoInput" expr="3" />
-<var name="maxInt" expr="4" />
+<var name="noInputAttempts" expr="0" />
+<var name="noMatchAttempts" expr="0" />
+<var name="maxNoMatchAttempts" expr="3" />
+<var name="maxNoInputAttempts" expr="3" />
+<var name="maxAttempts" expr="4" />
 <var name="recAvailable" expr="'DTMF'" />
 <var name="returnCode" expr="''" />
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
-<grammar mode="dtmf" type="application/srgs" src="grammars/dtmf/digits?length=1.grxml"/>
+<grammar mode="dtmf" type="application/srgs+xml" src="resources/grammars/dtmf/digits?length=1.grxml"/>
 <prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
 No le he entendido.</prompt>
 <prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
@@ -18,8 +18,8 @@ No le he oido.</prompt>
 <prompt bargein="false">
 Por favor, digame su DNI.</prompt>
 <catch event="nomatch" >
-<assign name="noMatchAttempt" expr="noMatchAttempt + 1" />
-<assign name="attempts" expr="noMatchAttempt + noInputAttempt" />
+<assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOMATCH'" />
 <if cond="noMatchAttempt == maxNoMatch" >
 <var name="_eventId" expr="'maxnomatch'" />
@@ -32,10 +32,10 @@ Por favor, digame su DNI.</prompt>
 <reprompt />
 </catch>
 <catch event="noinput" >
-<assign name="noInputAttempt" expr="noInputAttempt + 1" />
-<assign name="attempts" expr="noMatchAttempt + noInputAttempt" />
+<assign name="noInputAttempts" expr="noInputAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOINPUT'" />
-<if cond="noInputAttempt == maxNoInput" >
+<if cond="noInputAttempts == maxNoInputAttempts" >
 <var name="_eventId" expr="'maxnoinput'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
@@ -56,7 +56,6 @@ Por favor, digame su DNI.</prompt>
 <filled>
 <var name="_eventId" expr="'match'" />
 <var name="interpretation" />
-<var name="interpretation"/>
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
 <var name="confidence" expr="application.lastresult$.confidence" />

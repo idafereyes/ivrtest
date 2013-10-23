@@ -105,7 +105,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
             html.append("<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Type</td>");
             html.append("<td style=\"padding: 0 10px 0 10px; border: solid 1px black;\">Src</td></tr>");
             for(Grammar g : input.getGrammars()) {
-                html.append(trStyledHtml + g.getType() + endTdHtml);
+                html.append(trStyledHtml + g.getMode() + endTdHtml);
                 html.append(tdHtml + g.getSrc() + endTrHtml);
             }
         } else {

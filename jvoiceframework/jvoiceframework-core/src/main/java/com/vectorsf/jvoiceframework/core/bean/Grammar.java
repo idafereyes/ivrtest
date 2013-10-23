@@ -13,7 +13,6 @@ public class Grammar implements Serializable {
     private static final long serialVersionUID = -7601268978376750070L;
 
     private String src;
-    private String type;
     private String mode;
     
     public String getSrc() {
@@ -22,14 +21,6 @@ public class Grammar implements Serializable {
     
     public void setSrc(String src) {
         this.src = src;
-    }
-    
-    public String getType() {
-        return type;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
     }
 
 	public String getMode() {

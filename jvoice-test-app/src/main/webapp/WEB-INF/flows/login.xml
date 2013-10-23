@@ -10,8 +10,7 @@
 			<evaluate expression="input" result="flowScope.SSNInput" />
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
-			<set name="flowScope.grammar.type" value="'builtin'"/>
-			<set name="flowScope.grammar.src" value="'dtmf/digits?length=9'"/> <!-- El chequeo del número de la seguridad social lo hace la gramática -->
+			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=9'"/> <!-- El chequeo del número de la seguridad social lo hace la gramática -->
 			<evaluate expression="flowScope.SSNInput.grammars.add(flowScope.grammar)"/>
 
 			<evaluate expression="audioItem" result="flowScope.SSPT1AudioItem" />
@@ -67,8 +66,7 @@
 			<evaluate expression="input" result="flowScope.PINInput" />
 
 			<evaluate expression="grammar" result="flowScope.grammar" />
-			<set name="flowScope.grammar.type" value="'builtin'"/>
-			<set name="flowScope.grammar.src" value="'dtmf/digits?length=4'"/> 
+			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=4'"/> 
 			<evaluate expression="flowScope.PINInput.grammars.add(flowScope.grammar)"/>
 
 			<evaluate expression="audioItem" result="flowScope.PINPT1AudioItem" />
