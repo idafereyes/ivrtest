@@ -47,6 +47,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String END_TAG = "/>"; 
     static final String QUOTE_SPACE = "\" ";
     static final String QUOTE = "\"";
+    static final String QUOTE_END_TAG = "\" >";
+    static final String QUOTE_EXPR = "\" expr=\"";
     static final String EVENT_ID = "_eventId_";
     static final String NAMELIST_EVENT_DURATION = "namelist=\"duration event\"";
     static final String NAMELIST_EVENT = "namelist=\"event\"";
@@ -55,6 +57,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
     static final String LANG_ATTR = " xml:lang=\"";
+    static final String VAR_NAME_TAG = "<var name=\"";
 
 	//TODO Put in a configuration file
     private String grammarType = "application/srgs+xml";
@@ -251,17 +254,17 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             sb.append(renderProperties(input.getProperties()));            
         }
         
-    	sb.append("<var name=\"" + InputVars.ATTEMPTS.getName() + "\" expr=\"0\" />");
-    	sb.append("<var name=\"" + InputVars.NOINPUTATTEMPTS.getName() + "\" expr=\"0\" />");
-    	sb.append("<var name=\"" + InputVars.NOMATCHATTEMPTS.getName() + "\" expr=\"0\" />");
+    	sb.append(VAR_NAME_TAG + InputVars.ATTEMPTS.getName() + "\" expr=\"0\" />");
+    	sb.append(VAR_NAME_TAG + InputVars.NOINPUTATTEMPTS.getName() + "\" expr=\"0\" />");
+    	sb.append(VAR_NAME_TAG + InputVars.NOMATCHATTEMPTS.getName() + "\" expr=\"0\" />");
 		
-    	sb.append("<var name=\"" + InputVars.MAXNOMATCHATTEMPTS.getName() + "\" expr=\"" + input.getMaxNoMatch() + QUOTE_SPACE + END_TAG);
-    	sb.append("<var name=\"" + InputVars.MAXNOINPUTATTEMPTS.getName() + "\" expr=\"" + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
-    	sb.append("<var name=\"" + InputVars.MAXATTEMPTS.getName() + "\" expr=\"" + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
+    	sb.append(VAR_NAME_TAG + InputVars.MAXNOMATCHATTEMPTS.getName() + QUOTE_EXPR + input.getMaxNoMatch() + QUOTE_SPACE + END_TAG);
+    	sb.append(VAR_NAME_TAG + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_EXPR + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
+    	sb.append(VAR_NAME_TAG + InputVars.MAXATTEMPTS.getName() + QUOTE_EXPR + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
 		
 		String recAvailable = getRecAvailable(input);
-		sb.append("<var name=\"" + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
-		sb.append("<var name=\"" + InputVars.RETURNCODE.getName() + "\" expr=\"''\" />");
+		sb.append(VAR_NAME_TAG + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
+		sb.append(VAR_NAME_TAG + InputVars.RETURNCODE.getName() + "\" expr=\"''\" />");
 		
     	return sb.toString();
     }
@@ -270,7 +273,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	StringBuilder sb = new StringBuilder();
     	
     	if(input.getName() != null) {
-    		sb.append("<field name=\"" + input.getName() + "\" >");
+    		sb.append("<field name=\"" + input.getName() + QUOTE_END_TAG);
     	} else {
     		sb.append("<field>");
     	}
@@ -432,7 +435,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//Audio with TTS backup prompt
 		} else{
 			//TODO Meter logs
-			sb.append("<audio src=\"" + ai.getSrc() + "\" >");
+			sb.append("<audio src=\"" + ai.getSrc() + QUOTE_END_TAG);
     		//Adds say-as tag if specified.
         	if (ai.getWording().getSayAs() != null){
         		sb.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + ai.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
@@ -483,7 +486,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 				continue;
 			}
 			
-			sb.append("<catch event=\"" + otherEvent + "\" >");
+			sb.append("<catch event=\"" + otherEvent + QUOTE_END_TAG);
 			//TODO Añadir trazas
 			sb.append(renderInputSubmit(flowURL, otherEvent));
 			sb.append(CATCH_END_TAG);
@@ -496,12 +499,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		StringBuilder sb = new StringBuilder();
 		//escribimos el catch no input
 		sb.append("<catch event=\"noinput\" >");
-		sb.append(ASSIGN + InputVars.NOINPUTATTEMPTS.getName() + "\" expr=\"" + InputVars.NOINPUTATTEMPTS.getName() + " + 1\" />");
-		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
+		sb.append(ASSIGN + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOINPUTATTEMPTS.getName() + " + 1\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
 		
 		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + "\" >");
+			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXINT
 			//TODO Escribir trazas
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
@@ -509,7 +512,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		}
 		
 		if(isMaxNoInput) {
-			sb.append("<if cond=\"" + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + "\" >");
+			sb.append("<if cond=\"" + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXNOINPUT
 			//TODO Escribir trazas
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOINPUT.getName()));
@@ -529,12 +532,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		
 		//escribimos el catch del no match
 		sb.append("<catch event=\"nomatch\" >");
-		sb.append(ASSIGN + "" + InputVars.NOMATCHATTEMPTS.getName() + "\" expr=\"" + InputVars.NOMATCHATTEMPTS.getName() + " + 1\" />");
-		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
+		sb.append(ASSIGN + "" + InputVars.NOMATCHATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + 1\" />");
+		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + "\" />");
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
 		
 		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + "\" >");
+			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXINT
 			//TODO Hacer trazas
 			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
@@ -570,13 +573,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
 		sb.append("<script>");
 		sb.append("<![CDATA[");
-//		sb.append("var lastInputResult = function() {");
-//		sb.append("this.event = 'match';");
-//		sb.append("this.interpretation = application.lastresult$.utterance;");
-//		sb.append("this.utterance = application.lastresult$.utterance;");
-//		sb.append("this.inputmode = 'dtmf';");
-//		sb.append("this.confidence = application.lastresult$.confidence;");
-//		sb.append("};");
 		sb.append("if(inputmode == 'voice') {");
 		sb.append("interpretation = lastresult$.interpretation.out;");
 		sb.append("} else {");
@@ -587,7 +583,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//TODO Mirar si devuelve los valores correctos
 		
 		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
-//		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId lastInputResult_2E_interpretation\"/>");
 		sb.append(FILLED_END_TAG);
 		
 		return sb.toString();
@@ -604,7 +599,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append("<var name=\"inputmode\" expr=\"null\" />");
 		sb.append("<var name=\"confidence\" expr=\"null\" />");
 		
-		//sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
 		sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId\" />");
 		
 		return sb.toString();

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar root="main" version="1.0" xml:lang="es-ES">
+
+  <rule id="main" scope="public">
+    <one-of>
+      <item> uno </item>
+      <item> dos </item>
+      <item> tres </item>
+      <item> cuatro </item>
+      <item> cinco </item>
+      <item> seis </item>
+      <item> siete </item>
+      <item> ocho </item>
+      <item> nueve </item>
+      <item> cero </item>
+    </one-of>
+  </rule>
+</grammar>
