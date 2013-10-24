@@ -25,13 +25,17 @@
 			<evaluate expression="output" result="flowScope.wellcomeOutput"></evaluate>	
 			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeRetailOutputAudioItem)"/> 
 			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomePymeRetailOutputAudioItem)"/> 
-			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeULineRetailOutputAudioItem)"/> 			 
+			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeULineRetailOutputAudioItem)"/>
+			<set name="flowScope.wellcomeOutput.flush" value="true" /> 			 
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.wellcomeOutput)"/> 		
-		<transition on="" to="promotion" />
-	</action-state>
+		<transition on="" to="render" />
+   	</action-state>
 
+    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
+       <transition to="promotion"/>
+    </view-state>
 
 	<subflow-state id="promotion" subflow="promotion">
 		<transition  to="setLanguage"/>
@@ -60,22 +64,22 @@
 
 		<evaluate expression="flowProcessor.process(flowScope.setLanguageInput)" />
 
-		<transition to="render"></transition>
+		<transition to="render2"></transition>
 	</action-state>
 
 
-	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">
+	<view-state id="render2" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">
 		<transition on="match" to="setLanguageInputCheck"/>
 		<transition to="end"/>
 	</view-state>
 	
 	<action-state id="setLanguageInputCheck">
-		<evaluate expression="flowScope.lastInputResult.interpretation"/>
+		<evaluate expression="conversationScope.lastInputResult.interpretation"/>
 		<transition on="1" to="end">
 			<evaluate expression="jvoiceUser.setLocale(new java.util.Locale('en','US'))" /> 
 		</transition>
 		<transition to="end"/>
 	</action-state>
 
-	<end-state id="end"/>	
+	<end-state id="end"/>
 </flow>
