@@ -19,7 +19,7 @@
 	</action-state>
 	
 	
-	<subflow-state id="transfer" subflow="transfer"/>
+	<view-state id="transfer" view="flowRedirect:transfer"/>
 	
 	<!-- Los dos eventos  se tratan igual -->
 	 <global-transitions>
