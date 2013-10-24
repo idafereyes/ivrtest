@@ -17,10 +17,9 @@
     </property>
 </bean>
 
-<bean id="audioItem" class="com.vectorsf.jvoiceframework.core.bean.AudioItem" scope="prototype"/>
-<bean id="wording" class="com.vectorsf.jvoiceframework.core.bean.Wording" scope="prototype"/>
-<bean id="output" class="com.vectorsf.jvoiceframework.core.bean.Output" scope="prototype"/>
-<bean id="input" class="com.vectorsf.jvoiceframework.core.bean.Input" scope="prototype"/>
+<!-- Beans jVoice Framework -->
+<context:component-scan base-package="com.vectorsf.jvoiceframework"/>
+
 <bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer"/>
 <bean id="states" class="java.util.ArrayList" scope="flow"/>
 
