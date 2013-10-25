@@ -3,19 +3,19 @@
 <audio src="SAN-WELCOME">Bienvenido</audio>
 </prompt>
 <prompt bargein="true">
-<say-as interpret-as="vxml:digits" >1234</say-as>
+<say-as interpret-as="digits" >1234</say-as>
 </prompt>
 <prompt bargein="true">
-<say-as interpret-as="vxml:date" format="dmy" >12-10-2012</say-as>
+<say-as interpret-as="date" format="dmy" >12-10-2012</say-as>
 </prompt>
 <prompt bargein="true">
 <audio src="TEST-SAY-AS">
-<say-as interpret-as="vxml:digits" >1234</say-as>
+<say-as interpret-as="digits" >1234</say-as>
 </audio>
 </prompt>
 <prompt bargein="true">
 <audio src="TEST-SAY-AS">
-<say-as interpret-as="vxml:date" format="dmy" >12-10-2012</say-as>
+<say-as interpret-as="date" format="dmy" >12-10-2012</say-as>
 </audio>
 </prompt>
 </block>
