@@ -18,17 +18,20 @@
 
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT1AudioItem" />
 			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/>
-			<set name="flowScope.accountsMenuPT1AudioItem.condition" value="'attempts==0'" /> 
+			<set name="flowScope.accountsMenuPT1AudioItem.condition" value="'attempts==0'" />
+			<set name="flowScope.accountsMenuPT1AudioItem.bargein" value="true" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT2AudioItem" />
 			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/>
 			<set name="flowScope.accountsMenuPT2AudioItem.condition" value="'attempts==1'" /> 
+			<set name="flowScope.accountsMenuPT2AudioItem.bargein" value="true" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.accountsMenuPT3AudioItem" />
 			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/>
 			<set name="flowScope.accountsMenuPT3AudioItem.condition" value="'attempts==2'" /> 
+			<set name="flowScope.accountsMenuPT3AudioItem.bargein" value="true" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT3AudioItem)"/>
 			
 			<!-- NM -->
@@ -57,6 +60,6 @@
 	</view-state>
 	
 	 <end-state id="end" >
-		<output name="menuOption" value="flowScope.lastInputResult.interpretation" />
+		<output name="menuOption" value="lastInputResult.interpretation" />
 	</end-state>
 </flow>

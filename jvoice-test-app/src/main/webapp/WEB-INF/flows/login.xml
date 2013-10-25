@@ -9,19 +9,23 @@
 		<on-entry>
 			<evaluate expression="input" result="flowScope.SSNInput" />
 
-			<evaluate expression="grammar" result="flowScope.grammar" />
-			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=9'"/> <!-- El chequeo del número de la seguridad social lo hace la gramática -->
-			<evaluate expression="flowScope.SSNInput.grammars.add(flowScope.grammar)"/>
+			<evaluate expression="grammar" result="flowScope.grammar1" />
+			<set name="flowScope.grammar1.mode" value="'dtmf'"/>
+			<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=9'"/> <!-- El chequeo del número de la seguridad social lo hace la gramática -->
+			<evaluate expression="flowScope.SSNInput.grammars.add(flowScope.grammar1)"/>
 
 			<evaluate expression="audioItem" result="flowScope.SSPT1AudioItem" />
+			<set name="flowScope.SSPT1AudioItem.bargein" value="true"/>
 			<set name="flowScope.SSPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT1)"/> 
 			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.SSPT2AudioItem" />
+			<set name="flowScope.SSPT2AudioItem.bargein" value="true"/>
 			<set name="flowScope.SSPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT2)"/> 
 			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.SSPT3AudioItem" />
+			<set name="flowScope.SSPT3AudioItem.bargein" value="true"/>
 			<set name="flowScope.SSPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_IDENTIFICATION_PT3)"/> 
 			<evaluate expression="flowScope.SSNInput.mainAudios.add(flowScope.SSPT3AudioItem)"/>
 			
@@ -65,19 +69,23 @@
 		<on-entry>
 			<evaluate expression="input" result="flowScope.PINInput" />
 
-			<evaluate expression="grammar" result="flowScope.grammar" />
-			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=4'"/> 
-			<evaluate expression="flowScope.PINInput.grammars.add(flowScope.grammar)"/>
+			<evaluate expression="grammar" result="flowScope.grammar2" />
+			<set name="flowScope.grammar2.mode" value="'dtmf'"/> 
+			<set name="flowScope.grammar2.src" value="'builtin:dtmf/digits?length=4'"/> 
+			<evaluate expression="flowScope.PINInput.grammars.add(flowScope.grammar2)"/>
 
 			<evaluate expression="audioItem" result="flowScope.PINPT1AudioItem" />
+			<set name="flowScope.PINPT1AudioItem.bargein" value="true"/> 
 			<set name="flowScope.PINPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT1)"/> 
 			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT1AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.PINPT2AudioItem" />
+			<set name="flowScope.PINPT2AudioItem.bargein" value="true"/> 
 			<set name="flowScope.PINPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT2)"/> 
 			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT2AudioItem)"/>
 			
 			<evaluate expression="audioItem" result="flowScope.PINPT3AudioItem" />
+			<set name="flowScope.PINPT3AudioItem.bargein" value="true"/> 
 			<set name="flowScope.PINPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_PT3)"/> 
 			<evaluate expression="flowScope.PINInput.mainAudios.add(flowScope.PINPT3AudioItem)"/>
 			

@@ -25,11 +25,23 @@
 	        
 			<evaluate expression="output" result="flowScope.promotionOutput"></evaluate>	
 			<evaluate expression="flowScope.promotionOutput.audioItems.add(flowScope.promotionAudioItem)"/> 
+			
+			<set name="flowScope.promotionOutput.catchHangup" value="true"></set>
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.promotionOutput)"/> 		
-		<transition on="" to="end" />
+		<transition to="render" />
 	</action-state>
 	
+	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">    
+        <transition on="hangup" to="hangup"/>
+        <transition to="end" />
+    </view-state>
+    
+    <action-state id="hangup">
+        <evaluate expression="T(java.lang.System).out.println('########## Catch Hang Up')"></evaluate>
+        <transition to="end" />
+    </action-state>
+    
 	<end-state id="end" />	
 </flow>

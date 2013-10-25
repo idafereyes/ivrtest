@@ -25,18 +25,22 @@
  		<action-state id="accountSelectionInput">
 			<on-entry>
 				<evaluate expression="input" result="flowScope.accountSelectionInput" />
-	
-				<evaluate expression="grammar" result="flowScope.grammar" />
-				<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
-				<evaluate expression="flowScope.accountSelectionInput.grammars.add(flowScope.grammar)"/>
+	            <set name="flowScope.accountSelectionInput.bargein" value="true" />
+	            
+				<evaluate expression="grammar" result="flowScope.grammar1" />
+				<set name="flowScope.grammar1.mode" value="'dtmf'"/>
+				<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
+				<evaluate expression="flowScope.accountSelectionInput.grammars.add(flowScope.grammar1)"/>
 
                 <set name="flowScope.accountSelectionInput.mainAudios" value="accountsLocutions.getAccountSelectionLocutions(user.getAccounts(), flowScope.offset.intValue())" />
                 
 				<evaluate expression="audioItem" result="flowScope.accountsSelectionNMAudioItem" />
+				<set name="flowScope.accountsSelectionNMAudioItem.bargein" value="true" />
 				<set name="flowScope.accountsSelectionNMAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NM)"/> 
 				<evaluate expression="flowScope.accountSelectionInput.noMatchAudios.add(flowScope.accountsSelectionNMAudioItem)"/>
 	
 				<evaluate expression="audioItem" result="flowScope.accountsSelectionNIAudioItem" />
+				<set name="flowScope.accountsSelectionNIAudioItem.bargein" value="true" />
 				<set name="flowScope.accountsSelectionNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).ACCOUNT_SELECTION_NI)"/> 
 				<evaluate expression="flowScope.accountSelectionInput.noInputAudios.add(flowScope.accountsSelectionNIAudioItem)"/>
 			</on-entry>
@@ -53,7 +57,7 @@
 		
 	<!--  Decisiones dinámicas??? -->	
 	<action-state id="menuDecision">	
-		<evaluate expression="flowScope.lastInputResult.interpretation"></evaluate>
+		<evaluate expression="lastInputResult.interpretation"></evaluate>
 		<transition on="1" to="balanceOutput">
 			<evaluate expression="user.accounts.get(flowScope.offset)" result="flowScope.selectedAccount"></evaluate>
 		</transition>

@@ -35,17 +35,20 @@ public class AccountsLocutions {
 				
 				AudioItem aiA = new AudioItem();
 				aiA.setWording(locutionProvider.getWording(Accounts.ACCOUNT_SELECTION_PT1_A));
+				aiA.setBargein(true);
 				locutions.add(aiA);
 				
 				AudioItem aiB = new AudioItem();
 				Wording wording = new Wording();
 				wording.setText(account.getIdEnding());
 				wording.setSayAs(new SayAs(InterpretAs.DIGITS));
+				aiB.setBargein(true);
 				aiB.setWording(wording);
 				locutions.add(aiB);
 				
 				AudioItem aiC = new AudioItem();
 				aiC.setWording(locutionProvider.getWording(Accounts.ACCOUNT_SELECTION_PT1_C, index + 1));
+				aiC.setBargein(true);
 				locutions.add(aiC);
 			}
 			else {
@@ -55,6 +58,7 @@ public class AccountsLocutions {
 		if (index >= offset +  ACCOUNT_NUMBER) {
 			AudioItem aiRemaining = new AudioItem();
 			aiRemaining.setWording(locutionProvider.getWording(Accounts.REMAINING_ACCOUNT_SELECTION));
+			aiRemaining.setBargein(true);
 			locutions.add(aiRemaining);
 		}	
 		return locutions;
