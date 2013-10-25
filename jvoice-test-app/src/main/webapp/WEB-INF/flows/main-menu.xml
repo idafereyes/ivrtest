@@ -17,17 +17,7 @@
 			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/>
 			<set name="flowScope.grammar.mode" value="'dtmf'"/>
 			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
-<<<<<<< Upstream, based on master
 
-<!--             <evaluate expression="grammar" result="flowScope.grammar2" /> -->
-<!--             <set name="flowScope.grammar2.type" value="'application/srgs+xml'"/> -->
-<!--             <set name="flowScope.grammar2.src" value="'digit'"/> -->
-<!--             <set name="flowScope.grammar2.mode" value="'voice'"/> -->
-<!--             <evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar2)"/> -->
-            
-=======
- 
->>>>>>> c8940ae FlowRedirect para casi todo
 			<evaluate expression="audioItem" result="flowScope.mainMenutPT1AudioItem" />
 			<set name="flowScope.mainMenutPT1AudioItem.bargein" value="true" />
             <set name="flowScope.mainMenutPT1AudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT1_SRC)"/> 
@@ -57,16 +47,13 @@
 			<evaluate expression="audioItem" result="flowScope.mainMenuNIAudioItem" />
             <set name="flowScope.mainMenuNIAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NI_SRC)"/> 
 			<set name="flowScope.mainMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NI)"/> 
-<<<<<<< Upstream, based on master
 			<evaluate expression="flowScope.menuInput.noInputAudios.add(flowScope.mainMenuNIAudioItem)"/>
 			
 			<evaluate expression="flowScope.menuInput.events.add('maxattempts')" />
 			<evaluate expression="flowScope.menuInput.events.add('maxnoinput')" />
 			<evaluate expression="flowScope.menuInput.events.add('maxnomatch')" />
-=======
-			<evaluate expression="flowScope.menuInput.noInputAudios.add(flowScope.mainMenuNIAudioItem)"/>	
-			
->>>>>>> c8940ae FlowRedirect para casi todo
+	
+
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.menuInput)" />

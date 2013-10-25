@@ -208,7 +208,14 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	if (output.getAudioItems() != null && !output.getAudioItems().isEmpty()){
     		html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + endSpanHtml);
     	}
-    	
+    	if(output.isFlush()) {
+    		html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+            html.append("<input type=\"hidden\" name=\"_eventId\" value=\"success\">");
+            html.append("<input type=\"submit\"  value=\"continuar\">");
+             
+            html.append("</form>");
+
+    	}
     	
     	html.append("<div id='" + identifier + "' style='display:none'>");
     	
@@ -220,6 +227,8 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	if (output.getAudioItems() != null && !output.getAudioItems().isEmpty()){
     		html.append(renderAudioItems(output.getAudioItems(), "Audio items:"));
     	}
+    	
+    	
     	html.append("</br>"); 
     	html.append("</div>"); 
     	html.append("</br>"); 
