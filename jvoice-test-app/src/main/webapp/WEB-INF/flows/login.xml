@@ -109,7 +109,7 @@
 			<set name="flowScope.PINNIPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT2)"/> 
 			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT2AudioItem)"/>	
 			
-			<evaluate expression="audioItem" result="flowScope.PINNIPT3AudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.PINNIPT3AudioItem" />
 			<set name="flowScope.PINNIPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Login).LOGIN_AUTHENTICATION_NI_PT3)"/> 
 			<evaluate expression="flowScope.PINInput.noInputAudios.add(flowScope.PINNIPT3AudioItem)"/>	
 		</on-entry>

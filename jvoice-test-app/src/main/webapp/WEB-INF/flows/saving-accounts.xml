@@ -28,7 +28,7 @@
 				<evaluate expression="jVoiceArchInput" result="flowScope.accountSelectionInput" />
 	            <set name="flowScope.accountSelectionInput.bargein" value="true" />
 	            
-				<evaluate expression="grammar" result="flowScope.grammar1" />
+				<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar1" />
 				<set name="flowScope.grammar1.mode" value="'dtmf'"/>
 				<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/> <!-- ESTA GRAMATICA DEBERIA SER VARIABLE!!!! -->
 				<evaluate expression="flowScope.accountSelectionInput.grammars.add(flowScope.grammar1)"/>
