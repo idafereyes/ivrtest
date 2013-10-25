@@ -222,7 +222,6 @@ public class HTMLRendererTest {
 		
 		//Given
 		End endMock = mock(End.class);
-		when(endMock.getName()).thenReturn("testEnd");
 		
 		HTMLRenderer htmlRenderer = new HTMLRenderer();
 

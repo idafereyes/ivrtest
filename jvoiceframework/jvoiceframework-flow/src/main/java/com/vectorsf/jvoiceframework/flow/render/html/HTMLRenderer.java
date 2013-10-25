@@ -40,7 +40,10 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     private String endSpanBrHtml = "</span><br/>";
     private String startSpanHtml = "<span>";
     private String endSpanHtml = "</span>";
-    
+    private String endFormHtml = "</form>";
+    private String quoteEndTagHtml = "\">";
+    private String formMethodPostActionHtml = "<form method=\"post\" action=\"";
+   
 	public String render(Input input, String flowURL) {
     	
     	// Identificador del elemento en la página
@@ -55,7 +58,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	
     	// Acceso rápido para hacer sumbit
     	html.append("<span style=\"display: inline-block;\">");
-    	html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+    	html.append(formMethodPostActionHtml + flowURL + quoteEndTagHtml); 
         html.append("Event:");
         html.append("<select name=\"_eventId\">");
         html.append("<option value=\"match\">Match</option>");
@@ -64,7 +67,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         html.append("</select>");
         html.append("Interpretation: <input type=\"text\" value=\"\" name=\"interpretation\" />");
         html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
-        html.append("</form>");
+        html.append(endFormHtml);
         html.append(endSpanHtml);
     	html.append("<div id='" + identifier + "' style='display:none'>");  
     	
@@ -131,7 +134,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         html.append("    document.getElementById('inputSubmit').name = '_eventId_' + opt;");
         html.append("}");
         html.append("</script>");
-        html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+        html.append(formMethodPostActionHtml + flowURL + quoteEndTagHtml); 
         html.append("Event:");
         html.append("<select name=\"event\" id=\"selectEvent\" onchange=\"eventChanged();\" >");
         html.append("<option value=\"match\">match</option>");
@@ -150,7 +153,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         
         // Dispara un evento que tiene como nombre el value del input. Podemos definir eventos dandole el valor que queramos
         html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_match\">"); 
-        html.append("</form>");
+        html.append(endFormHtml);
         return html.toString();
     }
         
@@ -209,11 +212,11 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     		html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + endSpanHtml);
     	}
     	if(output.isFlush()) {
-    		html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+    		html.append(formMethodPostActionHtml + flowURL + quoteEndTagHtml); 
             html.append("<input type=\"hidden\" name=\"_eventId\" value=\"success\">");
             html.append("<input type=\"submit\"  value=\"continuar\">");
              
-            html.append("</form>");
+            html.append(endFormHtml);
 
     	}
     	
@@ -294,9 +297,6 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	StringBuilder sb = new StringBuilder();
     	
     	sb.append("<h1>End</h1>");
-    	sb.append("<p>");
-    	sb.append(end.getName());
-    	sb.append("</p>");
     	
     	return sb.toString();
     }
@@ -335,7 +335,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	
     	// Acceso rápido para hacer sumbit
     	html.append("<span style=\"display: inline-block;\">");
-    	html.append("<form method=\"post\" action=\"" + flowURL + "\">"); 
+    	html.append(formMethodPostActionHtml + flowURL + quoteEndTagHtml); 
         html.append(" Event:");
         html.append("<select name=\"_eventId\">");
         html.append("<option value=\"transferred\"> Transferred </option>");
@@ -343,7 +343,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         html.append("<option value=\"unknown\"> Unknown </option>");
         html.append("</select>");
         html.append("<input type=\"submit\" id=\"inputSubmit\" value=\"Enter\" name=\"_eventId_transferred\">"); 
-        html.append("</form>");
+        html.append(endFormHtml);
         html.append(endSpanHtml);
     	html.append("<div id='" + identifier + "' style='display:none'>");  
 

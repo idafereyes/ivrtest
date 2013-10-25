@@ -758,9 +758,6 @@ public class VXIRendererTest {
 		
 		//Given
 		End endMock = mock(End.class);
-			
-		//Attributes
-		when(endMock.getName()).thenReturn("testEnd");
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
