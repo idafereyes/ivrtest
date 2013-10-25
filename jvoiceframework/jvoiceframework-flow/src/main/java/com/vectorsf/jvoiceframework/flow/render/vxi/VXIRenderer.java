@@ -1,7 +1,6 @@
 package com.vectorsf.jvoiceframework.flow.render.vxi;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
-import com.vectorsf.jvoiceframework.core.enums.InputEvents;
 import com.vectorsf.jvoiceframework.core.enums.InputVars;
 import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
@@ -460,35 +458,34 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		boolean isMaxNoMatch = false;
 		boolean isMaxNoInput = false;
 		boolean isMaxInt = false;
-		List<String> otherEvents = new ArrayList<String>();
 		
 		for(String event : input.getEvents()) {
 			if(event == null ) {
 				continue;
 			}
-			if(event.equalsIgnoreCase(InputEvents.MAXNOMATCH.getName())) {
+			if(event.equalsIgnoreCase(Input.MAXNOMATCH_EVENT)) {
 				isMaxNoMatch = true;
-			} else if(event.equalsIgnoreCase(InputEvents.MAXNOINPUT.getName())) {
+			} else if(event.equalsIgnoreCase(Input.MAXNOINPUT_EVENT)) {
 				isMaxNoInput = true;
-			} else if(event.equalsIgnoreCase(InputEvents.MAXATTEMPTS.getName())) {
+			} else if(event.equalsIgnoreCase(Input.MAXATTEMPTS_EVENT)) {
 				isMaxInt = true;
-			} else {
-				otherEvents.add(event);
 			}
 		}
 		
 		sb.append(renderInputCatchNoMatch(flowURL, isMaxNoMatch, isMaxInt));
 		sb.append(renderInputCatchNoInput(flowURL, isMaxNoInput, isMaxInt));
 		
-		// escribimos los otros eventos
-		for(String otherEvent : otherEvents) {
-			if(otherEvent == null) {
+		List<String> customEvents = input.getCustomEvents();
+		
+		// escribimos los customEvents
+		for(String customEvent : customEvents) {
+			if(customEvent == null) {
 				continue;
 			}
 			
-			sb.append("<catch event=\"" + otherEvent + QUOTE_END_TAG);
+			sb.append("<catch event=\"" + customEvent + QUOTE_END_TAG);
 			//TODO Añadir trazas
-			sb.append(renderInputSubmit(flowURL, otherEvent));
+			sb.append(renderInputSubmit(flowURL, customEvent));
 			sb.append(CATCH_END_TAG);
 		}
 				
@@ -507,7 +504,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXINT
 			//TODO Escribir trazas
-			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
+			sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 			sb.append(IF_END_TAG);
 		}
 		
@@ -515,7 +512,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			sb.append("<if cond=\"" + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXNOINPUT
 			//TODO Escribir trazas
-			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOINPUT.getName()));
+			sb.append(renderInputSubmit(flowURL, Input.MAXNOINPUT_EVENT));
 			sb.append(IF_END_TAG);
 		}
 		
@@ -540,14 +537,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXINT
 			//TODO Hacer trazas
-			sb.append(renderInputSubmit(flowURL, InputEvents.MAXATTEMPTS.getName()));
+			sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 			sb.append(IF_END_TAG);
 		}
 		if(isMaxNoMatch) {
 			sb.append("<if cond=\"noMatchAttempt == maxNoMatch\" >");
 			//escribimos la traza del MAXNOMATCH
 			//TODO Hacer trazas
-			sb.append(renderInputSubmit(flowURL, InputEvents.MAXNOMATCH.getName()));
+			sb.append(renderInputSubmit(flowURL, Input.MAXNOMATCH_EVENT));
 			sb.append(IF_END_TAG);
 		}
 		

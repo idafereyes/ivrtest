@@ -20,6 +20,14 @@ import org.springframework.stereotype.Component;
 public class Input implements Serializable{
 
     private static final long serialVersionUID = -5942501816585768384L;
+
+	public static final String MATCH_EVENT = "match";
+	public static final String MAXATTEMPTS_EVENT = "maxattempts";
+	public static final String MAXNOINPUT_EVENT = "maxnoinput";
+	public static final String MAXNOMATCH_EVENT = "maxnomatch";
+	public static final String HANGUP_EVENT = "hangup";
+	public static final String ERROR_EVENT = "error";
+    public static final String NORESOURCE_EVENT = "noresource";
     
     private static final String ARRAY_LIST_ANNOTATION = "#{new java.util.ArrayList()}";
     
@@ -75,11 +83,18 @@ public class Input implements Serializable{
     private List<AudioItem> noInputAudios;
     
     /**
-     * List of events
+     * List of events to be controlled at this input.
      */
     @Value(ARRAY_LIST_ANNOTATION)
     private List<String> events;
     
+
+    /**
+     * List of customEvents (defined by the user) to be controlled at this input.
+     */
+    @Value(ARRAY_LIST_ANNOTATION)
+    private List<String> customEvents;
+
     public String getName() {
         return name;
     }
@@ -167,4 +182,12 @@ public class Input implements Serializable{
     public void setEvents(List<String> events) {
         this.events = events;
     }
+
+	public List<String> getCustomEvents() {
+		return customEvents;
+	}
+
+	public void setCustomEvents(List<String> customEvents) {
+		this.customEvents = customEvents;
+	}
 }

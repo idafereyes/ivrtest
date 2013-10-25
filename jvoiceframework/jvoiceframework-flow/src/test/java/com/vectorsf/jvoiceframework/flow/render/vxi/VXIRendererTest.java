@@ -813,7 +813,7 @@ public class VXIRendererTest {
 
 		Grammar grammarMock = mock(Grammar.class);
 		when(grammarMock.getMode()).thenReturn("builtin");
-		when(grammarMock.getSrc()).thenReturn("dtmf/digits?length=1");
+		when(grammarMock.getSrc()).thenReturn("builtin:dtmf/digits?length=1");
 		List<Grammar> grammarList = new ArrayList<Grammar>();
 		grammarList.add(grammarMock);
 		when(inputMock.getGrammars()).thenReturn(grammarList);
@@ -847,7 +847,7 @@ public class VXIRendererTest {
 		when(inputMock.getMainAudios()).thenReturn(mainAudios);
 		
 		List<String> events = new ArrayList<String>();
-		events.add("maxint");
+		events.add("maxattempts");
 		events.add("maxnomatch");
 		events.add("maxnoinput");
 		when(inputMock.getEvents()).thenReturn(events);

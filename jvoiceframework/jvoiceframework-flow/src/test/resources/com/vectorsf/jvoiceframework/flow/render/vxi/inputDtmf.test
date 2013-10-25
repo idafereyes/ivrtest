@@ -8,19 +8,23 @@
 <var name="returnCode" expr="''" />
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
-<grammar mode="dtmf" type="application/srgs+xml" src="resources/grammars/dtmf/digits?length=1.grxml"/>
-<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-No le he entendido.</prompt>
-<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-Intente hablar mas claro. No le he entendido.</prompt>
-<prompt cond="returnCode == 'NOINPUT'" bargein="false">
-No le he oido.</prompt>
-<prompt bargein="false">
-Por favor, digame su DNI.</prompt>
+<grammar mode="dtmf" src="builtin:dtmf/digits?length=1"/>
+<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">No le he entendido.</prompt>
+<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">Intente hablar mas claro. No le he entendido.</prompt>
+<prompt cond="returnCode == 'NOINPUT'" bargein="false">No le he oido.</prompt>
+<prompt bargein="false">Por favor, digame su DNI.</prompt>
 <catch event="nomatch" >
 <assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOMATCH'" />
+<if cond="attempts &gt;= maxAttempts" >
+<var name="_eventId" expr="'maxattempts'" />
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
+</if>
 <if cond="noMatchAttempt == maxNoMatch" >
 <var name="_eventId" expr="'maxnomatch'" />
 <var name="interpretation" expr="null" />
@@ -35,6 +39,14 @@ Por favor, digame su DNI.</prompt>
 <assign name="noInputAttempts" expr="noInputAttempts + 1" />
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOINPUT'" />
+<if cond="attempts &gt;= maxAttempts" >
+<var name="_eventId" expr="'maxattempts'" />
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
+</if>
 <if cond="noInputAttempts == maxNoInputAttempts" >
 <var name="_eventId" expr="'maxnoinput'" />
 <var name="interpretation" expr="null" />
@@ -44,14 +56,6 @@ Por favor, digame su DNI.</prompt>
 <submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
 </if>
 <reprompt />
-</catch>
-<catch event="maxint" >
-<var name="_eventId" expr="'maxint'" />
-<var name="interpretation" expr="null" />
-<var name="utterance" expr="null" />
-<var name="inputmode" expr="null" />
-<var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId" />
 </catch>
 <filled>
 <var name="_eventId" expr="'match'" />
