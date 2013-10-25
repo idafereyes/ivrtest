@@ -27,7 +27,9 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String BLOCK_START_TAG = "<block>";
     static final String BLOCK_END_TAG = "</block>";
     static final String SAY_AS_START_TAG = "<say-as ";
-    static final String INTERPRET_AS_ATTR = "interpret-as=\"vxml:";
+    //TODO pendiente de revisión del funcionamiento del say-as en distintos motores TTS
+    //Ver si añadir prefijo "vxml:"
+    static final String INTERPRET_AS_ATTR = "interpret-as=\"";
     static final String SAY_AS_END_TAG = "</say-as>";
     static final String FORMAT_ATTR = "format=\"";
     static final String SUBMIT_TAG = "<submit next=\"";
