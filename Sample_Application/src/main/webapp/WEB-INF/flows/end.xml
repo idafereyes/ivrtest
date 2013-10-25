@@ -8,9 +8,9 @@
     <action-state id="outputBeforeEndState">
         <on-entry>
         
-            <evaluate expression="output" result="flowScope.byeOutput"/>
+            <evaluate expression="jVoiceArchOutput" result="flowScope.byeOutput"/>
             
-            <evaluate expression="audioItem" result="flowScope.byeAudioItem" />
+            <evaluate expression="jVoiceArchAudioItem" result="flowScope.byeAudioItem" />
             <set name="flowScope.byeAudioItem.wording" value="'Hasta luego. Gracias por usar este servicio.'" />     
             <evaluate expression="flowScope.byeOutput.audioItemsList.add(byeAudioItem)"/>
         
@@ -25,7 +25,7 @@
 	<action-state id="endState">
 	   <on-entry>
             
-            <evaluate expression="end" result="flowScope.end_FINALIZACION"/>
+            <evaluate expression="jVoiceArchEnd" result="flowScope.end_FINALIZACION"/>
             <!-- Se setean los atributos -->
             <set name="flowScope.end_FINALIZACION.name" value="'FINALIZACION'"/>
             
@@ -40,9 +40,9 @@
     <action-state id="outputAfterEndState">
         <on-entry>
         
-            <evaluate expression="output" result="flowScope.afterByeOutput"/>
+            <evaluate expression="jVoiceArchOutput" result="flowScope.afterByeOutput"/>
             
-            <evaluate expression="audioItem" result="flowScope.afterByeAudioItem" />
+            <evaluate expression="jVoiceArchAudioItem" result="flowScope.afterByeAudioItem" />
             <set name="flowScope.afterByeAudioItem.wording" value="'Esta locucion no deberia escucharse nunca porque esta detras de un elemento end.'" />     
             <evaluate expression="flowScope.afterByeOutput.audioItemsList.add(flowScope.afterByeAudioItem)"/>
         

@@ -7,47 +7,48 @@
 
    <action-state id="menu">
 		<on-entry>
-			<evaluate expression="input" result="flowScope.menuInput" />
-            <set name="flowScope.menuInput.name" value="'MENU_INPUT'"/>
+			<evaluate expression="jVoiceArchInput" result="flowScope.menuInput" />
+
+           	<set name="flowScope.menuInput.name" value="'MENU_INPUT'"/>
             <set name="flowScope.menuInput.bargein" value="true"/>
 
-			<evaluate expression="grammar" result="flowScope.grammar1" />
+			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar1" />
 			<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>
 			<set name="flowScope.grammar1.mode" value="'dtmf'"/>
 			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar1)"/>
 
-            <evaluate expression="grammar" result="flowScope.grammar2" />
+            <evaluate expression="jVoiceArchGrammar" result="flowScope.grammar2" />
             <set name="flowScope.grammar2.src" value="'digit'"/>
             <set name="flowScope.grammar2.mode" value="'voice'"/>
             <evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar2)"/>
             
-			<evaluate expression="audioItem" result="flowScope.mainMenutPT1AudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.mainMenutPT1AudioItem" />
 			<set name="flowScope.mainMenutPT1AudioItem.bargein" value="true" />
             <set name="flowScope.mainMenutPT1AudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT1_SRC)"/> 
 			<set name="flowScope.mainMenutPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT1)"/>
 			<set name="flowScope.mainMenutPT1AudioItem.condition" value="'attempts==0'" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.mainMenutPT1AudioItem)"/>
-			
-			<evaluate expression="audioItem" result="flowScope.mainMenutPT2AudioItem" />
+		
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.mainMenutPT2AudioItem" />
 			<set name="flowScope.mainMenutPT2AudioItem.bargein" value="true" />
             <set name="flowScope.mainMenutPT2AudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT2_SRC)"/> 
 			<set name="flowScope.mainMenutPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT2)"/>
 			<set name="flowScope.mainMenutPT2AudioItem.condition" value="'attempts==1'" /> 
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.mainMenutPT2AudioItem)"/>
 		
-			<evaluate expression="audioItem" result="flowScope.mainMenutPT3AudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.mainMenutPT3AudioItem" />
 			<set name="flowScope.mainMenutPT3AudioItem.bargein" value="true" />
             <set name="flowScope.mainMenutPT3AudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT3_SRC)"/> 
 <!-- 			<set name="flowScope.mainMenutPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT3)"/>  -->
             <set name="flowScope.mainMenutPT3AudioItem.condition" value="'attempts==2'" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.mainMenutPT3AudioItem)"/>
 			
-			<evaluate expression="audioItem" result="flowScope.mainMenuNMAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.mainMenuNMAudioItem" />
             <set name="flowScope.mainMenuNMAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NM_SRC)"/> 
 			<set name="flowScope.mainMenuNMAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NM)"/> 
 			<evaluate expression="flowScope.menuInput.noMatchAudios.add(flowScope.mainMenuNMAudioItem)"/>
 
-			<evaluate expression="audioItem" result="flowScope.mainMenuNIAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.mainMenuNIAudioItem" />
             <set name="flowScope.mainMenuNIAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NI_SRC)"/> 
 			<set name="flowScope.mainMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NI)"/> 
 			<evaluate expression="flowScope.menuInput.noInputAudios.add(flowScope.mainMenuNIAudioItem)"/>

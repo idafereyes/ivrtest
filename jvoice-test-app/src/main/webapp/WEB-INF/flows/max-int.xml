@@ -7,10 +7,10 @@
 
 	<action-state id="maxIntOutput">   		
 		<on-entry>
-			<evaluate expression="audioItem" result="flowScope.maxIntOutputAudioItem" /> 			
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.maxIntOutputAudioItem" /> 			
   			<set name="flowScope.maxIntOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Error).MAX_INT)"/> 
 
-			<evaluate expression="output" result="flowScope.maxIntOutput"></evaluate>	
+			<evaluate expression="jVoiceArchOutput" result="flowScope.maxIntOutput"></evaluate>	
 			<evaluate expression="flowScope.maxIntOutput.audioItems.add(flowScope.maxIntOutputAudioItem)"/> 			 
 		</on-entry>
 

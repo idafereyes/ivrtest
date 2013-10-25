@@ -7,22 +7,22 @@
 
    	<action-state id="wellcomeOutput">   		
 		<on-entry>
-			<evaluate expression="audioItem" result="flowScope.wellcomeRetailOutputAudioItem" /> 			
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.wellcomeRetailOutputAudioItem" /> 			
             <set name="flowScope.wellcomeRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_RETAIL_SRC)"/> 
   			<set name="flowScope.wellcomeRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_RETAIL)"/> 
 			<set name="flowScope.wellcomeRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_RETAIL)"/>  
 
-			<evaluate expression="audioItem" result="flowScope.wellcomePymeRetailOutputAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.wellcomePymeRetailOutputAudioItem" />
             <set name="flowScope.wellcomePymeRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_PYME_RETAIL_SRC)"/> 
 			<set name="flowScope.wellcomePymeRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_PYME_RETAIL)"/> 
 			<set name="flowScope.wellcomePymeRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_PYME_RETAIL)"/>  
 
-			<evaluate expression="audioItem" result="flowScope.wellcomeULineRetailOutputAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.wellcomeULineRetailOutputAudioItem" />
             <set name="flowScope.wellcomeULineRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_ULINE_RETAIL_SRC)"/> 
 			<set name="flowScope.wellcomeULineRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_ULINE_RETAIL)"/> 
 			<set name="flowScope.wellcomeULineRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_ULINE_RETAIL)"/>
 
-			<evaluate expression="output" result="flowScope.wellcomeOutput"></evaluate>	
+			<evaluate expression="jVoiceArchOutput" result="flowScope.wellcomeOutput"></evaluate>	
 			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeRetailOutputAudioItem)"/> 
 			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomePymeRetailOutputAudioItem)"/> 
 			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeULineRetailOutputAudioItem)"/>
@@ -43,17 +43,17 @@
 
 	<action-state id="setLanguage">
 		<on-entry>
-			<evaluate expression="input" result="flowScope.setLanguageInput" />
+			<evaluate expression="jVoiceArchInput" result="flowScope.setLanguageInput" />
 			<set name="flowScope.setLanguageInput.name" value="'WELLCOME'" />
 			<set name="flowScope.setLanguageInput.bargein" value="false" />
 			<set name="flowScope.setLanguageInput.maxAttempts" value="1" />
 
-			<evaluate expression="grammar" result="flowScope.grammar1" />
+			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar1" />
 			<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>
 			<set name="flowScope.grammar1.mode" value="'dtmf'"/>
 			<evaluate expression="flowScope.setLanguageInput.grammars.add(flowScope.grammar1)" />
 
-			<evaluate expression="audioItem" result="flowScope.setLanguageAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.setLanguageAudioItem" />
 			<set name="flowScope.setLanguageAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION_SRC, new java.util.Locale('en','US'))"/> 
             <set name="flowScope.setLanguageAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION, new java.util.Locale('en','US'))"/> 
 			<evaluate expression="flowScope.setLanguageInput.mainAudios.add(flowScope.setLanguageAudioItem)" />
@@ -76,7 +76,7 @@
 	<action-state id="setLanguageInputCheck">
 		<evaluate expression="lastInputResult.interpretation"/>
 		<transition on="1" to="end">
-			<evaluate expression="jvoiceUser.setLocale(new java.util.Locale('en','US'))" /> 
+			<evaluate expression="jVoiceArchUser.setLocale(new java.util.Locale('en','US'))" /> 
 		</transition>
 		<transition to="end"/>
 	</action-state>

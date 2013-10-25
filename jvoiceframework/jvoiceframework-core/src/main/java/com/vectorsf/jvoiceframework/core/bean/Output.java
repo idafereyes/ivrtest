@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * @author idafereyes
  */
 
-@Component("output")
+@Component("jVoiceArchOutput" )
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Output implements Serializable {
 

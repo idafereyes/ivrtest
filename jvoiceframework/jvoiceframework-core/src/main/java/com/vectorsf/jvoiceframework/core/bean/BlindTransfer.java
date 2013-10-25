@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @author idafereyes
  */
 
-@Component("blindTransfer")
+@Component("jVoiceArchBlindTransfer")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class BlindTransfer extends Transfer implements Serializable {
 

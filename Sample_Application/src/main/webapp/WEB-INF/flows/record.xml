@@ -7,7 +7,7 @@
  	
  	<action-state id="testRecord">
 		<on-entry>
-			<evaluate expression="record" result="flowScope.testRecord"/>
+			<evaluate expression="jVoiceArchRecord" result="flowScope.testRecord"/>
 			
             <!-- Se setean los atributos del record -->
 			<set name="flowScope.testRecord.beep" value="true" />
@@ -18,12 +18,12 @@
             <!-- <set name="flowScope.testRecord.keep" value="true" /> -->
             
             <!-- Se añaden audios -->
-            <!-- <evaluate expression="audioItem" result="flowScope.audioItemRecord1" />
+            <!-- <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItemRecord1" />
             <set name="flowScope.audioItemRecord1.src" value="'SAN-RECORD-GET-NAME'" />
             <set name="flowScope.audioItemRecord1.wording" value="'Por favor diga su nombre'" />     
             <evaluate expression="flowScope.testRecord.audioItemsList.add(flowScope.audioItemRecord1)"/> -->
 
-            <evaluate expression="audioItem" result="flowScope.audioItemRecord2" />
+            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItemRecord2" />
             <set name="flowScope.audioItemRecord2.wording" value="'Por favor diga su nombre despues del sonido'" />     
             <evaluate expression="flowScope.testRecord.audioItemsList.add(flowScope.audioItemRecord2)"/>
 

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-@Component("jvoiceUser")
+@Component("jVoiceArchUser")
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class User implements Serializable {
 

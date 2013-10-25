@@ -13,7 +13,7 @@
 	
 	<!-- Esto lo hacemos por que las locuciones iniciales sólo están en español -->
 	<action-state id="setupLanguage">
-		<evaluate expression="jvoiceUser.setLocale(new java.util.Locale('es','ES'))"></evaluate>
+		<evaluate expression="jVoiceArchUser.setLocale(new java.util.Locale('es','ES'))"></evaluate>
 		<transition to="retreiveCTIData"></transition>
 	</action-state>
 	

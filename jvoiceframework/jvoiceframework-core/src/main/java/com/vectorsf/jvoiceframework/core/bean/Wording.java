@@ -14,7 +14,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
  * 
  * @author sergiomilla
  */
-@Component("wording")
+@Component("jVoiceArchWording")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Wording implements Serializable{
 

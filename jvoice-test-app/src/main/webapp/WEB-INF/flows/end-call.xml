@@ -7,8 +7,7 @@
   		
 	<action-state id="endCallState">
 		<on-entry>
-			<evaluate expression="end" result="flowScope.endState"></evaluate>
-			<set name="flowScope.endState.name" value="'Para que vale el nombre?'"></set>
+			<evaluate expression="jVoiceArchEnd" result="flowScope.endState"></evaluate>
 		</on-entry>
 		<evaluate expression="flowProcessor.process(flowScope.endState)"></evaluate>
 		<transition to="redirect"/>

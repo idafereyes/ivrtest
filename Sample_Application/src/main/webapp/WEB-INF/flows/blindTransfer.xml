@@ -8,7 +8,7 @@
  	<action-state id="testBlindTx">
 		<on-entry>
 			
-			<evaluate expression="blindTransfer" result="flowScope.testBlindTx"/>
+			<evaluate expression="jVoiceArchBlindTransfer" result="flowScope.testBlindTx"/>
 
 			<!-- Se setean los atributos -->
 			<set name="flowScope.testBlindTx.dest" value="'tel:649691219'"/>

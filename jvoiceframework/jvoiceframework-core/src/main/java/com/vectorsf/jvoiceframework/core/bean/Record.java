@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author idafereyes
  */
-@Component("record")
+@Component("jVoiceArchRecord")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Record implements Serializable{
 

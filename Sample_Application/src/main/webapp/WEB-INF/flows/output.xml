@@ -12,7 +12,7 @@
 			<set name="flowScope.user.migrated" value="true"/>
 			<set name="flowScope.user.securityLevel" value="'ID'"/>
 			
-			<evaluate expression="output" result="flowScope.testOutput"/>
+			<evaluate expression="jVoiceArchOutput" result="flowScope.testOutput"/>
 
 			<!-- Se setean los atributos -->
 			<!-- <set name="flowScope.testOutput.bargein" value="true"/> -->
@@ -21,30 +21,34 @@
 			
 			<!-- Se setea la lista de locuciones -->
 			<!-- Locución pregrabada con TTS de backup. -->
-			<evaluate expression="audioItem" result="flowScope.audioItem1" />
+			<evaluate expression="jvoice-AudioItem" result="flowScope.audioItem1" />
 			<set name="flowScope.audioItem1.src" value="'SAN-WELCOME-A'" />
-			<set name="flowScope.audioItem1.wording" value="'Hello'" />		
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem1.wording" />
+			<set name="flowScope.audioItem1.wording.text" value="'Hello'" />		
 			<evaluate expression="flowScope.testOutput.audioItems.add(audioItem1)"/>
 			
 			<!-- Locución TTS -->
-			<evaluate expression="audioItem" result="flowScope.audioItem2" />
-			<set name="flowScope.audioItem2.wording" value="'Santander User'" />		
+			<evaluate expression="jvoice-AudioItem" result="flowScope.audioItem2" />
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem2.wording" />
+			<set name="flowScope.audioItem2.wording.text" value="'Santander User'" />		
 			<evaluate expression="flowScope.testOutput.audioItems.add(audioItem2)"/>
 
 			<!-- Locución TTS con contenido dinámico -->
-			<!--<evaluate expression="audioItem" result="flowScope.audioItem2" />
-			 <set name="flowScope.audioItem2.wording" value="user" />	
+			<!--<evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem2" />
+             <evaluate expression="jVoiceArchWording" result="flowScope.audioItem2.wording" />
+			 <set name="flowScope.audioItem2.wording.text" value="user" />	
 			 <evaluate expression="flowScope.testOutput.audioItems.add(audioItem2)"/> -->
 
 			<!-- Locución pregraba sin TTS de backup -->
-			<evaluate expression="audioItem" result="flowScope.audioItem3" />
+			<evaluate expression="jvoice-AudioItem" result="flowScope.audioItem3" />
 			<set name="flowScope.audioItem3.src" value="'SAN-WELCOME-C'" />
 			<evaluate expression="flowScope.testOutput.audioItems.add(audioItem3)"/>
 						
 			<!-- Locución con condición Java -->
-			<evaluate expression="audioItem" result="flowScope.audioItem4" />
+			<evaluate expression="jvoice-AudioItem" result="flowScope.audioItem4" />
 			<set name="flowScope.audioItem4.src" value="'SAN-WELCOME-PREFERENT'" />
-			<set name="flowScope.audioItem4.wording" value="'For preferent users.'" />		
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem4.wording" />
+			<set name="flowScope.audioItem4.wording.text" value="'For preferent users.'" />		
 			<set name="flowScope.audioItem4.condition" value="user.securityLevel eq 'ID' and user.migrated" />		
 			<evaluate expression="flowScope.testOutput.audioItems.add(audioItem4)"/>
 			

@@ -8,7 +8,7 @@
  	<action-state id="testConsultationTx">
 		<on-entry>
 			
-			<evaluate expression="consultationTransfer" result="flowScope.testConsultationTx"/>
+			<evaluate expression="jVoiceArchConsultationTransfer" result="flowScope.testConsultationTx"/>
 
 			<!-- Se setean los atributos -->
 			<set name="flowScope.testConsultationTx.dest" value="'tel:649691219'"/>

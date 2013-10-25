@@ -15,7 +15,7 @@ import com.vectorsf.jvoiceframework.core.enums.InterpretAs;
  * 
  * @author idafereyes
  */
-@Component("sayAs")
+@Component("jVoiceArchSayAs")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SayAs implements Serializable{
 	

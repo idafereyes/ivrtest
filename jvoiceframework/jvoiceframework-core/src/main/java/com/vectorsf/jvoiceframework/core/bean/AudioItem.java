@@ -12,7 +12,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
  * 
  * @author sergiomilla and idafereyes
  */
-@Component("audioItem")
+@Component("jVoiceArchAudioItem")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class AudioItem implements Serializable{
 

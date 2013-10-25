@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @author dmartina
  */
 
-@Component("input")
+@Component("jVoiceArchInput")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Input implements Serializable{
 

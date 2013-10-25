@@ -7,40 +7,40 @@
 
    <action-state id="menu">
 		<on-entry>
-			<evaluate expression="input" result="flowScope.menuInput" />
+			<evaluate expression="jVoiceArchInput" result="flowScope.menuInput" />
 			<set name="flowScope.menuInput.name" value="'MENU_ACCOUNTS'"/>
 			<set name="flowScope.menuInput.bargein" value="true"/>
 
-			<evaluate expression="grammar" result="flowScope.grammar" />
+			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar" />
 			<set name="flowScope.grammar.mode" value="'dtmf'"/>
 			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/>
 			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
 
-			<evaluate expression="audioItem" result="flowScope.accountsMenuPT1AudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuPT1AudioItem" />
 			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/>
 			<set name="flowScope.accountsMenuPT1AudioItem.condition" value="'attempts==0'" />
 			<set name="flowScope.accountsMenuPT1AudioItem.bargein" value="true" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT1AudioItem)"/>
 			
-			<evaluate expression="audioItem" result="flowScope.accountsMenuPT2AudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuPT2AudioItem" />
 			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/>
 			<set name="flowScope.accountsMenuPT2AudioItem.condition" value="'attempts==1'" /> 
 			<set name="flowScope.accountsMenuPT2AudioItem.bargein" value="true" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT2AudioItem)"/>
 			
-			<evaluate expression="audioItem" result="flowScope.accountsMenuPT3AudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuPT3AudioItem" />
 			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/>
 			<set name="flowScope.accountsMenuPT3AudioItem.condition" value="'attempts==2'" /> 
 			<set name="flowScope.accountsMenuPT3AudioItem.bargein" value="true" />
 			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT3AudioItem)"/>
 			
 			<!-- NM -->
-			<evaluate expression="audioItem" result="flowScope.accountsMenuNMAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuNMAudioItem" />
 			<set name="accountsMenuNMAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NM)"/> 
 			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNMAudioItem)"/>
 
 			<!-- NI -->
-			<evaluate expression="audioItem" result="flowScope.accountsMenuNIAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuNIAudioItem" />
 			<set name="accountsMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NI)"/> 
 			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNIAudioItem)"/>
 			

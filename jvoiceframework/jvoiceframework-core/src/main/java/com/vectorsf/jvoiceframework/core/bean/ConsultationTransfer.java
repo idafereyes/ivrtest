@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  *  
  * @author idafereyes
  */
-@Component("consultationTransfer")
+@Component("jVoiceArchConsultationTransfer")
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ConsultationTransfer extends Transfer implements Serializable {
 

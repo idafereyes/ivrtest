@@ -19,11 +19,11 @@
    	<action-state id="promotion">
    		
 		<on-entry>		
-			<evaluate expression="audioItem" result="flowScope.promotionAudioItem" />
-			<evaluate expression="wording" result="flowScope.promotionAudioItem.wording" />
+			<evaluate expression="jVoiceArchAudioItem" result="flowScope.promotionAudioItem" />
+			<evaluate expression="jVoiceArchWording" result="flowScope.promotionAudioItem.wording" />
 			<set name="flowScope.promotionAudioItem.wording.text" value="flowScope.promotion.getWording()"/> 
 	        
-			<evaluate expression="output" result="flowScope.promotionOutput"></evaluate>	
+			<evaluate expression="jVoiceArchOutput" result="flowScope.promotionOutput"></evaluate>	
 			<evaluate expression="flowScope.promotionOutput.audioItems.add(flowScope.promotionAudioItem)"/> 
 			
 			<set name="flowScope.promotionOutput.catchHangup" value="true"></set>
