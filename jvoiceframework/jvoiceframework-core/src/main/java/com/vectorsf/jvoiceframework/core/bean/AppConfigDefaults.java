@@ -83,6 +83,15 @@ public class AppConfigDefaults implements Serializable {
 	@Value("")
 	private String audiosFormatSuffix;
 	
+	@Value("4s")
+	private String timeout;
+	
+	@Value("3s")
+	private String interdigittimeout;
+	
+	@Value("0.5")
+	private String confidence;
+	
 	public boolean isBargein() {
 		return bargein;
 	}
@@ -225,6 +234,30 @@ public class AppConfigDefaults implements Serializable {
 
 	public void setAudiosFormatSuffix(String audiosFormatSuffix) {
 		this.audiosFormatSuffix = audiosFormatSuffix;
+	}
+
+	public String getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(String timeout) {
+		this.timeout = timeout;
+	}
+
+	public String getInterdigittimeout() {
+		return interdigittimeout;
+	}
+
+	public void setInterdigittimeout(String interdigittimeout) {
+		this.interdigittimeout = interdigittimeout;
+	}
+
+	public String getConfidence() {
+		return confidence;
+	}
+
+	public void setConfidence(String confidence) {
+		this.confidence = confidence;
 	}
 
 }

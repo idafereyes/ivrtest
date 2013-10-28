@@ -15,15 +15,15 @@
             <set name="flowScope.transferOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER)"/> 
             <!-- <set name="flowScope.transferOutputAudioItem.condition" value="" />-->
  
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.transferExternoOutputAudioItem" />             
-            <set name="flowScope.transferExternoOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_EXTERNO)"/> 
-            <!-- <set name="flowScope.transferExternoOutputAudioItem.condition" value="" />-->
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.transferExternoOutputAudioItem" />              -->
+<!--             <set name="flowScope.transferExternoOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_EXTERNO)"/>  -->
+<!--             <set name="flowScope.transferExternoOutputAudioItem.condition" value="" /> -->
             				
             <evaluate expression="jVoiceArchOutput" result="flowScope.transferInfoOutput"></evaluate> 
             <set name="flowScope.transferInfoOutput.bargein" value="false"/>   
             <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferInfoComunOutputAudioItem)"/> 
             <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferOutputAudioItem)"/> 
-            <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferExternoOutputAudioItem)"/> 
+<!--             <evaluate expression="flowScope.transferInfoOutput.audioItems.add(flowScope.transferExternoOutputAudioItem)"/>  -->
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flowScope.transferInfoOutput)"/> 		
@@ -32,7 +32,7 @@
 	
     <action-state id="testBlindTx">
         <on-entry>
-            <evaluate expression="jVoiceArchBlindTransfer" result="flowScope.testBlindTx"/>
+            <evaluate expression="blindTransfer" result="flowScope.testBlindTx"/>
             <set name="flowScope.testBlindTx.dest" value="'tel:666777888'"/>
         </on-entry>
 

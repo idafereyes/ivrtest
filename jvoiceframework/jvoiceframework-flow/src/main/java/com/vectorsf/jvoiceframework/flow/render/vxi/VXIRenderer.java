@@ -58,6 +58,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
     static final String LANG_ATTR = " xml:lang=\"";
     static final String VAR_NAME_TAG = "<var name=\"";
+    static final String IF_COND_TAG = "<if cond=\"";
 
 	//TODO Put in a configuration file
     private String grammarType = "application/srgs+xml";
@@ -285,8 +286,20 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	StringBuilder sb = new StringBuilder();
     		
 		// TIMEOUT
-    	// TODO Añadir el timeout al Input
+    	if(input.getTimeout() != null ) {
+    		sb.append("<property name=\"timeout\" value=\"" + input.getTimeout() + "\" />");
+    	}
 		
+    	// INTERDIGITTIMEOUT
+    	if(input.getInterdigittimeout() != null ) {
+    		sb.append("<property name=\"interdigittimeout\" value=\"" + input.getInterdigittimeout() + "\" />");
+    	}
+    	
+    	// CONFIDENCE
+    	if(input.getConfidence() != null ) {
+    		sb.append("<property name=\"confidence\" value=\"" + input.getConfidence() + "\" />");
+    	}
+    	
     	// BARGEIN
     	if(input.isBargein()) {
     		sb.append("<property name=\"bargein\" value=\"true\" />");
@@ -503,7 +516,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
 		
 		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
+			sb.append(IF_COND_TAG + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXINT
 			//TODO Escribir trazas
 			sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
@@ -511,7 +524,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		}
 		
 		if(isMaxNoInput) {
-			sb.append("<if cond=\"" + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_END_TAG);
+			sb.append(IF_COND_TAG + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXNOINPUT
 			//TODO Escribir trazas
 			sb.append(renderInputSubmit(flowURL, Input.MAXNOINPUT_EVENT));
@@ -536,14 +549,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
 		
 		if(isMaxInt) {
-			sb.append("<if cond=\"" + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
+			sb.append(IF_COND_TAG + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
 			//escribimos la traza del MAXINT
 			//TODO Hacer trazas
 			sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 			sb.append(IF_END_TAG);
 		}
 		if(isMaxNoMatch) {
-			sb.append("<if cond=\"noMatchAttempt == maxNoMatch\" >");
+			sb.append(IF_COND_TAG + InputVars.NOMATCHATTEMPTS.getName() + " == " + InputVars.MAXNOMATCHATTEMPTS.getName() + "\" >");
 			//escribimos la traza del MAXNOMATCH
 			//TODO Hacer trazas
 			sb.append(renderInputSubmit(flowURL, Input.MAXNOMATCH_EVENT));

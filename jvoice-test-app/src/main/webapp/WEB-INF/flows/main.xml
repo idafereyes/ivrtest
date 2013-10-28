@@ -3,7 +3,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-		start-state="setup">
+		start-state="setup"
+		parent="transfer">
 
     <!-- 	Inicialización de la configuración por defecto de la aplicación. 
     		Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
@@ -27,10 +28,10 @@
 		<transition on="0" to="error"/>
 	    <transition on="1" to="accounts"/>
 	    <transition on="2" to="transactions"/>
-	    <transition on="3" to="transfer"/>
-	    <transition on="4" to="transfer"/>
-	    <transition on="5" to="transfer"/>
-	    <transition on="6" to="transfer"/>
+	    <transition on="3" to="transferInfoOutput"/>
+	    <transition on="4" to="transferInfoOutput"/>
+	    <transition on="5" to="transferInfoOutput"/>
+	    <transition on="6" to="transferInfoOutput"/>
 	    <transition on="7" to="error"/>
 	    <transition on="8" to="noMenuBack"/>
 	    <transition on="9" to="noMainMenu"/>

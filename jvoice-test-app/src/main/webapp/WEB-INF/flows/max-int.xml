@@ -3,7 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-    abstract="true">
+    abstract="true"
+    parent="transfer">
 
 	<action-state id="maxIntOutput">   		
 		<on-entry>
@@ -19,7 +20,7 @@
 	</action-state>
 	
 	
-	<view-state id="transfer" view="flowRedirect:transfer"/>
+	<view-state id="transfer" view="flowRedirect:transferInfoOutput"/>
 	
 	<!-- Los dos eventos  se tratan igual -->
 	 <global-transitions>

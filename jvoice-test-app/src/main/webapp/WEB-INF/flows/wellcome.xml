@@ -45,7 +45,7 @@
 		<on-entry>
 			<evaluate expression="jVoiceArchInput" result="flowScope.setLanguageInput" />
 			<set name="flowScope.setLanguageInput.name" value="'WELLCOME'" />
-			<set name="flowScope.setLanguageInput.bargein" value="false" />
+			<set name="flowScope.setLanguageInput.bargein" value="true" />
 			<set name="flowScope.setLanguageInput.maxAttempts" value="1" />
 
 			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar1" />

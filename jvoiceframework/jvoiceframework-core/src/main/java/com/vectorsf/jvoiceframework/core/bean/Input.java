@@ -61,6 +61,29 @@ public class Input implements Serializable{
     private boolean bargein;
     
     /**
+     * This is the time that a user has in order to say something
+     * before the ASR throws a No Input event.
+     */
+    @Value("#{appConfigDefaults.timeout}")
+    private String timeout;
+    
+    /**
+     * This is the time between two consecutive keypressed digits
+     * to end the recognition. 
+     */
+    @Value("#{appConfigDefaults.interdigittimeout}")
+    private String interdigittimeout;
+    
+    /**
+     * The minimum confidence that a recognition must have in order
+     * to be treated like a Match by the ASR.
+     * Recognitions with a lower confidence will be treated as a 
+     * No Match
+     */
+    @Value("#{appConfigDefaults.confidence}")
+    private String confidence;
+    
+    /**
      * Map of vxml properties
      */
     @Value("#{new java.util.HashMap()}")
@@ -189,5 +212,29 @@ public class Input implements Serializable{
 
 	public void setCustomEvents(List<String> customEvents) {
 		this.customEvents = customEvents;
+	}
+
+	public String getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(String timeout) {
+		this.timeout = timeout;
+	}
+
+	public String getInterdigittimeout() {
+		return interdigittimeout;
+	}
+
+	public void setInterdigittimeout(String interdigittimeout) {
+		this.interdigittimeout = interdigittimeout;
+	}
+
+	public String getConfidence() {
+		return confidence;
+	}
+
+	public void setConfidence(String confidence) {
+		this.confidence = confidence;
 	}
 }

@@ -11,6 +11,7 @@
 
            	<set name="flowScope.menuInput.name" value="'MENU_INPUT'"/>
             <set name="flowScope.menuInput.bargein" value="true"/>
+<!--             <set name="flowScope.menuInput.timeout" value="'20s'" /> -->
 
 			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar1" />
 			<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>

@@ -1,18 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<grammar root="main" version="1.0" xml:lang="es-ES">
+<?xml version="1.0" ?>
+<grammar root="main" 
+        version="1.0" 
+        xml:lang="es-ES"
+        mode="voice" 
+        tag-format="semantics/1.0-literals"
+        xmlns="http://www.w3.org/2001/06/grammar">
 
   <rule id="main" scope="public">
     <one-of>
-      <item> uno </item>
-      <item> dos </item>
-      <item> tres </item>
-      <item> cuatro </item>
-      <item> cinco </item>
-      <item> seis </item>
-      <item> siete </item>
-      <item> ocho </item>
-      <item> nueve </item>
-      <item> cero </item>
+      <item> uno <tag>1</tag></item>
+      <item> dos <tag>2</tag></item>
+      <item> tres <tag>3</tag></item>
+      <item> cuatro <tag>4</tag></item>
+      <item> cinco <tag>5</tag></item>
+      <item> seis <tag>6</tag></item>
+      <item> siete <tag>7</tag></item>
+      <item> ocho <tag>8</tag></item>
+      <item> nueve <tag>9</tag></item>
+      <item> cero <tag>0</tag></item>
     </one-of>
   </rule>
 </grammar>
