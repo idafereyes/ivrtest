@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer">
-		<property name="view" value="renderHTML"></property>
+	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer">
+		<property name="view" value="renderVXI"></property>
 	</bean>
 	
 	<bean id="states" class="java.util.ArrayList" scope="session" />

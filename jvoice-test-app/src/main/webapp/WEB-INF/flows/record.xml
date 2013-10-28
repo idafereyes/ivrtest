@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+        				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+	start-state="testRecord"
+	parent="navigation">
+	
+    <action-state id="testRecord">
+        <on-entry>
+            <evaluate expression="jVoiceArchRecord" result="flowScope.testRecord"/>
+            
+            <!-- Se setean los atributos del record -->
+<!--             <set name="flowScope.testRecord.beep" value="true" /> -->
+<!--             <set name="flowScope.testRecord.dtmfterm" value="true" /> -->
+<!--             <set name="flowScope.testRecord.maxtime" value="'3s'" /> -->
+<!--             <set name="flowScope.testRecord.finalsilence" value="'2s'" /> -->
+<!--             <set name="flowScope.testRecord.fileName" value="'transactionNameRec.wav'" /> -->
+<!--             <set name="flowScope.testRecord.keep" value="true" /> -->
+
+            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItemRecord" />
+            <set name="flowScope.audioItemRecord.wording" value="locutionProvider.getWordind(T(com.vectorsf.jvoiceframework.testapp.locution.Record).GET_NAME)" />     
+            <evaluate expression="flowScope.testRecord.audioItems.add(flowScope.audioItemRecord)"/>
+
+            <!-- Se añaden los eventos a controlar -->
+            <evaluate expression="flowScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).RECORDED_EVENT)"/>
+             <evaluate expression="flowScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).HANGUP_EVENT)"/>
+             <evaluate expression="flowScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).ERROR_EVENT)"/>
+
+            <!-- Se setean otras propiedades no contempladas en los atributos. -->
+            <!-- <evaluate expression="flowScope.testRecord.properties.put('new.property','15s')"/>-->                                              
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flowScope.testRecord)"/>
+            
+        <transition to="render" />
+    </action-state>
+	
+	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastRecordResult">
+		<transition on="error" to="error"/>
+		<transition on="recorded" to="thanksOutput"/>
+		<transition on="hangup" to="hangup"/>
+	</view-state>
+		
+	<view-state id="hangup" view="flowRedirect:hangup"/>
+	
+</flow>
