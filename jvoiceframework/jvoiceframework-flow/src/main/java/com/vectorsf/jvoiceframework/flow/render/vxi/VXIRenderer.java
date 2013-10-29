@@ -916,8 +916,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         code2render.append(">");
         
         //Renders record audio items
-        List<AudioItem> audioItemsList = record.getAudioItemsList();
-        code2render.append(renderRecordAudioItems(audioItemsList));
+        List<AudioItem> audioItems = record.getAudioItems();
+        code2render.append(renderRecordAudioItems(audioItems));
         
         //Renders record properties, if there are
         if (!record.getProperties().isEmpty()){
@@ -1069,28 +1069,28 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return propsCode;
 	}
 
-	private StringBuilder renderRecordAudioItems(List<AudioItem> audioItemsList) {
+	private StringBuilder renderRecordAudioItems(List<AudioItem> audioItems) {
         
     	StringBuilder audioItemsCode = new StringBuilder();
         
-        for (int i=0;i<audioItemsList.size();i++){
+        for (int i=0;i<audioItems.size();i++){
             
             audioItemsCode.append(PROMPT_START_TAG);
                         
             //Adds cond prompt attribute if specified
-            if (audioItemsList.get(i).getCondition() != null){
-                audioItemsCode.append(COND_ATTR + audioItemsList.get(i).getCondition() + QUOTE);
+            if (audioItems.get(i).getCondition() != null){
+                audioItemsCode.append(COND_ATTR + audioItems.get(i).getCondition() + QUOTE);
             }
             
-            if (audioItemsList.get(i).getWording() != null && audioItemsList.get(i).getWording().getLocale() != null){
-                audioItemsCode.append(LANG_ATTR + audioItemsList.get(i).getWording().getLocale().toString().replaceAll("\\_", "-") + QUOTE);
+            if (audioItems.get(i).getWording() != null && audioItems.get(i).getWording().getLocale() != null){
+                audioItemsCode.append(LANG_ATTR + audioItems.get(i).getWording().getLocale().toString().replaceAll("\\_", "-") + QUOTE);
             }
             
             //Ends prompt start tag
             audioItemsCode.append(">");
             
             //Renders prompt tag body
-            audioItemsCode.append(renderAudioItem(audioItemsList.get(i)));
+            audioItemsCode.append(renderAudioItem(audioItems.get(i)));
                         
             //Prompt end tag
             audioItemsCode.append(PROMPT_END_TAG);

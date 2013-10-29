@@ -509,7 +509,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
 
 		//EventsList
 		List<String> eventsList = new ArrayList<String>();
@@ -564,7 +564,7 @@ public class VXIRendererTest {
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
 		
-		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(Record.RECORDED_EVENT);
@@ -641,7 +641,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem4);
 		audioItemsList.add(audioItem5);
 		
-		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(Record.RECORDED_EVENT);
@@ -680,7 +680,7 @@ public class VXIRendererTest {
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
 		audioItemsList.add(audioItem1);
 		
-		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(Record.RECORDED_EVENT);
@@ -736,7 +736,7 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
 
 		List<String> eventsList = new ArrayList<String>();
 		eventsList.add(Record.RECORDED_EVENT);

@@ -184,7 +184,7 @@ public class HTMLRendererTest {
 		audioItemsList.add(audioItem2);
 		audioItemsList.add(audioItem3);
 		
-		when(recordMock.getAudioItemsList()).thenReturn(audioItemsList);
+		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
 
 		//EventsList
 		List<String> eventsList = new ArrayList<String>();

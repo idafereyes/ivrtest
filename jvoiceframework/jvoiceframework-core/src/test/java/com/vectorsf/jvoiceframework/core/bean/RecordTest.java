@@ -133,7 +133,7 @@ public class RecordTest {
 		
 		//Then
 		//Verifies that audioItemList has been initialized so it is not null
-		assertNotNull("audioItemsList is null.", record.getAudioItemsList());
+		assertNotNull("audioItemsList is null.", record.getAudioItems());
 		
 		//Finally
 		context.close();

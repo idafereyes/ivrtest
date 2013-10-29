@@ -87,7 +87,7 @@ public class Record implements Serializable{
      * List of audio items to play before the recording starts.
      */
     @Value("#{new java.util.ArrayList()}")
-    private List<AudioItem> audioItemsList; 
+    private List<AudioItem> audioItems; 
 
     /**
      * VXML properties to enhance record functionality provided.
@@ -156,12 +156,12 @@ public class Record implements Serializable{
         this.keep = keep;
     }
 
-    public List<AudioItem> getAudioItemsList() {
-        return audioItemsList;
+    public List<AudioItem> getAudioItems() {
+        return audioItems;
     }
 
-    public void setAudioItemsList(List<AudioItem> audioItemsList) {
-        this.audioItemsList = audioItemsList;
+    public void setAudioItems(List<AudioItem> audioItems) {
+        this.audioItems = audioItems;
     }
 
     public String getFilePath() {

@@ -253,7 +253,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         renderCode += "<span>keep: " + record.isKeep() + endSpanBrHtml;
 
         
-        Iterator<AudioItem> itAudios = record.getAudioItemsList().iterator();
+        Iterator<AudioItem> itAudios = record.getAudioItems().iterator();
         renderCode += "<span>audioItemsList" + endSpanBrHtml;            
        
         while (itAudios.hasNext()){
