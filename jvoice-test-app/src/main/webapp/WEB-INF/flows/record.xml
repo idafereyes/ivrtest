@@ -8,30 +8,33 @@
 	
     <action-state id="testRecord">
         <on-entry>
-            <evaluate expression="jVoiceArchRecord" result="flowScope.testRecord"/>
+            <evaluate expression="jVoiceArchRecord" result="flashScope.testRecord"/>
             
             <!-- Se setean los atributos del record -->
-<!--             <set name="flowScope.testRecord.beep" value="true" /> -->
-<!--             <set name="flowScope.testRecord.dtmfterm" value="true" /> -->
-<!--             <set name="flowScope.testRecord.maxtime" value="'3s'" /> -->
-<!--             <set name="flowScope.testRecord.finalsilence" value="'2s'" /> -->
-<!--             <set name="flowScope.testRecord.fileName" value="'transactionNameRec.wav'" /> -->
-<!--             <set name="flowScope.testRecord.keep" value="true" /> -->
+<!--             <set name="flashScope.testRecord.beep" value="true" /> -->
+<!--             <set name="flashScope.testRecord.dtmfterm" value="true" /> -->
+<!--             <set name="flashScope.testRecord.maxtime" value="'3s'" /> -->
+<!--             <set name="flashScope.testRecord.finalsilence" value="'2s'" /> -->
+<!--             <set name="flashScope.testRecord.fileName" value="'transactionNameRec.wav'" /> -->
+<!--             <set name="flashScope.testRecord.keep" value="true" /> -->
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItemRecord" />
-            <set name="flowScope.audioItemRecord.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Record).GET_NAME)" />     
-            <evaluate expression="flowScope.testRecord.audioItems.add(flowScope.audioItemRecord)"/>
+            <!-- TODO La siguiente línea es temporal hasta que se vea cómo pasarle el fileName al recordingService -->
+             <set name="flowScope.recordFileName" value="flashScope.testRecord.fileName" />
+            
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.audioItemRecord" />
+            <set name="flashScope.audioItemRecord.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Record).GET_NAME)" />     
+            <evaluate expression="flashScope.testRecord.audioItems.add(flashScope.audioItemRecord)"/>
 
             <!-- Se añaden los eventos a controlar -->
-            <evaluate expression="flowScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).RECORDED_EVENT)"/>
-             <evaluate expression="flowScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).HANGUP_EVENT)"/>
-             <evaluate expression="flowScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).ERROR_EVENT)"/>
+            <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).RECORDED_EVENT)"/>
+             <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).HANGUP_EVENT)"/>
+             <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).ERROR_EVENT)"/>
 
             <!-- Se setean otras propiedades no contempladas en los atributos. -->
-            <!-- <evaluate expression="flowScope.testRecord.properties.put('new.property','15s')"/>-->                                              
+            <!-- <evaluate expression="flashScope.testRecord.properties.put('new.property','15s')"/>-->                                              
         </on-entry>
 
-        <evaluate expression="flowProcessor.process(flowScope.testRecord)"/>
+        <evaluate expression="flowProcessor.process(flashScope.testRecord)"/>
             
         <transition to="render" />
     </action-state>
@@ -39,46 +42,47 @@
 	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastRecordResult">
 		<transition on="error" to="error"/>
 		<transition on="recorded" to="thanksOutput">
-		    <evaluate expression="recordingService.saveRecording(requestParameters.temprecording, flowScope.testRecord.fileName)"/>      
+		    <!-- TODO el segundo de los parámetros puede que cambie -->
+		    <evaluate expression="recordingService.saveRecording(requestParameters.temprecording, flowScope.recordFileName)"/>      
 		</transition>
 		<transition on="hangup" to="hangup"/>
 	</view-state>
 	
 	<action-state id="thanksOutput">
         <on-entry>
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.thanksAudioItem" />          
-            <set name="flowScope.thanksAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Record).THANKS)"/> 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.thanksAudioItem" />          
+            <set name="flashScope.thanksAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Record).THANKS)"/> 
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.recordEventAudioItem" /> 
-            <evaluate expression="jVoiceArchWording" result="flowScope.recordEventAudioItem.wording" />                     
-            <set name="flowScope.recordEventAudioItem.wording.text" value="lastRecordResult.event"/> 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordEventAudioItem" /> 
+            <evaluate expression="jVoiceArchWording" result="flashScope.recordEventAudioItem.wording" />                     
+            <set name="flashScope.recordEventAudioItem.wording.text" value="lastRecordResult.event"/> 
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.recordDurationAudioItem" /> 
-            <evaluate expression="jVoiceArchWording" result="flowScope.recordDurationAudioItem.wording" />                     
-            <set name="flowScope.recordDurationAudioItem.wording.text" value="lastRecordResult.duration"/> 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordDurationAudioItem" /> 
+            <evaluate expression="jVoiceArchWording" result="flashScope.recordDurationAudioItem.wording" />                     
+            <set name="flashScope.recordDurationAudioItem.wording.text" value="lastRecordResult.duration"/> 
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.recordSizeAudioItem" /> 
-            <evaluate expression="jVoiceArchWording" result="flowScope.recordSizeAudioItem.wording" />                     
-            <set name="flowScope.recordSizeAudioItem.wording.text" value="lastRecordResult.size"/> 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordSizeAudioItem" /> 
+            <evaluate expression="jVoiceArchWording" result="flashScope.recordSizeAudioItem.wording" />                     
+            <set name="flashScope.recordSizeAudioItem.wording.text" value="lastRecordResult.size"/> 
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.recordTermcharAudioItem" /> 
-            <evaluate expression="jVoiceArchWording" result="flowScope.recordTermcharAudioItem.wording" />                     
-            <set name="flowScope.recordTermcharAudioItem.wording.text" value="lastRecordResult.termchar"/> 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordTermcharAudioItem" /> 
+            <evaluate expression="jVoiceArchWording" result="flashScope.recordTermcharAudioItem.wording" />                     
+            <set name="flashScope.recordTermcharAudioItem.wording.text" value="lastRecordResult.termchar"/> 
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.recordMaxtimeAudioItem" /> 
-            <evaluate expression="jVoiceArchWording" result="flowScope.recordMaxtimeAudioItem.wording" />                     
-            <set name="flowScope.recordMaxtimeAudioItem.wording.text" value="lastRecordResult.maxtime"/> 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordMaxtimeAudioItem" /> 
+            <evaluate expression="jVoiceArchWording" result="flashScope.recordMaxtimeAudioItem.wording" />                     
+            <set name="flashScope.recordMaxtimeAudioItem.wording.text" value="lastRecordResult.maxtime"/> 
 
-            <evaluate expression="jVoiceArchOutput" result="flowScope.thanksOutput"></evaluate>   
-            <evaluate expression="flowScope.thanksOutput.audioItems.add(flowScope.thanksAudioItem)"/> 
-            <evaluate expression="flowScope.thanksOutput.audioItems.add(flowScope.recordEventAudioItem)"/> 
-            <evaluate expression="flowScope.thanksOutput.audioItems.add(flowScope.recordDurationAudioItem)"/> 
-            <evaluate expression="flowScope.thanksOutput.audioItems.add(flowScope.recordSizeAudioItem)"/> 
-            <evaluate expression="flowScope.thanksOutput.audioItems.add(flowScope.recordTermcharAudioItem)"/> 
-            <evaluate expression="flowScope.thanksOutput.audioItems.add(flowScope.recordMaxtimeAudioItem)"/> 
+            <evaluate expression="jVoiceArchOutput" result="flashScope.thanksOutput"></evaluate>   
+            <evaluate expression="flashScope.thanksOutput.audioItems.add(flashScope.thanksAudioItem)"/> 
+            <evaluate expression="flashScope.thanksOutput.audioItems.add(flashScope.recordEventAudioItem)"/> 
+            <evaluate expression="flashScope.thanksOutput.audioItems.add(flashScope.recordDurationAudioItem)"/> 
+            <evaluate expression="flashScope.thanksOutput.audioItems.add(flashScope.recordSizeAudioItem)"/> 
+            <evaluate expression="flashScope.thanksOutput.audioItems.add(flashScope.recordTermcharAudioItem)"/> 
+            <evaluate expression="flashScope.thanksOutput.audioItems.add(flashScope.recordMaxtimeAudioItem)"/> 
         </on-entry>
 
-        <evaluate expression="flowProcessor.process(flowScope.thanksOutput)"/>        
+        <evaluate expression="flowProcessor.process(flashScope.thanksOutput)"/>        
         
         <transition on="" to="endRecord" />
 	

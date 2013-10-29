@@ -9,12 +9,12 @@
 	  <action-state id="endState">
        <on-entry>
             
-            <evaluate expression="jVoiceArchEnd" result="flowScope.endHangup"/>
+            <evaluate expression="jVoiceArchEnd" result="flashScope.endHangup"/>
             <evaluate expression="T(java.lang.System).out.println('########## Catch Hang Up')"></evaluate>
             
         </on-entry>
 
-        <evaluate expression="flowProcessor.process(flowScope.endHangup)"/>
+        <evaluate expression="flowProcessor.process(flashScope.endHangup)"/>
             
         <transition to="end" />
     </action-state>

@@ -7,29 +7,29 @@
 
    	<action-state id="wellcomeOutput">   		
 		<on-entry>
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.wellcomeRetailOutputAudioItem" /> 			
-            <set name="flowScope.wellcomeRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_RETAIL_SRC)"/> 
-  			<set name="flowScope.wellcomeRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_RETAIL)"/> 
-			<set name="flowScope.wellcomeRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_RETAIL)"/>  
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.wellcomeRetailOutputAudioItem" /> 			
+            <set name="flashScope.wellcomeRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_RETAIL_SRC)"/> 
+  			<set name="flashScope.wellcomeRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_RETAIL)"/> 
+			<set name="flashScope.wellcomeRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_RETAIL)"/>  
 
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.wellcomePymeRetailOutputAudioItem" />
-            <set name="flowScope.wellcomePymeRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_PYME_RETAIL_SRC)"/> 
-			<set name="flowScope.wellcomePymeRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_PYME_RETAIL)"/> 
-			<set name="flowScope.wellcomePymeRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_PYME_RETAIL)"/>  
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.wellcomePymeRetailOutputAudioItem" />
+            <set name="flashScope.wellcomePymeRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_PYME_RETAIL_SRC)"/> 
+			<set name="flashScope.wellcomePymeRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_PYME_RETAIL)"/> 
+			<set name="flashScope.wellcomePymeRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_PYME_RETAIL)"/>  
 
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.wellcomeULineRetailOutputAudioItem" />
-            <set name="flowScope.wellcomeULineRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_ULINE_RETAIL_SRC)"/> 
-			<set name="flowScope.wellcomeULineRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_ULINE_RETAIL)"/> 
-			<set name="flowScope.wellcomeULineRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_ULINE_RETAIL)"/>
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.wellcomeULineRetailOutputAudioItem" />
+            <set name="flashScope.wellcomeULineRetailOutputAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_ULINE_RETAIL_SRC)"/> 
+			<set name="flashScope.wellcomeULineRetailOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Wellcome).WELLCOME_ULINE_RETAIL)"/> 
+			<set name="flashScope.wellcomeULineRetailOutputAudioItem.condition" value="ctiData.getApplication().equals(T(com.vectorsf.jvoiceframework.testapp.model.CTIDataVector).APPLICATION_ULINE_RETAIL)"/>
 
-			<evaluate expression="jVoiceArchOutput" result="flowScope.wellcomeOutput"></evaluate>	
-			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeRetailOutputAudioItem)"/> 
-			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomePymeRetailOutputAudioItem)"/> 
-			<evaluate expression="flowScope.wellcomeOutput.audioItems.add(flowScope.wellcomeULineRetailOutputAudioItem)"/>
-			<set name="flowScope.wellcomeOutput.flush" value="true" /> 			 
+			<evaluate expression="jVoiceArchOutput" result="flashScope.wellcomeOutput"></evaluate>	
+			<evaluate expression="flashScope.wellcomeOutput.audioItems.add(flashScope.wellcomeRetailOutputAudioItem)"/> 
+			<evaluate expression="flashScope.wellcomeOutput.audioItems.add(flashScope.wellcomePymeRetailOutputAudioItem)"/> 
+			<evaluate expression="flashScope.wellcomeOutput.audioItems.add(flashScope.wellcomeULineRetailOutputAudioItem)"/>
+			<set name="flashScope.wellcomeOutput.flush" value="true" /> 			 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.wellcomeOutput)"/> 		
+		<evaluate expression="flowProcessor.process(flashScope.wellcomeOutput)"/> 		
 		<transition on="" to="render" />
    	</action-state>
 
@@ -43,26 +43,26 @@
 
 	<action-state id="setLanguage">
 		<on-entry>
-			<evaluate expression="jVoiceArchInput" result="flowScope.setLanguageInput" />
-			<set name="flowScope.setLanguageInput.name" value="'WELLCOME'" />
-			<set name="flowScope.setLanguageInput.bargein" value="true" />
-			<set name="flowScope.setLanguageInput.maxAttempts" value="1" />
+			<evaluate expression="jVoiceArchInput" result="flashScope.setLanguageInput" />
+			<set name="flashScope.setLanguageInput.name" value="'WELLCOME'" />
+			<set name="flashScope.setLanguageInput.bargein" value="true" />
+			<set name="flashScope.setLanguageInput.maxAttempts" value="1" />
 
-			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar1" />
-			<set name="flowScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>
-			<set name="flowScope.grammar1.mode" value="'dtmf'"/>
-			<evaluate expression="flowScope.setLanguageInput.grammars.add(flowScope.grammar1)" />
+			<evaluate expression="jVoiceArchGrammar" result="flashScope.grammar1" />
+			<set name="flashScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>
+			<set name="flashScope.grammar1.mode" value="'dtmf'"/>
+			<evaluate expression="flashScope.setLanguageInput.grammars.add(flashScope.grammar1)" />
 
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.setLanguageAudioItem" />
-			<set name="flowScope.setLanguageAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION_SRC, new java.util.Locale('en','US'))"/> 
-            <set name="flowScope.setLanguageAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION, new java.util.Locale('en','US'))"/> 
-			<evaluate expression="flowScope.setLanguageInput.mainAudios.add(flowScope.setLanguageAudioItem)" />
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.setLanguageAudioItem" />
+			<set name="flashScope.setLanguageAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION_SRC, new java.util.Locale('en','US'))"/> 
+            <set name="flashScope.setLanguageAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION, new java.util.Locale('en','US'))"/> 
+			<evaluate expression="flashScope.setLanguageInput.mainAudios.add(flashScope.setLanguageAudioItem)" />
 			
-			<evaluate expression="flowScope.setLanguageInput.events.add('maxattempts')" />
+			<evaluate expression="flashScope.setLanguageInput.events.add('maxattempts')" />
 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.setLanguageInput)" />
+		<evaluate expression="flowProcessor.process(flashScope.setLanguageInput)" />
 
 		<transition to="render2"></transition>
 	</action-state>

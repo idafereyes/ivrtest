@@ -7,9 +7,9 @@
   		
 	<action-state id="endCallState">
 		<on-entry>
-			<evaluate expression="jVoiceArchEnd" result="flowScope.endState"></evaluate>
+			<evaluate expression="jVoiceArchEnd" result="flashScope.endState"></evaluate>
 		</on-entry>
-		<evaluate expression="flowProcessor.process(flowScope.endState)"></evaluate>
+		<evaluate expression="flowProcessor.process(flashScope.endState)"></evaluate>
 		<transition to="redirect"/>
 	</action-state>
 	

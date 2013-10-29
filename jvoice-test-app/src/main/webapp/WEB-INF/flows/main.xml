@@ -50,27 +50,27 @@
 
 	<action-state id="noMenuBack">   		
 		<on-entry>
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.noMenuBackAudioItem" /> 			
-  			<set name="flowScope.noMenuBackAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MENU_BACK)"/> 
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.noMenuBackAudioItem" /> 			
+  			<set name="flashScope.noMenuBackAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MENU_BACK)"/> 
 
-			<evaluate expression="jVoiceArchOutput" result="flowScope.noMenuBackOutput"/>	
-			<evaluate expression="flowScope.noMenuBackOutput.audioItems.add(flowScope.noMenuBackAudioItem)"/> 			 
+			<evaluate expression="jVoiceArchOutput" result="flashScope.noMenuBackOutput"/>	
+			<evaluate expression="flashScope.noMenuBackOutput.audioItems.add(flashScope.noMenuBackAudioItem)"/> 			 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.noMenuBackOutput)"/> 		
+		<evaluate expression="flowProcessor.process(flashScope.noMenuBackOutput)"/> 		
 		<transition to="menu" />
 	</action-state>
 	
 	<action-state id="noMainMenu">   		
 		<on-entry>
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.noMainMenuAudioItem" /> 			
-  			<set name="flowScope.noMainMenuAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MAIN_MENU)"/> 
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.noMainMenuAudioItem" /> 			
+  			<set name="flashScope.noMainMenuAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).NO_MAIN_MENU)"/> 
 
-			<evaluate expression="jVoiceArchOutput" result="flowScope.noMainMenuOutput"/>
-			<evaluate expression="flowScope.noMainMenuOutput.audioItems.add(flowScope.noMainMenuAudioItem)"/> 			 
+			<evaluate expression="jVoiceArchOutput" result="flashScope.noMainMenuOutput"/>
+			<evaluate expression="flashScope.noMainMenuOutput.audioItems.add(flashScope.noMainMenuAudioItem)"/> 			 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.noMainMenuOutput)"/> 		
+		<evaluate expression="flowProcessor.process(flashScope.noMainMenuOutput)"/> 		
 		<transition to="menu" />
 	</action-state>
 

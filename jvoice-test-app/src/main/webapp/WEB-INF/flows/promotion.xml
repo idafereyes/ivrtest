@@ -19,21 +19,21 @@
    	<action-state id="promotion">
    		
 		<on-entry>		
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.promotionAudioItem" />
-			<evaluate expression="jVoiceArchWording" result="flowScope.promotionAudioItem.wording" />
-			<set name="flowScope.promotionAudioItem.wording.text" value="flowScope.promotion.getWording()"/> 
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.promotionAudioItem" />
+			<evaluate expression="jVoiceArchWording" result="flashScope.promotionAudioItem.wording" />
+			<set name="flashScope.promotionAudioItem.wording.text" value="flowScope.promotion.getWording()"/> 
 	        
-			<evaluate expression="jVoiceArchOutput" result="flowScope.promotionOutput"></evaluate>	
-			<evaluate expression="flowScope.promotionOutput.audioItems.add(flowScope.promotionAudioItem)"/> 
+			<evaluate expression="jVoiceArchOutput" result="flashScope.promotionOutput"></evaluate>	
+			<evaluate expression="flashScope.promotionOutput.audioItems.add(flashScope.promotionAudioItem)"/> 
 			
-			<set name="flowScope.promotionOutput.catchHangup" value="true"></set>
+			<set name="flashScope.promotionOutput.catchHangup" value="true"></set>
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.promotionOutput)"/> 		
+		<evaluate expression="flowProcessor.process(flashScope.promotionOutput)"/> 		
 		<transition to="render" />
 	</action-state>
 	
-	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastInputResult">    
+	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" >    
         <transition on="hangup" to="hangup"/>
         <transition to="end" />
     </view-state>

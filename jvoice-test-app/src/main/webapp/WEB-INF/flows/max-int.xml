@@ -8,14 +8,14 @@
 
 	<action-state id="maxIntOutput">   		
 		<on-entry>
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.maxIntOutputAudioItem" /> 			
-  			<set name="flowScope.maxIntOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Error).MAX_INT)"/> 
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.maxIntOutputAudioItem" /> 			
+  			<set name="flashScope.maxIntOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Error).MAX_INT)"/> 
 
-			<evaluate expression="jVoiceArchOutput" result="flowScope.maxIntOutput"></evaluate>	
-			<evaluate expression="flowScope.maxIntOutput.audioItems.add(flowScope.maxIntOutputAudioItem)"/> 			 
+			<evaluate expression="jVoiceArchOutput" result="flashScope.maxIntOutput"></evaluate>	
+			<evaluate expression="flashScope.maxIntOutput.audioItems.add(flashScope.maxIntOutputAudioItem)"/> 			 
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.maxIntOutput)"/> 		
+		<evaluate expression="flowProcessor.process(flashScope.maxIntOutput)"/> 		
 		<transition to="transfer"/>
 	</action-state>
 	

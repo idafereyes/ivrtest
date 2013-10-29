@@ -7,49 +7,49 @@
 
    <action-state id="menu">
 		<on-entry>
-			<evaluate expression="jVoiceArchInput" result="flowScope.menuInput" />
-			<set name="flowScope.menuInput.name" value="'MENU_ACCOUNTS'"/>
-			<set name="flowScope.menuInput.bargein" value="true"/>
+			<evaluate expression="jVoiceArchInput" result="flashScope.menuInput" />
+			<set name="flashScope.menuInput.name" value="'MENU_ACCOUNTS'"/>
+			<set name="flashScope.menuInput.bargein" value="true"/>
 
-			<evaluate expression="jVoiceArchGrammar" result="flowScope.grammar" />
-			<set name="flowScope.grammar.mode" value="'dtmf'"/>
-			<set name="flowScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/>
-			<evaluate expression="flowScope.menuInput.grammars.add(flowScope.grammar)"/>
+			<evaluate expression="jVoiceArchGrammar" result="flashScope.grammar" />
+			<set name="flashScope.grammar.mode" value="'dtmf'"/>
+			<set name="flashScope.grammar.src" value="'builtin:dtmf/digits?length=1'"/>
+			<evaluate expression="flashScope.menuInput.grammars.add(flashScope.grammar)"/>
 
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuPT1AudioItem" />
-			<set name="flowScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/>
-			<set name="flowScope.accountsMenuPT1AudioItem.condition" value="'attempts==0'" />
-			<set name="flowScope.accountsMenuPT1AudioItem.bargein" value="true" />
-			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT1AudioItem)"/>
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.accountsMenuPT1AudioItem" />
+			<set name="flashScope.accountsMenuPT1AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT1)"/>
+			<set name="flashScope.accountsMenuPT1AudioItem.condition" value="'attempts==0'" />
+			<set name="flashScope.accountsMenuPT1AudioItem.bargein" value="true" />
+			<evaluate expression="flashScope.menuInput.mainAudios.add(flashScope.accountsMenuPT1AudioItem)"/>
 			
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuPT2AudioItem" />
-			<set name="flowScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/>
-			<set name="flowScope.accountsMenuPT2AudioItem.condition" value="'attempts==1'" /> 
-			<set name="flowScope.accountsMenuPT2AudioItem.bargein" value="true" />
-			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT2AudioItem)"/>
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.accountsMenuPT2AudioItem" />
+			<set name="flashScope.accountsMenuPT2AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT2)"/>
+			<set name="flashScope.accountsMenuPT2AudioItem.condition" value="'attempts==1'" /> 
+			<set name="flashScope.accountsMenuPT2AudioItem.bargein" value="true" />
+			<evaluate expression="flashScope.menuInput.mainAudios.add(flashScope.accountsMenuPT2AudioItem)"/>
 			
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuPT3AudioItem" />
-			<set name="flowScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/>
-			<set name="flowScope.accountsMenuPT3AudioItem.condition" value="'attempts==2'" /> 
-			<set name="flowScope.accountsMenuPT3AudioItem.bargein" value="true" />
-			<evaluate expression="flowScope.menuInput.mainAudios.add(flowScope.accountsMenuPT3AudioItem)"/>
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.accountsMenuPT3AudioItem" />
+			<set name="flashScope.accountsMenuPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_PT3)"/>
+			<set name="flashScope.accountsMenuPT3AudioItem.condition" value="'attempts==2'" /> 
+			<set name="flashScope.accountsMenuPT3AudioItem.bargein" value="true" />
+			<evaluate expression="flashScope.menuInput.mainAudios.add(flashScope.accountsMenuPT3AudioItem)"/>
 			
 			<!-- NM -->
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuNMAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.accountsMenuNMAudioItem" />
 			<set name="accountsMenuNMAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NM)"/> 
-			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNMAudioItem)"/>
+			<evaluate expression="flashScope.menuInput.noMatchAudios.add(accountsMenuNMAudioItem)"/>
 
 			<!-- NI -->
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.accountsMenuNIAudioItem" />
+			<evaluate expression="jVoiceArchAudioItem" result="flashScope.accountsMenuNIAudioItem" />
 			<set name="accountsMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).ACCOUNTS_MENU_NI)"/> 
-			<evaluate expression="flowScope.menuInput.noMatchAudios.add(accountsMenuNIAudioItem)"/>
+			<evaluate expression="flashScope.menuInput.noMatchAudios.add(accountsMenuNIAudioItem)"/>
 			
-			<evaluate expression="flowScope.menuInput.events.add('maxattempts')"/>
-			<evaluate expression="flowScope.menuInput.events.add('maxnoinput')"/>
-			<evaluate expression="flowScope.menuInput.events.add('maxnomatch')"/>
+			<evaluate expression="flashScope.menuInput.events.add('maxattempts')"/>
+			<evaluate expression="flashScope.menuInput.events.add('maxnoinput')"/>
+			<evaluate expression="flashScope.menuInput.events.add('maxnomatch')"/>
 		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flowScope.menuInput)" />
+		<evaluate expression="flowProcessor.process(flashScope.menuInput)" />
 
 		<transition to="render"></transition>
 	</action-state>
