@@ -3,8 +3,22 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-		start-state="end" parent="navigation">
+		start-state="endState" parent="navigation">
 
+	
+	  <action-state id="endState">
+       <on-entry>
+            
+            <evaluate expression="jVoiceArchEnd" result="flowScope.endHangup"/>
+            <evaluate expression="T(java.lang.System).out.println('########## Catch Hang Up')"></evaluate>
+            
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flowScope.endHangup)"/>
+            
+        <transition to="end" />
+    </action-state>
+	
 	<end-state id="end" view="#{flowProcessor.getRenderer().getView()}"/>
 	
 </flow>
