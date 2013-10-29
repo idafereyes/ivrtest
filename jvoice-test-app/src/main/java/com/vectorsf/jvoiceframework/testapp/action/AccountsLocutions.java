@@ -39,11 +39,9 @@ public class AccountsLocutions {
 				locutions.add(aiA);
 				
 				AudioItem aiB = new AudioItem();
-				Wording wording = new Wording();
-				wording.setText(account.getIdEnding());
-				wording.setSayAs(new SayAs(InterpretAs.DIGITS));
+				aiB.setWording(locutionProvider.getWording(Accounts.ACCOUNT_SELECTION_PT1_B, account.getIdEnding()));
+				aiB.getWording().setSayAs(new SayAs(InterpretAs.DIGITS));
 				aiB.setBargein(true);
-				aiB.setWording(wording);
 				locutions.add(aiB);
 				
 				AudioItem aiC = new AudioItem();

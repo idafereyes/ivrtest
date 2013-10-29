@@ -88,8 +88,7 @@
             <set name="flashScope.balanceOutputAudioItemA.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE_A)"/> 
 
 			<evaluate expression="jVoiceArchAudioItem" result="flashScope.balanceOutputAudioItemB" />
-			<evaluate expression="jVoiceArchWording" result="flashScope.balanceOutputAudioItemB.wording" /> 			
-  			<set name="flashScope.balanceOutputAudioItemB.wording.text" value="flowScope.selectedAccount.getIdEnding()"/> 
+            <set name="flashScope.balanceOutputAudioItemB.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Accounts).BALANCE_B, flowScope.selectedAccount.getIdEnding())"/> 			
             <evaluate expression="jVoiceArchSayAs" result="flashScope.balanceOutputAudioItemB.wording.sayAs" />
             <set name="flashScope.balanceOutputAudioItemB.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
 
