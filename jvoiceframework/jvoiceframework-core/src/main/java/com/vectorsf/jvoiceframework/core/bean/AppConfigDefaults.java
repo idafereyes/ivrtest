@@ -92,6 +92,15 @@ public class AppConfigDefaults implements Serializable {
 	@Value("0.5")
 	private String confidence;
 	
+	@Value("application/srgs+xml")
+	private String grammarType;
+	
+	@Value("resources/grammars/")
+	private String grammarPath;
+	
+	@Value(".grxml")
+	private String grammarsFileExtension;
+	
 	public boolean isBargein() {
 		return bargein;
 	}
@@ -258,6 +267,30 @@ public class AppConfigDefaults implements Serializable {
 
 	public void setConfidence(String confidence) {
 		this.confidence = confidence;
+	}
+
+	public String getGrammarType() {
+		return grammarType;
+	}
+
+	public void setGrammarType(String grammarType) {
+		this.grammarType = grammarType;
+	}
+
+	public String getGrammarPath() {
+		return grammarPath;
+	}
+
+	public void setGrammarPath(String grammarPath) {
+		this.grammarPath = grammarPath;
+	}
+
+	public String getGrammarsFileExtension() {
+		return grammarsFileExtension;
+	}
+
+	public void setGrammarsFileExtension(String grammarsFileExtension) {
+		this.grammarsFileExtension = grammarsFileExtension;
 	}
 
 }

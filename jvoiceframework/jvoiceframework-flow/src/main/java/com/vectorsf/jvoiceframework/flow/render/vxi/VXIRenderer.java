@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
 import com.vectorsf.jvoiceframework.core.bean.BridgeTransfer;
@@ -60,9 +62,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String VAR_NAME_TAG = "<var name=\"";
     static final String IF_COND_TAG = "<if cond=\"";
 
-	//TODO Put in a configuration file
+    // Grammar path values from configuration
+    @Value("#{appConfigDefaults.grammarType}")
     private String grammarType = "application/srgs+xml";
+    
+    @Value("#{appConfigDefaults.grammarPath}")
     private String grammarPath = "resources/grammars/";
+    
+    @Value("#{appConfigDefaults.grammarsFileExtension}")
     private String grammarsFileExtension = ".grxml";
         
 	public String render(Output output, String flowURL) {
@@ -284,7 +291,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     
     private String renderInputProperties(Input input) {
     	StringBuilder sb = new StringBuilder();
-    		
+    	
 		// TIMEOUT
     	if(input.getTimeout() != null ) {
     		sb.append("<property name=\"timeout\" value=\"" + input.getTimeout() + "\" />");
