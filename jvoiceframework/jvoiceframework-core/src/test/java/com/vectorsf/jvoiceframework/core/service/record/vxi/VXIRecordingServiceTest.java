@@ -1,4 +1,4 @@
-package com.vectorsf.jvoiceframework.core.service.record;
+package com.vectorsf.jvoiceframework.core.service.record.vxi;
 
 import static org.junit.Assert.assertTrue;
 
@@ -9,8 +9,7 @@ import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.mock.web.MockMultipartFile;
 
-
-public class RecordingServiceTest {
+public class VXIRecordingServiceTest {
 	
 	static final String SCAN_BASE_PACKAGE = "com.vectorsf.jvoiceframework.core";
 	static final String FILE_NAME = "recordingTest.wav";
@@ -24,7 +23,7 @@ public class RecordingServiceTest {
 		context.scan(SCAN_BASE_PACKAGE);
 		context.refresh();
 						
-		RecordingService recordingService = (RecordingService) context.getBean(RecordingService.class);
+		VXIRecordingService recordingService = (VXIRecordingService) context.getBean(VXIRecordingService.class);
 
 		MockMultipartFile recording = new MockMultipartFile("recording", new byte[1]);
 		

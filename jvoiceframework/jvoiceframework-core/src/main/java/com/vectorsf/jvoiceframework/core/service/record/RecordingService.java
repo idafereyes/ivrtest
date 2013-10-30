@@ -15,6 +15,6 @@ public interface RecordingService {
 	 * @param recording multipartFile recorded to the user and passed by the VXML interpreter.
 	 * @param fileName The name that the file will have in the filesystem.  
 	 */
-    public void saveRecording(MultipartFile recording, String fileName);
+    void saveRecording(MultipartFile recording, String fileName);
 
 }
