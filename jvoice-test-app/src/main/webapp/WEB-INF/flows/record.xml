@@ -11,8 +11,8 @@
             <evaluate expression="jVoiceArchRecord" result="flashScope.testRecord"/>
             
             <!-- Se setean los atributos del record -->
-<!--             <set name="flashScope.testRecord.beep" value="true" /> -->
-<!--             <set name="flashScope.testRecord.dtmfterm" value="true" /> -->
+            <set name="flashScope.testRecord.beep" value="true" />
+            <set name="flashScope.testRecord.dtmfterm" value="true" />
 <!--             <set name="flashScope.testRecord.maxtime" value="'3s'" /> -->
 <!--             <set name="flashScope.testRecord.finalsilence" value="'2s'" /> -->
 <!--             <set name="flashScope.testRecord.fileName" value="'transactionNameRec.wav'" /> -->
@@ -27,8 +27,8 @@
 
             <!-- Se añaden los eventos a controlar -->
             <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).RECORDED_EVENT)"/>
-             <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).HANGUP_EVENT)"/>
-             <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).ERROR_EVENT)"/>
+            <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).HANGUP_EVENT)"/>
+            <evaluate expression="flashScope.testRecord.events.add(T(com.vectorsf.jvoiceframework.core.bean.Record).ERROR_EVENT)"/>
 
             <!-- Se setean otras propiedades no contempladas en los atributos. -->
             <!-- <evaluate expression="flashScope.testRecord.properties.put('new.property','15s')"/>-->                                              
@@ -43,7 +43,7 @@
 		<transition on="error" to="error"/>
 		<transition on="recorded" to="thanksOutput">
 		    <!-- TODO el segundo de los parámetros puede que cambie -->
-		    <evaluate expression="recordingService.saveRecording(requestParameters.temprecording, flowScope.recordFileName)"/>      
+		    <evaluate expression="recordingService.saveRecording(lastRecordResult.temprecording, flowScope.recordFileName)"/>      
 		</transition>
 		<transition on="hangup" to="hangup"/>
 	</view-state>

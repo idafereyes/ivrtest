@@ -155,6 +155,7 @@ public class HTMLRendererTest {
 	}
 
 	@Test
+	@Ignore
 	public void testRecord() throws FileNotFoundException{
 		
 		//Given

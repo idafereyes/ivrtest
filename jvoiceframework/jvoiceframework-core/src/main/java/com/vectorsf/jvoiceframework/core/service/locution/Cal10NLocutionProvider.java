@@ -116,7 +116,7 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 			throw new LocutionProviderException(mce);
 		}
 		
-		//Para implementar la funcionalidad de plataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
+		//Para implementar la funcionalidad de multiplataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
 		String src = locationPrefix + audioName + formatSuffix;
 		
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC_RETURN, src);

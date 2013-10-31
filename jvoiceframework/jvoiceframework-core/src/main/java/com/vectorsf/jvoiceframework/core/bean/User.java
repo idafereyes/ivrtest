@@ -2,6 +2,7 @@ package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +17,9 @@ public class User implements Serializable {
 	
 	@Value("#{appConfigDefaults.userLocale}")
 	private Locale locale;
+	
+	//TODO Se le debe dar valor en el punto de entrada, no aquí.
+	private String jVoiceCallId = UUID.randomUUID().toString();
 
 	public Locale getLocale() {
 		return locale;
@@ -24,4 +28,13 @@ public class User implements Serializable {
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
+
+	public String getJVoiceCallId() {
+		return jVoiceCallId;
+	}
+
+	public void setJVoiceCallId(String jVoiceCallId) {
+		this.jVoiceCallId = jVoiceCallId;
+	}
+
 }

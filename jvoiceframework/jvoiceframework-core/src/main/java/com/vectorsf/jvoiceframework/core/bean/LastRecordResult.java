@@ -3,6 +3,7 @@ package com.vectorsf.jvoiceframework.core.bean;
 import java.io.Serializable;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Bean where jVoice framework stores the information related to the last recording.
@@ -23,6 +24,11 @@ public class LastRecordResult implements Serializable{
      * Specifies the complete URI where the audio recording file is stored.
      */
     private String file;
+    
+    /**
+     * The recording file
+     */
+    private MultipartFile temprecording;
     
     /**
      * The duration of the recording in milliseconds.
@@ -91,5 +97,17 @@ public class LastRecordResult implements Serializable{
     public void setMaxtime(boolean maxtime) {
         this.maxtime = maxtime;
     }
+
+	public MultipartFile getTemprecording() {
+		System.out.println("temprecording.getName(): " + temprecording.getName());
+		System.out.println("temprecording.getContentType(): " + temprecording.getContentType());
+		System.out.println("temprecording.getOriginalFilename(): " + temprecording.getOriginalFilename());
+		System.out.println("temprecording.toString(): " + temprecording.toString());
+		return temprecording;
+	}
+
+	public void setTemprecording(MultipartFile temprecording) {
+		this.temprecording = temprecording;
+	}
 
 }

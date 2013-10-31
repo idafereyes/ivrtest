@@ -211,7 +211,8 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	if (output.getAudioItems() != null && !output.getAudioItems().isEmpty()){
     		html.append("<span class=\"output_content\">" + renderSummary(output.getAudioItems()) + endSpanHtml);
     	}
-    	if(output.isFlush()) {
+    	if(output.isFlush() || output.isCatchHangup()) {
+
     		html.append(formMethodPostActionHtml + flowURL + quoteEndTagHtml); 
             html.append("<input type=\"hidden\" name=\"_eventId\" value=\"success\">");
             html.append("<input type=\"submit\"  value=\"continuar\">");
@@ -241,56 +242,24 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     }
     
 	public String render(Record record, String flowURL) {
-        String renderCode = "";
-        
-        renderCode += "<span>Record" + endSpanBrHtml;
-        renderCode += "<span>beep: " + record.isBeep() + endSpanBrHtml;
-        renderCode += "<span>dtmfterm: " + record.isDtmfterm() + endSpanBrHtml;
-        renderCode += "<span>maxtime: " + record.getMaxtime() + endSpanBrHtml;
-        renderCode += "<span>finalsilence: " + record.getFinalsilence() + endSpanBrHtml;
-        renderCode += "<span>fileName: " + record.getFileName() + endSpanBrHtml;
-        renderCode += "<span>filePath: " + record.getFilePath() + endSpanBrHtml;
-        renderCode += "<span>keep: " + record.isKeep() + endSpanBrHtml;
+		
+	      // Identificador del elemento en la página
+	    	String identifier = UUID.randomUUID().toString();
+	    	StringBuilder html = new StringBuilder();
+	    		    	
+	    	html.append("<a title=\"Expandir / contrater\" onclick=\"javascript:toggle_visibility('" + identifier + "');\">Record </a>");
+	  
+	    	if (record.getAudioItems() != null && !record.getAudioItems().isEmpty()){
+	    		html.append("<span class=\"output_content\">" + renderSummary(record.getAudioItems()) + endSpanHtml);
+	    	}
+	    	
+    		html.append(formMethodPostActionHtml + flowURL + "\" enctype=\"multipart/form-data\" >"); 
+            html.append("<input type=\"file\" name=\"temprecording\"><br/>");
+            html.append("<input type=\"submit\" name=\"_eventId_recorded\" value=\"Grabar\">");
+             
+            html.append(endFormHtml);
 
-        
-        Iterator<AudioItem> itAudios = record.getAudioItems().iterator();
-        renderCode += "<span>audioItemsList" + endSpanBrHtml;            
-       
-        while (itAudios.hasNext()){
-            AudioItem prompt = itAudios.next();
-            renderCode += "<span>Audio Item" + endSpanBrHtml;            
-            renderCode += "<span>src: " + prompt.getSrc() + endSpanBrHtml;
-            renderCode += "<span>wording: " + (prompt.getWording()==null || prompt.getWording().getText()==null ? "null" : prompt.getWording().getText()) + endSpanBrHtml;
-            renderCode += "<span>cond: " + prompt.getCondition() + endSpanBrHtml;            
-        }
-
-        Iterator<String> it = record.getEvents().iterator();
-        renderCode += "<span>Events:</span><br>";            
-        while (it.hasNext()){
-            String event = it.next();
-            renderCode += startSpanHtml + event + endSpanBrHtml;            
-        }
-
-        Iterator<String> itCustom = record.getCustomEvents().iterator();
-        renderCode += "<span>Custom Events:</span><br>";            
-        while (itCustom.hasNext()){
-            String event = itCustom.next();
-            renderCode += startSpanHtml + event + endSpanBrHtml;            
-        }
-
-        Iterator itMap = record.getProperties().keySet().iterator();
-
-        renderCode += "<span>Properties" + endSpanBrHtml;            
-
-        while (itMap.hasNext()){
-            String property = (String) itMap.next();
-            String value = record.getProperties().get(property);
-            
-            renderCode += "<span>Property: "+ property + endSpanBrHtml;            
-            renderCode += "<span>Value: "+ value + endSpanBrHtml;            
-        }
-
-        return renderCode;
+            return html.toString();
 	}
 
     public String render(End end, String flowURL) {
