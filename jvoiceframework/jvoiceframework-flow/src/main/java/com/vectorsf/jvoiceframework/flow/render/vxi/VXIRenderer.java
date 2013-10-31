@@ -64,13 +64,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
     // Grammar path values from configuration
     @Value("#{appConfigDefaults.grammarType}")
-    private String grammarType = "application/srgs+xml";
+    private String grammarType;
     
     @Value("#{appConfigDefaults.grammarPath}")
-    private String grammarPath = "resources/grammars/";
+    private String grammarPath;
     
     @Value("#{appConfigDefaults.grammarsFileExtension}")
-    private String grammarsFileExtension = ".grxml";
+    private String grammarsFileExtension;
         
 	public String render(Output output, String flowURL) {
                 
