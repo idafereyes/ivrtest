@@ -21,9 +21,9 @@ public class LastRecordResult implements Serializable{
     private String event;
 
     /**
-     * Specifies the complete URI where the audio recording file is stored.
+     * Specifies the name of the file.
      */
-    private String file;
+    private String fileName;
     
     /**
      * The recording file
@@ -58,12 +58,12 @@ public class LastRecordResult implements Serializable{
         this.event = event;
     }
 
-    public String getFile() {
-        return file;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFile(String file) {
-        this.file = file;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getDuration() {
