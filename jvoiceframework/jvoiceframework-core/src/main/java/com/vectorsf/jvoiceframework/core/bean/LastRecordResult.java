@@ -99,10 +99,6 @@ public class LastRecordResult implements Serializable{
     }
 
 	public MultipartFile getTemprecording() {
-		System.out.println("temprecording.getName(): " + temprecording.getName());
-		System.out.println("temprecording.getContentType(): " + temprecording.getContentType());
-		System.out.println("temprecording.getOriginalFilename(): " + temprecording.getOriginalFilename());
-		System.out.println("temprecording.toString(): " + temprecording.toString());
 		return temprecording;
 	}
 
