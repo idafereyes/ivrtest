@@ -18,7 +18,7 @@
 <!--             <set name="flashScope.testRecord.fileName" value="'transactionNameRec.wav'" /> -->
 <!--             <set name="flashScope.testRecord.keep" value="true" /> -->
 
-             <set name="lastRecordResult.fileName" value="flashScope.testRecord.fileName" />
+             <set name="flashScope.jVoiceArchRecFileName" value="flashScope.testRecord.fileName" />
             
             <evaluate expression="jVoiceArchAudioItem" result="flashScope.audioItemRecord" />
             <set name="flashScope.audioItemRecord.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Record).GET_NAME)" />     
@@ -41,7 +41,7 @@
 	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastRecordResult">
 		<transition on="error" to="error"/>
 		<transition on="recorded" to="thanksOutput">
-		    <evaluate expression="recordingService.saveRecording(lastRecordResult.temprecording, lastRecordResult.fileName)"/>      
+		    <evaluate expression="recordingService.saveRecording(lastRecordResult.temprecording, flashScope.jVoiceArchRecFileName)"/>      
 		</transition>
 		<transition on="hangup" to="hangup"/>
 	</view-state>
@@ -53,11 +53,7 @@
 
             <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordEventAudioItem" /> 
             <evaluate expression="jVoiceArchWording" result="flashScope.recordEventAudioItem.wording" />                     
-            <set name="flashScope.recordEventAudioItem.wording.text" value="lastRecordResult.event"/> 
-
-            <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordFileNameAudioItem" /> 
-            <evaluate expression="jVoiceArchWording" result="flashScope.recordFileNameAudioItem.wording" />                     
-            <set name="flashScope.recordFileNameAudioItem.wording.text" value="lastRecordResult.fileName"/> 
+            <set name="flashScope.recordEventAudioItem.wording.text" value="lastRecordResult.event"/>
 
             <evaluate expression="jVoiceArchAudioItem" result="flashScope.recordDurationAudioItem" /> 
             <evaluate expression="jVoiceArchWording" result="flashScope.recordDurationAudioItem.wording" />                     
