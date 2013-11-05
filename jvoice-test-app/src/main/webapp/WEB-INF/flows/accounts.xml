@@ -20,12 +20,12 @@
 	</action-state>
 	
 	<subflow-state id="savingAccounts" subflow="saving-accounts">
-		<transition  to="end"/>
+		<transition  to="menuBack"/>
 	</subflow-state>
 	
 	<subflow-state id="checkAccounts" subflow="check-accounts">
-		<transition  to="end"/>
+		<transition  to="menuBack"/>
 	</subflow-state>
 	
-	<end-state id="end"/>	
+	<end-state id="menuBack"/>	
 </flow>

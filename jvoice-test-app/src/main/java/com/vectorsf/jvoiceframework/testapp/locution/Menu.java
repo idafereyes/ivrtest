@@ -4,7 +4,7 @@ import ch.qos.cal10n.Locale;
 import ch.qos.cal10n.LocaleData;
 
 @BaseName("com.vectorsf.jvoiceframework.testapp.locution.Menu")
-@LocaleData(defaultCharset="UTF-8", value={@Locale(value="es_ES", charset="UTF-8"), @Locale(value="en_US")})
+@LocaleData(defaultCharset="ISO-8859-1", value={@Locale(value="es_ES", charset="ISO-8859-1"), @Locale(value="en_US")})
 public enum Menu {
 	MAIN_MENU_PT1,
 	MAIN_MENU_PT1_SRC,
