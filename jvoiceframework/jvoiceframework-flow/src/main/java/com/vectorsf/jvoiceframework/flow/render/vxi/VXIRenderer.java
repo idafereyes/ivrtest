@@ -1177,5 +1177,15 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return endPageCode.toString();
 	}
 
+	public String renderEmptyPage(String flowURL) {
+		StringBuilder emptyPageCode = new StringBuilder();
+		emptyPageCode.append(renderStartPage());
+		emptyPageCode.append("<block>");
+		emptyPageCode.append("<var name=\"_eventId\" expr=\"'success'\" />");
+		emptyPageCode.append("<submit next=\"" + flowURL + "\" namelist=\"_eventId\" />");
+		emptyPageCode.append("</block>");
+		emptyPageCode.append(renderEndPage());
+		return emptyPageCode.toString();
+	}
 }
 

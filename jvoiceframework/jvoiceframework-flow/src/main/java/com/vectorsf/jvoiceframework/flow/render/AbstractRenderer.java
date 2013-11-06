@@ -21,6 +21,7 @@ public abstract class AbstractRenderer {
     protected abstract String render(Record record, String flowURL);
     protected abstract String render(End end, String flowURL);
     protected abstract String renderStartPage();
+    protected abstract String renderEmptyPage(String flowURL);
     protected abstract String renderEndPage();
     
     private String view;
@@ -56,6 +57,11 @@ public abstract class AbstractRenderer {
 			}
 		  
 			code.append(renderEndPage());
+		} else {
+			//En caso de que la lista de estados esté vacía renderizamos 
+			//una página vacia con un enlace al siguiente estado
+			//para que no falle.
+			code.append(renderEmptyPage(flowURL));
 		}
       
       return code.toString();

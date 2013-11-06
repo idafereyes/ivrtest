@@ -383,4 +383,9 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         return renderCode;
 	}
 
+	public String renderEmptyPage(String flowURL) {
+		String code = "";
+		
+		return code;
+	}
 }

@@ -37,7 +37,7 @@ public class VXIRendererTest {
 
 
 	@Test
-	public void testRenderEmptyStatesList(){
+	public void testRenderEmptyStatesList() throws FileNotFoundException {
 		
 		//Given
 		
@@ -49,7 +49,7 @@ public class VXIRendererTest {
 		String vxmlCode =  vxiRenderer.render(states, FLOW_EXECUTION_URL);
 		
 		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, ""); 
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "emptyState.test")); 
 	}
 	
 	@Test

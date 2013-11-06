@@ -26,11 +26,11 @@
 		<evaluate expression="flowScope.menuOption"></evaluate>
 		<transition on="0" to="error"/>
 	    <transition on="1" to="accounts"/>
-	    <transition on="2" to="transactions"/>
+	    <transition on="2" to="transferInfoOutput"/>
 	    <transition on="3" to="transferInfoOutput"/>
 	    <transition on="4" to="transferInfoOutput"/>
 	    <transition on="5" to="transferInfoOutput"/>
-	    <transition on="6" to="customVxml"/>
+	    <transition on="6" to="render"/>
 	    <transition on="7" to="record"/>
 	    <transition on="8" to="noMenuBack"/>
 	    <transition on="9" to="noMainMenu"/>
@@ -73,9 +73,13 @@
 		<transition to="menu" />
 	</action-state>
 
+    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}">    
+        <transition to="customVxml"/>
+    </view-state>
+    
+    <view-state id="customVxml" view="vxml/test">
+       <transition to="menu" />
+    </view-state>
+    
 	<end-state id="end"/>
-	
-	<view-state id="customVxml" view="/resources/vxml/test.vxml">
-	   <transition to="menu" />
-	</view-state>
 </flow>

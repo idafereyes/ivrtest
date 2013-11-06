@@ -18,10 +18,10 @@
 			<set name="flashScope.grammar1.mode" value="'dtmf'"/>
 			<evaluate expression="flashScope.menuInput.grammars.add(flashScope.grammar1)"/>
 
-            <evaluate expression="jVoiceArchGrammar" result="flashScope.grammar2" />
-            <set name="flashScope.grammar2.src" value="'digit'"/>
-            <set name="flashScope.grammar2.mode" value="'voice'"/>
-            <evaluate expression="flashScope.menuInput.grammars.add(flashScope.grammar2)"/>
+<!--             <evaluate expression="jVoiceArchGrammar" result="flashScope.grammar2" /> -->
+<!--             <set name="flashScope.grammar2.src" value="'digit'"/> -->
+<!--             <set name="flashScope.grammar2.mode" value="'voice'"/> -->
+<!--             <evaluate expression="flashScope.menuInput.grammars.add(flashScope.grammar2)"/> -->
             
 			<evaluate expression="jVoiceArchAudioItem" result="flashScope.mainMenutPT1AudioItem" />
 			<set name="flashScope.mainMenutPT1AudioItem.bargein" value="true" />
