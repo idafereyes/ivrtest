@@ -2,6 +2,7 @@ package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author idafereyes
  */
 @Component("lastRecordResult")
+@Scope("flow")
 public class LastRecordResult implements Serializable{
 
     private static final long serialVersionUID = 3343902521553999489L;

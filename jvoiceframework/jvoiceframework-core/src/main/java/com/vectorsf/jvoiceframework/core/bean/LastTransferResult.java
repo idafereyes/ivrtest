@@ -2,6 +2,7 @@ package com.vectorsf.jvoiceframework.core.bean;
 
 import java.io.Serializable;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component("lastTransferResult")
+@Scope("flow")
 public class LastTransferResult implements Serializable {
 
 	private static final long serialVersionUID = 4212121618463154203L;
