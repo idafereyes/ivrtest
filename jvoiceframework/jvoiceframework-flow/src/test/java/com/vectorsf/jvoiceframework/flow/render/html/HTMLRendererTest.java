@@ -69,7 +69,7 @@ public class HTMLRendererTest {
 		String htmlCode = htmlRenderer.render(states, FLOW_EXECUTION_URL);
 			
 		//Then
-		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "everyState.test")); 
+		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "everyState.test"));
 	}
 
 	
