@@ -12,7 +12,7 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
-public class FlowProcessorTest {
+public class SpringWebFlowProcessorTest {
 	public static final String RENDER_CODE = "OUTPUT_FAKE_CODE";
 	public static final String FLOW_URL = "FLOW_FAKE_URL";
 	
@@ -24,7 +24,7 @@ public class FlowProcessorTest {
 		Output outputMock = mock(Output.class);
 		Input inputMock = mock(Input.class);
 		
-		FlowProcessor flowProcessor = new FlowProcessor();
+		FlowProcessor flowProcessor = new SpringWebFlowProcessor();
 		flowProcessor.setRenderer(rendererMock);
 		flowProcessor.setStates(new ArrayList());
 		flowProcessor.process(inputMock);

@@ -11,7 +11,7 @@ import org.springframework.webflow.test.MockFlowBuilderContext;
 import org.springframework.webflow.test.execution.AbstractXmlFlowExecutionTests;
 
 
-public class FlowProcesorITest extends AbstractXmlFlowExecutionTests {
+public class SpringWebFlowProcesorITest extends AbstractXmlFlowExecutionTests {
 	
 
 	@Test

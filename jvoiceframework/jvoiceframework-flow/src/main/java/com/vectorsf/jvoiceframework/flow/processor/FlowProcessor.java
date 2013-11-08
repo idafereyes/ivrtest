@@ -20,66 +20,68 @@ import com.vectorsf.jvoiceframework.flow.render.Renderer;
  * @author dmartina
  */
 
-public class FlowProcessor implements Serializable {
+public interface FlowProcessor  {
 
-	private static final long serialVersionUID = -8138696103238359798L;
+	/**
+	 * Devuelve la pila de estados procesados pendientes de renderizar 
+	 * @return
+	 */
+    public List<Object> getStates();
     
-    private List<Object> states;
-    
-    public List<Object> getStates() {
-        return states;
-    }
-
-    public void setStates(List<Object> states) {
-        this.states = states;
-    }
-
     /**
-     * Renderizador de estados
+     * Establece pila de estados procesados pendientes de renderizar 
+     * @param states
      */
-    private Renderer renderer; 
-     
-    public Renderer getRenderer() {
-        return renderer;
-    }
-
-    public void setRenderer(Renderer renderer) {
-        this.renderer = renderer;
-    }
-
-    public void process(Input input) {
-         states.add(input);
-    }
-    
-    public void process(Output output) {
-         states.add(output);
-    }
-
-    public void process(Transfer transfer) {
-         states.add(transfer);
-    }
-
-    public void process(Record record) {
-    	states.add(record);
-    }
-    
-    public void process(End end) {
-        states.add(end);
-   }
+    public void setStates(List<Object> states);
     
     /**
-     * Renderiza y elimina los estados
-     * @param flowURL
+     * Devuelve el renderer utilizado para generar el código de la vista
      * @return
      */
-    public String render(String flowURL){
- 
-        StringBuilder code = new StringBuilder();
-        
-        code.append(this.renderer.render(states, flowURL));
-        	
-        states.clear();
-        return code.toString();
-        
-    }
+    public Renderer getRenderer();
+    
+    /**
+     * Establece el renderer utilizado para generar el código de la vista
+     * @param renderer
+     */
+    public void setRenderer(Renderer renderer);
+    
+    /**
+     * Apila un estado de tipo Input
+     * @param renderer
+     */
+    public void process(Input input);
+    
+    /**
+     * Apila un estado de tipo output
+     * @param output
+     */
+    public void process(Output output);
+    
+    /**
+     * Apila un estado de tipo transfer
+     * @param transfer
+     */
+    public void process(Transfer transfer);
+    
+    /**
+     * Apila un estado de tipo Record
+     * @param record
+     */
+    public void process(Record record);
+    
+    /**
+     * Apila un estado de tipo End
+     * @param end
+     */
+    public void process(End end);
+    
+    /**
+     * Genera el código de la vista en base a los estados apilados usando el renderer asignado. 
+     * Al finalizar elimina estos estados de la pila
+     * @param flowURL El renderer neceista esta URL (identificación de la ejecución del flujo) para generar la vista
+     * @return
+     */
+    public String render(String flowURL);
+
 }

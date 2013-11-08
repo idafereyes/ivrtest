@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	xmlns:aop="http://www.springframework.org/schema/aop">
 
-	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer">
-		<property name="view" value="renderVXI"></property>
+	<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer">
+		<property name="view" value="renderHTML"></property>
 	</bean>
 	
-	<bean id="states" class="java.util.ArrayList" scope="session" />
+	<bean id="states" class="java.util.ArrayList" scope="session">
+		<aop:scoped-proxy/>
+	</bean>    
 	
-	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor" scope="session">
+	<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.SpringWebFlowProcessor" scope="singleton">
 		<property name="states" ref="states"></property>
 		<property name="renderer" ref="renderer"></property>
 	</bean>
