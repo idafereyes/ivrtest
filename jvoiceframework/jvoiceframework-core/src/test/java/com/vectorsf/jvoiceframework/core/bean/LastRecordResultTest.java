@@ -1,35 +1,45 @@
 package com.vectorsf.jvoiceframework.core.bean;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.springframework.web.multipart.MultipartFile;
 
 public class LastRecordResultTest {
-		
+	
+	private static final String PARAM_DURATION = "10s";
+	private static final String PARAM_EVENT_RECORDED = "recorded";
+	private static final String PARAM_FILENAME = "C:\\DATOS\\tmp";
+	private static final String PARAM_SIZE = "1024";
+	private static final String PARAM_TERMCHAR = "#";
+	
 	@Test
 	public void testLastRecordResult(){
 		
-		LastRecordResult lastRecordResult = mock(LastRecordResult.class);
-		when(lastRecordResult.getDuration()).thenReturn("10s");
-		when(lastRecordResult.getEvent()).thenReturn("recorded");
-		when(lastRecordResult.getFileName()).thenReturn("C:\\DATOS\\tmp");
-		when(lastRecordResult.getSize()).thenReturn("1024");
-		when(lastRecordResult.getTermchar()).thenReturn("#");
-		when(lastRecordResult.isMaxtime()).thenReturn(true);
+		LastRecordResult lastRecordResult = new LastRecordResult();
 		
-		MultipartFile multipartFile = mock(MultipartFile.class);
-		when(lastRecordResult.getTemprecording()).thenReturn(multipartFile);
+		lastRecordResult.setDuration(PARAM_DURATION);
+		assertEquals("Checking lastRecordResult duration", PARAM_DURATION, lastRecordResult.getDuration());
 		
-		assertEquals("Checking lastRecordResult duration", "10s", lastRecordResult.getDuration());
-		assertEquals("Checking lastRecordResult event", "recorded", lastRecordResult.getEvent());
-		assertEquals("Checking lastRecordResult file name", "C:\\DATOS\\tmp", lastRecordResult.getFileName());
-		assertEquals("Checking lastRecordResult size", "1024", lastRecordResult.getSize());
-		assertEquals("Checking lastRecordResult termchar", "#", lastRecordResult.getTermchar());
-		assertEquals("Checking lastRecordResult maxtime", true, lastRecordResult.isMaxtime());
+		lastRecordResult.setEvent(PARAM_EVENT_RECORDED);
+		assertEquals("Checking lastRecordResult event", PARAM_EVENT_RECORDED, lastRecordResult.getEvent());
 		
-		assertEquals("Checking lastRecordResult temprecording", multipartFile, lastRecordResult.getTemprecording());
+		lastRecordResult.setFileName(PARAM_FILENAME);
+		assertEquals("Checking lastRecordResult file name", PARAM_FILENAME, lastRecordResult.getFileName());
+		
+		lastRecordResult.setMaxtime(true);
+		assertTrue("Checking lastRecordResult maxtime", lastRecordResult.isMaxtime());
+
+		lastRecordResult.setSize(PARAM_SIZE);
+		assertEquals("Checking lastRecordResult size", PARAM_SIZE, lastRecordResult.getSize());
+		
+		MultipartFile temprecording = mock(MultipartFile.class);
+		lastRecordResult.setTemprecording(temprecording);
+		assertEquals("Checking lastRecordResult temprecording", temprecording, lastRecordResult.getTemprecording());
+
+		lastRecordResult.setTermchar(PARAM_TERMCHAR);
+		assertEquals("Checking lastRecordResult termchar", PARAM_TERMCHAR, lastRecordResult.getTermchar());
 	}
 }
