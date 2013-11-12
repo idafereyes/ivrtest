@@ -16,9 +16,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class AudioItem implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8118962803922087013L;
 
 	

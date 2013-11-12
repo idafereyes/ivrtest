@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author mvinuesa
  *
  */
-@Component("logBeanText")
+@Component("logBeanTest")
 public class LogBeanTest {
 	@Log
 	private Logger logger;

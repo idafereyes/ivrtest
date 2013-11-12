@@ -6,12 +6,14 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * This bean class contains the default values for the main parameters in the 
+ * application.
+ *
+ */
 @Component("appConfigDefaults")
 public class AppConfigDefaults implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9142571578698682638L;
 	
 	static final String FALSE = "false";
@@ -19,8 +21,10 @@ public class AppConfigDefaults implements Serializable {
 	//TODO En un primer momento le estamos asignando valores hardcodeados.
 	//Está pendiente ver de qué manera toman valor estos atributos.
 	
+	/** Default locale for the user **/
 	private Locale userLocale = new Locale("Es", "es");
 	
+	/** Audio items bargein default value. **/
 	@Value(FALSE)
 	private boolean bargein;
 	
@@ -32,72 +36,141 @@ public class AppConfigDefaults implements Serializable {
 		this.userLocale = userLocale;
 	}
 
+	/** Default value for flush prompt. When true, output must write all the 
+	 * data in the flow processor.
+	 */
 	@Value(FALSE)
 	private boolean flush;
 	
+	/** If true, an output can catch a hangup event. Used to know when user
+	 *	hangups the call.
+	 */
 	@Value(FALSE)
 	private boolean catchHangup;
 
+	/**
+	 * Default value for transfer connection timeout 
+	 */
 	@Value("10s")
 	private String transferConnectiontimeout;
 
+	/**
+	 * Default value for bridge transfer timeout.
+	 */
 	@Value("20s")
 	private String transferMaxtime;
 	
+	/**
+	 * Default value for record beep. 
+	 * If true, a beep must sound after the prompts
+	 * asking for a record and before the record itself begins. 
+	 */
 	@Value(FALSE)
 	private boolean recordBeep;
 
+	/** Default value for record dtmf term.
+	 * If true, it allows the user to finish the recording pressing a key.
+	 */
 	@Value(FALSE)
 	private boolean recordDtmfterm;
 
+	/**
+	 * Default value for the record final silence.
+	 * It specifies the timeout used to terminate the recording.
+	 */
 	@Value("5s")
 	private String recordFinalsilence;
 
+	/**
+	 * Default record max time default.
+	 * This time specifies the max time a recording can have.
+	 */
 	@Value("10s")
 	private String recordMaxtime;
 
+	/**
+	 * Default recording file name.
+	 */
 	@Value("recordedAudio.wav")
 	private String recordFileName;
 
+	/**
+	 * Default recording file path where the audios will be save.
+	 */
 	@Value("C:\\tmp\\recordedAudiosPath\\")
 	private String recordFilePath;
 	
+	/**
+	 * If true, the recording will be kept in order to be player again to the
+	 * user.
+	 */
 	@Value(FALSE)
 	private boolean recordKeep;
 
+	/**
+	 * Default value for input bargein
+	 */
 	@Value(FALSE)
 	private boolean inputBargein;
 	
+	/**
+	 * Default input total max attempts (No Input + No Match attempts)
+	 */
 	@Value("3")
 	private int inputMaxAttempts;
 	
+	/**
+	 * Default input no match attempts.
+	 */
 	@Value("2")
 	private int inputNoMatchAttempts;
 	
+	/**
+	 * Default input no input attempts.
+	 */
 	@Value("2")
 	private int inputNoInputAttempts;
 	
+	/** Prefix or path location of audio items. Platform dependent. **/
 	@Value("builtin:jvoice-test-app/")
 	private String audiosLocationPrefix;
 	
+	/** Suffix of audio items names. Platform dependent. **/ 
 	@Value("")
 	private String audiosFormatSuffix;
 	
+	/**
+	 * Default input timeout.
+	 * If user does not say anything during this timeout, the platform will 
+	 * throw a No Input event.
+	 */
 	@Value("4s")
 	private String timeout;
 	
+	/**
+	 * Default value for input interdigit timeout.
+	 * It is the max time that the user has to press a key after he pressed 
+	 * the last. If the user does not press the next key before this time
+	 * the platform will finish the recognition. 
+	 */
 	@Value("3s")
 	private String interdigittimeout;
 	
+	/** Minimum default confidence. If a recognition confidence is less than 
+	 *  this value, the result is treat as a No Match by the recognizer. 
+	 */
 	@Value("0.5")
 	private String confidence;
 	
+	/** Standard content type for grammar **/
 	@Value("application/srgs+xml")
 	private String grammarType;
 	
+	/** Default value for the grammar path **/
 	@Value("resources/grammars/")
 	private String grammarPath;
 	
+	/** Default grammar file extension **/
 	@Value(".grxml")
 	private String grammarsFileExtension;
 	

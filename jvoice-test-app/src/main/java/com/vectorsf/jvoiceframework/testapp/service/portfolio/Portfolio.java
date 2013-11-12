@@ -15,7 +15,7 @@ public class Portfolio {
 		Random random = new Random();
 		for (int index = 0; index < random.nextInt(10) + 2; index ++) {
 			SavingAccount account = new SavingAccount();
-			account.setBalance(Float.toString(random.nextFloat()));
+			account.setBalance(Float.toString(random.nextFloat() * 1000));
 			account.setId(UUID.randomUUID().toString());
 			accounts.add(account);
 		}

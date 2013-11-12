@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * Representa un estado input IVR
+ * Represents an Input Component used at jVoice framework.
  * 
  * @author dmartina
  */

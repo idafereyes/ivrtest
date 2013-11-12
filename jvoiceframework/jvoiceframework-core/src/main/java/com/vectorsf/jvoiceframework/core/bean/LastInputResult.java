@@ -5,17 +5,34 @@ import java.io.Serializable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/**
+ * Represents the last result of the Input Component.
+ */
 @Component("lastInputResult")
 @Scope("flow")
 public class LastInputResult implements Serializable {
 
     private static final long serialVersionUID = -8072514116803473643L;
 
+    /** The event throw by the input **/
     private String event;
-    
+    /**
+     * The input interpretation.
+     */
     private String interpretation;
+    /**
+     * The recognition utterance
+     * Represents the phrase that the user has said exactly.
+     */
     private String utterance;
+    /**
+     * The confidence level.
+     * Represents the probability that the recognizer assigns to the match.
+     */
     private String confidence;
+    /**
+     * The mode of the recognition. It can be <i>dtmf</i> or <i>voice</i>.
+     */
     private String inputmode;
 
     public String getEvent() {
