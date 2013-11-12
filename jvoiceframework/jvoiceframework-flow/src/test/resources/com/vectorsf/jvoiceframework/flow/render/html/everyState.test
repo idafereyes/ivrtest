@@ -4,9 +4,9 @@
 Aplicacion prototipo jVoice Framework</title>
 <link rel="stylesheet" type="text/css" href="resources/css/HTMLRenderer.css" />
 </head>
-<a title="Expandir / contrater" onclick="javascript:toggle_visibility('1975b1d2-7a74-41d7-9e57-8b118ececc30');">
+<a title="Expandir / contrater" onclick="javascript:toggle_visibility('${0}');">
 Output </a>
-<div id='1975b1d2-7a74-41d7-9e57-8b118ececc30' style='display:none'>
+<div id='${0}' style='display:none'>
 </br>
 <span class="property_title">
 Bargein: </span>
@@ -26,7 +26,7 @@ false</span>
 </br>
 </div>
 </br>
-<a onclick="javascript:toggle_visibility('48378c21-bd56-4ef9-abd2-3217d583de1f');">
+<a onclick="javascript:toggle_visibility('${1}');">
 Input </a>
 <span style="display: inline-block;">
 <form method="post" action="http://flowExecutionUrl/">
@@ -42,7 +42,7 @@ Interpretation: <input type="text" value="" name="interpretation" />
 <input type="submit" id="inputSubmit" value="Enter" name="_eventId_match">
 </form>
 </span>
-<div id='48378c21-bd56-4ef9-abd2-3217d583de1f' style='display:none'>
+<div id='${1}' style='display:none'>
 <table cellpadding="0" cellspacing="0">
 <tr>
 <td style="padding: 0 10px 0 10px; border: solid 1px black;">
@@ -117,7 +117,7 @@ Input mode: <input type="text" value="" name="inputmode" />
 </form>
 </div>
 <br>
-<a title="Expandir / contrater" onclick="javascript:toggle_visibility('ed8e3231-9d70-42a3-ad57-617b169b9ed5');">
+<a title="Expandir / contrater" onclick="javascript:toggle_visibility('${2}');">
 Record </a>
 <form method="post" action="http://flowExecutionUrl/" enctype="multipart/form-data" >
 <input type="file" name="temprecording">

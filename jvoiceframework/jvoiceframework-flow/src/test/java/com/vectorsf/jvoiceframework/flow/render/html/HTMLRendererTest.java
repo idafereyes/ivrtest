@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -28,7 +30,8 @@ public class HTMLRendererTest {
 
 	static final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/";
 	static final String RESOURCE_FILE_PATH = "src/test/resources/com/vectorsf/jvoiceframework/flow/render/html/";
-
+	static final String PATTERN_UUID = "[0-9abcdef]{8}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{12}";
+	
 	@Test
 	public void testRenderEmptyStatesList(){
 		
@@ -46,7 +49,6 @@ public class HTMLRendererTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testRenderEveryState() throws FileNotFoundException{
 		
 		//Given
@@ -67,14 +69,20 @@ public class HTMLRendererTest {
 
 		//When
 		String htmlCode = htmlRenderer.render(states, FLOW_EXECUTION_URL);
-			
+		
+		//Extract random uuid for comparing
+		List<String> listIds = extractIds(htmlCode);
+		String templateFile = readResourceFile(RESOURCE_FILE_PATH + "everyState.test");
+		for(int i=0; i<listIds.size(); i++) {
+			templateFile = templateFile.replaceAll("\\$\\{" + String.valueOf(i) + "\\}", listIds.get(i));
+		}
+		
 		//Then
-		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "everyState.test"));
+		assertEquals("HTML code printed different than expected.", htmlCode, templateFile);
 	}
 
 	
 	@Test
-	@Ignore
 	public void testOutput() throws FileNotFoundException{
 		//Given
 		Output outputMock = mock(Output.class);
@@ -85,12 +93,14 @@ public class HTMLRendererTest {
 
 		AudioItem audioItem1 = mock(AudioItem.class);
 		when(audioItem1.getSrc()).thenReturn("SAN-WELCOME");
+		when(audioItem1.getWording()).thenReturn(mock(Wording.class));
 		when(audioItem1.getWording().getText()).thenReturn("Bienvenido");
 
 		AudioItem audioItem2 = mock(AudioItem.class);
 		when(audioItem2.getSrc()).thenReturn("SAN-WELCOME-B");
 
 		AudioItem audioItem3 = mock(AudioItem.class);
+		when(audioItem3.getWording()).thenReturn(mock(Wording.class));
 		when(audioItem3.getWording().getText()).thenReturn("Gracias por llamar");
 		
 		List<AudioItem> audioItemsList = new ArrayList<AudioItem>();
@@ -105,8 +115,15 @@ public class HTMLRendererTest {
 		//When
 		String htmlCode =  htmlRenderer.render(outputMock, FLOW_EXECUTION_URL);
 		
+		//Extract random uuid for comparing
+		List<String> listIds = extractIds(htmlCode);
+		String templateFile = readResourceFile(RESOURCE_FILE_PATH + "output.test");
+		for(int i=0; i<listIds.size(); i++) {
+			templateFile = templateFile.replaceAll("\\$\\{" + String.valueOf(i) + "\\}", listIds.get(i));
+		}
+
 		//Then
-		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "output.test")); 
+		assertEquals("HTML code printed different than expected.", htmlCode, templateFile); 
 		
 	}
 	
@@ -118,7 +135,6 @@ public class HTMLRendererTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testBlindTransfer() throws FileNotFoundException{
 		
 		//Given
@@ -150,12 +166,18 @@ public class HTMLRendererTest {
 		//When
 		String htmlCode =  htmlRenderer.render(blindTxMock, FLOW_EXECUTION_URL);
 		
+		//Extract random uuid for comparing
+		List<String> listIds = extractIds(htmlCode);
+		String templateFile = readResourceFile(RESOURCE_FILE_PATH + "transfer.test");
+		for(int i=0; i<listIds.size(); i++) {
+			templateFile = templateFile.replaceAll("\\$\\{" + String.valueOf(i) + "\\}", listIds.get(i));
+		}
+				
 		//Then
-		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "transfer.test")); 
+		assertEquals("HTML code printed different than expected.", htmlCode, templateFile); 
 	}
 
 	@Test
-	@Ignore
 	public void testRecord() throws FileNotFoundException{
 		
 		//Given
@@ -214,8 +236,15 @@ public class HTMLRendererTest {
 		//When
 		String htmlCode =  htmlRenderer.render(recordMock, FLOW_EXECUTION_URL);
 		
+		//Extract random uuid for comparing
+		List<String> listIds = extractIds(htmlCode);
+		String templateFile = readResourceFile(RESOURCE_FILE_PATH + "record.test");
+		for(int i=0; i<listIds.size(); i++) {
+			templateFile = templateFile.replaceAll("\\$\\{" + String.valueOf(i) + "\\}", listIds.get(i));
+		}
+				
 		//Then
-		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "record.test")); 
+		assertEquals("HTML code printed different than expected.", htmlCode, templateFile); 
 	}
 
 	@Test
@@ -276,5 +305,32 @@ public class HTMLRendererTest {
 
 		return text.toString();	
 	}
+	
+	private List<String> extractIds(String html) {
+		List<String> listIds = new ArrayList<String>();
+		
+		Pattern pattern = Pattern.compile(PATTERN_UUID);
+		Matcher matcher = pattern.matcher(html);
+		
+		boolean hasMatches = matcher.find();
+		while(hasMatches) {
+			String id = matcher.group();
+			if( !existId(id, listIds) ) {
+				listIds.add(id);
+			}
+			
+			hasMatches = matcher.find();
+		}
+		
+		return listIds;
+	}
 
+	private boolean existId(String id, List<String> list) {
+		for(String listId : list) {
+			if(listId.equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

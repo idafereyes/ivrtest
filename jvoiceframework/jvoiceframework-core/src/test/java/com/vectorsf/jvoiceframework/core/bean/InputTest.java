@@ -18,7 +18,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class InputTest {
 
 	static String SCAN_BASE_PACKAGE = "com.vectorsf.jvoiceframework.core.bean";
-
+	static String TIMEOUT = "15s";
+	static String INTERDIGIT_TIMEOUT = "2s";
+	static String CONFIDENCE = "0.6";
+	
 	private Grammar grammar1 = new Grammar();
 	private Grammar grammar2 = new Grammar();
 	private Grammar grammar3 = new Grammar();
@@ -203,5 +206,27 @@ public class InputTest {
 		input.setEvents(events);
 		assertEquals("Checking input events setter size", input.getEvents()
 				.size(), 3);
+		
+		List<String> customEvents = new ArrayList<String>();
+		customEvents.add("customEvents1");
+		customEvents.add("customEvents2");
+		customEvents.add("customEvents3");
+		customEvents.add("customEvents4");
+		input.setCustomEvents(customEvents);
+		assertEquals("Checking input custom events setter size", input.getCustomEvents()
+				.size(), 4);
+		
+		input.setTimeout(TIMEOUT);
+		assertEquals("Checking input timeout getter and setter", TIMEOUT, input.getTimeout());
+		
+		input.setInterdigittimeout(INTERDIGIT_TIMEOUT);
+		assertEquals("Checking input interdigits timeout getter and setter", INTERDIGIT_TIMEOUT, input.getInterdigittimeout());
+
+		input.setConfidence(CONFIDENCE);
+		assertEquals("Checking input confidence getter and setter", CONFIDENCE, input.getConfidence());
+
+		
+		// Finally
+		context.close();
 	}
 }

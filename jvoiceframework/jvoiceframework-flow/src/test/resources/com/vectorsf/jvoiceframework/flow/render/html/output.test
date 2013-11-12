@@ -1,22 +1,60 @@
-<a title="Expandir / contrater" onclick="javascript:toggle_visibility('identifier');">Output </a>
-<span class="output_content">SAN-WELCOME</span>
-<div id='identifier' style='display:none'></br>
-<span class="property_title">Bargein: </span><span class="property_value">false</span><br>
-<span class="property_title">Flush: </span><span class="property_value">false</span><br>
-<span class="property_title">CatchHangup: </span><span class="property_value">false</span><br>
-<span class="property_title">Audio items:</span>
-<table class="datagrid" cellpadding="0" cellspacing="0">
-<thead class="datagrid"><tr>
-<th>Wording</th><th>Source</th><th>Condition</th></tr>
+<a title="Expandir / contrater" onclick="javascript:toggle_visibility('${0}');">
+Output </a>
+<span class="output_content">
+Bienvenido</span>
+<div id='${0}' style='display:none'>
+</br>
+<span class="property_title">
+Bargein: </span>
+<span class="property_value">
+false</span>
+<br>
+<span class="property_title">
+Flush: </span>
+<span class="property_value">
+false</span>
+<br>
+<span class="property_title">
+CatchHangup: </span>
+<span class="property_value">
+false</span>
+<br>
+<span class="property_title">
+Audio items:</span>
+<table class="datagrid" cellpadding="0" cellspacing="5">
+<thead class="datagrid">
+<tr>
+<th>
+Wording</th>
+<th>
+Source</th>
+<th>
+Condition</th>
+</tr>
 </thead>
 <tr class="datagrid">
-<td>Bienvenido</td><td>SAN-WELCOME</td><td>null</td>
+<td>
+Bienvenido</td>
+<td>
+SAN-WELCOME</td>
+<td>
+null</td>
 </tr>
 <tr class="datagrid">
-<td>null</td><td>SAN-WELCOME-B</td><td>null</td>
+<td>
+null</td>
+<td>
+SAN-WELCOME-B</td>
+<td>
+null</td>
 </tr>
 <tr class="datagrid">
-<td>Gracias por llamar</td><td>null</td><td>null</td>
+<td>
+Gracias por llamar</td>
+<td>
+null</td>
+<td>
+null</td>
 </tr>
 </table>
 </br>

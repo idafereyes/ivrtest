@@ -1,18 +1,18 @@
-<span>Transfer</span><span>dest: tel:666777888</span><br/>
-<span>type: BRIDGE</span><br/>
-<span>transferaudio: idleMusic</span><br/>
-<span>timeout: 10s</span><br/>
-<span>maxtime: 30s</span><br/>
-<span>Events:</span><br>
-<span>TRANSFERRED</span><br/>
-<span>HANGUP</span><br/>
-<span>CONNECTIONERROR</span><br/>
-<span>ERROR</span><br/>
-<span>NOANSWER</span><br/>
-<span>error.unsupported.transfer</span><br/>
-<span>Properties</span><br/>
-<span>Property: other.property</span><br/>
-<span>Value: 20s</span><br/>
-<span>Properties</span><br/>
-<span>Property: second.other.property</span><br/>
-<span>Value: 35s</span><br/>
+<a onclick="javascript:toggle_visibility('${0}');">
+Blind Transfer </a>
+ Destination: tel:666777888<span style="display: inline-block;">
+<form method="post" action="http://flowExecutionUrl/">
+ Event:<select name="_eventId">
+<option value="transferred">
+ Transferred </option>
+<option value="error">
+ Error </option>
+<option value="unknown">
+ Unknown </option>
+</select>
+<input type="submit" id="inputSubmit" value="Enter" name="_eventId_transferred">
+</form>
+</span>
+<div id='${0}' style='display:none'>
+</div>
+<br>
