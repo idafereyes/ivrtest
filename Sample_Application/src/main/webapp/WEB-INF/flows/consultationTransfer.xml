@@ -33,38 +33,20 @@
     	<transition to="render" />
     </action-state>
     
-    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
+    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}" model="lastTransferResult">
     
-		<transition on="transferred" to="transferredState">
-            <set name="lastTransferResult.event" value="requestParameters.event"/>      
-            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
-		</transition>
+		<transition on="transferred" to="transferredState"/>
     	
-        <transition on="error" to="errorState">
-            <set name="lastTransferResult.event" value="requestParameters.event"/>      
-            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
-        </transition>
+        <transition on="error" to="errorState"/>
 
-        <transition on="connectionerror" to="errorState">
-            <set name="lastTransferResult.event" value="requestParameters.event"/>      
-            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
-        </transition>
+        <transition on="connectionerror" to="errorState"/>
 
-    	<transition on="hangup" to="hangupState">
-            <set name="lastTransferResult.event" value="requestParameters.event"/>      
-            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
-    	</transition>
+    	<transition on="hangup" to="hangupState"/>
     	
-    	<transition on="noanswer" to="noanswerState">
-            <set name="lastTransferResult.event" value="requestParameters.event"/>      
-            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
-    	</transition>
-        
-        <transition on="error.unsupported" to="unsupportedTransferState">
-            <set name="lastTransferResult.event" value="requestParameters.event"/>      
-            <set name="lastTransferResult.duration" value="requestParameters.duration"/>    
-        </transition>
-    
+    	<transition on="noanswer" to="noanswerState"/>
+ 
+        <transition on="error.unsupported" to="unsupportedTransferState"/>
+   
     </view-state>
     
     <action-state id="hangupState"/>
