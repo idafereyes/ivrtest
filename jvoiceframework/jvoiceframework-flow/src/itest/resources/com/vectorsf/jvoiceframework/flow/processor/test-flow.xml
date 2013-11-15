@@ -21,7 +21,7 @@
     	<transition to="render" />
     </action-state> 
   
-    <view-state id="render" view="render">
+    <view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
     	<transition on="success" to="ok_end" />
     	<transition on="failure" to="failure_end" />
     </view-state>

@@ -43,7 +43,7 @@ public class AudioItem implements Serializable{
 	/**
 	 * Indicates when the audio item can be interrupted by user.
 	 */
-	private boolean bargein;
+	private Boolean bargein = null;
 	
 	public String getSrc() {
 		return src;
@@ -69,11 +69,11 @@ public class AudioItem implements Serializable{
 		this.condition = condition;
 	}
 
-	public boolean isBargein() {
+	public Boolean isBargein() {
 		return bargein;
 	}
 
-	public void setBargein(boolean bargein) {
+	public void setBargein(Boolean bargein) {
 		this.bargein = bargein;
 	}
 	

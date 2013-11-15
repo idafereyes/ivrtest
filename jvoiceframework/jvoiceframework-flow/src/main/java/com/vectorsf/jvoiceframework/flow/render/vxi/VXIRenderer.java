@@ -407,11 +407,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			}
 			
 			// Bargein
-			if(ai.isBargein()) {
-				sb.append(" bargein=\"true\"");
-			} else {
-				sb.append(" bargein=\"false\"");
-			}
+			sb.append(renderInputBargein(ai.isBargein()));
 			
 			// End tag
 			sb.append(">");
@@ -424,6 +420,17 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		}
     	
     	return sb.toString();
+    }
+    
+    private String renderInputBargein(Boolean bargein) {
+    	if(bargein != null) {
+	    	if(bargein) {
+				return " bargein=\"true\"";
+			} else {
+				return " bargein=\"false\"";
+			}
+    	}
+    	return "";
     }
     
 	private String renderInputAudios(AudioItem ai) {

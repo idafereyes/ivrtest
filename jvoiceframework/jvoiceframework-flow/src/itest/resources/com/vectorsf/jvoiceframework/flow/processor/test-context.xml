@@ -20,12 +20,19 @@
 <!-- Beans jVoice Framework -->
 <context:component-scan base-package="com.vectorsf.jvoiceframework"/>
 
-<bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer"/>
-<bean id="states" class="java.util.ArrayList" scope="flow"/>
-
-<bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.FlowProcessor" scope="flow">
-	<property name="states" ref="states"></property>
-	<property name="renderer" ref="renderer"></property>
-</bean>
  
+ 
+ <bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.html.HTMLRenderer">
+        <property name="view" value="renderHTML"></property>
+    </bean>
+    
+    <bean id="states" class="java.util.ArrayList">
+        <!-- aop:scoped-proxy/-->
+    </bean>    
+    
+    <bean id="flowProcessor" class="com.vectorsf.jvoiceframework.flow.processor.SpringWebFlowProcessor">
+        <property name="states" ref="states"></property>
+        <property name="renderer" ref="renderer"></property>
+    </bean>
+    
 </beans>
