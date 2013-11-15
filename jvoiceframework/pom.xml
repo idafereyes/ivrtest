@@ -159,7 +159,14 @@
 	    </dependency>
 		
 	</dependencies>
-
+	<distributionManagement>
+	    <snapshotRepository>
+	      <id>jvoice</id>
+	      <name>jVoice Maven Repository</name>
+	      <url>http://isbks208510504s.scisb.isban.corp/nexus/content/repositories/ivr/</url>
+	      <layout>default</layout>
+	    </snapshotRepository>
+	  </distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
