@@ -9,51 +9,59 @@
 		<on-entry>
 			<evaluate expression="jVoiceArchOutput" result="flowScope.testSayAs"/>
 
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.audioItem22" />
+            <evaluate expression="jVoiceArchWording" result="flashScope.audioItem22.wording"/>        
+            <set name="flashScope.audioItem22.wording.text" value="'123'"/>
+            <evaluate expression="jVoiceArchSayAs" result="flashScope.audioItem22.wording.sayAs" />
+            <set name="flashScope.audioItem22.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
+            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem22)"/>
+                
+            
 			
 			<!-- Se setea la lista de locuciones -->
-			<evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem1" />
-			<set name="flowScope.audioItem1.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_DIGITS,'12345' )" />
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem1.wording.sayAs" />
-            <set name="flowScope.audioItem1.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/>
-			<evaluate expression="flowScope.testSayAs.audioItems.add(audioItem1)"/>
+<!-- 			<evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem1" /> -->
+<!-- 			<set name="flowScope.audioItem1.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_DIGITS,'12345' )" /> -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem1.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem1.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DIGITS"/> -->
+<!-- 			<evaluate expression="flowScope.testSayAs.audioItems.add(audioItem1)"/> -->
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem2" />
-            <set name="flowScope.audioItem2.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_BOOLEAN,'true' )" />       
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem2.wording.sayAs" />
-            <set name="flowScope.audioItem2.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).BOOLEAN"/>
-            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem2)"/>
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem2" /> -->
+<!--             <set name="flowScope.audioItem2.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_BOOLEAN,'true' )" />        -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem2.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem2.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).BOOLEAN"/> -->
+<!--             <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem2)"/> -->
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem3" />
-            <set name="flowScope.audioItem3.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_DATE,'12-12-2012' )" />       
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem3.wording.sayAs" />
-            <set name="flowScope.audioItem3.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DATE"/>
-            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem3)"/>
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem3" /> -->
+<!--             <set name="flowScope.audioItem3.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_DATE,'12-12-2012' )" />        -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem3.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem3.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).DATE"/> -->
+<!--             <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem3)"/> -->
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem4" />
-            <set name="flowScope.audioItem4.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_CURRENCY,'EUR19' )" />       
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem4.wording.sayAs" />
-            <set name="flowScope.audioItem4.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).CURRENCY"/>
-            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem4)"/>
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem4" /> -->
+<!--             <set name="flowScope.audioItem4.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_CURRENCY,'EUR19' )" />        -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem4.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem4.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).CURRENCY"/> -->
+<!--             <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem4)"/> -->
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem5" />
-            <set name="flowScope.audioItem5.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_NUMBER,'12345' )" />       
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem5.wording.sayAs" />
-            <set name="flowScope.audioItem5.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).NUMBER"/>
-            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem5)"/>
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem5" /> -->
+<!--             <set name="flowScope.audioItem5.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_NUMBER,'12345' )" />        -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem5.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem5.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).NUMBER"/> -->
+<!--             <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem5)"/> -->
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem6" />
-            <set name="flowScope.audioItem6.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_PHONE,'911757281' )" />       
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem6.wording.sayAs" />
-            <set name="flowScope.audioItem6.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).PHONE"/>
-            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem6)"/>
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem6" /> -->
+<!--             <set name="flowScope.audioItem6.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_PHONE,'911757281' )" />        -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem6.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem6.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).PHONE"/> -->
+<!--             <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem6)"/> -->
 
 
-            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem7" />
-            <set name="flowScope.audioItem7.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_TIME,'10:20:30' )" />       
-            <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem7.wording.sayAs" />
-            <set name="flowScope.audioItem7.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).TIME"/>
-            <set name="flowScope.audioItem7.wording.sayAs.format" value="'hms24'"/>
-            <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem7)"/>
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem7" /> -->
+<!--             <set name="flowScope.audioItem7.wording" value="locutionProvider.getWording(T(org.isb.ivr.flow.locutions.SayAsTest).SAY_TIME,'10:20:30' )" />        -->
+<!--             <evaluate expression="jVoiceArchSayAs" result="flowScope.audioItem7.wording.sayAs" /> -->
+<!--             <set name="flowScope.audioItem7.wording.sayAs.interpretAs" value="T(com.vectorsf.jvoiceframework.core.enums.InterpretAs).TIME"/> -->
+<!--             <set name="flowScope.audioItem7.wording.sayAs.format" value="'hms24'"/> -->
+<!--             <evaluate expression="flowScope.testSayAs.audioItems.add(audioItem7)"/> -->
 			
 		</on-entry>
 

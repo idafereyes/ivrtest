@@ -3,7 +3,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-		start-state="checklogin" parent="navigation">
+		start-state="checklogin" parent="Tests/navigation">
 
 		<action-state id="checklogin">	
 			<evaluate expression="user.isLoggedIn()"></evaluate> <!-- Esto incluye la recuperación de las cuentas. Por qué está pegado al login??? -->
@@ -11,7 +11,7 @@
 		 	<transition on="no" to="login"/> 
 		</action-state>
 		
-		<subflow-state id="login" subflow="login">
+		<subflow-state id="login" subflow="Tests/login">
 			<transition to="accountSelectionSetup"/> <!-- Confiamos en que si el login da error acabe en un transfer??? -->
 		</subflow-state>
 	

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
 	start-state="testRecord"
-	parent="navigation">
+	parent="Tests/navigation">
 	
     <action-state id="testRecord">
         <on-entry>

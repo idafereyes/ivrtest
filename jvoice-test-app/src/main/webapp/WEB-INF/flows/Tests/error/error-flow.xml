@@ -3,9 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="menu" parent="navigation">
+	start-state="menu" parent="Tests/navigation">
 
-	<subflow-state id="menu" subflow="accounts-menu">
+	<subflow-state id="menu" subflow="Tests/accounts-menu">
 		<transition  to="menuDecision">
 			<set name="flowScope.menuOption" value="currentEvent.attributes.menuOption"></set> <!--  PUFF -->
 		</transition>
@@ -19,11 +19,11 @@
 		<transition on="9" to="mainMenu"/>
 	</action-state>
 	
-	<subflow-state id="savingAccounts" subflow="saving-accounts">
+	<subflow-state id="savingAccounts" subflow="Tests/saving-accounts">
 		<transition  to="end"/>
 	</subflow-state>
 	
-	<subflow-state id="checkAccounts" subflow="check-accounts">
+	<subflow-state id="checkAccounts" subflow="Tests/check-accounts">
 		<transition  to="end"/>
 	</subflow-state>
 	
