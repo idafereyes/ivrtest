@@ -336,17 +336,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	
     	for(Grammar grammar : input.getGrammars()) {
     		if("voice".equalsIgnoreCase(grammar.getMode())) {
+    			sb.append("<grammar mode=\"voice\" ");
     			if(grammar.getSrc().trim().startsWith("builtin:")) {
-    				//ASR builtin grammars are not implemented at VXI Platform.
-    				//So, if ASR grammar declared as builtin, a log ERROR must be printed
-    				//instead of the field element.
-    				sb.append("<log label=\"ERROR\">ASR builtin grammars are not implemented in VXI platform.</log>");
-    				//TODO Incluir escritura a traza ERROR del CommonLogger y lanzar error
-    				sb.append("<disconnect/>");
+    				sb.append("src=\"" + grammar.getSrc().trim() + "\"/>");
     			} else {
-    				sb.append("<grammar mode=\"voice\"");
-    				sb.append(" type=\"" + grammarType + "\"");
-    				sb.append(" src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
+    				sb.append("type=\"" + grammarType + "\" ");
+    				sb.append("src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
     			}
     		} else {
     			sb.append("<grammar mode=\"dtmf\" ");
