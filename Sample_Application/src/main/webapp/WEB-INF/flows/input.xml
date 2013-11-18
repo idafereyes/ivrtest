@@ -38,27 +38,38 @@
 
             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem1" />
             <set name="flowScope.audioItem1.src" value="'LOC0'" />
-            <set name="flowScope.audioItem1.wording" value="'Por favor, digame su DNI.'" />
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem1.wording" />
+            <set name="flowScope.audioItem1.wording.text" value="'Por favor, digame su DNI.'" />
             <set name="flowScope.audioItem1.condition" value="''" />
             <evaluate expression="flowScope.inputTest.mainAudios.add(flowScope.audioItem1)" />
             
             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem2" />
             <set name="flowScope.audioItem2.src" value="'LOC1'" />
-            <set name="flowScope.audioItem2.wording" value="'No le he entendido.'" />
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem2.wording" />
+            <set name="flowScope.audioItem2.wording.text" value="'No le he entendido.'" />
             <set name="flowScope.audioItem2.condition" value="'noMatchAttempt == 1'" />
             <evaluate expression="flowScope.inputTest.noMatchAudios.add(flowScope.audioItem2)" />
             
             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem3" />
             <set name="flowScope.audioItem3.src" value="'LOC1'" />
-            <set name="flowScope.audioItem3.wording" value="'Intente hablar mas claro. No le he entendido.'" />
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem3.wording" />
+            <set name="flowScope.audioItem3.wording.text" value="'Intente hablar mas claro. No le he entendido.'" />
             <set name="flowScope.audioItem3.condition" value="'noMatchAttempt == 2'" />
             <evaluate expression="flowScope.inputTest.noMatchAudios.add(flowScope.audioItem3)" />
             
             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem4" />
             <set name="flowScope.audioItem4.src" value="'LOC1'" />
-            <set name="flowScope.audioItem4.wording" value="'No le he oido.'" />
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem4.wording" />
+            <set name="flowScope.audioItem4.wording.text" value="'No le he oido.'" />
 <!--             <set name="flowScope.audioItem4.condition" value="'noInputAttempt == 1'" /> -->
             <evaluate expression="flowScope.inputTest.noInputAudios.add(flowScope.audioItem4)" />
+
+            <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem5" />
+            <set name="flowScope.audioItem5.src" value="'LOC1'" />
+            <evaluate expression="jVoiceArchWording" result="flowScope.audioItem5.wording" />
+            <set name="flowScope.audioItem5.wording.text" value="'Gracias'" />
+            <set name="flowScope.audioItem5.condition" value="'pruebaCond'" />
+            <evaluate expression="flowScope.inputTest.matchAudios.add(flowScope.audioItem5)" />
             
 <!--             <evaluate expression="jVoiceArchAudioItem" result="flowScope.audioItem5" /> -->
 <!--             <set name="flowScope.audioItem5.src" value="'LOC1'" /> -->

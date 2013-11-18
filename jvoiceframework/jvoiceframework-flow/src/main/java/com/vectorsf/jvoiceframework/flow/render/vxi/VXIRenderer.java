@@ -247,7 +247,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         sb.append(renderInputGrammars(input));
         sb.append(renderInputPrompts(input));
         sb.append(renderInputCatches(input, flowURL));
-        sb.append(renderInputFilled(flowURL));
+        sb.append(renderInputFilled(input, flowURL));
         
         sb.append(renderInputEnd());
         
@@ -580,7 +580,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 	
-	private String renderInputFilled(String flowURL) {
+	private String renderInputFilled(Input input, String flowURL) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(FILLED_START_TAG);
@@ -603,6 +603,9 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append("</script>");
 		//TODO Mirar si devuelve los valores correctos
 		
+		//Match Audios
+    	sb.append(renderInputPromptsList(input.getMatchAudios(), null));
+
 		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
 		sb.append(FILLED_END_TAG);
 		

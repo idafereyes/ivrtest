@@ -104,6 +104,8 @@ public class Input implements Serializable{
     private List<AudioItem> noMatchAudios;
     @Value(ARRAY_LIST_ANNOTATION)
     private List<AudioItem> noInputAudios;
+    @Value(ARRAY_LIST_ANNOTATION)
+    private List<AudioItem> matchAudios;
     
     /**
      * List of events to be controlled at this input.
@@ -198,7 +200,15 @@ public class Input implements Serializable{
         this.noInputAudios = noInputAudios;
     }
 
-    public List<String> getEvents() {
+    public List<AudioItem> getMatchAudios() {
+		return matchAudios;
+	}
+
+	public void setMatchAudios(List<AudioItem> matchAudios) {
+		this.matchAudios = matchAudios;
+	}
+
+	public List<String> getEvents() {
         return events;
     }
 
