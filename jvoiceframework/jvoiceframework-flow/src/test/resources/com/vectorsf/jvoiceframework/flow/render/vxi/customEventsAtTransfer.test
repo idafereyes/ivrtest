@@ -1,3 +1,4 @@
+<<<<<<< Upstream, based on master
 <transfer name="transferResult" type="blind" dest="tel:666777888" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
@@ -25,3 +26,26 @@
 <submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>
+=======
+<transfer name="transferResult" type="blind" dest="tel:666777888" >
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'transferred'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" namelist="duration event"/>
+</catch>
+<catch event="error.unsupported.transfer">
+<var name="event" expr="'error.unsupported.transfer'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error.unsupported.transfer" namelist="event"/>
+</catch>
+<catch event="error.connection.baddestination">
+<var name="event" expr="'error.connection.baddestination'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error.connection.baddestination" namelist="event"/>
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>
+>>>>>>> 787f655 Arreglados test

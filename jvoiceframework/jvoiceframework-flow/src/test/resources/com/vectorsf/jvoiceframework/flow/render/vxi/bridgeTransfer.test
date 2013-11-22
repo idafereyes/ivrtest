@@ -1,3 +1,4 @@
+<<<<<<< Upstream, based on master
 <transfer name="transferResult" type="bridge" dest="tel:666777888" connecttimeout="15s" maxtime="30s" >
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
@@ -18,3 +19,30 @@
 <submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>
+=======
+<transfer name="transferResult" type="bridge" dest="tel:666777888" connecttimeout="15s" maxtime="30s" >
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'hangup'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" namelist="duration event"/>
+</catch>
+<catch event="error.unsupported.transfer">
+<var name="event" expr="'error.unsupported.transfer'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error.unsupported.transfer" namelist="event"/>
+</catch>
+<catch event="error.connection">
+<var name="event" expr="'connectionerror'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" namelist="event"/>
+</catch>
+<catch event="error">
+<var name="event" expr="'error'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" namelist="event"/>
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>
+>>>>>>> 787f655 Arreglados test

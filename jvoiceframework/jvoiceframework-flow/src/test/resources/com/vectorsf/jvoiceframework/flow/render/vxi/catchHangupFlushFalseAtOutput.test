@@ -1,10 +1,10 @@
 <block>
 <prompt bargein="true">
-<audio src="SAN-WELCOME">
+<audio src="/app-test/SAN-WELCOME">
 Bienvenido</audio>
 </prompt>
 <prompt bargein="true">
-<audio src="SAN-WELCOME-B"/>
+<audio src="/app-test/SAN-WELCOME-B"/>
 </prompt>
 <prompt bargein="true">
 Gracias por llamar</prompt>

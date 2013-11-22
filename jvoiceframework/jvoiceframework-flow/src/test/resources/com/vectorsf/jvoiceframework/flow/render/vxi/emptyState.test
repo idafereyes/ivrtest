@@ -3,7 +3,12 @@
 <meta http-equiv="Expires" content="0"/>
 <form>
 <block>
+<<<<<<< Upstream, based on master
 <submit next="http://flowExecutionUrl/&amp;_eventId_success" method="post" />
+=======
+<var name="_eventId" expr="'success'" />
+<submit next="http://flowExecutionUrl/app-test/" namelist="_eventId" />
+>>>>>>> 787f655 Arreglados test
 </block>
 </form>
 </vxml>

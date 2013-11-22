@@ -1,7 +1,13 @@
 <property name="other.property" value="20s" />
 <property name="second.other.property" value="35s" />
 <block>
-<prompt bargein="false"><audio src="SAN-WELCOME">Bienvenido</audio></prompt>
-<prompt bargein="false"><audio src="SAN-WELCOME-B"/></prompt>
-<prompt bargein="false">Gracias por llamar</prompt>
+<prompt bargein="false">
+<audio src="/app-test/SAN-WELCOME">
+Bienvenido</audio>
+</prompt>
+<prompt bargein="false">
+<audio src="/app-test/SAN-WELCOME-B"/>
+</prompt>
+<prompt bargein="false">
+Gracias por llamar</prompt>
 </block>

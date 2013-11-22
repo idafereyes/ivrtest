@@ -1,3 +1,4 @@
+<<<<<<< Upstream, based on master
 <transfer name="transferResult" type="blind" dest="tel:666777888" >
 <property name="other.property" value="20s" />
 <property name="second.other.property" value="35s" />
@@ -21,3 +22,20 @@
 <submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>
+=======
+<transfer name="transferResult" type="blind" dest="tel:666777888" >
+<property name="other.property" value="20s" />
+<property name="second.other.property" value="35s" />
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'transferred'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" namelist="duration event"/>
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="transferResult" />
+<submit expr="url" namelist="duration event" />
+</filled>
+</transfer>
+>>>>>>> 787f655 Arreglados test

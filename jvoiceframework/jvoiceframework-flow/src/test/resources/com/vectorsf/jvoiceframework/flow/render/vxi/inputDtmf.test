@@ -22,14 +22,22 @@
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
+<<<<<<< Upstream, based on master
 <submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
+=======
+<submit next="http://flowExecutionUrl/app-test/" method="post" namelist="_eventId" />
+>>>>>>> 787f655 Arreglados test
 </if>
 <if cond="noMatchAttempts == maxNoMatchAttempts" >
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
+<<<<<<< Upstream, based on master
 <submit next="http://flowExecutionUrl/&amp;_eventId_maxnomatch" method="post" namelist="interpretation utterance inputmode confidence" />
+=======
+<submit next="http://flowExecutionUrl/app-test/" method="post" namelist="_eventId" />
+>>>>>>> 787f655 Arreglados test
 </if>
 <reprompt />
 </catch>
@@ -42,14 +50,22 @@
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
+<<<<<<< Upstream, based on master
 <submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
+=======
+<submit next="http://flowExecutionUrl/app-test/" method="post" namelist="_eventId" />
+>>>>>>> 787f655 Arreglados test
 </if>
 <if cond="noInputAttempts == maxNoInputAttempts" >
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
+<<<<<<< Upstream, based on master
 <submit next="http://flowExecutionUrl/&amp;_eventId_maxnoinput" method="post" namelist="interpretation utterance inputmode confidence" />
+=======
+<submit next="http://flowExecutionUrl/app-test/" method="post" namelist="_eventId" />
+>>>>>>> 787f655 Arreglados test
 </if>
 <reprompt />
 </catch>
@@ -79,7 +95,14 @@
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
 <var name="confidence" expr="application.lastresult$.confidence" />
+<<<<<<< Upstream, based on master
 <script><![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]></script>
 <submit next="http://flowExecutionUrl/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence" />
+=======
+<script>
+<![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
+</script>
+<submit next="http://flowExecutionUrl/app-test/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+>>>>>>> 787f655 Arreglados test
 </filled>
 </field>

@@ -138,16 +138,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     }
 
     private String renderAudioItem(AudioItem audioItem, String flowURL) {
-    	
-    	//get context path from flowURL
-		//position of first slash
-		int i = flowURL.indexOf("/");
-		//position of second slash
-		i = flowURL.indexOf("/", i + 1);
-		String contextPath = flowURL.substring(0, i);
-    			
+		
+		String contextPath = getContextPath(flowURL);
     	StringBuilder audioItemCode = new StringBuilder();
-    	    	
+
         //TTS
     	if (audioItem.getSrc() == null){
     		//Adds say-as tag if specified.
@@ -624,7 +618,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//TODO Mirar si devuelve los valores correctos
 		
 		//Match Audios
-    	sb.append(renderInputPromptsList(input.getMatchAudios(), null));
+    	sb.append(renderInputPromptsList(input.getMatchAudios(), null, flowURL));
 
 		sb.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Input.MATCH_EVENT + QUOTE_SPACE +  METHOD_POST_SPACE + "namelist=\"interpretation utterance inputmode confidence\" />");
 
@@ -1132,6 +1126,50 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		emptyPageCode.append("</block>");
 		emptyPageCode.append(renderEndPage());
 		return emptyPageCode.toString();
+	}
+	
+	public String getContextPath(String flowURL) {
+		flowURL = flowURL.trim();
+		if(flowURL.isEmpty() || flowURL.equals("/") || flowURL.equals("//")) {
+			return "";
+		}
+		if(flowURL.startsWith("http://")) {
+			int s = flowURL.indexOf("//");
+			if(s == -1) {
+				return "";
+			}
+			s = flowURL.indexOf("/", s + 2);
+			if(s == -1) {
+				return "";
+			}
+			int e = flowURL.indexOf("/", s + 1);
+			if(e == -1) {
+				return flowURL.substring(s) + "/";
+			}
+			return flowURL.substring(s, e) + "/";
+		} else {
+			//position of first slash
+			int s = flowURL.indexOf("/");
+			//position of second slash
+			int e = 0;
+			if(s != -1) {
+				e = flowURL.indexOf("/", s + 1);
+			} else {
+				e = -1;
+			}
+			
+			String ctx = "";
+			if(s == 0 && e == -1) {
+				ctx = flowURL.substring(0, flowURL.length()) + "/";
+			} else if(s == 0 && e != -1) {
+				ctx = flowURL.substring(0, e + 1);
+			} else if( s == -1 && e == -1) {
+				ctx = "/" + flowURL + "/";
+			} else {
+				ctx = "/" + flowURL.substring(0, s + 1);
+			}
+			return ctx;
+		}
 	}
 }
 

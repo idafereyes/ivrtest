@@ -1,3 +1,4 @@
+<<<<<<< Upstream, based on master
 <record type="audio/x-wav" name="temprecording" beep="true" dtmfterm="false" finalsilence="3s" maxtime="30s" >
 <prompt>
 <audio src="SAN-RECORDING">Por favor, diga su nombre</audio>
@@ -26,3 +27,24 @@
 <submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording duration size termchar maxtime" method="post" enctype="multipart/form-data" />
 </filled>
 </record>
+=======
+<record type="audio/x-wav" name="temprecording" beep="true" dtmfterm="false" finalsilence="3s" maxtime="30s" >
+<prompt>
+<audio src="/app-test/SAN-RECORDING">
+Por favor, diga su nombre</audio>
+</prompt>
+<prompt>
+<audio src="/app-test/SAN-RECORDING-B"/>
+</prompt>
+<prompt>
+Despues del beep</prompt>
+<filled>
+<var name="duration" expr="temprecording$.duration" />
+<var name="size" expr="temprecording$.size" />
+<var name="termchar" expr="temprecording$.termchar" />
+<var name="maxtime" expr="temprecording$.maxtime" />
+<var name="event" expr="'recorded'" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_recorded" namelist="temprecording event duration size termchar maxtime" method="post" enctype="multipart/form-data" />
+</filled>
+</record>
+>>>>>>> 787f655 Arreglados test

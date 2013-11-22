@@ -32,7 +32,7 @@ import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer;
 
 public class VXIRendererTest {
 	
-	static final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/";
+	static final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/app-test/";
 	static final String RESOURCE_FILE_PATH = "src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/";
 
 
@@ -795,5 +795,19 @@ public class VXIRendererTest {
 		return text.toString();	
 	}
 
+	@Test
+	public void testGetContextPath() {
+		VXIRenderer vxi = new VXIRenderer();
+		assertEquals("Context path for audios url test 1", vxi.getContextPath(""), "");
+		assertEquals("Context path for audios url test 2", vxi.getContextPath("/"), "");
+		assertEquals("Context path for audios url test 3", vxi.getContextPath("/test"), "/test/");
+		assertEquals("Context path for audios url test 4", vxi.getContextPath("/test/"), "/test/");
+		assertEquals("Context path for audios url test 5", vxi.getContextPath("test/"), "/test/");
+		assertEquals("Context path for audios url test 6", vxi.getContextPath("test"), "/test/");
+		
+		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application"), "/application/");
+		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/"), "/application/");
+		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/path"), "/application/");
+	}
 
 }
