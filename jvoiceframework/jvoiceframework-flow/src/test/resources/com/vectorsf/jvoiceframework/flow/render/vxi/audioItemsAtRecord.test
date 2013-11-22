@@ -6,8 +6,23 @@ Por favor, diga su nombre</audio>
 <prompt>
 <audio src="SAN-RECORDING-B"/>
 </prompt>
-<prompt>
-Despues del beep</prompt>
+<prompt>Despues del beep</prompt>
+<catch event="connection.disconnect.hangup">
+<var name="event" expr="'hangup'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="event"/>
+</catch>
+<catch event="error.noresource">
+<var name="event" expr="'noresource'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" namelist="event"/>
+</catch>
+<catch event="error.unsupported.record">
+<var name="event" expr="'recordunsupported'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_recordunsupported" namelist="event"/>
+</catch>
+<catch event="error">
+<var name="event" expr="'error'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+</catch>
 <filled>
 <var name="duration" expr="temprecording$.duration" />
 <var name="size" expr="temprecording$.size" />

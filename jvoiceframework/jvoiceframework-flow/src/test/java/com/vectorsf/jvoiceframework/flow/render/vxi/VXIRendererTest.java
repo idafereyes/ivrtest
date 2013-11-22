@@ -310,14 +310,6 @@ public class VXIRendererTest {
 		//Given
 		BlindTransfer blindTxMock = mock(BlindTransfer.class);
 		when(blindTxMock.getDest()).thenReturn("tel:666777888");
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
-		eventsList.add(BlindTransfer.HANGUP_EVENT);
-		eventsList.add(BlindTransfer.CONNECTIONERROR_EVENT);
-		eventsList.add(BlindTransfer.ERROR_EVENT);
-
-		when(blindTxMock.getEvents()).thenReturn(eventsList);
 		
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("error.unsupported.transfer");
@@ -342,15 +334,6 @@ public class VXIRendererTest {
 		ConsultationTransfer consultationTxMock = mock(ConsultationTransfer.class);
 		when(consultationTxMock.getDest()).thenReturn("tel:666777888");
 		when(consultationTxMock.getTimeout()).thenReturn("15s");
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(ConsultationTransfer.TRANSFERRED_EVENT);
-		eventsList.add(ConsultationTransfer.HANGUP_EVENT);
-		eventsList.add(ConsultationTransfer.CONNECTIONERROR_EVENT);
-		eventsList.add(ConsultationTransfer.ERROR_EVENT);
-		eventsList.add(ConsultationTransfer.NOANSWER_EVENT);
-		
-		when(consultationTxMock.getEvents()).thenReturn(eventsList);
 
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("error.unsupported.transfer");
@@ -377,14 +360,6 @@ public class VXIRendererTest {
 		when(bridgeTxMock.getTimeout()).thenReturn("15s");
 		when(bridgeTxMock.getMaxtime()).thenReturn("30s");
 
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(BridgeTransfer.HANGUP_EVENT);
-		eventsList.add(BridgeTransfer.CONNECTIONERROR_EVENT);
-		eventsList.add(BridgeTransfer.ERROR_EVENT);
-		eventsList.add(BridgeTransfer.NOANSWER_EVENT);
-		
-		when(bridgeTxMock.getEvents()).thenReturn(eventsList);
-
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("error.unsupported.transfer");
 
@@ -406,11 +381,6 @@ public class VXIRendererTest {
 		//Given
 		BlindTransfer transferMock = mock(BlindTransfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
-
-		when(transferMock.getEvents()).thenReturn(eventsList);
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put("other.property", "20s");
@@ -434,11 +404,6 @@ public class VXIRendererTest {
 		//Given
 		BlindTransfer transferMock = mock(BlindTransfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
-				
-		when(transferMock.getEvents()).thenReturn(eventsList);
 		
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("error.unsupported.transfer");
@@ -463,11 +428,6 @@ public class VXIRendererTest {
 		BlindTransfer transferMock = mock(BlindTransfer.class);
 		when(transferMock.getDest()).thenReturn("tel:666777888");
 		when(transferMock.getTransferaudio()).thenReturn("idleMusic");
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
-				
-		when(transferMock.getEvents()).thenReturn(eventsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -510,16 +470,6 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem3);
 		
 		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
-
-		//EventsList
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(Record.RECORDED_EVENT);
-		eventsList.add(Record.HANGUP_EVENT);
-		eventsList.add(Record.ERROR_EVENT);
-		eventsList.add(Record.RECORDUNSUPPORTED_EVENT);
-		eventsList.add(Record.NORESOURCE_EVENT);
-				
-		when(recordMock.getEvents()).thenReturn(eventsList);
 
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("com.nortel.ivr.record.notstored");
@@ -565,11 +515,6 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem1);
 		
 		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(Record.RECORDED_EVENT);
-		
-		when(recordMock.getEvents()).thenReturn(eventsList);
 
 		//Properties
 		Map<String, String> properties = new HashMap<String, String>();
@@ -642,11 +587,6 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem5);
 		
 		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(Record.RECORDED_EVENT);
-		
-		when(recordMock.getEvents()).thenReturn(eventsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -681,15 +621,6 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem1);
 		
 		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(Record.RECORDED_EVENT);
-		eventsList.add(Record.HANGUP_EVENT);
-		eventsList.add(Record.ERROR_EVENT);
-		eventsList.add(Record.RECORDUNSUPPORTED_EVENT);
-		eventsList.add(Record.NORESOURCE_EVENT);
-		
-		when(recordMock.getEvents()).thenReturn(eventsList);
 		
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("com.nortel.ivr.record.notstored");
@@ -737,11 +668,6 @@ public class VXIRendererTest {
 		audioItemsList.add(audioItem3);
 		
 		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
-
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(Record.RECORDED_EVENT);
-		
-		when(recordMock.getEvents()).thenReturn(eventsList);
 		
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
@@ -842,13 +768,7 @@ public class VXIRendererTest {
 		List<AudioItem> mainAudios = new ArrayList<AudioItem>();
 		mainAudios.add(ai4);
 		when(inputMock.getMainAudios()).thenReturn(mainAudios);
-		
-		List<String> events = new ArrayList<String>();
-		events.add("maxattempts");
-		events.add("maxnomatch");
-		events.add("maxnoinput");
-		when(inputMock.getEvents()).thenReturn(events);
-		
+
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When

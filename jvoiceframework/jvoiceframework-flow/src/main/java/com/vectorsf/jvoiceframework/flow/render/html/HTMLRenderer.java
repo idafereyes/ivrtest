@@ -38,7 +38,6 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     private String trStyledHtml = "<tr><td style=\"padding: 0 10px 0 10px; border: solid 1px black;\" >";
     private String endTrHtml = "</td></tr>";
     private String endSpanBrHtml = "</span><br/>";
-    private String startSpanHtml = "<span>";
     private String endSpanHtml = "</span>";
     private String endFormHtml = "</form>";
     private String quoteEndTagHtml = "\">";
@@ -329,14 +328,6 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         renderCode += "<span>dest: " + consultationTx.getDest() + endSpanBrHtml;
         renderCode += "<span>transferaudio: " + consultationTx.getTransferaudio() + endSpanBrHtml;
         renderCode += "<span>timeout: " + consultationTx.getTimeout() + endSpanBrHtml;
-
-        Iterator<String> it = consultationTx.getEvents().iterator();
-        
-        renderCode += "<span>Events:</span><br>";            
-        while (it.hasNext()){
-            String event = it.next();
-            renderCode += startSpanHtml + event + endSpanBrHtml;            
-        }
         
         Iterator itMap = consultationTx.getProperties().keySet().iterator();
 
@@ -360,14 +351,6 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         renderCode += "<span>transferaudio: " + bridgeTx.getTransferaudio() + endSpanBrHtml;
         renderCode += "<span>timeout: " + bridgeTx.getTimeout() + endSpanBrHtml;
         renderCode += "<span>maxtime: " + bridgeTx.getMaxtime() + endSpanBrHtml;
-
-        Iterator<String> it = bridgeTx.getEvents().iterator();
-        
-        renderCode += "<span>Events:</span><br>";            
-        while (it.hasNext()){
-            String event = it.next();
-            renderCode += startSpanHtml + event + endSpanBrHtml;            
-        }
         
         Iterator itMap = bridgeTx.getProperties().keySet().iterator();
 

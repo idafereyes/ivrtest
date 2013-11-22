@@ -4,6 +4,11 @@
 <var name="event" expr="'transferred'" />
 <submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
 </catch>
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<var name="event" expr="'hangup'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="duration event"/>
+</catch>
 <catch event="error.unsupported.transfer">
 <var name="event" expr="'error.unsupported.transfer'" />
 <submit next="http://flowExecutionUrl/&amp;_eventId_error.unsupported.transfer" namelist="event"/>
@@ -11,6 +16,14 @@
 <catch event="error.connection.baddestination">
 <var name="event" expr="'error.connection.baddestination'" />
 <submit next="http://flowExecutionUrl/&amp;_eventId_error.connection.baddestination" namelist="event"/>
+</catch>
+<catch event="error.connection">
+<var name="event" expr="'connectionerror'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" namelist="event"/>
+</catch>
+<catch event="error">
+<var name="event" expr="'error'" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />

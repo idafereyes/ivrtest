@@ -142,14 +142,6 @@ public class HTMLRendererTest {
 		when(blindTxMock.getDest()).thenReturn("tel:666777888");
 		when(blindTxMock.getTransferaudio()).thenReturn("idleMusic");
 
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(BlindTransfer.TRANSFERRED_EVENT);
-		eventsList.add(BlindTransfer.HANGUP_EVENT);
-		eventsList.add(BlindTransfer.CONNECTIONERROR_EVENT);
-		eventsList.add(BlindTransfer.ERROR_EVENT);
-		
-		when(blindTxMock.getEvents()).thenReturn(eventsList);
-
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("error.unsupported.transfer");
 
@@ -208,16 +200,6 @@ public class HTMLRendererTest {
 		audioItemsList.add(audioItem3);
 		
 		when(recordMock.getAudioItems()).thenReturn(audioItemsList);
-
-		//EventsList
-		List<String> eventsList = new ArrayList<String>();
-		eventsList.add(Record.RECORDED_EVENT);
-		eventsList.add(Record.HANGUP_EVENT);
-		eventsList.add(Record.ERROR_EVENT);
-		eventsList.add(Record.RECORDUNSUPPORTED_EVENT);
-		eventsList.add(Record.NORESOURCE_EVENT);
-				
-		when(recordMock.getEvents()).thenReturn(eventsList);
 		
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("com.nortel.ivr.record.notstored");
