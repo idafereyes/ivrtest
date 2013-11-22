@@ -141,14 +141,6 @@ public class InputTest {
 		assertEquals("Checking input no match audio cond", input
 				.getNoMatchAudios().get(0).getCondition(), "attempts==1");
 
-		input.getEvents().add("Evento1");
-		input.getEvents().add("Evento2");
-		input.getEvents().add("Evento3");
-		input.getEvents().add("Evento4");
-		assertEquals("Checking input events size", input.getEvents().size(), 4);
-		assertEquals("Checking input event 2", input.getEvents().get(1),
-				"Evento2");
-
 		// Finally
 		context.close();
 	}
@@ -198,14 +190,6 @@ public class InputTest {
 		input.setNoMatchAudios(noMatchAudios);
 		assertEquals("Checking input no match audios setter size", input
 				.getNoMatchAudios().size(), 2);
-
-		List<String> events = new ArrayList<String>();
-		events.add("evento1");
-		events.add("evento2");
-		events.add("evento3");
-		input.setEvents(events);
-		assertEquals("Checking input events setter size", input.getEvents()
-				.size(), 3);
 		
 		List<String> customEvents = new ArrayList<String>();
 		customEvents.add("customEvents1");

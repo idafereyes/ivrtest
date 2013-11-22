@@ -65,26 +65,6 @@ public class BridgeTransferTest {
 	}
 	
 	@Test
-	public void testEventsInjection(){
-		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
-		//When
-		BridgeTransfer bridgeTx = (BridgeTransfer)context.getBean(BridgeTransfer.class);
-		
-		//Then
-		//Verifies that events list has been initialized so it is not null
-		assertNotNull("events is null.", bridgeTx.getEvents());
-		
-		//Finally
-		context.close();
-
-	}
-
-	@Test
 	public void testPropertiesInjection(){
 		
 		//Given

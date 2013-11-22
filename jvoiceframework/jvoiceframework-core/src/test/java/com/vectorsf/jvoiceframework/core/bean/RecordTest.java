@@ -79,27 +79,7 @@ public class RecordTest {
 		context.close();
 
 	}
-	
-	@Test
-	public void testEventsListInitialization(){
 		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
-		//When
-		Record record = (Record)context.getBean(Record.class);
-		
-		//Then
-		//Verifies that eventsList has been initialized so it is not null
-		assertNotNull("eventsList is null.", record.getEvents());
-		
-		//Finally
-		context.close();
-
-	}
-	
 	@Test
 	public void testPropertiesMapInitialization(){
 		

@@ -71,33 +71,6 @@ public class BlindTransferTest {
 	}
 
 	@Test
-	public void testEventsInjection(){
-		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
-		//When
-		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
-		
-		//Then
-		//Verifies that events list has been initialized so it is not null
-		assertNotNull("Checking BlindTransfer events is not null.", blindTransfer.getEvents());
-		
-		//Verify getter and setter for events
-		blindTransfer.setEvents(events);
-		assertEquals("Checking BlindTransfer event getter and setter", 3, blindTransfer.getEvents().size());
-		assertEquals("Checking BlindTransfer event getter and setter", EVENT1, blindTransfer.getEvents().get(0));
-		assertEquals("Checking BlindTransfer event getter and setter", EVENT2, blindTransfer.getEvents().get(1));
-		assertEquals("Checking BlindTransfer event getter and setter", EVENT3, blindTransfer.getEvents().get(2));
-		
-		//Finally
-		context.close();
-
-	}
-
-	@Test
 	public void testPropertiesInjection(){
 		
 		//Given

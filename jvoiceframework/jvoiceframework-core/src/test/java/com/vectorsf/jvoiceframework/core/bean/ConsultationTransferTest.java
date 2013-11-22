@@ -61,26 +61,6 @@ public class ConsultationTransferTest {
 	}
 	
 	@Test
-	public void testEventsInjection(){
-		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
-		//When
-		ConsultationTransfer consultationTx = (ConsultationTransfer)context.getBean(ConsultationTransfer.class);
-		
-		//Then
-		//Verifies that events list has been initialized so it is not null
-		assertNotNull("events is null.", consultationTx.getEvents());
-		
-		//Finally
-		context.close();
-
-	}
-
-	@Test
 	public void testPropertiesInjection(){
 		
 		//Given

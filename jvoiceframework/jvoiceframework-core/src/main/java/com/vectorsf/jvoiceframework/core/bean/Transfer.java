@@ -41,12 +41,6 @@ public abstract class Transfer {
 	private Map<String,String> properties;
 
 	/**
-	 * List of events, within events defined by the framework, to be controlled during the transfer.
-	 */	
-    @Value("#{new java.util.ArrayList()}")
-    private List<String> events;
-
-	/**
 	 * List of events, within events defined by the user, to be controlled during the transfer.
 	 */	
     @Value("#{new java.util.ArrayList()}")
@@ -74,14 +68,6 @@ public abstract class Transfer {
 
 	public void setProperties(Map<String, String> properties) {
 		this.properties = properties;
-	}
-
-	public List<String> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<String> events) {
-		this.events = events;
 	}
 
 	public List<String> getCustomEvents() {
