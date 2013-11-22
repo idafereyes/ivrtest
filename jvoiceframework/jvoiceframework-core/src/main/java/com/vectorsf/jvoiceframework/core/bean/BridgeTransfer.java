@@ -32,7 +32,7 @@ public class BridgeTransfer extends Transfer implements Serializable {
 	public static final String NETWORK_BUSY_EVENT = "network_busy";
 	public static final String MAXTIME_DISCONNECT_EVENT = "maxtime_disconnect";
 	public static final String NETWORK_DISCONNECT_EVENT = "network_disconnect";
-	public static final String FAR_END_DISCONNECT_EVENT = "network_disconnect";
+	public static final String FAR_END_DISCONNECT_EVENT = "far_end_disconnect";
 
 	/**
 	 * The time to wait while trying to connect the call before returning the noanswer event.
