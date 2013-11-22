@@ -7,6 +7,6 @@
 <body>
 	<h1>Aplicación prototipo jVoice Framework</h1>
 	<p>La hora en el servidor es ${serverTime}.</p>	
-	<span class="header"><a href="main.flow">Acceso al menú principal</a></span>
+	<span class="header"><a href="Tests/main">Acceso al menú principal</a></span>
 </body>
 </html>

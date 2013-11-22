@@ -22,18 +22,16 @@
 	<!-- Aspectos. Usamos JDK proxys frente a CGLIB -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/> 
 	
-	<!-- Mapea las peticiones de flujo desde el DispatcherServlet al FlowController -->
-	<beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<beans:property name="mappings">
-			<beans:value>*.flow=flowController</beans:value>
-		</beans:property>
-		<beans:property name="alwaysUseFullPath" value="true" />
-	</beans:bean>
-
-	<beans:bean id="flowController" class="org.springframework.webflow.mvc.servlet.FlowController">
-		<beans:property name="flowExecutor" ref="flowExecutor" />
-	</beans:bean>
-
+    <!-- Mapea las peticiones a los flujos -->
+    <beans:bean class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+        <beans:property name="flowRegistry" ref="flowRegistry"/>
+        <beans:property name="order" value="-1" />
+    </beans:bean>
+    
+    <beans:bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+        <beans:property name="flowExecutor" ref="flowExecutor"/>
+    </beans:bean>
+            
 	<webflow:flow-executor id="flowExecutor" flow-registry="flowRegistry" >
 		<webflow:flow-execution-listeners>
 			<webflow:listener ref="logFlowExecutionListener" />
