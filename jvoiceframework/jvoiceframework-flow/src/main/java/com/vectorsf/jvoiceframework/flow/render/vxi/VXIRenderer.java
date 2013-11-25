@@ -83,7 +83,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         code2render.append(BLOCK_START_TAG);
         
         //Renders audioItemsList
-        code2render.append(renderOutputAudioItems(output));
+        code2render.append(renderOutputAudioItems(output, flowURL));
 
         code2render.append(BLOCK_END_TAG);
 
@@ -95,7 +95,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return code2render.toString();
     }    
 
-    private String renderOutputAudioItems(Output output) {
+    private String renderOutputAudioItems(Output output, String flowURL) {
         
         StringBuilder audioItemsCode = new StringBuilder();
 
@@ -128,7 +128,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             audioItemsCode.append(">");
             
             //Renders prompt tag body
-            audioItemsCode.append(renderAudioItem(audioItemsList.get(i)));
+            audioItemsCode.append(renderAudioItem(audioItemsList.get(i), flowURL));
             
             //Prompt end tag
             audioItemsCode.append(PROMPT_END_TAG);
@@ -137,7 +137,15 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return audioItemsCode.toString();
     }
 
-    private String renderAudioItem(AudioItem audioItem) {
+    private String renderAudioItem(AudioItem audioItem, String flowURL) {
+    	
+    	//get context path from flowURL
+		//position of first slash
+		int i = flowURL.indexOf("/");
+		//position of second slash
+		i = flowURL.indexOf("/", i + 1);
+		String contextPath = flowURL.substring(0, i);
+    			
     	StringBuilder audioItemCode = new StringBuilder();
     	    	
         //TTS
@@ -159,11 +167,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         
         //Audio without TTS backup prompt
         }else if (audioItem.getWording() == null || audioItem.getWording().getText() == null){
-            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItem.getSrc() + QUOTE + END_TAG);
+            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + contextPath + audioItem.getSrc() + QUOTE + END_TAG);
         
         //Audio with TTS backup prompt
         }else{
-            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + audioItem.getSrc() + QUOTE + CLOSE_TAG);
+            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + contextPath + audioItem.getSrc() + QUOTE + CLOSE_TAG);
     		//Adds say-as tag if specified.
         	if (audioItem.getWording().getSayAs() != null){
         		audioItemCode.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + audioItem.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
@@ -244,7 +252,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         sb.append(renderInputStartField(input));
         sb.append(renderInputProperties(input));
         sb.append(renderInputGrammars(input));
-        sb.append(renderInputPrompts(input));
+        sb.append(renderInputPrompts(input, flowURL));
         sb.append(renderInputCatches(input, flowURL));
         sb.append(renderInputFilled(input, flowURL));
         
@@ -355,12 +363,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    private String renderInputPrompts(Input input) {
+    private String renderInputPrompts(Input input, String flowURL) {
     	StringBuilder sb = new StringBuilder();
     	
-    	sb.append(renderInputPromptsList(input.getNoMatchAudios(), "NOMATCH"));
-    	sb.append(renderInputPromptsList(input.getNoInputAudios(), "NOINPUT"));
-    	sb.append(renderInputPromptsList(input.getMainAudios(), null));
+    	sb.append(renderInputPromptsList(input.getNoMatchAudios(), "NOMATCH", flowURL));
+    	sb.append(renderInputPromptsList(input.getNoInputAudios(), "NOINPUT", flowURL));
+    	sb.append(renderInputPromptsList(input.getMainAudios(), null, flowURL));
 		
 		return sb.toString();
     }
@@ -373,7 +381,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
      * 				is associated
      * @return VXML code.
      */
-    private String renderInputPromptsList(List<AudioItem> audioItems, String event) {
+    private String renderInputPromptsList(List<AudioItem> audioItems, String event, String flowURL) {
     	StringBuilder sb = new StringBuilder();
     	
     	for(AudioItem ai : audioItems) {
@@ -407,7 +415,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			sb.append(">");
 			
 			// Body tag
-			sb.append(renderInputAudios(ai));
+			sb.append(renderInputAudios(ai, flowURL));
 			
 			// Close tag
 			sb.append(PROMPT_END_TAG);
@@ -427,7 +435,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return "";
     }
     
-	private String renderInputAudios(AudioItem ai) {
+	private String renderInputAudios(AudioItem ai, String flowURL) {
+		//get context path from flowURL
+		//position of first slash
+		int i = flowURL.indexOf("/");
+		//position of second slash
+		i = flowURL.indexOf("/", i + 1);
+		String contextPath = flowURL.substring(0, i);
+		
 		StringBuilder sb = new StringBuilder();
 		
 		//TTS
@@ -451,12 +466,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         //Audio without TTS backup prompt
 		} else if (ai.getWording() == null || ai.getWording().getText().isEmpty()){
 			//TODO Añadir logs
-			sb.append("<audio src=\"" + ai.getSrc() + QUOTE_SPACE + END_TAG);
+			sb.append("<audio src=\"" + contextPath + ai.getSrc() + QUOTE_SPACE + END_TAG);
 
 		//Audio with TTS backup prompt
 		} else{
 			//TODO Meter logs
-			sb.append("<audio src=\"" + ai.getSrc() + QUOTE_END_TAG);
+			sb.append("<audio src=\"" + contextPath + ai.getSrc() + QUOTE_END_TAG);
     		//Adds say-as tag if specified.
         	if (ai.getWording().getSayAs() != null){
         		sb.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + ai.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
@@ -893,7 +908,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         
         //Renders record audio items
         List<AudioItem> audioItems = record.getAudioItems();
-        code2render.append(renderRecordAudioItems(audioItems));
+        code2render.append(renderRecordAudioItems(audioItems, flowURL));
         
         //Renders record properties, if there are
         if (!record.getProperties().isEmpty()){
@@ -1008,7 +1023,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return propsCode;
 	}
 
-	private StringBuilder renderRecordAudioItems(List<AudioItem> audioItems) {
+	private StringBuilder renderRecordAudioItems(List<AudioItem> audioItems, String flowURL) {
         
     	StringBuilder audioItemsCode = new StringBuilder();
         
@@ -1029,7 +1044,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             audioItemsCode.append(">");
             
             //Renders prompt tag body
-            audioItemsCode.append(renderAudioItem(audioItems.get(i)));
+            audioItemsCode.append(renderAudioItem(audioItems.get(i), flowURL));
                         
             //Prompt end tag
             audioItemsCode.append(PROMPT_END_TAG);

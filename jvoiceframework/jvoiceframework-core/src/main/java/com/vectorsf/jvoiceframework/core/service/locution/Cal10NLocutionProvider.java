@@ -93,15 +93,15 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 	}
 
 	@Override
-	public String getAudioSrc(Enum<?> key)
+	public String getAudioSrcI18n(Enum<?> key, String module)
 			throws LocutionProviderException {
-		return this.getAudioSrc(key, this.user.getLocale());
+		return this.getAudioSrcI18n(key, module, this.user.getLocale());
 	}
 
 	@Override
-	public String getAudioSrc(Enum<?> key, Locale locale)
+	public String getAudioSrcI18n(Enum<?> key, String module, Locale locale)
 			throws LocutionProviderException {
-		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC, key, locale);
+		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_I18N_SRC, key, locale);
 		IMessageConveyor messageConveyor = conveyors.get(locale);
 		if (messageConveyor == null) {
 			messageConveyor = new MessageConveyor(locale);
@@ -112,15 +112,37 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 		try {
 			audioName = messageConveyor.getMessage(key);
 		} catch (Exception mce) {
-			logger.error(Cal10NLocutionProviderMessages.ERROR_GET_AUDIO_SRC, mce);
+			logger.error(Cal10NLocutionProviderMessages.ERROR_GET_AUDIO_I18N_SRC, mce);
 			throw new LocutionProviderException(mce);
 		}
 		
 		//Para implementar la funcionalidad de multiplataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
-		String src = locationPrefix + audioName + formatSuffix;
+		module = module.trim();
+		if(locationPrefix.endsWith("/")) {
+			locationPrefix = locationPrefix.substring(0, locationPrefix.length() - 2);
+		}
+
+		String src = locationPrefix + "/" + module + "/" + audioName + formatSuffix;
 		
-		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC_RETURN, src);
+		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_I18N_SRC_RETURN, src);
 		return src;
+	}
+
+	@Override
+	public String getAudioSrc(String src, String module)
+			throws LocutionProviderException {
+		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC, src, module);
+		
+		//Para implementar la funcionalidad de multiplataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
+		module = module.trim();
+		if(locationPrefix.endsWith("/")) {
+			locationPrefix = locationPrefix.substring(0, locationPrefix.length() - 1);
+		}
+
+		String path = locationPrefix + "/" + module + "/" + src + formatSuffix;
+		
+		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC_RETURN, path);
+		return path;
 	}
 
 }

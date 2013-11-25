@@ -132,11 +132,11 @@ public class AppConfigDefaults implements Serializable {
 	private int inputNoInputAttempts;
 	
 	/** Prefix or path location of audio items. Platform dependent. **/
-	@Value("builtin:jvoice-test-app/")
+	@Value("/resources/audios/")
 	private String audiosLocationPrefix;
 	
 	/** Suffix of audio items names. Platform dependent. **/ 
-	@Value("")
+	@Value(".wav")
 	private String audiosFormatSuffix;
 	
 	/**
