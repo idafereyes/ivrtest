@@ -23,14 +23,14 @@
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <if cond="noMatchAttempts == maxNoMatchAttempts" >
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_maxnomatch" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxnomatch" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <reprompt />
 </catch>
@@ -43,14 +43,14 @@
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <if cond="noInputAttempts == maxNoInputAttempts" >
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_maxnoinput" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxnoinput" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <reprompt />
 </catch>
@@ -59,21 +59,21 @@
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <catch event="error.noresource">
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_noresource" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <catch event="error">
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" namelist="interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <filled>
 <var name="interpretation" />
@@ -83,32 +83,23 @@
 <script>
 <![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
 </script>
-<<<<<<< Upstream, based on master
-<submit next="http://flowExecutionUrl/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence" />
-=======
-<submit next="http://flowExecutionUrl/app-test/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
->>>>>>> 787f655 Arreglados test
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence" />
 </filled>
 </field>
 <transfer name="transferResult" type="blind" dest="null" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
-<<<<<<< Upstream, based on master
-<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" method="post" namelist="duration"/>
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" method="post" namelist="duration"/>
 </catch>
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
-=======
-<var name="event" expr="'transferred'" />
-<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" namelist="duration event"/>
->>>>>>> 787f655 Arreglados test
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
@@ -119,22 +110,17 @@
 <transfer name="transferResult" type="consultation" dest="null" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
-<<<<<<< Upstream, based on master
-<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" method="post" namelist="duration"/>
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" method="post" namelist="duration"/>
 </catch>
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
-=======
-<var name="event" expr="'transferred'" />
-<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" namelist="duration event"/>
->>>>>>> 787f655 Arreglados test
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
@@ -145,13 +131,13 @@
 <transfer name="transferResult" type="bridge" dest="null" >
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
@@ -161,28 +147,23 @@
 </transfer>
 <record type="audio/x-wav" name="temprecording" beep="false" dtmfterm="false" finalsilence="null" maxtime="null" >
 <catch event="connection.disconnect.hangup">
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" />
 </catch>
 <catch event="error.noresource">
-<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_noresource" method="post" />
 </catch>
 <catch event="error.unsupported.record">
-<submit next="http://flowExecutionUrl/&amp;_eventId_recordunsupported" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_recordunsupported" method="post" />
 </catch>
 <catch event="error">
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="duration" expr="temprecording$.duration" />
 <var name="size" expr="temprecording$.size" />
 <var name="termchar" expr="temprecording$.termchar" />
 <var name="maxtime" expr="temprecording$.maxtime" />
-<<<<<<< Upstream, based on master
-<submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording duration size termchar maxtime" method="post" enctype="multipart/form-data" />
-=======
-<var name="event" expr="'recorded'" />
-<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_recorded" namelist="temprecording event duration size termchar maxtime" method="post" enctype="multipart/form-data" />
->>>>>>> 787f655 Arreglados test
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_recorded" namelist="temprecording duration size termchar maxtime" method="post" enctype="multipart/form-data" />
 </filled>
 </record>
 <block>
