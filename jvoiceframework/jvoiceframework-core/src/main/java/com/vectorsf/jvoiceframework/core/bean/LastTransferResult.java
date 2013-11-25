@@ -16,25 +16,12 @@ import org.springframework.stereotype.Component;
 public class LastTransferResult implements Serializable {
 
 	private static final long serialVersionUID = 4212121618463154203L;
-
-	/**
-	 * Represents the event that the transfer attempt have fired.
-	 */
-	private String event;
 	
 	/**
 	 * Indicates the time the call have been transferred to another entity.
 	 * Only applies to bridge transfers.
 	 */
 	private String duration;
-
-	public String getEvent() {
-		return event;
-	}
-
-	public void setEvent(String event) {
-		this.event = event;
-	}
 
 	public String getDuration() {
 		return duration;

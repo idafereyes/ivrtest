@@ -14,8 +14,6 @@ public class LastInputResult implements Serializable {
 
     private static final long serialVersionUID = -8072514116803473643L;
 
-    /** The event throw by the input **/
-    private String event;
     /**
      * The input interpretation.
      */
@@ -34,14 +32,6 @@ public class LastInputResult implements Serializable {
      * The mode of the recognition. It can be <i>dtmf</i> or <i>voice</i>.
      */
     private String inputmode;
-
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
 
     public String getInterpretation() {
         return interpretation;

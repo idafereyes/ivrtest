@@ -3,26 +3,21 @@
 <property name="second.other.property" value="35s" />
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'transferred'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" method="post" namelist="duration"/>
 </catch>
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'hangup'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<var name="event" expr="'connectionerror'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<var name="event" expr="'error'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="transferResult" />
-<submit expr="url" namelist="duration event" />
+<submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>

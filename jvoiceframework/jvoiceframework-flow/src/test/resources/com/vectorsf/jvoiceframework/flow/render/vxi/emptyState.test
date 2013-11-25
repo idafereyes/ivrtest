@@ -3,8 +3,7 @@
 <meta http-equiv="Expires" content="0"/>
 <form>
 <block>
-<var name="_eventId" expr="'success'" />
-<submit next="http://flowExecutionUrl/" namelist="_eventId" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_success" method="post" />
 </block>
 </form>
 </vxml>

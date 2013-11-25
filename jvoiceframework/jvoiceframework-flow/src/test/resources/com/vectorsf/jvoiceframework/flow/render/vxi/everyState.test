@@ -19,20 +19,18 @@
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOMATCH'" />
 <if cond="attempts &gt;= maxAttempts" >
-<var name="_eventId" expr="'maxattempts'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <if cond="noMatchAttempts == maxNoMatchAttempts" >
-<var name="_eventId" expr="'maxnomatch'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxnomatch" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <reprompt />
 </catch>
@@ -41,49 +39,43 @@
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOINPUT'" />
 <if cond="attempts &gt;= maxAttempts" >
-<var name="_eventId" expr="'maxattempts'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <if cond="noInputAttempts == maxNoInputAttempts" >
-<var name="_eventId" expr="'maxnoinput'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxnoinput" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <reprompt />
 </catch>
 <catch event="connection.disconnect.hangup">
-<var name="_eventId" expr="'hangup'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <catch event="error.noresource">
-<var name="_eventId" expr="'noresource'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <catch event="error">
-<var name="_eventId" expr="'error'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <filled>
-<var name="_eventId" expr="'match'" />
 <var name="interpretation" />
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
@@ -91,106 +83,87 @@
 <script>
 <![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
 </script>
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence" />
 </filled>
 </field>
 <transfer name="transferResult" type="blind" dest="null" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'transferred'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" method="post" namelist="duration"/>
 </catch>
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'hangup'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<var name="event" expr="'connectionerror'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<var name="event" expr="'error'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="transferResult" />
-<submit expr="url" namelist="duration event" />
+<submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>
 <transfer name="transferResult" type="consultation" dest="null" >
 <catch event="connection.disconnect.transfer">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'transferred'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_transferred" method="post" namelist="duration"/>
 </catch>
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'hangup'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<var name="event" expr="'connectionerror'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<var name="event" expr="'error'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="transferResult" />
-<submit expr="url" namelist="duration event" />
+<submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>
 <transfer name="transferResult" type="bridge" dest="null" >
 <catch event="connection.disconnect.hangup">
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="'hangup'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="duration event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="duration"/>
 </catch>
 <catch event="error.connection">
-<var name="event" expr="'connectionerror'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_connectionerror" method="post" />
 </catch>
 <catch event="error">
-<var name="event" expr="'error'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="url" expr="'http://flowExecutionUrl/'+'&amp;' + '_eventId_' + transferResult" />
 <var name="duration" expr="transferResult$.duration" />
-<var name="event" expr="transferResult" />
-<submit expr="url" namelist="duration event" />
+<submit expr="url" method="post" namelist="duration" />
 </filled>
 </transfer>
 <record type="audio/x-wav" name="temprecording" beep="false" dtmfterm="false" finalsilence="null" maxtime="null" >
 <catch event="connection.disconnect.hangup">
-<var name="event" expr="'hangup'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" />
 </catch>
 <catch event="error.noresource">
-<var name="event" expr="'noresource'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" method="post" />
 </catch>
 <catch event="error.unsupported.record">
-<var name="event" expr="'recordunsupported'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_recordunsupported" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_recordunsupported" method="post" />
 </catch>
 <catch event="error">
-<var name="event" expr="'error'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_error" namelist="event"/>
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" />
 </catch>
 <filled>
 <var name="duration" expr="temprecording$.duration" />
 <var name="size" expr="temprecording$.size" />
 <var name="termchar" expr="temprecording$.termchar" />
 <var name="maxtime" expr="temprecording$.maxtime" />
-<var name="event" expr="'recorded'" />
-<submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording event duration size termchar maxtime" method="post" enctype="multipart/form-data" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_recorded" namelist="temprecording duration size termchar maxtime" method="post" enctype="multipart/form-data" />
 </filled>
 </record>
 <block>

@@ -52,15 +52,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     static final String QUOTE_END_TAG = "\" >";
     static final String QUOTE_EXPR = "\" expr=\"";
     static final String EVENT_ID = "_eventId_";
-    static final String NAMELIST_EVENT_DURATION = "namelist=\"duration event\"";
-    static final String NAMELIST_EVENT = "namelist=\"event\"";
+    static final String NAMELIST_DURATION = "namelist=\"duration\"";
     static final String SINGLE_QUOTE = "'";
-    static final String EVENT_VAR_DECLARATION = "<var name=\"event\" expr=\"'";
     static final String AUDIO_START_TAG = "<audio ";
     static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
     static final String LANG_ATTR = " xml:lang=\"";
     static final String VAR_NAME_TAG = "<var name=\"";
     static final String IF_COND_TAG = "<if cond=\"";
+    static final String METHOD_POST_SPACE = "method=\"post\" ";
 
     // Grammar path values from configuration
     @Value("#{appConfigDefaults.grammarType}")
@@ -192,7 +191,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         //Renders a catch tag for the hangup event and redirects back to the application server with hangup as _eventId param value. 
         catchHangupCode.append("<catch event=\"connection.disconnect.hangup\">");
         
-        catchHangupCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.HANGUP_EVENT + QUOTE_SPACE + END_TAG);
+        catchHangupCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.HANGUP_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         
         catchHangupCode.append(CATCH_END_TAG);
 
@@ -221,7 +220,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append(FILLED_START_TAG);
         
         //redirects back to the application server with success as _eventId param value. 
-        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + QUOTE_SPACE + END_TAG);
+        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         
         fieldDummyCode.append(FILLED_END_TAG);
         
@@ -229,7 +228,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         fieldDummyCode.append("<catch event=\"noinput nomatch\" >");
         
         //redirects back to the application server with success as _eventId param value. 
-        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + QUOTE_SPACE + END_TAG);
+        fieldDummyCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Output.SUCCESS_EVENT + QUOTE_SPACE +  METHOD_POST_SPACE + END_TAG);
 
         fieldDummyCode.append(CATCH_END_TAG);
 
@@ -594,7 +593,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//TODO Añadir log
 		
 		//escribimos los datos del resultado
-		sb.append("<var name=\"_eventId\" expr=\"'match'\" />");
 		sb.append("<var name=\"interpretation\" />");
 		sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
 		sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
@@ -613,7 +611,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		//Match Audios
     	sb.append(renderInputPromptsList(input.getMatchAudios(), null));
 
-		sb.append("<submit next=\"" + flowURL + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
+		sb.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Input.MATCH_EVENT + QUOTE_SPACE +  METHOD_POST_SPACE + "namelist=\"interpretation utterance inputmode confidence\" />");
+
 		sb.append(FILLED_END_TAG);
 		
 		return sb.toString();
@@ -623,13 +622,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		StringBuilder sb = new StringBuilder();
 			
 		//Different information to be stored at componentId variable depending on the parent
-		sb.append("<var name=\"_eventId\" expr=\"'" + event + "'\" />");
 		sb.append("<var name=\"interpretation\" expr=\"null\" />");
 		sb.append("<var name=\"utterance\" expr=\"null\" />");
 		sb.append("<var name=\"inputmode\" expr=\"null\" />");
 		sb.append("<var name=\"confidence\" expr=\"null\" />");
 		
-		sb.append("<submit next=\"" + url + "\" method=\"post\" namelist=\"_eventId interpretation utterance inputmode confidence\" />");
+		sb.append(SUBMIT_TAG + url + AMPERSAND + EVENT_ID + event + QUOTE_SPACE +  METHOD_POST_SPACE + "namelist=\"interpretation utterance inputmode confidence\" />");
 		
 		return sb.toString();
 	}
@@ -818,9 +816,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	catchEventsCode.append("<catch event=\"connection.disconnect.transfer\">");
         //Redirects back to the application server with transferred as _eventId param value. event and duration also as request parameters.          
         catchEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
-        //TODO Revisar porque puede ser un evento de Blind o de Consultation
-        catchEventsCode.append(EVENT_VAR_DECLARATION+ BlindTransfer.TRANSFERRED_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + BlindTransfer.TRANSFERRED_EVENT + QUOTE_SPACE + NAMELIST_EVENT_DURATION + END_TAG);
+        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + BlindTransfer.TRANSFERRED_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + NAMELIST_DURATION + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);
         
         return catchEventsCode;
@@ -834,8 +830,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         catchEventsCode.append("<catch event=\"connection.disconnect.hangup\">");
         //Redirects back to the application server with hangup as _eventId param value. event and duration also as request parameters.          
         catchEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
-        catchEventsCode.append(EVENT_VAR_DECLARATION + Transfer.HANGUP_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.HANGUP_EVENT + QUOTE_SPACE + NAMELIST_EVENT_DURATION + END_TAG);
+        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.HANGUP_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + NAMELIST_DURATION + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);
 
         /*************************** CATCH for Custom Events *****************************/
@@ -846,8 +841,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             for(String event : customEvents) {
                 catchEventsCode.append("<catch event=\""+ event +"\">");
                 //Redirects back to the application server with the name of the custome event as _eventId param value. event also as request parameter.          
-                catchEventsCode.append(EVENT_VAR_DECLARATION + event + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-                catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + event + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+                catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + event + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
                 catchEventsCode.append(CATCH_END_TAG);
             }
             
@@ -857,16 +851,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         /*****It must be above error catch. Otherwise, it would be overridden by error catch ******/          
         catchEventsCode.append("<catch event=\"error.connection\">");
         //Redirects back to the application server with connectionerror as _eventId param value. event also as request parameter.          
-        catchEventsCode.append(EVENT_VAR_DECLARATION + Transfer.CONNECTIONERROR_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.CONNECTIONERROR_EVENT+ QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.CONNECTIONERROR_EVENT+ QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);
         
         /**************************** CATCH for error ********************************/
         /*****It must be at the bottom. Otherwise, it would override other catches******/
         catchEventsCode.append("<catch event=\"error\">");
         //Redirects back to the application server with error as _eventId param value. event also as request parameter.          
-        catchEventsCode.append(EVENT_VAR_DECLARATION + Transfer.ERROR_EVENT+ SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.ERROR_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Transfer.ERROR_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);            
         
         return catchEventsCode;
@@ -878,11 +870,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
         //Events filled at the transfer Javascript variable
         filledEventsCode.append(FILLED_START_TAG);    
-        //Redirects back to the application server with the value of the transfer javascript variable as _eventId param value. event and duration also as request parameters.          
+        //Redirects back to the application server with the value of the transfer javascript variable as _eventId param value. duration also as request parameter.          
         filledEventsCode.append("<var name=\"url\" expr=\"'"+ flowURL +"'+'" + AMPERSAND +"' + '"+ EVENT_ID +"' + transferResult\" "+ END_TAG);
         filledEventsCode.append("<var name=\"duration\" expr=\"transferResult$.duration\" />");
-        filledEventsCode.append("<var name=\"event\" expr=\"transferResult\" />");
-        filledEventsCode.append("<submit expr=\"url\" namelist=\"duration event\" />");        
+        filledEventsCode.append("<submit expr=\"url\" " + METHOD_POST_SPACE + "namelist=\"duration\" />");        
         filledEventsCode.append(FILLED_END_TAG);
         
         return filledEventsCode;
@@ -943,12 +934,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		filledEventCode.append("<var name=\"size\" expr=\"temprecording$.size\" />");
 		filledEventCode.append("<var name=\"termchar\" expr=\"temprecording$.termchar\" />");
 		filledEventCode.append("<var name=\"maxtime\" expr=\"temprecording$.maxtime\" />");
-		filledEventCode.append(EVENT_VAR_DECLARATION + Record.RECORDED_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
 		
 		//Redirects back to the application server with recorded as _eventId param value.
-		//Other request parameters are: temprecording, event, duration, size, termchar and maxtime.
+		//Other request parameters are: temprecording, duration, size, termchar and maxtime.
 		//method must be "post" and enctype must be "multipart/form-data" because the recording is being sent at the request.
-		filledEventCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.RECORDED_EVENT + QUOTE_SPACE + "namelist=\"temprecording event duration size termchar maxtime\" method=\"post\" enctype=\"multipart/form-data\" " + END_TAG);
+		filledEventCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.RECORDED_EVENT + QUOTE_SPACE + "namelist=\"temprecording duration size termchar maxtime\" method=\"post\" enctype=\"multipart/form-data\" " + END_TAG);
 
 		filledEventCode.append(FILLED_END_TAG);
 		
@@ -962,9 +952,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		
         /**************** CATCH for connection.disconnect.hangup *************************/            
     	catchEventsCode.append("<catch event=\"connection.disconnect.hangup\">");
-    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.HANGUP_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
         //Redirects back to the application server with hangup as _eventId param value.          
-        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.HANGUP_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+        catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.HANGUP_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);			
 
         /*************************** CATCH for Custom Events *****************************/
@@ -974,9 +963,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             
             for(String event : customEvents) {
                 catchEventsCode.append("<catch event=\""+ event +"\">");
-    	    	catchEventsCode.append(EVENT_VAR_DECLARATION + event + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
-                //Redirects back to the application server with the name of the custom event as _eventId param value. event also as request parameter.          
-                catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + event + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+                //Redirects back to the application server with the name of the custom event as _eventId param value.         
+                catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + event + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
                 catchEventsCode.append(CATCH_END_TAG);
             }
            
@@ -985,25 +973,22 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         /**************************** CATCH for error.noresource ********************************/
         /*****It must be above error catch. Otherwise, it would be overridden by error catch ******/          
     	catchEventsCode.append("<catch event=\"error.noresource\">");
-    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.NORESOURCE_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
         //Redirects back to the application server with noresource as _eventId param value.
-    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.NORESOURCE_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.NORESOURCE_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);			
 
         /**************************** CATCH for error.unsupported.record ********************************/
         /*****It must be above error catch. Otherwise, it would be overridden by error catch ******/          
     	catchEventsCode.append("<catch event=\"error.unsupported.record\">");
-    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.RECORDUNSUPPORTED_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
         //Redirects back to the application server with recordunsupported as _eventId param value.
-    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.RECORDUNSUPPORTED_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.RECORDUNSUPPORTED_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);			
 
         /**************************** CATCH for error ********************************/
         /*****It must be at the bottom. Otherwise, it would override other catches******/
     	catchEventsCode.append("<catch event=\"error\">");
-    	catchEventsCode.append(EVENT_VAR_DECLARATION + Record.ERROR_EVENT + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
         //Redirects back to the application server with error as _eventId param value.
-    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.ERROR_EVENT + QUOTE_SPACE + NAMELIST_EVENT + END_TAG);
+    	catchEventsCode.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Record.ERROR_EVENT + QUOTE_SPACE + METHOD_POST_SPACE + END_TAG);
         catchEventsCode.append(CATCH_END_TAG);			
 
         return catchEventsCode;
@@ -1128,8 +1113,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		StringBuilder emptyPageCode = new StringBuilder();
 		emptyPageCode.append(renderStartPage());
 		emptyPageCode.append("<block>");
-		emptyPageCode.append("<var name=\"_eventId\" expr=\"'success'\" />");
-		emptyPageCode.append("<submit next=\"" + flowURL + "\" namelist=\"_eventId\" />");
+		emptyPageCode.append("<submit next=\"" + flowURL + AMPERSAND + "_eventId_success\" " + METHOD_POST_SPACE + "/>");
 		emptyPageCode.append("</block>");
 		emptyPageCode.append(renderEndPage());
 		return emptyPageCode.toString();

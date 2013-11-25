@@ -18,11 +18,6 @@ public class LastRecordResult implements Serializable{
     private static final long serialVersionUID = 3343902521553999489L;
     
     /**
-     * Represents the event that the recording attempt have fired.
-     */
-    private String event;
-
-    /**
      * Specifies the name of the file.
      */
     private String fileName;
@@ -51,14 +46,6 @@ public class LastRecordResult implements Serializable{
      * Indicates if the recording was terminated because the maxtime duration was reached.
      */
     private boolean maxtime;
-
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
 
     public String getFileName() {
         return fileName;

@@ -9,33 +9,27 @@
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
 <grammar mode="dtmf" src="builtin:dtmf/digits?length=1"/>
-<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-No le he entendido.</prompt>
-<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-Intente hablar mas claro. No le he entendido.</prompt>
-<prompt cond="returnCode == 'NOINPUT'" bargein="false">
-No le he oido.</prompt>
-<prompt bargein="false">
-Por favor, digame su DNI.</prompt>
+<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">No le he entendido.</prompt>
+<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">Intente hablar mas claro. No le he entendido.</prompt>
+<prompt cond="returnCode == 'NOINPUT'" bargein="false">No le he oido.</prompt>
+<prompt bargein="false">Por favor, digame su DNI.</prompt>
 <catch event="nomatch" >
 <assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOMATCH'" />
 <if cond="attempts &gt;= maxAttempts" >
-<var name="_eventId" expr="'maxattempts'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <if cond="noMatchAttempts == maxNoMatchAttempts" >
-<var name="_eventId" expr="'maxnomatch'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxnomatch" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <reprompt />
 </catch>
@@ -44,56 +38,48 @@ Por favor, digame su DNI.</prompt>
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
 <assign name="returnCode" expr="'NOINPUT'" />
 <if cond="attempts &gt;= maxAttempts" >
-<var name="_eventId" expr="'maxattempts'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <if cond="noInputAttempts == maxNoInputAttempts" >
-<var name="_eventId" expr="'maxnoinput'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_maxnoinput" method="post" namelist="interpretation utterance inputmode confidence" />
 </if>
 <reprompt />
 </catch>
 <catch event="connection.disconnect.hangup">
-<var name="_eventId" expr="'hangup'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_hangup" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <catch event="error.noresource">
-<var name="_eventId" expr="'noresource'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_noresource" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <catch event="error">
-<var name="_eventId" expr="'error'" />
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
 <var name="inputmode" expr="null" />
 <var name="confidence" expr="null" />
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_error" method="post" namelist="interpretation utterance inputmode confidence" />
 </catch>
 <filled>
-<var name="_eventId" expr="'match'" />
 <var name="interpretation" />
 <var name="utterance" expr="application.lastresult$.utterance" />
 <var name="inputmode" expr="application.lastresult$.inputmode" />
 <var name="confidence" expr="application.lastresult$.confidence" />
-<script>
-<![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
-</script>
-<submit next="http://flowExecutionUrl/" method="post" namelist="_eventId interpretation utterance inputmode confidence" />
+<script><![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]></script>
+<submit next="http://flowExecutionUrl/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence" />
 </filled>
 </field>

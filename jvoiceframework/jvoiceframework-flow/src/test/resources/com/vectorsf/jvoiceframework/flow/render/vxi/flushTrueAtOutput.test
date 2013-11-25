@@ -7,9 +7,9 @@
 <property name="timeout" value="0.1s" />
 <grammar mode="dtmf" src="builtin:dtmf/digits?minlength=1;maxlength=1"/>
 <filled>
-<submit next="http://flowExecutionUrl/&amp;_eventId_success" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_success" method="post" />
 </filled>
 <catch event="noinput nomatch" >
-<submit next="http://flowExecutionUrl/&amp;_eventId_success" />
+<submit next="http://flowExecutionUrl/&amp;_eventId_success" method="post" />
 </catch>
 </field>
