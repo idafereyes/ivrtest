@@ -800,14 +800,14 @@ public class VXIRendererTest {
 		VXIRenderer vxi = new VXIRenderer();
 		assertEquals("Context path for audios url test 1", vxi.getContextPath(""), "");
 		assertEquals("Context path for audios url test 2", vxi.getContextPath("/"), "");
-		assertEquals("Context path for audios url test 3", vxi.getContextPath("/test"), "/test/");
-		assertEquals("Context path for audios url test 4", vxi.getContextPath("/test/"), "/test/");
-		assertEquals("Context path for audios url test 5", vxi.getContextPath("test/"), "/test/");
-		assertEquals("Context path for audios url test 6", vxi.getContextPath("test"), "/test/");
+		assertEquals("Context path for audios url test 3", vxi.getContextPath("/test"), "/test");
+		assertEquals("Context path for audios url test 4", vxi.getContextPath("/test/"), "/test");
+		assertEquals("Context path for audios url test 5", vxi.getContextPath("test/"), "/test");
+		assertEquals("Context path for audios url test 6", vxi.getContextPath("test"), "/test");
 		
-		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application"), "/application/");
-		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/"), "/application/");
-		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/path"), "/application/");
+		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application"), "/application");
+		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/"), "/application");
+		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/path"), "/application");
 	}
 
 }

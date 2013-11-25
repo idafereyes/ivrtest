@@ -18,34 +18,34 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ConsultationTransfer extends Transfer implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6560078506572278380L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6560078506572278380L;
 
-	/**
-	 * Events defined by the framework for consultation transfer type.
-	 * In addition to events defined for all transfer types.
-	 */
-	public static final String TRANSFERRED_EVENT = "transferred";
-	public static final String NOANSWER_EVENT = "noanswer";
-	public static final String BUSY_EVENT = "busy";
-	public static final String NETWORK_BUSY_EVENT = "network_busy";
+    /**
+     * Events defined by the framework for consultation transfer type.
+     * In addition to events defined for all transfer types.
+     */
+    public static final String TRANSFERRED_EVENT = "transferred";
+    public static final String NOANSWER_EVENT = "noanswer";
+    public static final String BUSY_EVENT = "busy";
+    public static final String NETWORK_BUSY_EVENT = "network_busy";
 
-	/**
-	 * The time to wait while trying to connect the call before returning the noanswer event.
-	 * Takes its value from the bean that stores the app configuration defaults, 
-	 * although it can be given other value later. 
-	 */	
-	@Value("#{appConfigDefaults.transferConnectiontimeout}")
-	private String timeout;
+    /**
+     * The time to wait while trying to connect the call before returning the noanswer event.
+     * Takes its value from the bean that stores the app configuration defaults, 
+     * although it can be given other value later. 
+     */    
+    @Value("#{appConfigDefaults.transferConnectiontimeout}")
+    private String timeout;
 
-	public String getTimeout() {
-		return timeout;
-	}
+    public String getTimeout() {
+        return timeout;
+    }
 
-	public void setTimeout(String timeout) {
-		this.timeout = timeout;
-	}
+    public void setTimeout(String timeout) {
+        this.timeout = timeout;
+    }
 
 }

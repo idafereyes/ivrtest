@@ -117,12 +117,12 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 		}
 		
 		//Para implementar la funcionalidad de multiplataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
-		module = module.trim();
+		String newModule = module.trim();
 		if(locationPrefix.endsWith("/")) {
 			locationPrefix = locationPrefix.substring(0, locationPrefix.length() - 2);
 		}
 
-		String src = locationPrefix + "/" + module + "/" + audioName + formatSuffix;
+		String src = locationPrefix + "/" + newModule + "/" + audioName + formatSuffix;
 		
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_I18N_SRC_RETURN, src);
 		return src;
@@ -134,12 +134,12 @@ public class Cal10NLocutionProvider implements LocutionProvider {
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC, src, module);
 		
 		//Para implementar la funcionalidad de multiplataforma se concatenan un prefijo con la ubicación del audio y un sufijo con su formato (ambos configurables).
-		module = module.trim();
+		String newModule = module.trim();
 		if(locationPrefix.endsWith("/")) {
 			locationPrefix = locationPrefix.substring(0, locationPrefix.length() - 1);
 		}
 
-		String path = locationPrefix + "/" + module + "/" + src + formatSuffix;
+		String path = locationPrefix + "/" + newModule + "/" + src + formatSuffix;
 		
 		logger.debug(Cal10NLocutionProviderMessages.DEBUG_GET_AUDIO_SRC_RETURN, path);
 		return path;

@@ -17,6 +17,6 @@ import org.springframework.stereotype.Component;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class End implements Serializable {
 
-	private static final long serialVersionUID = 3318811710264139314L;
+    private static final long serialVersionUID = 3318811710264139314L;
     
 }

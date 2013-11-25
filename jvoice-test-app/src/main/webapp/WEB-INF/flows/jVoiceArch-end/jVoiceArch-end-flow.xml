@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow 	xmlns="http://www.springframework.org/schema/webflow"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
+		start-state="endState" parent="navigation">
+
+	
+	  <action-state id="endState">
+       <on-entry>
+            
+            <evaluate expression="jVoiceArchEnd" result="flashScope.endHangup"/>
+            <evaluate expression="T(java.lang.System).out.println('########## Catch Hang Up')"></evaluate>
+            
+        </on-entry>
+
+        <evaluate expression="flowProcessor.process(flashScope.endHangup)"/>
+            
+        <transition to="end" />
+    </action-state>
+	
+	<end-state id="end" view="#{flowProcessor.getRenderer().getView()}"/>
+	
+</flow>

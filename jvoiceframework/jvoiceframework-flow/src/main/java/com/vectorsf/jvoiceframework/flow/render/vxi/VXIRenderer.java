@@ -430,12 +430,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     }
     
 	private String renderInputAudios(AudioItem ai, String flowURL) {
-		//get context path from flowURL
-		//position of first slash
-		int i = flowURL.indexOf("/");
-		//position of second slash
-		i = flowURL.indexOf("/", i + 1);
-		String contextPath = flowURL.substring(0, i);
+		String contextPath = getContextPath(flowURL);
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -1144,9 +1139,9 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			}
 			int e = flowURL.indexOf("/", s + 1);
 			if(e == -1) {
-				return flowURL.substring(s) + "/";
+				return flowURL.substring(s);
 			}
-			return flowURL.substring(s, e) + "/";
+			return flowURL.substring(s, e);
 		} else {
 			//position of first slash
 			int s = flowURL.indexOf("/");
@@ -1160,13 +1155,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			
 			String ctx = "";
 			if(s == 0 && e == -1) {
-				ctx = flowURL.substring(0, flowURL.length()) + "/";
+				ctx = flowURL.substring(0, flowURL.length());
 			} else if(s == 0 && e != -1) {
-				ctx = flowURL.substring(0, e + 1);
+				ctx = flowURL.substring(0, e);
 			} else if( s == -1 && e == -1) {
-				ctx = "/" + flowURL + "/";
+				ctx = "/" + flowURL;
 			} else {
-				ctx = "/" + flowURL.substring(0, s + 1);
+				ctx = "/" + flowURL.substring(0, s);
 			}
 			return ctx;
 		}

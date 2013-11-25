@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/webflow 
                             http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-    start-state="jVoiceCheckInit" parent="transfer">
+    start-state="jVoiceCheckInit" parent="transfer, jVoiceArch-end">
 
     <!--    Inicialización de la configuración por defecto de la aplicación. 
             Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
@@ -30,7 +30,7 @@
         <transition on="2" to="transferInfoOutput"/>
         <transition on="3" to="transferInfoOutput"/>
         <transition on="4" to="transferInfoOutput"/>
-        <transition on="5" to="transferInfoOutput"/>
+        <transition on="5" to="end-call"/>
         <transition on="6" to="render"/>
         <transition on="7" to="record"/>
         <transition on="8" to="noMenuBack"/>
@@ -42,6 +42,8 @@
         <transition on="menuBack" to="menu"/> <!-- Webflow coge el id del estado fin como un evento a la vuelta. "menuBack es el id del estado que se usa para ir hacia atrás en el menú en el superflujo navigation" -->
         <transition to="end"/>
     </subflow-state>
+    
+    <view-state id="end-call" view="flowRedirect:jVoiceArch-end" />
     
     <subflow-state id="record" subflow="record">
        <transition to="menu" />
@@ -87,7 +89,7 @@
     <action-state id="jVoiceCheckInit">
        <evaluate expression="jVoiceArchData.initialized" />
        <transition on="false" to="jVoiceInit"/>
-       <transition to="setup"/>
+       <transition to="jVoiceInit"/>
     </action-state>
     
     <view-state id="jVoiceInit" view="init" model="jVoiceArchData">

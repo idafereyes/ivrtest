@@ -13,10 +13,10 @@
             <set name="flashScope.menuInput.bargein" value="true"/>
 <!--             <set name="flashScope.menuInput.timeout" value="'20s'" /> -->
 
-<!-- 			<evaluate expression="jVoiceArchGrammar" result="flashScope.grammar1" /> -->
-<!-- 			<set name="flashScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/> -->
-<!-- 			<set name="flashScope.grammar1.mode" value="'dtmf'"/> -->
-<!-- 			<evaluate expression="flashScope.menuInput.grammars.add(flashScope.grammar1)"/> -->
+			<evaluate expression="jVoiceArchGrammar" result="flashScope.grammar1" />
+			<set name="flashScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>
+			<set name="flashScope.grammar1.mode" value="'dtmf'"/>
+			<evaluate expression="flashScope.menuInput.grammars.add(flashScope.grammar1)"/>
 
             <evaluate expression="jVoiceArchGrammar" result="flashScope.grammar2" />
             <set name="flashScope.grammar2.src" value="'builtin:grammar/digits'"/>

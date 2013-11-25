@@ -16,62 +16,62 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class AudioItem implements Serializable{
 
-	private static final long serialVersionUID = -8118962803922087013L;
+    private static final long serialVersionUID = -8118962803922087013L;
 
-	
-	/**
-	 * The URI of the audio prompt to play.
-	 */
-	private String src;
-	
-	/**
-	 * The wording of the synthesized speech (TTS) to play. 
-	 * If src attribute has a value as well, it will only 
-	 * work as a backup in case of the loading of the 
-	 * prerecorded file fails.
-	 */
-	private Wording wording;
+    
+    /**
+     * The URI of the audio prompt to play.
+     */
+    private String src;
+    
+    /**
+     * The wording of the synthesized speech (TTS) to play. 
+     * If src attribute has a value as well, it will only 
+     * work as a backup in case of the loading of the 
+     * prerecorded file fails.
+     */
+    private Wording wording;
 
-	/**
-	 * The javascript condition to play the audio item
-	 */
-	private String condition;
-	
-	/**
-	 * Indicates when the audio item can be interrupted by user.
-	 */
-	private Boolean bargein = null;
-	
-	public String getSrc() {
-		return src;
-	}
+    /**
+     * The javascript condition to play the audio item
+     */
+    private String condition;
+    
+    /**
+     * Indicates when the audio item can be interrupted by user.
+     */
+    private Boolean bargein = null;
+    
+    public String getSrc() {
+        return src;
+    }
 
-	public void setSrc(String src) {
-		this.src = src;
-	}
+    public void setSrc(String src) {
+        this.src = src;
+    }
 
-	public Wording getWording() {
-		return wording;
-	}
+    public Wording getWording() {
+        return wording;
+    }
 
-	public void setWording(Wording wording) {
-		this.wording = wording;
-	}
+    public void setWording(Wording wording) {
+        this.wording = wording;
+    }
 
-	public String getCondition() {
-		return condition;
-	}
+    public String getCondition() {
+        return condition;
+    }
 
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
 
-	public Boolean isBargein() {
-		return bargein;
-	}
+    public Boolean isBargein() {
+        return bargein;
+    }
 
-	public void setBargein(Boolean bargein) {
-		this.bargein = bargein;
-	}
-	
+    public void setBargein(Boolean bargein) {
+        this.bargein = bargein;
+    }
+    
 }
