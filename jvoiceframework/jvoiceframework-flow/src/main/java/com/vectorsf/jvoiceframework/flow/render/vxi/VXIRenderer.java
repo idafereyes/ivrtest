@@ -161,11 +161,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         
         //Audio without TTS backup prompt
         }else if (audioItem.getWording() == null || audioItem.getWording().getText() == null){
-            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + contextPath + audioItem.getSrc() + QUOTE + END_TAG);
+            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + contextPath + "/" + audioItem.getSrc() + QUOTE + END_TAG);
         
         //Audio with TTS backup prompt
         }else{
-            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + contextPath + audioItem.getSrc() + QUOTE + CLOSE_TAG);
+            audioItemCode.append(AUDIO_START_TAG + SRC_ATTRIBUTE_QUOTE + contextPath + "/" + audioItem.getSrc() + QUOTE + CLOSE_TAG);
     		//Adds say-as tag if specified.
         	if (audioItem.getWording().getSayAs() != null){
         		audioItemCode.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + audioItem.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
@@ -1124,47 +1124,56 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 	}
 	
 	public String getContextPath(String flowURL) {
-		flowURL = flowURL.trim();
-		if(flowURL.isEmpty() || flowURL.equals("/") || flowURL.equals("//")) {
+		String newflowURL = flowURL.trim();
+		if(newflowURL.isEmpty() || newflowURL.equals("/") || newflowURL.equals("//")) {
 			return "";
 		}
-		if(flowURL.startsWith("http://")) {
-			int s = flowURL.indexOf("//");
-			if(s == -1) {
-				return "";
-			}
-			s = flowURL.indexOf("/", s + 2);
-			if(s == -1) {
-				return "";
-			}
-			int e = flowURL.indexOf("/", s + 1);
-			if(e == -1) {
-				return flowURL.substring(s);
-			}
-			return flowURL.substring(s, e);
+		if(newflowURL.startsWith("http://")) {
+			return getContextPathFromAbsoluteUrl(newflowURL);
 		} else {
-			//position of first slash
-			int s = flowURL.indexOf("/");
-			//position of second slash
-			int e = 0;
-			if(s != -1) {
-				e = flowURL.indexOf("/", s + 1);
-			} else {
-				e = -1;
-			}
-			
-			String ctx = "";
-			if(s == 0 && e == -1) {
-				ctx = flowURL.substring(0, flowURL.length());
-			} else if(s == 0 && e != -1) {
-				ctx = flowURL.substring(0, e);
-			} else if( s == -1 && e == -1) {
-				ctx = "/" + flowURL;
-			} else {
-				ctx = "/" + flowURL.substring(0, s);
-			}
-			return ctx;
+			return getContextPathFromRelativeUrl(newflowURL);
 		}
 	}
+
+	private String getContextPathFromRelativeUrl(String newflowURL) {
+		//position of first slash
+		int s = newflowURL.indexOf('/');
+		//position of second slash
+		int e = 0;
+		if(s != -1) {
+			e = newflowURL.indexOf('/', s + 1);
+		} else {
+			e = -1;
+		}
+		
+		String ctx = "";
+		if(s == 0 && e == -1) {
+			ctx = newflowURL.substring(0, newflowURL.length());
+		} else if(s == 0 && e != -1) {
+			ctx = newflowURL.substring(0, e);
+		} else if( s == -1 && e == -1) {
+			ctx = "/" + newflowURL;
+		} else {
+			ctx = "/" + newflowURL.substring(0, s);
+		}
+		return ctx;
+	}
+
+	private String getContextPathFromAbsoluteUrl(String newflowURL) {
+		int s = newflowURL.indexOf("//");
+		if(s == -1) {
+			return "";
+		}
+		s = newflowURL.indexOf('/', s + 2);
+		if(s == -1) {
+			return "";
+		}
+		int e = newflowURL.indexOf('/', s + 1);
+		if(e == -1) {
+			return newflowURL.substring(s);
+		}
+		return newflowURL.substring(s, e);
+	}
+	
 }
 

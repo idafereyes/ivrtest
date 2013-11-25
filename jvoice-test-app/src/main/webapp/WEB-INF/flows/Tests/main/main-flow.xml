@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="jVoiceInit" parent="Tests/transfer">
+	start-state="jVoiceCheckInit" parent="Tests/transfer, Tests/jVoiceArch-end">
 
     <!-- 	Inicialización de la configuración por defecto de la aplicación. 
     		Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
@@ -29,7 +29,7 @@
 	    <transition on="2" to="transferInfoOutput"/>
 	    <transition on="3" to="transferInfoOutput"/>
 	    <transition on="4" to="transferInfoOutput"/>
-	    <transition on="5" to="transferInfoOutput"/>
+	    <transition on="5" to="end-call"/>
 	    <transition on="6" to="render"/>
 	    <transition on="7" to="record"/>
 	    <transition on="8" to="noMenuBack"/>
@@ -42,6 +42,8 @@
 		<transition to="end"/>
 	</subflow-state>
 	
+	<view-state id="end-call" view="flowRedirect:Tests/jVoiceArch-end" />
+	    
 	<subflow-state id="record" subflow="Tests/record">
 	   <transition to="menu" />
 	</subflow-state>
@@ -84,9 +86,9 @@
     <end-state id="end"/>
     
     <action-state id="jVoiceCheckInit">
-       <evaluate expression="jVoiceArchData.initialized == false" />
-       <transition on="true" to="jVoiceInit"/>
-       <transition to="setup"/>
+       <evaluate expression="jVoiceArchData.initialized" />
+       <transition on="false" to="jVoiceInit"/>
+       <transition to="jVoiceInit"/>
     </action-state>
     
     <view-state id="jVoiceInit" view="init" model="jVoiceArchData">
