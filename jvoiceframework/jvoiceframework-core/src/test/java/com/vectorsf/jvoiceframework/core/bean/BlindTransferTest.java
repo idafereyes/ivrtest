@@ -17,10 +17,6 @@ public class BlindTransferTest {
 	static String DEST = "666777888";
 	static String TRANSFERAUDIO = "idleMusicDefault";
 	
-	static String EVENT1 = "answered";
-	static String EVENT2 = "noanswered";
-	static String EVENT3 = "disconnected";
-	
 	static String PROP_KEY1 = "timeout";
 	static String PROP_VALUE1 = "10s";
 	static String PROP_KEY2 = "bargein";
@@ -29,16 +25,10 @@ public class BlindTransferTest {
 	static String CUSTOM_EVENT1 = "customEvent1";
 	static String CUSTOM_EVENT2 = "customEvent2";
 	
-	static List<String> events;
 	static Map<String, String> properties;
 	static List<String> customEvents;
 	
-	static {
-		events = new ArrayList<String>();
-		events.add(EVENT1);
-		events.add(EVENT2);
-		events.add(EVENT3);
-		
+	static {		
 		properties = new HashMap<String, String>();
 		properties.put(PROP_KEY1, PROP_VALUE1);
 		properties.put(PROP_KEY2, PROP_VALUE2);

@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class LastRecordResultTest {
 	
 	private static final String PARAM_DURATION = "10s";
-	private static final String PARAM_EVENT_RECORDED = "recorded";
 	private static final String PARAM_FILENAME = "C:\\DATOS\\tmp";
 	private static final String PARAM_SIZE = "1024";
 	private static final String PARAM_TERMCHAR = "#";
@@ -22,9 +21,6 @@ public class LastRecordResultTest {
 		
 		lastRecordResult.setDuration(PARAM_DURATION);
 		assertEquals("Checking lastRecordResult duration", PARAM_DURATION, lastRecordResult.getDuration());
-		
-		lastRecordResult.setEvent(PARAM_EVENT_RECORDED);
-		assertEquals("Checking lastRecordResult event", PARAM_EVENT_RECORDED, lastRecordResult.getEvent());
 		
 		lastRecordResult.setFileName(PARAM_FILENAME);
 		assertEquals("Checking lastRecordResult file name", PARAM_FILENAME, lastRecordResult.getFileName());
