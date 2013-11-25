@@ -54,9 +54,6 @@
 			<set name="flashScope.mainMenuNIAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_NI)"/> 
 			<evaluate expression="flashScope.menuInput.noInputAudios.add(flashScope.mainMenuNIAudioItem)"/>
 			
-			<evaluate expression="flashScope.menuInput.events.add('maxattempts')" />
-			<evaluate expression="flashScope.menuInput.events.add('maxnoinput')" />
-			<evaluate expression="flashScope.menuInput.events.add('maxnomatch')" />
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flashScope.menuInput)" />

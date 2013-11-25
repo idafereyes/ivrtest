@@ -20,12 +20,13 @@
 	</action-state>
 	
 	
-	<view-state id="transfer" view="flowRedirect:transferInfoOutput"/>
+	<view-state id="transfer" view="flowRedirect:Tests/transfer"/>
 	
 	<!-- Los dos eventos  se tratan igual -->
 	 <global-transitions>
           <transition on="maxnomatch" to="maxIntOutput"/>
           <transition on="maxnoinput" to="maxIntOutput"/>
+          <transition on="maxattempts" to="maxIntOutput"/>
     </global-transitions>
 	
 </flow>

@@ -38,15 +38,15 @@
 
         <evaluate expression="flowProcessor.process(flashScope.testBlindTx)"/>
             
-        <transition to="render" />
+        <transition to="render_testBlindTx" />
     </action-state>    	
 	
-	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
+	<view-state id="render_testBlindTx" view="#{flowProcessor.getRenderer().getView()}">
 		<transition on="error" to="error"/>
 		<transition on="unknown" to="transferInfoOutput"/>
 		<transition on="transferred" to="transferred"/>
 	</view-state>
 	
-	<view-state id="transferred" view="flowRedirect:hangup"/>
+	<view-state id="transferred" view="flowRedirect:Tests/hangup"/>
 	
 </flow>

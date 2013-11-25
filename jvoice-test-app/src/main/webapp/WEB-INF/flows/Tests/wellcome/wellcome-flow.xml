@@ -57,8 +57,6 @@
 			<set name="flashScope.setLanguageAudioItem.src" value="locutionProvider.getAudioSrc(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION_SRC, new java.util.Locale('en','US'))"/> 
             <set name="flashScope.setLanguageAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Language).LANGUAGE_SELECTION, new java.util.Locale('en','US'))"/> 
 			<evaluate expression="flashScope.setLanguageInput.mainAudios.add(flashScope.setLanguageAudioItem)" />
-			
-			<evaluate expression="flashScope.setLanguageInput.events.add('maxattempts')" />
 
 		</on-entry>
 
