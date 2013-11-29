@@ -17,6 +17,7 @@ public class AppConfigDefaults implements Serializable {
 	private static final long serialVersionUID = -9142571578698682638L;
 	
 	static final String FALSE = "false";
+	static final String TRUE = "true";
 	
 	//TODO En un primer momento le estamos asignando valores hardcodeados.
 	//Está pendiente ver de qué manera toman valor estos atributos.
@@ -25,7 +26,7 @@ public class AppConfigDefaults implements Serializable {
 	private Locale userLocale = new Locale("Es", "es");
 	
 	/** Audio items bargein default value. **/
-	@Value(FALSE)
+	@Value(TRUE)
 	private boolean bargein;
 	
 	public Locale getUserLocale() {
@@ -110,7 +111,7 @@ public class AppConfigDefaults implements Serializable {
 	/**
 	 * Default value for input bargein
 	 */
-	@Value(FALSE)
+	@Value(TRUE)
 	private boolean inputBargein;
 	
 	/**

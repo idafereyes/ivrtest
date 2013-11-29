@@ -30,8 +30,8 @@ public class OutputTest {
 		//Then
 		//Verifies that output attributes have taken appConfigDefault attributes value.
 		assertEquals("bargein value is not correct.",output.isBargein(), appConfigDefaults.isBargein());
-		assertEquals("flush value is not correct.",output.isFlush(), appConfigDefaults.isBargein());
-		assertEquals("catchHangup value is not correct.",output.isCatchHangup(), appConfigDefaults.isBargein());
+		assertEquals("flush value is not correct.",output.isFlush(), appConfigDefaults.isFlush());
+		assertEquals("catchHangup value is not correct.",output.isCatchHangup(), appConfigDefaults.isCatchHangup());
 		
 		//Finally
 		context.close();
