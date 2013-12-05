@@ -15,6 +15,7 @@ import com.vectorsf.jvoiceframework.flow.render.Renderer;
 public class SpringWebFlowProcessorTest {
 	public static final String RENDER_CODE = "OUTPUT_FAKE_CODE";
 	public static final String FLOW_URL = "FLOW_FAKE_URL";
+	public static final String CONTEXT_PATH = "FAKE_CONTEXT_PATH";
 	
 	@Test
 	public void testRender() {
@@ -31,9 +32,9 @@ public class SpringWebFlowProcessorTest {
 		flowProcessor.process(outputMock);
 		
 		// When
-		flowProcessor.render(FLOW_URL);
+		flowProcessor.render(FLOW_URL, CONTEXT_PATH);
 		
 		// Then
-		verify(rendererMock, times(1)).render(flowProcessor.getStates(), FLOW_URL);
+		verify(rendererMock, times(1)).render(flowProcessor.getStates(), FLOW_URL, CONTEXT_PATH);
 	}
 }

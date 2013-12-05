@@ -34,6 +34,7 @@ public class VXIRendererTest {
 	
 	static final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/app-test/";
 	static final String RESOURCE_FILE_PATH = "src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/";
+	public static final String CONTEXT_PATH = "/app-test";
 
 
 	@Test
@@ -46,7 +47,7 @@ public class VXIRendererTest {
 		List<Object> states = new ArrayList<Object>();
 
 		//When
-		String vxmlCode =  vxiRenderer.render(states, FLOW_EXECUTION_URL);
+		String vxmlCode =  vxiRenderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "emptyState.test")); 
@@ -76,7 +77,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(states, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "everyState.test")); 
@@ -114,7 +115,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "catchHangupFlushFalseAtOutput.test")); 
@@ -175,7 +176,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "sayAsAtOutput.test")); 
@@ -214,7 +215,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "flushTrueAtOutput.test")); 
@@ -259,7 +260,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "propertiesAtOutput.test")); 
@@ -297,7 +298,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		String vxmlCode =  vxiRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "catchHangupTrueAtOutput.test")); 
@@ -486,7 +487,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "record.test")); 
@@ -526,7 +527,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "propertiesAtRecord.test")); 
@@ -591,7 +592,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "sayAsAtRecord.test")); 
@@ -630,7 +631,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "customEventsAtRecord.test")); 
@@ -672,7 +673,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "audioItemsAtRecord.test")); 
@@ -772,7 +773,7 @@ public class VXIRendererTest {
 		VXIRenderer vxiRenderer = new VXIRenderer();
 
 		//When
-		String vxmlCode = vxiRenderer.render(inputMock, FLOW_EXECUTION_URL);
+		String vxmlCode = vxiRenderer.render(inputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile("src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/inputDtmf.test")); 
@@ -793,21 +794,6 @@ public class VXIRendererTest {
 	    }
 
 		return text.toString();	
-	}
-
-	@Test
-	public void testGetContextPath() {
-		VXIRenderer vxi = new VXIRenderer();
-		assertEquals("Context path for audios url test 1", vxi.getContextPath(""), "");
-		assertEquals("Context path for audios url test 2", vxi.getContextPath("/"), "");
-		assertEquals("Context path for audios url test 3", vxi.getContextPath("/test"), "/test");
-		assertEquals("Context path for audios url test 4", vxi.getContextPath("/test/"), "/test");
-		assertEquals("Context path for audios url test 5", vxi.getContextPath("test/"), "/test");
-		assertEquals("Context path for audios url test 6", vxi.getContextPath("test"), "/test");
-		
-		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application"), "/application");
-		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/"), "/application");
-		assertEquals("Context path for audios url test 7", vxi.getContextPath("http://server/application/path"), "/application");
 	}
 
 }

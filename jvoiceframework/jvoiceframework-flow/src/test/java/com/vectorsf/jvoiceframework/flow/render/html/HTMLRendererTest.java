@@ -31,6 +31,7 @@ public class HTMLRendererTest {
 	static final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/";
 	static final String RESOURCE_FILE_PATH = "src/test/resources/com/vectorsf/jvoiceframework/flow/render/html/";
 	static final String PATTERN_UUID = "[0-9abcdef]{8}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{12}";
+	static final String CONTEXT_PATH = "FAKE_CONTEXT_PATH";
 	
 	@Test
 	public void testRenderEmptyStatesList(){
@@ -42,7 +43,7 @@ public class HTMLRendererTest {
 		List<Object> states = new ArrayList<Object>();
 
 		//When
-		String htmlCode =  htmlRenderer.render(states, FLOW_EXECUTION_URL);
+		String htmlCode =  htmlRenderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("HTML code printed different than expected.",htmlCode, ""); 
@@ -68,7 +69,7 @@ public class HTMLRendererTest {
 		states.add(endMock);
 
 		//When
-		String htmlCode = htmlRenderer.render(states, FLOW_EXECUTION_URL);
+		String htmlCode = htmlRenderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);
@@ -113,7 +114,7 @@ public class HTMLRendererTest {
 		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode =  htmlRenderer.render(outputMock, FLOW_EXECUTION_URL);
+		String htmlCode =  htmlRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);
@@ -216,7 +217,7 @@ public class HTMLRendererTest {
 		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode =  htmlRenderer.render(recordMock, FLOW_EXECUTION_URL);
+		String htmlCode =  htmlRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);

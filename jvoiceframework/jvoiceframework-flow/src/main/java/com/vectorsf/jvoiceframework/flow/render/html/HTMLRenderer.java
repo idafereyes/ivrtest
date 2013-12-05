@@ -43,7 +43,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     private String quoteEndTagHtml = "\">";
     private String formMethodPostActionHtml = "<form method=\"post\" action=\"";
    
-	public String render(Input input, String flowURL) {
+	public String render(Input input, String flowURL, String contextPath) {
     	
     	// Identificador del elemento en la página
     	String identifier = UUID.randomUUID().toString();
@@ -198,7 +198,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
     	return  html.toString();
     }
     
-    public String render(Output output, String flowURL){
+    public String render(Output output, String flowURL, String contextPath){
       // Identificador del elemento en la página
     	String identifier = UUID.randomUUID().toString();
     	StringBuilder html = new StringBuilder();
@@ -240,7 +240,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         return html.toString();
     }
     
-	public String render(Record record, String flowURL) {
+	public String render(Record record, String flowURL, String contextPath) {
 		
 	      // Identificador del elemento en la página
 	    	String identifier = UUID.randomUUID().toString();

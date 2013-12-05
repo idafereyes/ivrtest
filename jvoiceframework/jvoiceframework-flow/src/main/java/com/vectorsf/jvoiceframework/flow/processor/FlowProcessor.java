@@ -82,6 +82,6 @@ public interface FlowProcessor  {
      * @param flowURL El renderer neceista esta URL (identificación de la ejecución del flujo) para generar la vista
      * @return
      */
-    public String render(String flowURL);
+    public String render(String flowURL, String contextPath);
 
 }

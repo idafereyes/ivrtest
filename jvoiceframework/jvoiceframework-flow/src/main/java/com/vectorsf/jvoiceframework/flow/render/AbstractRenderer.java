@@ -13,12 +13,12 @@ import com.vectorsf.jvoiceframework.core.bean.Transfer;
 
 public abstract class AbstractRenderer {
 	
-    protected abstract String render(Output output, String flowURL);
-    protected abstract String render(Input prompt, String flowURL);
+    protected abstract String render(Output output, String flowURL, String contextPath);
+    protected abstract String render(Input prompt, String flowURL, String contextPath);
     protected abstract String render(BlindTransfer blindTx, String flowURL);
     protected abstract String render(ConsultationTransfer consultationTx, String flowURL);
     protected abstract String render(BridgeTransfer bridgeTx, String flowURL);
-    protected abstract String render(Record record, String flowURL);
+    protected abstract String render(Record record, String flowURL, String contextPath);
     protected abstract String render(End end, String flowURL);
     protected abstract String renderStartPage();
     protected abstract String renderEmptyPage(String flowURL);
@@ -34,7 +34,7 @@ public abstract class AbstractRenderer {
 		this.view = view;
 	}
 	
-	public String render(List<Object> states, String flowURL) {
+	public String render(List<Object> states, String flowURL, String contextPath) {
 	      
 		StringBuilder code = new StringBuilder();
 		
@@ -44,15 +44,15 @@ public abstract class AbstractRenderer {
 			
 			for (Object element: states){
 			  if (element instanceof Input) {
-			      code.append(render((Input)element, flowURL));
+			      code.append(render((Input)element, flowURL, contextPath));
 			  }else if (element instanceof Output) {
-			      code.append(render((Output)element, flowURL));            
+			      code.append(render((Output)element, flowURL, contextPath));            
 			  }else if (element instanceof Transfer) {
 			      code.append(render((Transfer) element, flowURL));
 			  }else if (element instanceof End) {
 			      code.append(render((End) element, flowURL));
 			  }else if (element instanceof Record) {
-				  code.append(render((Record) element, flowURL));
+				  code.append(render((Record) element, flowURL, contextPath));
 			  } 
 			}
 		  
