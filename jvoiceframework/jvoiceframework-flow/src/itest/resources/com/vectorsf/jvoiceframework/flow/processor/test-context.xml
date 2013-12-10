@@ -18,7 +18,9 @@
 </bean>
 
 <!-- Beans jVoice Framework -->
-<context:component-scan base-package="com.vectorsf.jvoiceframework"/>
+<context:component-scan base-package="com.vectorsf.jvoiceframework">
+	<context:exclude-filter type="regex" expression="com.vectorsf.jvoiceframework.core.admin.*.*" />
+</context:component-scan>
 
  
  

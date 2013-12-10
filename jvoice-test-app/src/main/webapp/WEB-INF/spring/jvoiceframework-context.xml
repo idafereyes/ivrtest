@@ -67,4 +67,10 @@
 		</beans:property>
 	</beans:bean>
 
+	<beans:bean id="fileConfig" class="org.apache.commons.configuration.PropertiesConfiguration">
+		<beans:constructor-arg type="java.lang.String">
+			<beans:value>app.properties</beans:value>
+		</beans:constructor-arg>
+	</beans:bean>
+
 </beans:beans>
