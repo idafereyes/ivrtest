@@ -15,6 +15,13 @@
         </encoder>
     </appender>
     
+    <appender name="FILE_STATS" class="ch.qos.logback.core.FileAppender">
+		<file>C:\DATOS\D\app.log</file>
+		<encoder>
+			<pattern>%m%n</pattern>
+		</encoder>
+	</appender>
+	
     <logger name="com.vectorsf">
         <level value="DEBUG" />
         <appender-ref ref="FILE" />
@@ -24,6 +31,10 @@
          <appender-ref ref="FILE" />
     </logger>
  
+ 	<logger name="com.vectorsf.statistics">
+         <appender-ref ref="FILE_STATS" />
+    </logger>
+    
     <root>
         <level value="INFO"/>
         <appender-ref ref="CONSOLE" />

@@ -4,9 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
 	start-state="setupDefaults">
-
 	<!-- De momento no tenemos un mecanismo de carga de la configuración por defecto. Faltan las gramaticas, y el max attempts por defecto -->
 	<action-state id="setupDefaults">
+		<on-entry>
+			<evaluate expression="statisticsLogger" result="flowScope.sl" />
+			<set name="flowScope.sl.callID" value="'jvoice'"></set>
+			<set name="flowScope.sl.serviceID" value="'main'"></set>
+			<evaluate expression="flowScope.sl.DEBUG('Hola caracola')" />
+		</on-entry>
 		<evaluate expression="appConfigDefaults.setBargein(true)"></evaluate>
 		<transition to="setupLanguage"></transition>
 	</action-state>

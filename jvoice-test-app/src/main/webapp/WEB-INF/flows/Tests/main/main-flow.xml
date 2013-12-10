@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="jVoiceCheckInit" parent="Tests/transfer, Tests/jVoiceArch-end">
+	start-state="setup" parent="Tests/transfer, Tests/jVoiceArch-end">
+<!-- 		start-state="jVoiceCheckInit" parent="Tests/transfer, Tests/jVoiceArch-end"> -->
+	
 
     <!-- 	Inicialización de la configuración por defecto de la aplicación. 
     		Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
@@ -85,15 +87,15 @@
     
     <end-state id="end"/>
     
-    <action-state id="jVoiceCheckInit">
-       <evaluate expression="jVoiceArchData.initialized" />
-       <transition on="false" to="jVoiceInit"/>
-       <transition to="jVoiceInit"/>
-    </action-state>
+<!--     <action-state id="jVoiceCheckInit"> -->
+<!--        <evaluate expression="jVoiceArchData.initialized" /> -->
+<!--        <transition on="false" to="jVoiceInit"/> -->
+<!--        <transition to="jVoiceInit"/> -->
+<!--     </action-state> -->
     
-    <view-state id="jVoiceInit" view="init" model="jVoiceArchData">
-       <transition to="setup" >
-           <set name="jVoiceArchData.initialized" value="true"></set>
-       </transition>
-    </view-state>
+<!--     <view-state id="jVoiceInit" view="init" model="jVoiceArchData"> -->
+<!--        <transition to="setup" > -->
+<!--            <set name="jVoiceArchData.initialized" value="true"></set> -->
+<!--        </transition> -->
+<!--     </view-state> -->
 </flow>

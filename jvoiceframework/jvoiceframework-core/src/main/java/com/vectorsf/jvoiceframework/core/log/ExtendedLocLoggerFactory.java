@@ -16,7 +16,7 @@ import ch.qos.cal10n.MessageConveyor;
  * @author mvinuesa
  * 
  */
-final class ExtendedLocLoggerFactory {
+public final class ExtendedLocLoggerFactory {
 	
 	private static IMessageConveyor messageConveyor = new MessageConveyor(Locale.getDefault());
 	private static LocLoggerFactory locFactory = new LocLoggerFactory(messageConveyor);
