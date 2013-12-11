@@ -32,8 +32,9 @@
 	    <resthub.spring.stack.version>2.1.2</resthub.spring.stack.version>
 		<!-- Esta propiedad se usa para que las clases y recursos se generen como UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- Esta prpopiedad se usa para que los informes de Failsafe se generen como UTF-8 -->
+		<!-- Esta propiedad se usa para que los informes de Failsafe se generen como UTF-8 -->
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<org.reflections-version>0.9.8</org.reflections-version>
 	</properties>
 
 	<dependencies>
@@ -185,6 +186,13 @@
             <scope>test</scope>
         </dependency>
 		
+	    <!--  Reflections -->
+	    <dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections-maven</artifactId>
+			<version>${org.reflections-version}</version>
+		</dependency>
+
 	</dependencies>
 	<distributionManagement>
 	    <snapshotRepository>
