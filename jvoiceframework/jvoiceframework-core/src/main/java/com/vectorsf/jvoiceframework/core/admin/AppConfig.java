@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.configuration.Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Esta clase se usa para la configuración de una aplicación IVR, 
@@ -16,28 +14,31 @@ import org.springframework.stereotype.Component;
  * @author mvinuesa
  *
  */
-@Component("appConfig")
 public class AppConfig {
     
-    @Autowired 
-    private Configuration fileConfig;
+    private Configuration configBean;
     
-    private Map<String, String> config = new HashMap<String, String>();
+    private Map<String, String> configMap = new HashMap<String, String>();
     
     @PostConstruct
     public void config() {
 		loadFromFile();
+    }
+    
+    /** Constructor */
+    public AppConfig(Configuration configBean) {
+    	this.configBean = configBean;
     }
 	
     /**
      * Carga la configuración general de la aplicación
      */
 	private void loadFromFile() {
-		Iterator<String> it = fileConfig.getKeys();
+		Iterator<String> it = configBean.getKeys();
 		while (it.hasNext()) {
 			String key = it.next();
-			if (!config.containsKey(key)) {
-				config.put(key, fileConfig.getString(key));
+			if (!configMap.containsKey(key)) {
+				configMap.put(key, configBean.getString(key));
 			}
 		}
 	}
@@ -48,7 +49,7 @@ public class AppConfig {
 	 * @return
 	 */
 	public String getValue(String key) {
-		return config.get(key);
+		return configMap.get(key);
 	}
     
 }

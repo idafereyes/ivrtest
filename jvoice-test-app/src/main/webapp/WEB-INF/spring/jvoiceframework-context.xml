@@ -67,9 +67,24 @@
 		</beans:property>
 	</beans:bean>
 
-	<beans:bean id="fileConfig" class="org.apache.commons.configuration.PropertiesConfiguration">
+
+	<beans:bean id="app" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
+		<beans:constructor-arg ref="appConfig"/>
+	</beans:bean>
+
+	<beans:bean id="appConfig" class="org.apache.commons.configuration.PropertiesConfiguration">
 		<beans:constructor-arg type="java.lang.String">
 			<beans:value>app.properties</beans:value>
+		</beans:constructor-arg>
+	</beans:bean>
+	
+	<beans:bean id="mod1" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
+		<beans:constructor-arg ref="mod1Config"/>
+	</beans:bean>
+	
+	<beans:bean id="mod1Config" class="org.apache.commons.configuration.PropertiesConfiguration">
+		<beans:constructor-arg type="java.lang.String">
+			<beans:value>mod1.properties</beans:value>
 		</beans:constructor-arg>
 	</beans:bean>
 

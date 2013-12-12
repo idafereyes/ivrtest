@@ -7,7 +7,9 @@
 	<!-- De momento no tenemos un mecanismo de carga de la configuración por defecto. Faltan las gramaticas, y el max attempts por defecto -->
 	<action-state id="setupDefaults">
 		<on-entry>
-		    <evaluate expression="appConfig.getValue('max')"/>
+		    <evaluate expression="app.getValue('max')"/>
+		    <evaluate expression="mod1.getValue('max')"/>
+		    <evaluate expression="mod1.getValue('min')"/>
 			<evaluate expression="statisticsLogger" result="flowScope.sl" />
 			<set name="flowScope.sl.callID" value="'jvoice'"></set>
 			<set name="flowScope.sl.serviceID" value="'main'"></set>
