@@ -1,8 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+	xmlns:cache="http://www.springframework.org/schema/cache"
 
-    <bean id="recordingService" class="com.vectorsf.jvoiceframework.core.service.record.vxi.VXIRecordingService"/>
-	
-</beans>
+
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+						http://www.springframework.org/schema/mvc/spring-mvc.xsd
+						http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/aop
+    					http://www.springframework.org/schema/aop/spring-aop.xsd
+    					http://www.springframework.org/schema/webflow-config
+        				http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd
+        				http://www.springframework.org/schema/cache 
+  						http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<cache:annotation-driven />
+
+	<beans:bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<beans:property name="caches">
+			<beans:set>
+				<beans:bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<beans:property name="name" value="default" />
+				</beans:bean>
+				<beans:bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<beans:property name="name" value="wsPortNames" />
+				</beans:bean>
+				<beans:bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<beans:property name="name" value="wsClients" />
+				</beans:bean>	
+			</beans:set>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="endpointProvider" class="com.vectorsf.jvoiceframework.core.service.ws.XMLBasedEndpointProvider">
+		<beans:property name="resource" value="com/vectorsf/jvoiceframework/testapp/ws/ws-endpoints.xml" />
+	</beans:bean>
+
+	<beans:bean id="handlerChainProvider" class="com.vectorsf.jvoiceframework.core.service.ws.HandlerChainProvider" />
+
+	<beans:bean id="annotationBasedWebServiceUtils" class="com.vectorsf.jvoiceframework.core.service.ws.AnnotationBasedWebServiceUtils" />
+
+	<beans:bean id="webServiceProvider" class="com.vectorsf.jvoiceframework.core.service.ws.AnnotationBasedWebServiceProvider">
+		<beans:property name="endpointProvider" ref="endpointProvider" />
+		<beans:property name="handlerChainProvider" ref="handlerChainProvider" />
+		<beans:property name="annotationBasedWebServiceUtils" ref="annotationBasedWebServiceUtils" />
+	</beans:bean>
+
+</beans:beans>
