@@ -39,10 +39,7 @@
 		</beans:property>
 	</beans:bean>
 
-	<beans:bean id="endpointProvider" class="com.vectorsf.jvoiceframework.core.service.ws.XMLBasedEndpointProvider">
-		<beans:property name="resource" value="com/vectorsf/jvoiceframework/testapp/ws/ws-endpoints.xml" />
-	</beans:bean>
-
+	
 	<beans:bean id="handlerChainProvider" class="com.vectorsf.jvoiceframework.core.service.ws.HandlerChainProvider" />
 
 	<beans:bean id="annotationBasedWebServiceUtils" class="com.vectorsf.jvoiceframework.core.service.ws.AnnotationBasedWebServiceUtils" />
