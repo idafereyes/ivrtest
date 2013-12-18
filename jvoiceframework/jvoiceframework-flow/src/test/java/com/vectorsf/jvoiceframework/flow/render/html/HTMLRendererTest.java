@@ -157,7 +157,7 @@ public class HTMLRendererTest {
 		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode =  htmlRenderer.render(blindTxMock, FLOW_EXECUTION_URL);
+		String htmlCode =  htmlRenderer.render(blindTxMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);

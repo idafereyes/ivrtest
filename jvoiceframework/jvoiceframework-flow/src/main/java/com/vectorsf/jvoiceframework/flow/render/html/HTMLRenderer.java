@@ -291,7 +291,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
 		return sb.toString();
 	}
 
-	public String render(BlindTransfer blindTx, String flowURL) {
+	public String render(BlindTransfer blindTx, String flowURL, String contextPath) {
         
     	// Identificador del elemento en la página
     	String identifier = UUID.randomUUID().toString();
@@ -321,7 +321,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         return html.toString();
 	}
 
-	public String render(ConsultationTransfer consultationTx, String flowURL) {
+	public String render(ConsultationTransfer consultationTx, String flowURL, String contextPath) {
         String renderCode = "";
         
         renderCode += "<span>Transfer</span>";
@@ -343,7 +343,7 @@ public class HTMLRenderer extends AbstractRenderer implements Renderer, Serializ
         return renderCode;
 	}
 
-	public String render(BridgeTransfer bridgeTx, String flowURL) {
+	public String render(BridgeTransfer bridgeTx, String flowURL, String contextPath) {
         String renderCode = "";
         
         renderCode += "<span>Transfer</span>";

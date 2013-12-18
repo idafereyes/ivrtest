@@ -1,0 +1,28 @@
+<transfer name="transferResult" type="consultation" dest="tel:666777888" transferaudio="idleMusic" >
+<prompt>
+<audio src="/app-test/SAN-TRANSFER-A">Vamos a transferir su llamada.</audio>
+</prompt>
+<prompt>
+<audio src="/app-test/SAN-TRANSFER-B"/>
+</prompt>
+<prompt>Por favor espere.</prompt>
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" method="post" namelist="duration"/>
+</catch>
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
+</catch>
+<catch event="error.connection">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
+</catch>
+<catch event="error">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<submit expr="url" method="post" namelist="duration" />
+</filled>
+</transfer>

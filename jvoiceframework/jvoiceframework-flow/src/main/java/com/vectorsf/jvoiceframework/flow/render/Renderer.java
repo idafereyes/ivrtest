@@ -19,10 +19,10 @@ public interface Renderer {
 	String render(List<Object> states, String flowURL, String contextPath);
     String render(Output output, String flowURL, String contextPath);
     String render(Input prompt, String flowURL, String contextPath);
-    String render(Transfer blindTx, String flowURL);
-    String render(BlindTransfer blindTx, String flowURL);
-    String render(ConsultationTransfer consultationTx, String flowURL);
-    String render(BridgeTransfer bridgeTx, String flowURL);
+    String render(Transfer transfer, String flowURL, String contextPath);
+    String render(BlindTransfer blindTx, String flowURL, String contextPath);
+    String render(ConsultationTransfer consultationTx, String flowURL, String contextPath);
+    String render(BridgeTransfer bridgeTx, String flowURL, String contextPath);
     String render(Record record, String flowURL, String contextPath);
     String render(End end, String flowURL);
     String renderStartPage();

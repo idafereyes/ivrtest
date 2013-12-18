@@ -33,7 +33,13 @@ public abstract class Transfer {
 	 */
 	private String transferaudio;
 		
-	/**
+    /**
+     * List of audio items to play before the transfer starts.
+     */
+    @Value("#{new java.util.ArrayList()}")
+    private List<AudioItem> audioItems; 
+
+    /**
 	 * VXML properties to enhance transfer functionality provided.
 	 * Represented as key(property)/value.
 	 */	
@@ -60,6 +66,14 @@ public abstract class Transfer {
 
 	public void setTransferaudio(String transferaudio) {
 		this.transferaudio = transferaudio;
+	}
+
+	public List<AudioItem> getAudioItems() {
+		return audioItems;
+	}
+
+	public void setAudioItems(List<AudioItem> audioItems) {
+		this.audioItems = audioItems;
 	}
 
 	public Map<String, String> getProperties() {

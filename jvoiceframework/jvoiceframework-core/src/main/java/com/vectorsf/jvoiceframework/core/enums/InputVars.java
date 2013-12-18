@@ -39,17 +39,11 @@ public enum InputVars {
 	MAXNOMATCHATTEMPTS ("maxNoMatchAttempts"),
 	
 	/**
-	 * Recognition modes available. Use for logging purposes.
-	 * Posible values are ASR, DTMF, ASRDTMF
-	 */
-	RECAVAILABLE ("recAvailable"),
-	
-	/**
 	 * Recognition return code used internally in the Input Component
 	 * to identify the if a NOINPUT or NOMATCH has been thrown.
 	 */
-	RETURNCODE ("returnCode");
-	
+	RETURNCODE("returnCode");
+
 	
 	private String name;
 	

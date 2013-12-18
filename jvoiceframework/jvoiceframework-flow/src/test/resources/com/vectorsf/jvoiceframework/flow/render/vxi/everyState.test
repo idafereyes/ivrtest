@@ -7,11 +7,10 @@
 <var name="attempts" expr="0" />
 <var name="noInputAttempts" expr="0" />
 <var name="noMatchAttempts" expr="0" />
+<var name="returnCode" expr="''" />
 <var name="maxNoMatchAttempts" expr="0" />
 <var name="maxNoInputAttempts" expr="0" />
 <var name="maxAttempts" expr="0" />
-<var name="recAvailable" expr="'DTMF'" />
-<var name="returnCode" expr="''" />
 <field>
 <property name="bargein" value="false" />
 <catch event="nomatch" >
