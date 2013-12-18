@@ -12,8 +12,6 @@ import org.springframework.binding.expression.spel.SpringELExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 
-import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
-import com.vectorsf.jvoiceframework.core.log.Log;
 import com.vectorsf.jvoiceframework.isban.logger.enums.DialogueReturnCode;
 import com.vectorsf.jvoiceframework.isban.logger.enums.EventType;
 import com.vectorsf.jvoiceframework.isban.logger.enums.RecAvailable;

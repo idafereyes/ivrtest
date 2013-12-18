@@ -35,8 +35,8 @@ import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer;
 public class VXIRendererTest {
 	
 	static protected final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/app-test/";
-	static final String RESOURCE_FILE_PATH = "../jvoiceframework/jvoiceframework-flow/src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/";
 	static protected final String CONTEXT_PATH = "/app-test";
+	static final String RESOURCE_FILE_PATH = "../jvoiceframework-flow/src/test/resources/com/vectorsf/jvoiceframework/flow/render/vxi/";
 
 	protected Renderer renderer;
 	

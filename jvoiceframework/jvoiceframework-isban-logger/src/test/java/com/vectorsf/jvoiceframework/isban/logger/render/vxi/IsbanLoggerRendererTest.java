@@ -4,9 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,19 +23,23 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
-import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRendererTest;
+import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
-public class IsbanLoggerRendererTest  extends VXIRendererTest{
+public class IsbanLoggerRendererTest{
+
+	static protected final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/app-test/";
+	static protected final String CONTEXT_PATH = "/app-test";
 
 	static final protected String ISBAN_LOGGER_RESOURCE_FILE_PATH = "../jvoiceframework-isban-logger/src/test/resources/com/vectorsf/jvoiceframework/isban/logger/render/vxi/";
-
+	
+	protected Renderer renderer;
+	
 	@Before
 	public void initializeRenderer(){
 		renderer = new IsbanLoggerRenderer();
 	}
 
 	@Test
-	@Override
 	public void testInputDtmf() throws FileNotFoundException{
 		
 		//Given
@@ -87,7 +93,6 @@ public class IsbanLoggerRendererTest  extends VXIRendererTest{
 	}
 	
 	@Test
-	@Override
 	public void testRenderEveryState() throws FileNotFoundException {
 		
 		//Given
@@ -116,5 +121,20 @@ public class IsbanLoggerRendererTest  extends VXIRendererTest{
 
 	}
 
+	public String readResourceFile(String filename) throws FileNotFoundException{
+
+		StringBuilder text = new StringBuilder();
+	    Scanner scanner = new Scanner(new FileInputStream(filename));
+	    try {
+	      while (scanner.hasNextLine()){
+	        text.append(scanner.nextLine());
+	      }
+	    }
+	    finally{
+	      scanner.close();
+	    }
+
+		return text.toString();	
+	}
 
 }

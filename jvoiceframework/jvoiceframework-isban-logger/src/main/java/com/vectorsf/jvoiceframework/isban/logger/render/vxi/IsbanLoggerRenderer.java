@@ -13,7 +13,7 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 	 */
 	private static final long serialVersionUID = 1L;
 
-    static protected final String COMMA_QUOTED = "', '";
+	protected static final String COMMA_QUOTED = "', '";
 
 	
 	@Override
