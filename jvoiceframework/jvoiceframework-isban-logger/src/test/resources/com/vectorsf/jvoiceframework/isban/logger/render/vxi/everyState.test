@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xml:lang="es-ES" >
+<meta http-equiv="Expires" content="0"/>
+<form>
+<block>
+</block>
+<var name="attempts" expr="0" />
+<var name="noInputAttempts" expr="0" />
+<var name="noMatchAttempts" expr="0" />
+<var name="returnCode" expr="''" />
+<var name="maxNoMatchAttempts" expr="0" />
+<var name="maxNoInputAttempts" expr="0" />
+<var name="maxAttempts" expr="0" />
+<var name="inputInfo" expr="''" />
+<var name="dialogueID" expr="'null'" />
+<var name="recAvailable" expr="'DTMF'" />
+<var name="recParams" expr="'recParams'" />
+<var name="recDetected" expr="''" />
+<var name="userInput" expr="''" />
+<script charset="UTF-8" src="/app-test/resources/logger.js"/>
+<field>
+<property name="bargein" value="false" />
+<catch event="nomatch" >
+<assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
+<assign name="returnCode" expr="'NOMATCH'" />
+<assign name="recDetected" expr="'NONE'" />
+<assign name="userInput" expr="''" />
+<script>
+<![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
+</script>
+<if cond="attempts &gt;= maxAttempts" >
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</if>
+<if cond="noMatchAttempts == maxNoMatchAttempts" >
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxnomatch" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</if>
+<reprompt />
+</catch>
+<catch event="noinput" >
+<assign name="noInputAttempts" expr="noInputAttempts + 1" />
+<assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
+<assign name="returnCode" expr="'NOINPUT'" />
+<assign name="recDetected" expr="'NONE'" />
+<assign name="userInput" expr="''" />
+<script>
+<![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
+</script>
+<if cond="attempts &gt;= maxAttempts" >
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxattempts" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</if>
+<if cond="noInputAttempts == maxNoInputAttempts" >
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_maxnoinput" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</if>
+<reprompt />
+</catch>
+<catch event="connection.disconnect.hangup">
+<assign name="recDetected" expr="'NONE'" />
+<assign name="attempts" expr="attempts + 1 " />
+<assign name="returnCode" expr="'HANGUP'" />
+<script>
+<![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
+</script>
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</catch>
+<catch event="error.noresource">
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_noresource" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</catch>
+<catch event="error">
+<var name="interpretation" expr="null" />
+<var name="utterance" expr="null" />
+<var name="inputmode" expr="null" />
+<var name="confidence" expr="null" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</catch>
+<filled>
+<var name="interpretation" />
+<var name="utterance" expr="application.lastresult$.utterance" />
+<var name="inputmode" expr="application.lastresult$.inputmode" />
+<var name="confidence" expr="application.lastresult$.confidence" />
+<script>
+<![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
+</script>
+<assign name="recDetected" expr="inputmode" />
+<assign name="attempts" expr="attempts + 1 " />
+<assign name="returnCode" expr="'MATCH'" />
+<assign name="userInput" expr="interpretation" />
+<script>
+<![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
+</script>
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
+</filled>
+</field>
+<transfer name="transferResult" type="blind" dest="null" >
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" method="post" namelist="duration"/>
+</catch>
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
+</catch>
+<catch event="error.connection">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
+</catch>
+<catch event="error">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<submit expr="url" method="post" namelist="duration" />
+</filled>
+</transfer>
+<transfer name="transferResult" type="consultation" dest="null" >
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" method="post" namelist="duration"/>
+</catch>
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
+</catch>
+<catch event="error.connection">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
+</catch>
+<catch event="error">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<submit expr="url" method="post" namelist="duration" />
+</filled>
+</transfer>
+<transfer name="transferResult" type="bridge" dest="null" >
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
+</catch>
+<catch event="error.connection">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
+</catch>
+<catch event="error">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<submit expr="url" method="post" namelist="duration" />
+</filled>
+</transfer>
+<record type="audio/x-wav" name="temprecording" beep="false" dtmfterm="false" finalsilence="null" maxtime="null" >
+<catch event="connection.disconnect.hangup">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" />
+</catch>
+<catch event="error.noresource">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_noresource" method="post" />
+</catch>
+<catch event="error.unsupported.record">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_recordunsupported" method="post" />
+</catch>
+<catch event="error">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
+</catch>
+<filled>
+<var name="duration" expr="temprecording$.duration" />
+<var name="size" expr="temprecording$.size" />
+<var name="termchar" expr="temprecording$.termchar" />
+<var name="maxtime" expr="temprecording$.maxtime" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_recorded" namelist="temprecording duration size termchar maxtime" method="post" enctype="multipart/form-data" />
+</filled>
+</record>
+<block>
+<exit/>
+</block>
+</form>
+</vxml>

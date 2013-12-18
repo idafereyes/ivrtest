@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<logSystem>
+		<events>
+			<event name="SIGNALLING" active="y" />
+			<event name="CALL" active="y" />
+			<event name="SERVICE" active="y" />
+			<event name="ACTION" active="y" />
+			<event name="DIALOGUE" active="y" />
+			<event name="SPEECH" active="y" />
+			<event name="EXT_SYSTEM" active="y" />
+			<event name="ERROR" active="y" />
+			<event name="DEBUG" active="y" />
+			<event name="INFO" active="y" />
+			<event name="WARN" active="y" />
+			<event name="FATAL" active="y" />
+		</events>
+		<writeLogClasses>
+			<writeLogClass className="com.vectorsf.jvoiceframework.isban.logger.files.WriteLogObject" />
+		</writeLogClasses>
+	</logSystem>
+
+</configuration>
