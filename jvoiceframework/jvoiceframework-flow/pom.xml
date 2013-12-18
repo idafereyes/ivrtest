@@ -55,8 +55,6 @@
 			</plugins>
 		</pluginManagement>
 
-		<!-- Le decimos al plugin de test Surefire que no tenga en cuenta los fuentes 
-			que acaben con el sufijo ITest. Si no por defecto los tendría en cuenta -->
 		<plugins>
 			
 			<!-- Incluimos con el plugin build-helper-maven-plugin las carpetas de 
