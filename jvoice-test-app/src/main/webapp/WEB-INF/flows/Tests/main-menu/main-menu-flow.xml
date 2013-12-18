@@ -40,7 +40,7 @@
 			<evaluate expression="jVoiceArchAudioItem" result="flashScope.mainMenutPT3AudioItem" />
 			<set name="flashScope.mainMenutPT3AudioItem.bargein" value="true" />
             <set name="flashScope.mainMenutPT3AudioItem.src" value="locutionProvider.getAudioSrc('MAIN_MENU_PT3_SRC', 'jvoice-test-app')"/> 
-<!-- 			<set name="flashScope.mainMenutPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT3)"/>  -->
+			<set name="flashScope.mainMenutPT3AudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Menu).MAIN_MENU_PT3)"/> 
             <set name="flashScope.mainMenutPT3AudioItem.condition" value="'attempts==2'" />
 			<evaluate expression="flashScope.menuInput.mainAudios.add(flashScope.mainMenutPT3AudioItem)"/>
 			

@@ -26,40 +26,42 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
     private static final long serialVersionUID = -5854263044507481102L;
     
-    static final String BLOCK_START_TAG = "<block>";
-    static final String BLOCK_END_TAG = "</block>";
-    static final String SAY_AS_START_TAG = "<say-as ";
+    static protected final String BLOCK_START_TAG = "<block>";
+    static protected final String BLOCK_END_TAG = "</block>";
+    static protected final String SAY_AS_START_TAG = "<say-as ";
     //TODO pendiente de revisión del funcionamiento del say-as en distintos motores TTS
     //Ver si añadir prefijo "vxml:"
-    static final String INTERPRET_AS_ATTR = "interpret-as=\"";
-    static final String SAY_AS_END_TAG = "</say-as>";
-    static final String FORMAT_ATTR = "format=\"";
-    static final String SUBMIT_TAG = "<submit next=\"";
-    static final String AMPERSAND = "&amp;";
-    static final String CATCH_END_TAG = "</catch>";
-    static final String FILLED_START_TAG = "<filled>";
-    static final String FILLED_END_TAG = "</filled>";
-    static final String IF_END_TAG = "</if>";
-    static final String PROMPT_START_TAG = "<prompt";
-    static final String PROMPT_END_TAG = "</prompt>";
-    static final String ASSIGN = "<assign name=\"";
-    static final String PROMPT_COND = "<prompt cond=\"";
-    static final String COND_ATTR = " cond=\"";
-    static final String CLOSE_TAG = ">"; 
-    static final String END_TAG = "/>"; 
-    static final String QUOTE_SPACE = "\" ";
-    static final String QUOTE = "\"";
-    static final String QUOTE_END_TAG = "\" >";
-    static final String QUOTE_EXPR = "\" expr=\"";
-    static final String EVENT_ID = "_eventId_";
-    static final String NAMELIST_DURATION = "namelist=\"duration\"";
-    static final String SINGLE_QUOTE = "'";
-    static final String AUDIO_START_TAG = "<audio ";
-    static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
-    static final String LANG_ATTR = " xml:lang=\"";
-    static final String VAR_NAME_TAG = "<var name=\"";
-    static final String IF_COND_TAG = "<if cond=\"";
-    static final String METHOD_POST_SPACE = "method=\"post\" ";
+    static protected final String INTERPRET_AS_ATTR = "interpret-as=\"";
+    static protected final String SAY_AS_END_TAG = "</say-as>";
+    static protected final String FORMAT_ATTR = "format=\"";
+    static protected final String SUBMIT_TAG = "<submit next=\"";
+    static protected final String AMPERSAND = "&amp;";
+    static protected final String CATCH_END_TAG = "</catch>";
+    static protected final String FILLED_START_TAG = "<filled>";
+    static protected final String FILLED_END_TAG = "</filled>";
+    static protected final String IF_END_TAG = "</if>";
+    static protected final String PROMPT_START_TAG = "<prompt";
+    static protected final String PROMPT_END_TAG = "</prompt>";
+    static protected final String ASSIGN = "<assign name=\"";
+    static protected final String PROMPT_COND = "<prompt cond=\"";
+    static protected final String COND_ATTR = " cond=\"";
+    static protected final String CLOSE_TAG = ">"; 
+    static protected final String END_TAG = "/>"; 
+    static protected final String QUOTE_SPACE = "\" ";
+    static protected final String SPACE = " ";
+    static protected final String QUOTE = "\"";
+    static protected final String QUOTE_END_TAG = "\" >";
+    static protected final String QUOTE_EXPR = "\" expr=\"";
+    static protected final String EVENT_ID = "_eventId_";
+    static protected final String NAMELIST_DURATION = "namelist=\"duration\"";
+    static protected final String SINGLE_QUOTE = "'";
+    static protected final String AUDIO_START_TAG = "<audio ";
+    static protected final String SRC_ATTRIBUTE_QUOTE = "src=\"";
+    static protected final String LANG_ATTR = " xml:lang=\"";
+    static protected final String VAR_NAME_TAG = "<var name=\"";
+    static protected final String IF_COND_TAG = "<if cond=\"";
+    static protected final String METHOD_POST_SPACE = "method=\"post\" ";
+    static protected final String PLUS_PIPE_DELIMITER = "+'|'+";
 
     // Grammar path values from configuration
     @Value("#{appConfigDefaults.grammarType}")
@@ -95,7 +97,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return code2render.toString();
     }    
 
-    private String renderOutputAudioItems(Output output, String contextPath) {
+    protected String renderOutputAudioItems(Output output, String contextPath) {
         
         StringBuilder audioItemsCode = new StringBuilder();
 
@@ -137,7 +139,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return audioItemsCode.toString();
     }
 
-    private String renderAudioItem(AudioItem audioItem, String contextPath) {
+    protected String renderAudioItem(AudioItem audioItem, String contextPath) {
 		
     	StringBuilder audioItemCode = new StringBuilder();
 
@@ -185,7 +187,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return audioItemCode.toString();
 	}
 
-	private String renderOutputCatchHangup(String flowURL) {
+	protected String renderOutputCatchHangup(String flowURL) {
 
         StringBuilder catchHangupCode =  new StringBuilder();
         
@@ -199,7 +201,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return catchHangupCode.toString();
     }
 
-    private String renderOutputFieldDummy(Output output, String flowURL) {
+    protected String renderOutputFieldDummy(Output output, String flowURL) {
 
         StringBuilder fieldDummyCode = new StringBuilder();
         
@@ -241,7 +243,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     public String render(Input input, String flowURL, String contextPath) {
         StringBuilder sb = new StringBuilder();
         
-        sb.append(renderInputInitVar(input));
+        sb.append(renderInputInitVar(input, contextPath));
         sb.append(renderInputStartField(input));
         sb.append(renderInputProperties(input));
         sb.append(renderInputGrammars(input));
@@ -254,7 +256,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return sb.toString();
     }
 
-    private String renderInputInitVar(Input input) {
+    protected String renderInputInitVar(Input input, String contextPath) {
     	StringBuilder sb = new StringBuilder();
     	
     	//Renders properties if there are
@@ -265,19 +267,22 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	sb.append(VAR_NAME_TAG + InputVars.ATTEMPTS.getName() + "\" expr=\"0\" />");
     	sb.append(VAR_NAME_TAG + InputVars.NOINPUTATTEMPTS.getName() + "\" expr=\"0\" />");
     	sb.append(VAR_NAME_TAG + InputVars.NOMATCHATTEMPTS.getName() + "\" expr=\"0\" />");
+    	sb.append(VAR_NAME_TAG + InputVars.RETURNCODE.getName() + "\" expr=\"''\" />");
 		
     	sb.append(VAR_NAME_TAG + InputVars.MAXNOMATCHATTEMPTS.getName() + QUOTE_EXPR + input.getMaxNoMatch() + QUOTE_SPACE + END_TAG);
     	sb.append(VAR_NAME_TAG + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_EXPR + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
     	sb.append(VAR_NAME_TAG + InputVars.MAXATTEMPTS.getName() + QUOTE_EXPR + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
 		
-		String recAvailable = getRecAvailable(input);
-		sb.append(VAR_NAME_TAG + InputVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
-		sb.append(VAR_NAME_TAG + InputVars.RETURNCODE.getName() + "\" expr=\"''\" />");
+    	sb.append(renderLoggerVarsDeclaration(input, contextPath));
 		
     	return sb.toString();
     }
     
-    private String renderInputStartField(Input input) {
+    protected StringBuilder renderLoggerVarsDeclaration(Input input, String contextPath) {    	
+		return new StringBuilder();
+	}
+
+    protected String renderInputStartField(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
     	if(input.getName() != null) {
@@ -289,7 +294,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    private String renderInputProperties(Input input) {
+    protected String renderInputProperties(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
 		// TIMEOUT
@@ -323,7 +328,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    private String renderInputEnd() {
+    protected String renderInputEnd() {
     	StringBuilder sb = new StringBuilder();
     	
     	sb.append("</field>");
@@ -331,7 +336,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    private String renderInputGrammars(Input input) {
+    protected String renderInputGrammars(Input input) {
     	StringBuilder sb = new StringBuilder();
     	
     	for(Grammar grammar : input.getGrammars()) {
@@ -356,7 +361,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    private String renderInputPrompts(Input input, String contextPath) {
+    protected String renderInputPrompts(Input input, String contextPath) {
     	StringBuilder sb = new StringBuilder();
     	
     	sb.append(renderInputPromptsList(input.getNoMatchAudios(), "NOMATCH", contextPath));
@@ -374,7 +379,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
      * 				is associated
      * @return VXML code.
      */
-    private String renderInputPromptsList(List<AudioItem> audioItems, String event, String contextPath) {
+    protected String renderInputPromptsList(List<AudioItem> audioItems, String event, String contextPath) {
     	StringBuilder sb = new StringBuilder();
     	
     	for(AudioItem ai : audioItems) {
@@ -407,6 +412,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			// End tag
 			sb.append(">");
 			
+			sb.append(renderInputPromptsLogInfo(ai));
+			
 			// Body tag
 			sb.append(renderInputAudios(ai, contextPath));
 			
@@ -417,7 +424,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    private String renderInputBargein(Boolean bargein) {
+    protected StringBuilder renderInputPromptsLogInfo(AudioItem audioItem) {
+		return new StringBuilder();
+	}
+
+	protected String renderInputBargein(Boolean bargein) {
     	if(bargein != null) {
 	    	if(bargein) {
 				return " bargein=\"true\"";
@@ -428,13 +439,12 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return "";
     }
     
-	private String renderInputAudios(AudioItem ai, String contextPath) {
+    protected String renderInputAudios(AudioItem ai, String contextPath) {
 		
 		StringBuilder sb = new StringBuilder();
 		
 		//TTS
 		if (ai.getSrc() == null || ai.getSrc().isEmpty()){
-			//TODO Añadir logs
     		//Adds say-as tag if specified.
         	if (ai.getWording().getSayAs() != null){
         		sb.append(SAY_AS_START_TAG + INTERPRET_AS_ATTR + ai.getWording().getSayAs().getInterpretAs().getName() + QUOTE_SPACE);
@@ -452,12 +462,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			
         //Audio without TTS backup prompt
 		} else if (ai.getWording() == null || ai.getWording().getText().isEmpty()){
-			//TODO Añadir logs
 			sb.append("<audio src=\"" + contextPath + "/" + ai.getSrc() + QUOTE_SPACE + END_TAG);
 
 		//Audio with TTS backup prompt
 		} else{
-			//TODO Meter logs
 			sb.append("<audio src=\"" + contextPath +"/" + ai.getSrc() + QUOTE_END_TAG);
     		//Adds say-as tag if specified.
         	if (ai.getWording().getSayAs() != null){
@@ -478,7 +486,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 	
-	private String renderInputCatches(Input input, String flowURL) {
+    protected String renderInputCatches(Input input, String flowURL) {
 		StringBuilder sb = new StringBuilder();
 		
 		List<String> customEvents = input.getCustomEvents();
@@ -490,7 +498,6 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			}
 			
 			sb.append("<catch event=\"" + customEvent + QUOTE_END_TAG);
-			//TODO Añadir trazas
 			sb.append(renderInputSubmit(flowURL, customEvent));
 			sb.append(CATCH_END_TAG);
 		}
@@ -502,12 +509,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 
-	private String renderInputOtherCatches(String flowURL) {
+    protected String renderInputOtherCatches(String flowURL) {
         
 		StringBuilder sb = new StringBuilder();
         
         /**************** CATCH for connection.disconnect.hangup *************************/            
         sb.append("<catch event=\"connection.disconnect.hangup\">");
+		sb.append(renderLoggerVarsAssignment(Input.HANGUP_EVENT));
 		sb.append(renderInputSubmit(flowURL, Input.HANGUP_EVENT));
         sb.append(CATCH_END_TAG);
  
@@ -527,37 +535,33 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return sb.toString();
 	}
 
-	private String renderInputCatchNoInput(String flowURL) {
+    protected String renderInputCatchNoInput(String flowURL) {
 		StringBuilder sb = new StringBuilder();
 		//escribimos el catch no input
 		sb.append("<catch event=\"noinput\" >");
 		sb.append(ASSIGN + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOINPUTATTEMPTS.getName() + " + 1\" />");
 		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_SPACE + END_TAG);
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOINPUT'\" />");
-		
+
+		sb.append(renderLoggerVarsAssignment("NOINPUT"));
+
 		/*************** MAXATTEMPTS ***************/
 		sb.append(IF_COND_TAG + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
-		//escribimos la traza del MAXINT
-		//TODO Escribir trazas
 		sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 		sb.append(IF_END_TAG);
 
 		/*************** MAXNOINPUT ***************/
 		sb.append(IF_COND_TAG + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_END_TAG);
-		//escribimos la traza del MAXNOINPUT
-		//TODO Escribir trazas
 		sb.append(renderInputSubmit(flowURL, Input.MAXNOINPUT_EVENT));
 		sb.append(IF_END_TAG);
 		
-		//escribimos la traza del NOINPUT
-		//TODO Escribir trazas
 		sb.append("<reprompt />");
 		sb.append(CATCH_END_TAG);
 		
 		return sb.toString();
 	}
 
-	private String renderInputCatchNoMatch(String flowURL) {
+    protected String renderInputCatchNoMatch(String flowURL) {
 		StringBuilder sb = new StringBuilder();
 		
 		//escribimos el catch del no match
@@ -566,75 +570,86 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + QUOTE_EXPR + InputVars.NOMATCHATTEMPTS.getName() + " + " + InputVars.NOINPUTATTEMPTS.getName() + QUOTE_SPACE + END_TAG);
 		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'NOMATCH'\" />");
 		
+		sb.append(renderLoggerVarsAssignment("NOMATCH"));
+		
 		/*************** MAXATTEMPTS ***************/
 		sb.append(IF_COND_TAG + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
-		//escribimos la traza del MAXATTEMPTS
-		//TODO Hacer trazas
 		sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 		sb.append(IF_END_TAG);
 
 		/*************** MAXNOMATCH ***************/
 		sb.append(IF_COND_TAG + InputVars.NOMATCHATTEMPTS.getName() + " == " + InputVars.MAXNOMATCHATTEMPTS.getName() + "\" >");
-		//escribimos la traza del MAXNOMATCH
-		//TODO Hacer trazas
 		sb.append(renderInputSubmit(flowURL, Input.MAXNOMATCH_EVENT));
 		sb.append(IF_END_TAG);
 		
-		//escribimos la traza del NOMATCH
-		//TODO Hacer trazas
 		sb.append("<reprompt />");
 		sb.append(CATCH_END_TAG);
 		
 		return sb.toString();
 	}
 	
-	private String renderInputFilled(Input input, String flowURL, String contextPath) {
+    protected StringBuilder renderLoggerVarsAssignment(String event) {
+		return new StringBuilder();
+	}
+
+	protected String renderInputFilled(Input input, String flowURL, String contextPath) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append(FILLED_START_TAG);
-		//TODO Añadir log
-		
-		//escribimos los datos del resultado
-		sb.append("<var name=\"interpretation\" />");
-		sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
-		sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
-		sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
-		sb.append("<script>");
-		sb.append("<![CDATA[");
-		sb.append("if(inputmode == 'voice') {");
-		sb.append("interpretation = lastresult$.interpretation.out;");
-		sb.append("} else {");
-		sb.append("interpretation = utterance;");
-		sb.append("}");
-		sb.append("]]>");
-		sb.append("</script>");
-		//TODO Mirar si devuelve los valores correctos
-		
+				
 		//Match Audios
     	sb.append(renderInputPromptsList(input.getMatchAudios(), null, contextPath));
 
-		sb.append(SUBMIT_TAG + flowURL + AMPERSAND + EVENT_ID + Input.MATCH_EVENT + QUOTE_SPACE +  METHOD_POST_SPACE + "namelist=\"interpretation utterance inputmode confidence\" />");
+    	sb.append(renderInputSubmit(flowURL, Input.MATCH_EVENT));
 
 		sb.append(FILLED_END_TAG);
 		
 		return sb.toString();
 	}
 	
-	private String renderInputSubmit(String url, String event) {
+    protected String renderInputSubmit(String url, String event) {
 		StringBuilder sb = new StringBuilder();
 			
 		//Different information to be stored at componentId variable depending on the parent
-		sb.append("<var name=\"interpretation\" expr=\"null\" />");
-		sb.append("<var name=\"utterance\" expr=\"null\" />");
-		sb.append("<var name=\"inputmode\" expr=\"null\" />");
-		sb.append("<var name=\"confidence\" expr=\"null\" />");
+		if (event.equalsIgnoreCase(Input.MATCH_EVENT)){
+			//escribimos los datos del resultado
+			sb.append("<var name=\"interpretation\" />");
+			sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
+			sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
+			sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
+			sb.append("<script>");
+			sb.append("<![CDATA[");
+			sb.append("if(inputmode == 'voice') {");
+			sb.append("interpretation = lastresult$.interpretation.out;");
+			sb.append("} else {");
+			sb.append("interpretation = utterance;");
+			sb.append("}");
+			sb.append("]]>");
+			sb.append("</script>");
+	    	sb.append(renderLoggerVarsAssignment(Input.MATCH_EVENT));
+		}else{
+			sb.append("<var name=\"interpretation\" expr=\"null\" />");
+			sb.append("<var name=\"utterance\" expr=\"null\" />");
+			sb.append("<var name=\"inputmode\" expr=\"null\" />");
+			sb.append("<var name=\"confidence\" expr=\"null\" />");			
+		}
 		
-		sb.append(SUBMIT_TAG + url + AMPERSAND + EVENT_ID + event + QUOTE_SPACE +  METHOD_POST_SPACE + "namelist=\"interpretation utterance inputmode confidence\" />");
+		sb.append(SUBMIT_TAG + url + AMPERSAND + EVENT_ID + event + QUOTE_SPACE +  METHOD_POST_SPACE);
+		sb.append(renderInputSubmitNamelist());
+		sb.append(" />");
 		
 		return sb.toString();
 	}
 	
-    private String getRecAvailable(Input input) {
+    protected StringBuilder renderInputSubmitNamelist() {
+    	StringBuilder sb = new StringBuilder();
+    	
+    	sb.append("namelist=\"interpretation utterance inputmode confidence\"");
+    	
+		return sb;
+	}
+
+	protected String getRecAvailable(Input input) {
 		boolean isAsr = false;
 		boolean isDtmf = false;
 		
@@ -649,7 +664,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return (isAsr && isDtmf) ? "ASRDTMF" : ( isAsr ? "ASR" : "DTMF");
 	}
     
-	public String render(BlindTransfer blindTx, String flowURL) {
+	public String render(BlindTransfer blindTx, String flowURL, String contextPath) {
         StringBuilder code2render = new StringBuilder();
 
         //Transfer start tag
@@ -666,6 +681,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             code2render.append(renderProperties(blindTx.getProperties()));            
         }
         
+        //Renders audios
+        if (blindTx.getAudioItems() != null){
+        	code2render.append(renderAudioItemsWithoutBargein(blindTx.getAudioItems(), contextPath));
+        }
+        
         //Renders events catch
         code2render.append(renderTransferredCatch(flowURL));
         code2render.append(renderCommonTxEvents(blindTx, flowURL));
@@ -679,7 +699,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 	}
 
 
-	private StringBuilder renderCommonTxAttributes(Transfer transfer) {
+	protected StringBuilder renderCommonTxAttributes(Transfer transfer) {
         
 		StringBuilder sb = new StringBuilder();
 
@@ -694,7 +714,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return sb;
 	}
 	
-	private StringBuilder renderBlindTxAttributes(BlindTransfer blindTx) {
+	protected StringBuilder renderBlindTxAttributes(BlindTransfer blindTx) {
 
 		StringBuilder sb = new StringBuilder();
 		
@@ -705,7 +725,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 	}
 
 
-	public String render(ConsultationTransfer consultationTx, String flowURL) {
+	public String render(ConsultationTransfer consultationTx, String flowURL, String contextPath) {
         StringBuilder code2render = new StringBuilder();
 
         //Transfer start tag
@@ -722,6 +742,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             code2render.append(renderProperties(consultationTx.getProperties()));            
         }
         
+        //Renders audios
+        if (consultationTx.getAudioItems() != null){
+        	code2render.append(renderAudioItemsWithoutBargein(consultationTx.getAudioItems(), contextPath));
+        }
+
         //Renders events catch
         code2render.append(renderTransferredCatch(flowURL));
         code2render.append(renderCommonTxEvents(consultationTx, flowURL));
@@ -734,7 +759,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return code2render.toString();
 	}
 
-	private StringBuilder renderConTxAttributes(ConsultationTransfer consultationTx) {
+	protected StringBuilder renderConTxAttributes(ConsultationTransfer consultationTx) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("type=\"consultation" + QUOTE_SPACE);
@@ -748,7 +773,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb;
 	}
 
-	public String render(BridgeTransfer bridgeTx, String flowURL) {
+	public String render(BridgeTransfer bridgeTx, String flowURL, String contextPath) {
         StringBuilder code2render = new StringBuilder();
 
         //Transfer start tag
@@ -765,6 +790,11 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
             code2render.append(renderProperties(bridgeTx.getProperties()));            
         }
         
+        //Renders audios
+        if (bridgeTx.getAudioItems() != null){
+        	code2render.append(renderAudioItemsWithoutBargein(bridgeTx.getAudioItems(), contextPath));
+        }
+
         //Renders events catch
         code2render.append(renderCommonTxEvents(bridgeTx, flowURL));
         //Renders a filled tag to catch the events that are known because of the content of the transfer variable.
@@ -776,7 +806,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return code2render.toString();
 	}
 	
-    private StringBuilder renderBridgeTxAttributes(BridgeTransfer bridgeTx) {
+	protected StringBuilder renderBridgeTxAttributes(BridgeTransfer bridgeTx) {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("type=\"bridge" + QUOTE_SPACE);
@@ -796,7 +826,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb;
 	}
 
-	private StringBuilder renderCommonTxEvents(Transfer transfer,  String flowURL) {
+	protected StringBuilder renderCommonTxEvents(Transfer transfer,  String flowURL) {
 		
         StringBuilder eventsListCode = new StringBuilder();
         
@@ -808,7 +838,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return eventsListCode;
     }
 
-	private StringBuilder renderTransferredCatch(String flowURL){
+	protected StringBuilder renderTransferredCatch(String flowURL){
 
         StringBuilder catchEventsCode = new StringBuilder();
         
@@ -824,7 +854,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return catchEventsCode;
 	}
 	
-    private StringBuilder renderCommonTxCatches(String flowURL, List<String> customEvents) {
+	protected StringBuilder renderCommonTxCatches(String flowURL, List<String> customEvents) {
 
         StringBuilder catchEventsCode = new StringBuilder();
         
@@ -866,7 +896,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return catchEventsCode;
     }
 
-    private StringBuilder renderFilledTxEvents(String flowURL) {
+	protected StringBuilder renderFilledTxEvents(String flowURL) {
         
         StringBuilder filledEventsCode = new StringBuilder();
 
@@ -895,7 +925,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         
         //Renders record audio items
         List<AudioItem> audioItems = record.getAudioItems();
-        code2render.append(renderRecordAudioItems(audioItems, contextPath));
+        code2render.append(renderAudioItemsWithoutBargein(audioItems, contextPath));
         
         //Renders record properties, if there are
         if (!record.getProperties().isEmpty()){
@@ -911,7 +941,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return code2render.toString();
     }
 
-    private StringBuilder renderRecordEventsList(Record record, String flowURL) {
+    protected StringBuilder renderRecordEventsList(Record record, String flowURL) {
                 
         StringBuilder eventsListCode = new StringBuilder();
                
@@ -926,7 +956,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return eventsListCode;
     }
 
-	private StringBuilder renderRecordFilledEvent(String flowURL) {
+    protected StringBuilder renderRecordFilledEvent(String flowURL) {
 		
 		StringBuilder filledEventCode = new StringBuilder();
 		
@@ -948,7 +978,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return filledEventCode;
 	}
 
-	private StringBuilder renderRecordCatchEvents(String flowURL, List<String> customEvents) {
+    protected StringBuilder renderRecordCatchEvents(String flowURL, List<String> customEvents) {
 		
 		StringBuilder catchEventsCode = new StringBuilder();
 		
@@ -996,7 +1026,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return catchEventsCode;
 	}
 
-	private StringBuilder renderProperties(Map<String, String> properties) {
+    protected StringBuilder renderProperties(Map<String, String> properties) {
         StringBuilder propsCode = new StringBuilder();
         
         Iterator<Entry<String, String>> it = properties.entrySet().iterator();
@@ -1010,7 +1040,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return propsCode;
 	}
 
-	private StringBuilder renderRecordAudioItems(List<AudioItem> audioItems, String contextPath) {
+    protected StringBuilder renderAudioItemsWithoutBargein(List<AudioItem> audioItems, String contextPath) {
         
     	StringBuilder audioItemsCode = new StringBuilder();
         
@@ -1040,7 +1070,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return audioItemsCode;
 	}
 
-	private StringBuilder renderRecordAttributes(Record record) {
+    protected StringBuilder renderRecordAttributes(Record record) {
     	
     	StringBuilder attributesCode = new StringBuilder();
     	

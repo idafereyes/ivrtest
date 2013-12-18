@@ -3,12 +3,39 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow
         				http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="transferInfoOutput"
+	start-state="testBlindTx"
 	parent="Tests/navigation">
 
-   <action-state id="transferInfoOutput">   		
-		<on-entry>
-			<evaluate expression="jVoiceArchAudioItem" result="flashScope.transferInfoComunOutputAudioItem" /> 			
+<!--    <action-state id="transferInfoOutput">   		 -->
+<!-- 		<on-entry> -->
+<!-- 			<evaluate expression="jVoiceArchAudioItem" result="flashScope.transferInfoComunOutputAudioItem" /> 			 -->
+<!--             <set name="flashScope.transferInfoComunOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_INFO_COMUN)"/>  -->
+
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flashScope.transferOutputAudioItem" />              -->
+<!--             <set name="flashScope.transferOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER)"/>  -->
+<!--             <set name="flashScope.transferOutputAudioItem.condition" value="" /> -->
+ 
+<!--             <evaluate expression="jVoiceArchAudioItem" result="flashScope.transferExternoOutputAudioItem" />              -->
+<!--             <set name="flashScope.transferExternoOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_EXTERNO)"/>  -->
+<!--             <set name="flashScope.transferExternoOutputAudioItem.condition" value="" /> -->
+            				
+<!--             <evaluate expression="jVoiceArchOutput" result="flashScope.transferInfoOutput"></evaluate>  -->
+<!--             <set name="flashScope.transferInfoOutput.bargein" value="false"/>    -->
+<!--             <evaluate expression="flashScope.transferInfoOutput.audioItems.add(flashScope.transferInfoComunOutputAudioItem)"/>  -->
+<!--             <evaluate expression="flashScope.transferInfoOutput.audioItems.add(flashScope.transferOutputAudioItem)"/>  -->
+<!--             <evaluate expression="flashScope.transferInfoOutput.audioItems.add(flashScope.transferExternoOutputAudioItem)"/>  -->
+<!-- 		</on-entry> -->
+
+<!-- 		<evaluate expression="flowProcessor.process(flashScope.transferInfoOutput)"/> 		 -->
+<!-- 		<transition to="testBlindTx" /> -->
+<!-- 	</action-state> -->
+	
+    <action-state id="testBlindTx">
+        <on-entry>
+            <evaluate expression="jVoiceArchBlindTransfer" result="flashScope.testBlindTx"/>
+            <set name="flashScope.testBlindTx.dest" value="'tel:649691219'"/>
+            
+            <evaluate expression="jVoiceArchAudioItem" result="flashScope.transferInfoComunOutputAudioItem" />          
             <set name="flashScope.transferInfoComunOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_INFO_COMUN)"/> 
 
             <evaluate expression="jVoiceArchAudioItem" result="flashScope.transferOutputAudioItem" />             
@@ -18,22 +45,10 @@
 <!--             <evaluate expression="jVoiceArchAudioItem" result="flashScope.transferExternoOutputAudioItem" />              -->
 <!--             <set name="flashScope.transferExternoOutputAudioItem.wording" value="locutionProvider.getWording(T(com.vectorsf.jvoiceframework.testapp.locution.Transfer).TRANSFER_EXTERNO)"/>  -->
 <!--             <set name="flashScope.transferExternoOutputAudioItem.condition" value="" /> -->
-            				
-            <evaluate expression="jVoiceArchOutput" result="flashScope.transferInfoOutput"></evaluate> 
-            <set name="flashScope.transferInfoOutput.bargein" value="false"/>   
-            <evaluate expression="flashScope.transferInfoOutput.audioItems.add(flashScope.transferInfoComunOutputAudioItem)"/> 
-            <evaluate expression="flashScope.transferInfoOutput.audioItems.add(flashScope.transferOutputAudioItem)"/> 
-<!--             <evaluate expression="flashScope.transferInfoOutput.audioItems.add(flashScope.transferExternoOutputAudioItem)"/>  -->
-		</on-entry>
 
-		<evaluate expression="flowProcessor.process(flashScope.transferInfoOutput)"/> 		
-		<transition to="testBlindTx" />
-	</action-state>
-	
-    <action-state id="testBlindTx">
-        <on-entry>
-            <evaluate expression="jVoiceArchBlindTransfer" result="flashScope.testBlindTx"/>
-            <set name="flashScope.testBlindTx.dest" value="'tel:649691219'"/>
+            <evaluate expression="flashScope.testBlindTx.audioItems.add(flashScope.transferInfoComunOutputAudioItem)"/> 
+            <evaluate expression="flashScope.testBlindTx.audioItems.add(flashScope.transferOutputAudioItem)"/> 
+            
         </on-entry>
 
         <evaluate expression="flowProcessor.process(flashScope.testBlindTx)"/>

@@ -15,9 +15,9 @@ public abstract class AbstractRenderer {
 	
     protected abstract String render(Output output, String flowURL, String contextPath);
     protected abstract String render(Input prompt, String flowURL, String contextPath);
-    protected abstract String render(BlindTransfer blindTx, String flowURL);
-    protected abstract String render(ConsultationTransfer consultationTx, String flowURL);
-    protected abstract String render(BridgeTransfer bridgeTx, String flowURL);
+    protected abstract String render(BlindTransfer blindTx, String flowURL, String contextPath);
+    protected abstract String render(ConsultationTransfer consultationTx, String flowURL, String contextPath);
+    protected abstract String render(BridgeTransfer bridgeTx, String flowURL, String contextPath);
     protected abstract String render(Record record, String flowURL, String contextPath);
     protected abstract String render(End end, String flowURL);
     protected abstract String renderStartPage();
@@ -48,7 +48,7 @@ public abstract class AbstractRenderer {
 			  }else if (element instanceof Output) {
 			      code.append(render((Output)element, flowURL, contextPath));            
 			  }else if (element instanceof Transfer) {
-			      code.append(render((Transfer) element, flowURL));
+			      code.append(render((Transfer) element, flowURL, contextPath));
 			  }else if (element instanceof End) {
 			      code.append(render((End) element, flowURL));
 			  }else if (element instanceof Record) {
@@ -67,16 +67,16 @@ public abstract class AbstractRenderer {
       return code.toString();
 	}
 	
-	public String render(Transfer transfer, String flowURL) {
+	public String render(Transfer transfer, String flowURL, String contextPath) {
 		
 		StringBuilder renderCode = new StringBuilder();
 		
 		if (transfer instanceof BlindTransfer){
-			renderCode.append(render((BlindTransfer)transfer, flowURL));
+			renderCode.append(render((BlindTransfer)transfer, flowURL, contextPath));
 		}else if (transfer instanceof ConsultationTransfer){
-			renderCode.append(render((ConsultationTransfer) transfer, flowURL));
+			renderCode.append(render((ConsultationTransfer) transfer, flowURL, contextPath));
 		}else if (transfer instanceof BridgeTransfer){
-			renderCode.append(render((BridgeTransfer) transfer, flowURL));			
+			renderCode.append(render((BridgeTransfer) transfer, flowURL, contextPath));			
 		}
 		return renderCode.toString();
 	}

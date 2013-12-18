@@ -1,11 +1,10 @@
 <var name="attempts" expr="0" />
 <var name="noInputAttempts" expr="0" />
 <var name="noMatchAttempts" expr="0" />
+<var name="returnCode" expr="''" />
 <var name="maxNoMatchAttempts" expr="3" />
 <var name="maxNoInputAttempts" expr="3" />
 <var name="maxAttempts" expr="4" />
-<var name="recAvailable" expr="'DTMF'" />
-<var name="returnCode" expr="''" />
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
 <grammar mode="dtmf" src="builtin:dtmf/digits?length=1"/>

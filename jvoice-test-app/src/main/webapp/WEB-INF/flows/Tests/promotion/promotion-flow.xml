@@ -26,11 +26,12 @@
 			<evaluate expression="jVoiceArchOutput" result="flashScope.promotionOutput"></evaluate>	
 			<evaluate expression="flashScope.promotionOutput.audioItems.add(flashScope.promotionAudioItem)"/> 
 			
-			<set name="flashScope.promotionOutput.catchHangup" value="true"></set>
+<!-- 			<set name="flashScope.promotionOutput.catchHangup" value="true"></set> -->
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flashScope.promotionOutput)"/> 		
-		<transition to="render" />
+<!-- 		<transition to="render" /> -->
+        <transition to="end"/>
 	</action-state>
 	
 	<view-state id="render" view="#{flowProcessor.getRenderer().getView()}" >    

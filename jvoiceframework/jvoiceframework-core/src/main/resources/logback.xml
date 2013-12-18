@@ -31,7 +31,7 @@
          <appender-ref ref="FILE" />
     </logger>
  
- 	<logger name="com.vectorsf.statistics">
+ 	<logger name="com.vectorsf.jvoiceframework.isban.logger">
          <appender-ref ref="FILE_STATS" />
     </logger>
     

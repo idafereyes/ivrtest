@@ -3,15 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow 
 							http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
-	start-state="setup" parent="Tests/transfer, Tests/jVoiceArch-end">
-<!-- 		start-state="jVoiceCheckInit" parent="Tests/transfer, Tests/jVoiceArch-end"> -->
-	
-
+    start-state="setup" parent="Tests/transfer, Tests/jVoiceArch-end">
+<!-- 	start-state="jVoiceCheckInit" parent="Tests/transfer, Tests/jVoiceArch-end"> -->
     <!-- 	Inicialización de la configuración por defecto de la aplicación. 
     		Se hace manualmente mientras no tengamos un mecanismo mejor para este tipo de configuración -->
     		
 	<subflow-state id="setup" subflow="Tests/setup">
 		<transition  to="wellcome"/>
+<!--         <transition to="menu"/> -->
 	</subflow-state>
 	
 	<subflow-state id="wellcome" subflow="Tests/wellcome">
@@ -28,9 +27,9 @@
 		<evaluate expression="flowScope.menuOption"></evaluate>
 		<transition on="0" to="error"/>
 	    <transition on="1" to="accounts"/>
-	    <transition on="2" to="transferInfoOutput"/>
-	    <transition on="3" to="transferInfoOutput"/>
-	    <transition on="4" to="transferInfoOutput"/>
+	    <transition on="2" to="testBlindTx"/>
+	    <transition on="3" to="testBlindTx"/>
+	    <transition on="4" to="testBlindTx"/>
 	    <transition on="5" to="end-call"/>
 	    <transition on="6" to="render"/>
 	    <transition on="7" to="record"/>

@@ -1,0 +1,40 @@
+<transfer name="transferResult" type="blind" dest="tel:666777888" transferaudio="idleMusic" >
+<prompt>
+<audio src="/app-test/SAN-TRANSFER">Prueba</audio>
+</prompt>
+<prompt>
+<say-as interpret-as="digits" >1234</say-as>
+</prompt>
+<prompt>
+<say-as interpret-as="date" format="dmy" >12-10-2012</say-as>
+</prompt>
+<prompt>
+<audio src="/app-test/TEST-SAY-AS-A">
+<say-as interpret-as="digits" >1234</say-as>
+</audio>
+</prompt>
+<prompt>
+<audio src="/app-test/TEST-SAY-AS-B">
+<say-as interpret-as="date" format="dmy" >12-10-2012</say-as>
+</audio>
+</prompt>
+<catch event="connection.disconnect.transfer">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_transferred" method="post" namelist="duration"/>
+</catch>
+<catch event="connection.disconnect.hangup">
+<var name="duration" expr="transferResult$.duration" />
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_hangup" method="post" namelist="duration"/>
+</catch>
+<catch event="error.connection">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_connectionerror" method="post" />
+</catch>
+<catch event="error">
+<submit next="http://flowExecutionUrl/app-test/&amp;_eventId_error" method="post" />
+</catch>
+<filled>
+<var name="url" expr="'http://flowExecutionUrl/app-test/'+'&amp;' + '_eventId_' + transferResult" />
+<var name="duration" expr="transferResult$.duration" />
+<submit expr="url" method="post" namelist="duration" />
+</filled>
+</transfer>

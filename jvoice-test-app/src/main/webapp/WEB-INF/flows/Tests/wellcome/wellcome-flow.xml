@@ -26,11 +26,12 @@
 			<evaluate expression="flashScope.wellcomeOutput.audioItems.add(flashScope.wellcomeRetailOutputAudioItem)"/> 
 			<evaluate expression="flashScope.wellcomeOutput.audioItems.add(flashScope.wellcomePymeRetailOutputAudioItem)"/> 
 			<evaluate expression="flashScope.wellcomeOutput.audioItems.add(flashScope.wellcomeULineRetailOutputAudioItem)"/>
-			<set name="flashScope.wellcomeOutput.flush" value="true" /> 			 
+<!-- 			<set name="flashScope.wellcomeOutput.flush" value="true" /> 			  -->
 		</on-entry>
 
 		<evaluate expression="flowProcessor.process(flashScope.wellcomeOutput)"/> 		
-		<transition on="" to="render" />
+<!-- 		<transition on="" to="render" /> -->
+        <transition to="promotion"/>
    	</action-state>
 
     <view-state id="render" view="#{flowProcessor.getRenderer().getView()}">
