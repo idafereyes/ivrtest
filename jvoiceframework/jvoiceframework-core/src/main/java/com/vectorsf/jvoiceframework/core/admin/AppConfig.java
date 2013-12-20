@@ -37,9 +37,7 @@ public class AppConfig {
 		Iterator<String> it = configBean.getKeys();
 		while (it.hasNext()) {
 			String key = it.next();
-			if (!configMap.containsKey(key)) {
-				configMap.put(key, configBean.getString(key));
-			}
+			configMap.put(key, configBean.getString(key));
 		}
 	}
 	

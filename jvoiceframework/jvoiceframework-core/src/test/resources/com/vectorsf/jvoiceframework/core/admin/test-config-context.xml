@@ -23,13 +23,13 @@
 	<aop:aspectj-autoproxy proxy-target-class="true"/> 
 
 
-	<beans:bean id="app" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
-		<beans:constructor-arg ref="appConfig"/>
+	<beans:bean id="appTest" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
+		<beans:constructor-arg ref="appConfigTest"/>
 	</beans:bean>
 
-	<beans:bean id="appConfig" class="org.apache.commons.configuration.PropertiesConfiguration">
+	<beans:bean id="appConfigTest" class="org.apache.commons.configuration.PropertiesConfiguration">
 		<beans:constructor-arg type="java.lang.String">
-			<beans:value>com/vectorsf/jvoiceframework/core/admin/app.properties</beans:value>
+			<beans:value>com/vectorsf/jvoiceframework/core/admin/appTest.properties</beans:value>
 		</beans:constructor-arg>
 	</beans:bean>
 

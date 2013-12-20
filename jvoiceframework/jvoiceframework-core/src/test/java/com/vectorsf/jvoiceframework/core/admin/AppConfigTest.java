@@ -3,8 +3,8 @@ package com.vectorsf.jvoiceframework.core.admin;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -15,28 +15,29 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class AppConfigTest {
     
-	ClassPathXmlApplicationContext applicationContext = null;
+	private static ClassPathXmlApplicationContext applicationContext = null;
+	
+	private static AppConfig appConfig = null;
 
-	@Before
-	public void startContext() {
+	@BeforeClass
+	public static void startContext() {
 		applicationContext = new ClassPathXmlApplicationContext("com/vectorsf/jvoiceframework/core/admin/test-config-context.xml");
 		applicationContext.refresh();
+		appConfig = (AppConfig)applicationContext.getBean("appTest");
 	}
 	
 	@Test
 	public void testConfigValue(){
-		AppConfig appConfig = (AppConfig)applicationContext.getBean("app");
 		assertEquals("Must be equals",appConfig.getValue("max"),"25");
 	}
 	
 	@Test
 	public void testConfigValueNull(){
-		AppConfig appConfig = (AppConfig)applicationContext.getBean("app");
 		assertNull("Must be null",appConfig.getValue("noValue"));
 	}
 	
-	@After
-	public void stopContext() {
+	@AfterClass
+	public static void stopContext() {
 		applicationContext.close();
 	}
     
