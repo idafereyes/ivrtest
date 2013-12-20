@@ -6,11 +6,6 @@
 	                    http://www.springframework.org/schema/aop
 	                    http://www.springframework.org/schema/aop/spring-aop.xsd"
 	xmlns:aop="http://www.springframework.org/schema/aop">
-
-<!--     <bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer"> -->
-	<bean id="renderer" class="com.vectorsf.jvoiceframework.isban.logger.render.vxi.IsbanLoggerRenderer">
-		<property name="view" value="renderVXI"></property>
-	</bean>
 	
 	<bean id="states" class="java.util.ArrayList" scope="session">
 		<!-- aop:scoped-proxy/-->
