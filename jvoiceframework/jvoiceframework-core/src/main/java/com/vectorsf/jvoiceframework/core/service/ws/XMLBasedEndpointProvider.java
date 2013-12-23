@@ -49,10 +49,12 @@ public class XMLBasedEndpointProvider implements EndpointProvider {
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 			 
 			EndpointCollection endpointCollection = (EndpointCollection) unmarshaller.unmarshal(is);
-			for (Endpoint endpoint : endpointCollection.getValues()) {
-				endpoints.put(new QName(endpoint.getNamespace(), endpoint.getName()), endpoint);
-				logger.debug(XMLBasedEndpointProviderMessages.DEBUG_ENDPOINT_ADDED, endpoint.getNamespace(), endpoint.getName(), endpoint.getUrl());
-			}
+			if (endpointCollection != null  && endpointCollection.getValues() != null ) {
+				for (Endpoint endpoint : endpointCollection.getValues()) {
+					endpoints.put(new QName(endpoint.getNamespace(), endpoint.getName()), endpoint);
+					logger.debug(XMLBasedEndpointProviderMessages.DEBUG_ENDPOINT_ADDED, endpoint.getNamespace(), endpoint.getName(), endpoint.getUrl());
+				}
+			}	
 		}
 		else{
 			logger.warn(XMLBasedEndpointProviderMessages.WARN_NO_ENDPOINTS_RESOURCE_DEFINED, endpoints.size());
