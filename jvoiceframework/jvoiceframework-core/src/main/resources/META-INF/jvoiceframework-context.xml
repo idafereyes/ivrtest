@@ -30,9 +30,6 @@
 					<beans:property name="name" value="default" />
 				</beans:bean>
 				<beans:bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<beans:property name="name" value="wsPortNames" />
-				</beans:bean>
-				<beans:bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<beans:property name="name" value="wsClients" />
 				</beans:bean>	
 			</beans:set>

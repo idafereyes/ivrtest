@@ -30,58 +30,32 @@ public class AnnotationBasedWebServiceUtils  {
 	}
 
 	/**
-	 * Inspecciona la anotación @WebService para obtener el nombre del puerto
-	 * @param portInterfaceClass
-	 * @return
-	 */
-	
-	@Cacheable(value="wsPortNames", key="#portInterfaceClass.getCanonicalName()")
-	public QName getPortName(Class<?> portInterfaceClass) {	
-		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_PORT_NAME_FROM_INTERFACE, portInterfaceClass.getCanonicalName());
-		WebService annotation = portInterfaceClass.getAnnotation(WebService.class);
-		QName portName = new QName(annotation.targetNamespace(), annotation.name());
-		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_PORT_NAME_FROM_INTERFACE_RETURN, portInterfaceClass.getCanonicalName(), portName.getNamespaceURI(), portName.getLocalPart());
-		return portName;
-	}
-	
-	/**
-	 * Crea la instancia del cliente WS y le injecta los Resolve Handlers necesarios
+	 * Busca la clase ciente WS (Con la anotación @WebService) correspondiente al interfaz a partir del targetnamespace
 	 * @param portInterfaceClass
 	 * @return
 	 */
 	@Cacheable(value="wsClients", key="#portInterfaceClass.getCanonicalName()")
-	public javax.xml.ws.Service getClientInstance(Class<?> portInterfaceClass, HandlerResolver handlerResolver) throws WebServiceProviderException {
+	public Class<? extends javax.xml.ws.Service> getWSClientClass(Class<?> portInterfaceClass) throws WebServiceProviderException {
 		
-		javax.xml.ws.Service client = null;
+		
 		String resultClassName = null;
 
-		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_CLIENT_INSTANCE, portInterfaceClass.getCanonicalName());
+		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_CLIENT_CLASS, portInterfaceClass.getCanonicalName());
 
 		// Buscamos una clase anotada como @WebService en el mismo paquete que el interfaz del puerto solicitado y con el mismo targetNamespace		
 		WebService annotation = portInterfaceClass.getAnnotation(WebService.class);
-		
+		Class<? extends javax.xml.ws.Service> clientClass = null;
 		if (annotation != null) {
-			Class<? extends javax.xml.ws.Service> clientClass = getAnnotatedWSClientClass(portInterfaceClass.getPackage(), annotation.targetNamespace());					
-			
-			// Creamos la instancia del cliente WS, para poder pedir una instancia del port a partir del interfaz solicitado
-			try {
-				client = clientClass.newInstance();
-				// Establecemos la cadena de handlers a aplicar en las llamadas (Logs, seguridad, etc.)
-				// Estos handlers funcionarán de forma autónoma. Cada uno decide si debe aplicarse o no
-				client.setHandlerResolver(handlerResolver);
-				resultClassName = client.getClass().getCanonicalName();
-			} catch (Exception e) {
-				logger.error(AnnotationBasedWebServiceUtilsMessages.ERROR_CREATING_WS_CLIENT_INSTANCE, portInterfaceClass.getCanonicalName(), e);
-				throw new WebServiceProviderException(e);
-			}	
+			clientClass = getWSClientClass(portInterfaceClass.getPackage(), annotation.targetNamespace());		
+			resultClassName = clientClass.getCanonicalName();
 		}
 		else {
 			logger.error(AnnotationBasedWebServiceUtilsMessages.ERROR_NO_WS_ANNOTATION_IN_PORT_INTERFACE, portInterfaceClass.getCanonicalName());
 			throw new WebServiceProviderException();
 		}
 
-		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_CLIENT_INSTANCE_RETURN, portInterfaceClass.getCanonicalName(), resultClassName);
-		return client;
+		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_CLIENT_CLASS_RETURN, portInterfaceClass.getCanonicalName(), resultClassName);
+		return clientClass;
 	}
 
 	/**
@@ -91,7 +65,7 @@ public class AnnotationBasedWebServiceUtils  {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private Class<? extends javax.xml.ws.Service> getAnnotatedWSClientClass(Package clientPackage, String targetNamespace) {
+	private Class<? extends javax.xml.ws.Service> getWSClientClass(Package clientPackage, String targetNamespace) {
 		
 		logger.debug(AnnotationBasedWebServiceUtilsMessages.DEBUG_GET_ANNOTATED_WS_CLIENT_CLASS, clientPackage.getName(), targetNamespace);
 
@@ -114,5 +88,4 @@ public class AnnotationBasedWebServiceUtils  {
 		return resultClass;
 	}
 
-	
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints>
+    <endpoint namespace="http://bluedash.net/ws" name="HelloServiceSOAP" url="http://test-host:test-port/test-path"/>
+</endpoints>
