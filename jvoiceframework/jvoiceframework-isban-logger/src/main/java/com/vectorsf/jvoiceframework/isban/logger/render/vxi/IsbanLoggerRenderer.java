@@ -14,6 +14,7 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 	private static final long serialVersionUID = 1L;
 
 	protected static final String COMMA_QUOTED = "', '";
+	protected static final String REC_PARAMS_DELIMITER = ";";
 
 	
 	@Override
@@ -27,7 +28,9 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 		
 		sb.append(VAR_NAME_TAG + LoggerVars.DIALOGUEID.getName() + "\" expr=\"'" + input.getName() + "'" + QUOTE_SPACE + END_TAG);
 		sb.append(VAR_NAME_TAG + LoggerVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
-		sb.append(VAR_NAME_TAG + LoggerVars.RECPARAMS.getName() + "\" expr=\"'recParams'\" />");
+		sb.append(VAR_NAME_TAG + LoggerVars.RECPARAMS.getName() + "\" expr=\"'timeout=" + input.getTimeout() + REC_PARAMS_DELIMITER +
+																			"interdigittimeout=" + input.getInterdigittimeout() + REC_PARAMS_DELIMITER +
+																			"confidencelevel=" + input.getConfidence() + "'\" />");
 		
 		sb.append(VAR_NAME_TAG + LoggerVars.RECDETECTED.getName() + "\" expr=\"''\" />");
 		sb.append(VAR_NAME_TAG + LoggerVars.USERINPUT.getName() + "\" expr=\"''\" />");

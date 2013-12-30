@@ -1,5 +1,6 @@
 package com.vectorsf.jvoiceframework.isban.logger.aspects;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -26,6 +27,7 @@ public class InputLogger {
 	
 	static final String TRACE_DELIMITER = "&";
 	static final String PARAM_DELIMITER = "\\|";
+	static final String REC_PARAMS_DELIMITER = ";";
 
 	@Autowired
 	private StatisticsLogger st;
@@ -100,10 +102,22 @@ public class InputLogger {
 		}
 		
 		String userInput = stdTrace[6];
-
-		List<EventParam> recParams = null;
 		
-		st.DIALOGUE(dialogueID, recAvailable, recDetected, tries, returnCode, userInput, recParams);
+		String[] recParams = stdTrace[7].split(REC_PARAMS_DELIMITER);
+				
+		List<EventParam> recParamsList = new ArrayList<EventParam>();                  
+        int index;
+        String paramKey;
+        String paramValue;
+        
+		for (String recParam : recParams){
+			index = recParam.indexOf("=");
+			paramKey = recParam.substring(0, index);
+			paramValue = recParam.substring(index+1);
+			recParamsList.add(new EventParam(paramKey, paramValue));			
+		}
+		
+		st.DIALOGUE(dialogueID, recAvailable, recDetected, tries, returnCode, userInput, recParamsList);
 	}
 	
 	private void writeSpeech(String speechTrace){
