@@ -14,7 +14,7 @@
 <var name="inputInfo" expr="''" />
 <var name="dialogueID" expr="'null'" />
 <var name="recAvailable" expr="'DTMF'" />
-<var name="recParams" expr="'recParams'" />
+<var name="recParams" expr="'timeout=null;interdigittimeout=null;confidencelevel=null;sensitivity=null;speedvsaccuracy=null;maxspeechtimeout=null;incompletetimeout=null;completetimeout=null;'" />
 <var name="recDetected" expr="''" />
 <var name="userInput" expr="''" />
 <script charset="UTF-8" src="/app-test/resources/logger.js"/>
@@ -109,6 +109,7 @@
 <assign name="attempts" expr="attempts + 1 " />
 <assign name="returnCode" expr="'MATCH'" />
 <assign name="userInput" expr="interpretation" />
+<assign name="recParams" expr="recParams + 'confidence=' + confidence " />
 <script>
 <![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
 </script>

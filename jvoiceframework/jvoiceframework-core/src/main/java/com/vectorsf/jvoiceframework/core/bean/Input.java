@@ -84,6 +84,40 @@ public class Input implements Serializable{
     private String confidence;
     
     /**
+     * Indicates how sensitive the interpreter is to noise in a recognition. 
+     * A value of 1.0 means that it is highly sensitive to quiet input. A value of 0.0 means it is least sensitive to noise.
+     */
+    @Value("#{appConfigDefaults.sensitivity}")
+    private String sensitivity;
+
+    /**
+     * Specifies the desired balance between speed vs. accuracy. 
+     * A value of 0.0 means fastest recognition. A value of 1.0 means best accuracy.
+     */
+    @Value("#{appConfigDefaults.speedvsaccuracy}")
+    private String speedvsaccuracy;
+
+    /**
+	 *	The maximum duration of user speech.
+     */
+    @Value("#{appConfigDefaults.maxspeechtimeout}")
+    private String maxspeechtimeout;
+
+    /**
+	*
+	* The length of silence required following user speech before the speech recognizer throws a match event.
+	*/
+    @Value("#{appConfigDefaults.completetimeout}")
+    private String completetimeout;
+
+    /**
+	*
+	* The length of silence required following user speech before the speech recognizer throws a nomatch event.
+	*/
+    @Value("#{appConfigDefaults.incompletetimeout}")
+    private String incompletetimeout;
+    
+    /**
      * Map of vxml properties
      */
     @Value("#{new java.util.HashMap()}")
@@ -231,5 +265,45 @@ public class Input implements Serializable{
 
 	public void setConfidence(String confidence) {
 		this.confidence = confidence;
+	}
+
+	public String getSensitivity() {
+		return sensitivity;
+	}
+
+	public void setSensitivity(String sensitivity) {
+		this.sensitivity = sensitivity;
+	}
+
+	public String getSpeedvsaccuracy() {
+		return speedvsaccuracy;
+	}
+
+	public void setSpeedvsaccuracy(String speedvsaccuracy) {
+		this.speedvsaccuracy = speedvsaccuracy;
+	}
+
+	public String getMaxspeechtimeout() {
+		return maxspeechtimeout;
+	}
+
+	public void setMaxspeechtimeout(String maxspeechtimeout) {
+		this.maxspeechtimeout = maxspeechtimeout;
+	}
+
+	public String getCompletetimeout() {
+		return completetimeout;
+	}
+
+	public void setCompletetimeout(String completetimeout) {
+		this.completetimeout = completetimeout;
+	}
+
+	public String getIncompletetimeout() {
+		return incompletetimeout;
+	}
+
+	public void setIncompletetimeout(String incompletetimeout) {
+		this.incompletetimeout = incompletetimeout;
 	}
 }

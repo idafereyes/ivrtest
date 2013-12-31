@@ -26,42 +26,42 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
     private static final long serialVersionUID = -5854263044507481102L;
     
-    static protected final String BLOCK_START_TAG = "<block>";
-    static protected final String BLOCK_END_TAG = "</block>";
-    static protected final String SAY_AS_START_TAG = "<say-as ";
+    protected static final String BLOCK_START_TAG = "<block>";
+    protected static final String BLOCK_END_TAG = "</block>";
+    protected static final String SAY_AS_START_TAG = "<say-as ";
     //TODO pendiente de revisión del funcionamiento del say-as en distintos motores TTS
     //Ver si añadir prefijo "vxml:"
-    static protected final String INTERPRET_AS_ATTR = "interpret-as=\"";
-    static protected final String SAY_AS_END_TAG = "</say-as>";
-    static protected final String FORMAT_ATTR = "format=\"";
-    static protected final String SUBMIT_TAG = "<submit next=\"";
-    static protected final String AMPERSAND = "&amp;";
-    static protected final String CATCH_END_TAG = "</catch>";
-    static protected final String FILLED_START_TAG = "<filled>";
-    static protected final String FILLED_END_TAG = "</filled>";
-    static protected final String IF_END_TAG = "</if>";
-    static protected final String PROMPT_START_TAG = "<prompt";
-    static protected final String PROMPT_END_TAG = "</prompt>";
-    static protected final String ASSIGN = "<assign name=\"";
-    static protected final String PROMPT_COND = "<prompt cond=\"";
-    static protected final String COND_ATTR = " cond=\"";
-    static protected final String CLOSE_TAG = ">"; 
-    static protected final String END_TAG = "/>"; 
-    static protected final String QUOTE_SPACE = "\" ";
-    static protected final String SPACE = " ";
-    static protected final String QUOTE = "\"";
-    static protected final String QUOTE_END_TAG = "\" >";
-    static protected final String QUOTE_EXPR = "\" expr=\"";
-    static protected final String EVENT_ID = "_eventId_";
-    static protected final String NAMELIST_DURATION = "namelist=\"duration\"";
-    static protected final String SINGLE_QUOTE = "'";
-    static protected final String AUDIO_START_TAG = "<audio ";
-    static protected final String SRC_ATTRIBUTE_QUOTE = "src=\"";
-    static protected final String LANG_ATTR = " xml:lang=\"";
-    static protected final String VAR_NAME_TAG = "<var name=\"";
-    static protected final String IF_COND_TAG = "<if cond=\"";
-    static protected final String METHOD_POST_SPACE = "method=\"post\" ";
-    static protected final String PLUS_PIPE_DELIMITER = "+'|'+";
+    protected static final String INTERPRET_AS_ATTR = "interpret-as=\"";
+    protected static final String SAY_AS_END_TAG = "</say-as>";
+    protected static final String FORMAT_ATTR = "format=\"";
+    protected static final String SUBMIT_TAG = "<submit next=\"";
+    protected static final String AMPERSAND = "&amp;";
+    protected static final String CATCH_END_TAG = "</catch>";
+    protected static final String FILLED_START_TAG = "<filled>";
+    protected static final String FILLED_END_TAG = "</filled>";
+    protected static final String IF_END_TAG = "</if>";
+    protected static final String PROMPT_START_TAG = "<prompt";
+    protected static final String PROMPT_END_TAG = "</prompt>";
+    protected static final String ASSIGN = "<assign name=\"";
+    protected static final String PROMPT_COND = "<prompt cond=\"";
+    protected static final String COND_ATTR = " cond=\"";
+    protected static final String CLOSE_TAG = ">"; 
+    protected static final String END_TAG = "/>"; 
+    protected static final String QUOTE_SPACE = "\" ";
+    protected static final String SPACE = " ";
+    protected static final String QUOTE = "\"";
+    protected static final String QUOTE_END_TAG = "\" >";
+    protected static final String QUOTE_EXPR = "\" expr=\"";
+    protected static final String EVENT_ID = "_eventId_";
+    protected static final String NAMELIST_DURATION = "namelist=\"duration\"";
+    protected static final String SINGLE_QUOTE = "'";
+    protected static final String AUDIO_START_TAG = "<audio ";
+    protected static final String SRC_ATTRIBUTE_QUOTE = "src=\"";
+    protected static final String LANG_ATTR = " xml:lang=\"";
+    protected static final String VAR_NAME_TAG = "<var name=\"";
+    protected static final String IF_COND_TAG = "<if cond=\"";
+    protected static final String METHOD_POST_SPACE = "method=\"post\" ";
+    protected static final String PLUS_PIPE_DELIMITER = "+'|'+";
 
     // Grammar path values from configuration
     @Value("#{appConfigDefaults.grammarType}")
@@ -299,29 +299,49 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	
 		// TIMEOUT
     	if(input.getTimeout() != null ) {
-    		sb.append("<property name=\"timeout\" value=\"" + input.getTimeout() + "\" />");
+    		sb.append("<property name=\"timeout\" value=\"" + input.getTimeout() + QUOTE_SPACE + END_TAG);
     	}
 		
     	// INTERDIGITTIMEOUT
     	if(input.getInterdigittimeout() != null ) {
-    		sb.append("<property name=\"interdigittimeout\" value=\"" + input.getInterdigittimeout() + "\" />");
+    		sb.append("<property name=\"interdigittimeout\" value=\"" + input.getInterdigittimeout() + QUOTE_SPACE + END_TAG);
     	}
     	
     	// CONFIDENCE
     	if(input.getConfidence() != null ) {
-    		sb.append("<property name=\"confidence\" value=\"" + input.getConfidence() + "\" />");
+    		sb.append("<property name=\"confidence\" value=\"" + input.getConfidence() + QUOTE_SPACE + END_TAG);
+    	}
+
+    	// SENSITIVITY
+    	if(input.getSensitivity() != null ) {
+    		sb.append("<property name=\"sensitivity\" value=\"" + input.getSensitivity() + QUOTE_SPACE + END_TAG);
+    	}    	
+    	// SPEEDVSACCURACY
+    	if(input.getSpeedvsaccuracy() != null ) {
+    		sb.append("<property name=\"speedvsaccuracy\" value=\"" + input.getSpeedvsaccuracy() + QUOTE_SPACE + END_TAG);
     	}
     	
-    	// BARGEIN
-    	if(input.isBargein()) {
-    		sb.append("<property name=\"bargein\" value=\"true\" />");
-    	} else {
-    		sb.append("<property name=\"bargein\" value=\"false\" />");
+    	// MAXSPEECHTIMEOUT
+    	if(input.getMaxspeechtimeout() != null ) {
+    		sb.append("<property name=\"maxspeechtimeout\" value=\"" + input.getMaxspeechtimeout() + QUOTE_SPACE + END_TAG);
     	}
+ 
+    	// COMPLETETIMEOUT
+    	if(input.getCompletetimeout() != null ) {
+    		sb.append("<property name=\"completetimeout\" value=\"" + input.getCompletetimeout() + QUOTE_SPACE + END_TAG);
+    	}
+
+    	// INCOMPLETETIMEOUT
+    	if(input.getIncompletetimeout()!= null ) {
+    		sb.append("<property name=\"incompletetimeout\" value=\"" + input.getIncompletetimeout() + QUOTE_SPACE + END_TAG);
+    	}
+
+    	// BARGEIN
+    	sb.append("<property name=\"bargein\" value=\"" + String.valueOf(input.isBargein()) + "\" />");
     	
 		// INPUTMODES
 		String recAvailable = getRecAvailable(input);
-		if("ASR".equalsIgnoreCase(recAvailable) || "ASRDTMF".equalsIgnoreCase(recAvailable)) {
+		if (!("DTMF".equalsIgnoreCase(recAvailable))){
 			sb.append("<property name=\"inputmodes\" value=\"voice\" />");
 		}
 		

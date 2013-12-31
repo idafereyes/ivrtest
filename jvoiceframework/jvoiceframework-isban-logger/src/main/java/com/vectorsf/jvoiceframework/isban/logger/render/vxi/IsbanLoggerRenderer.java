@@ -28,9 +28,15 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 		
 		sb.append(VAR_NAME_TAG + LoggerVars.DIALOGUEID.getName() + "\" expr=\"'" + input.getName() + "'" + QUOTE_SPACE + END_TAG);
 		sb.append(VAR_NAME_TAG + LoggerVars.RECAVAILABLE.getName() + "\" expr=\"'" + recAvailable + "'" + QUOTE_SPACE + END_TAG);
-		sb.append(VAR_NAME_TAG + LoggerVars.RECPARAMS.getName() + "\" expr=\"'timeout=" + input.getTimeout() + REC_PARAMS_DELIMITER +
-																			"interdigittimeout=" + input.getInterdigittimeout() + REC_PARAMS_DELIMITER +
-																			"confidencelevel=" + input.getConfidence() + "'\" />");
+		sb.append(VAR_NAME_TAG + LoggerVars.RECPARAMS.getName() + "\" expr=\"'timeout=" + input.getTimeout() + REC_PARAMS_DELIMITER);
+		sb.append("interdigittimeout=" + input.getInterdigittimeout() + REC_PARAMS_DELIMITER);
+		sb.append("confidencelevel=" + input.getConfidence() + REC_PARAMS_DELIMITER);
+		sb.append("sensitivity=" + input.getSensitivity() + REC_PARAMS_DELIMITER);
+		sb.append("speedvsaccuracy=" + input.getSpeedvsaccuracy() + REC_PARAMS_DELIMITER);
+		sb.append("maxspeechtimeout=" + input.getMaxspeechtimeout() + REC_PARAMS_DELIMITER);
+		sb.append("incompletetimeout=" + input.getIncompletetimeout() + REC_PARAMS_DELIMITER);
+		sb.append("completetimeout=" + input.getCompletetimeout() + REC_PARAMS_DELIMITER);
+		sb.append("'\" />");
 		
 		sb.append(VAR_NAME_TAG + LoggerVars.RECDETECTED.getName() + "\" expr=\"''\" />");
 		sb.append(VAR_NAME_TAG + LoggerVars.USERINPUT.getName() + "\" expr=\"''\" />");
@@ -50,6 +56,7 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 			sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.ATTEMPTS.getName()  +" + 1 \" />");			
 			sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'MATCH'\" />");
 			sb.append(ASSIGN + LoggerVars.USERINPUT.getName() + "\" expr=\"interpretation\" />");
+			sb.append(ASSIGN + LoggerVars.RECPARAMS.getName() + "\" expr=\"" + LoggerVars.RECPARAMS.getName()  +" + 'confidence=' + confidence \" />");			
 		} else if (event.equalsIgnoreCase(Input.HANGUP_EVENT)){
 			sb.append(ASSIGN + LoggerVars.RECDETECTED.getName() + "\" expr=\"'NONE'\" />");
 			sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.ATTEMPTS.getName()  +" + 1 \" />");
