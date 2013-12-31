@@ -163,6 +163,44 @@ public class AppConfigDefaults implements Serializable {
 	@Value("0.5")
 	private String confidence;
 	
+    /**
+     * Default value for sensitivity property.
+     * Indicates how sensitive the interpreter is to noise in a recognition. 
+     * A value of 1.0 means that it is highly sensitive to quiet input. A value of 0.0 means it is least sensitive to noise.
+     */
+    @Value("0.5")
+    private String sensitivity;
+
+    /**
+     * Default value for speedvsaccuracy property.
+     * Specifies the desired balance between speed vs. accuracy. 
+     * A value of 0.0 means fastest recognition. A value of 1.0 means best accuracy.
+     */
+    @Value("0.5")
+    private String speedvsaccuracy;
+
+    /**
+     * Default value for maxspeechtimeout property.
+	 * The maximum duration of user speech.
+     */
+    @Value("20s")
+    private String maxspeechtimeout;
+
+    /**
+    * Default value for completetimeout property.
+	* The length of silence required following user speech before the speech recognizer throws a match event.
+	*/
+    @Value("0.25s")
+    private String completetimeout;
+
+    /**
+    * Default value for incompletetimeout property.
+	* The length of silence required following user speech before the speech recognizer throws a nomatch event.
+	*/
+    @Value("2s")
+    private String incompletetimeout;
+
+	
 	/** Standard content type for grammar **/
 	@Value("application/srgs+xml")
 	private String grammarType;
@@ -341,6 +379,46 @@ public class AppConfigDefaults implements Serializable {
 
 	public void setConfidence(String confidence) {
 		this.confidence = confidence;
+	}
+
+	public String getSensitivity() {
+		return sensitivity;
+	}
+
+	public void setSensitivity(String sensitivity) {
+		this.sensitivity = sensitivity;
+	}
+
+	public String getSpeedvsaccuracy() {
+		return speedvsaccuracy;
+	}
+
+	public void setSpeedvsaccuracy(String speedvsaccuracy) {
+		this.speedvsaccuracy = speedvsaccuracy;
+	}
+
+	public String getMaxspeechtimeout() {
+		return maxspeechtimeout;
+	}
+
+	public void setMaxspeechtimeout(String maxspeechtimeout) {
+		this.maxspeechtimeout = maxspeechtimeout;
+	}
+
+	public String getCompletetimeout() {
+		return completetimeout;
+	}
+
+	public void setCompletetimeout(String completetimeout) {
+		this.completetimeout = completetimeout;
+	}
+
+	public String getIncompletetimeout() {
+		return incompletetimeout;
+	}
+
+	public void setIncompletetimeout(String incompletetimeout) {
+		this.incompletetimeout = incompletetimeout;
 	}
 
 	public String getGrammarType() {

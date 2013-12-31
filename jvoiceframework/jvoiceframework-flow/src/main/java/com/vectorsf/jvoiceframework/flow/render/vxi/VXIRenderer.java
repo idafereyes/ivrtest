@@ -299,29 +299,49 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	
 		// TIMEOUT
     	if(input.getTimeout() != null ) {
-    		sb.append("<property name=\"timeout\" value=\"" + input.getTimeout() + "\" />");
+    		sb.append("<property name=\"timeout\" value=\"" + input.getTimeout() + QUOTE_SPACE + END_TAG);
     	}
 		
     	// INTERDIGITTIMEOUT
     	if(input.getInterdigittimeout() != null ) {
-    		sb.append("<property name=\"interdigittimeout\" value=\"" + input.getInterdigittimeout() + "\" />");
+    		sb.append("<property name=\"interdigittimeout\" value=\"" + input.getInterdigittimeout() + QUOTE_SPACE + END_TAG);
     	}
     	
     	// CONFIDENCE
     	if(input.getConfidence() != null ) {
-    		sb.append("<property name=\"confidence\" value=\"" + input.getConfidence() + "\" />");
+    		sb.append("<property name=\"confidence\" value=\"" + input.getConfidence() + QUOTE_SPACE + END_TAG);
+    	}
+
+    	// SENSITIVITY
+    	if(input.getSensitivity() != null ) {
+    		sb.append("<property name=\"sensitivity\" value=\"" + input.getSensitivity() + QUOTE_SPACE + END_TAG);
+    	}    	
+    	// SPEEDVSACCURACY
+    	if(input.getSpeedvsaccuracy() != null ) {
+    		sb.append("<property name=\"speedvsaccuracy\" value=\"" + input.getSpeedvsaccuracy() + QUOTE_SPACE + END_TAG);
     	}
     	
-    	// BARGEIN
-    	if(input.isBargein()) {
-    		sb.append("<property name=\"bargein\" value=\"true\" />");
-    	} else {
-    		sb.append("<property name=\"bargein\" value=\"false\" />");
+    	// MAXSPEECHTIMEOUT
+    	if(input.getMaxspeechtimeout() != null ) {
+    		sb.append("<property name=\"maxspeechtimeout\" value=\"" + input.getMaxspeechtimeout() + QUOTE_SPACE + END_TAG);
     	}
+ 
+    	// COMPLETETIMEOUT
+    	if(input.getCompletetimeout() != null ) {
+    		sb.append("<property name=\"completetimeout\" value=\"" + input.getCompletetimeout() + QUOTE_SPACE + END_TAG);
+    	}
+
+    	// INCOMPLETETIMEOUT
+    	if(input.getIncompletetimeout()!= null ) {
+    		sb.append("<property name=\"incompletetimeout\" value=\"" + input.getIncompletetimeout() + QUOTE_SPACE + END_TAG);
+    	}
+
+    	// BARGEIN
+    	sb.append("<property name=\"bargein\" value=\"" + String.valueOf(input.isBargein()) + "\" />");
     	
 		// INPUTMODES
 		String recAvailable = getRecAvailable(input);
-		if("ASR".equalsIgnoreCase(recAvailable) || "ASRDTMF".equalsIgnoreCase(recAvailable)) {
+		if (!("DTMF".equalsIgnoreCase(recAvailable))){
 			sb.append("<property name=\"inputmodes\" value=\"voice\" />");
 		}
 		

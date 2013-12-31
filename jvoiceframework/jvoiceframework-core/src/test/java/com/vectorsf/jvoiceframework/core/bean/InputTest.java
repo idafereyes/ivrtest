@@ -21,6 +21,11 @@ public class InputTest {
 	static String TIMEOUT = "15s";
 	static String INTERDIGIT_TIMEOUT = "2s";
 	static String CONFIDENCE = "0.6";
+	static String SENSITIVITY = "0.7";
+	static String SPEEDVSACCURACY = "0.8";
+	static String MAXSPEECHTIMEOUT = "35s";
+	static String COMPLETETIMEOUT = "5s";
+	static String INCOMPLETETIMEOUT = "3s";
 	
 	private Grammar grammar1 = new Grammar();
 	private Grammar grammar2 = new Grammar();
@@ -209,6 +214,20 @@ public class InputTest {
 		input.setConfidence(CONFIDENCE);
 		assertEquals("Checking input confidence getter and setter", CONFIDENCE, input.getConfidence());
 
+		input.setSensitivity(SENSITIVITY);
+		assertEquals("Checking input sensitivity getter and setter", SENSITIVITY, input.getSensitivity());
+		
+		input.setSpeedvsaccuracy(SPEEDVSACCURACY);
+		assertEquals("Checking input speedvsaccuracy getter and setter", SPEEDVSACCURACY, input.getSpeedvsaccuracy());
+		
+		input.setMaxspeechtimeout(MAXSPEECHTIMEOUT);
+		assertEquals("Checking input maxspeechtimeout getter and setter", MAXSPEECHTIMEOUT, input.getMaxspeechtimeout());
+
+		input.setCompletetimeout(COMPLETETIMEOUT);
+		assertEquals("Checking input completetimeout getter and setter", COMPLETETIMEOUT, input.getCompletetimeout());
+		
+		input.setIncompletetimeout(INCOMPLETETIMEOUT);
+		assertEquals("Checking input incompletetimeout getter and setter", INCOMPLETETIMEOUT, input.getIncompletetimeout());
 		
 		// Finally
 		context.close();
