@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="logback-isban-logger.xml" optional="true"/>
+    
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>ivr.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %5p | %t | %-55logger{55} | %m %n</pattern>
+        </encoder>
+    </appender>
+    
+    <logger name="com.vectorsf">
+        <level value="DEBUG" />
+        <appender-ref ref="FILE" />
+    </logger>
+ 
+    <logger name="org.springframework">
+         <appender-ref ref="FILE" />
+    </logger>
+        
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
