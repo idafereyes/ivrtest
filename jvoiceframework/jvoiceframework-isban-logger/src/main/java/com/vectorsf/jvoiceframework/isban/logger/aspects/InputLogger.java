@@ -13,6 +13,8 @@ import org.springframework.binding.expression.spel.SpringELExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 
+import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
+import com.vectorsf.jvoiceframework.core.log.Log;
 import com.vectorsf.jvoiceframework.isban.logger.enums.DialogueReturnCode;
 import com.vectorsf.jvoiceframework.isban.logger.enums.EventType;
 import com.vectorsf.jvoiceframework.isban.logger.enums.RecAvailable;
@@ -28,6 +30,17 @@ public class InputLogger {
 	static final String TRACE_DELIMITER = "&";
 	static final String PARAM_DELIMITER = "\\|";
 	static final String REC_PARAMS_DELIMITER = ";";
+
+	@Log
+	private ExtendedLocLogger logger;
+	
+	public ExtendedLocLogger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(ExtendedLocLogger logger) {
+		this.logger = logger;
+	}
 
 	@Autowired
 	private StatisticsLogger st;
@@ -47,25 +60,36 @@ public class InputLogger {
 	public void beforeMethod(JoinPoint joinPoint){		
  		RequestContext context = (RequestContext) joinPoint.getArgs()[0];
  		
+ 		logger.debug(InputLoggerMessages.DEBUG_ASPECT_INPUT_LOGGER_INIT, this.getClass().getName(), joinPoint.getSignature());
+ 		
  		if (context.inViewState() && (context.getCurrentState().getAttributes().get("model") != null)){
+ 			
+ 			logger.debug(InputLoggerMessages.DEBUG_VIEW_STATE_AND_MODEL_CHECKED);
+ 			
+ 	 		SpringELExpression spElExp = (SpringELExpression) context.getCurrentState().getAttributes().get("model");
+ 	 		
+ 	 		if (spElExp.getExpressionString().equals("lastInputResult")){
+ 	 			
+ 	 			logger.debug(InputLoggerMessages.DEBUG_LAST_INPUT_RESULT_CHECKED);
 
- 	 	 		SpringELExpression spElExp = (SpringELExpression) context.getCurrentState().getAttributes().get("model");
- 	 	 		
- 	 	 		if (spElExp.getExpressionString().equals("lastInputResult")){
- 	 	 			
- 	 				StringTokenizer stTraces = new StringTokenizer(context.getRequestParameters().get(LoggerVars.INPUT_INFO.getName()), TRACE_DELIMITER);
+ 	 			StringTokenizer stTraces = new StringTokenizer(context.getRequestParameters().get(LoggerVars.INPUT_INFO.getName()), TRACE_DELIMITER);
 
-	 			    while (stTraces.hasMoreTokens()) {   	
-	 			    	String trace = stTraces.nextToken();
-	 			    	if (trace.startsWith(EventType.DIALOGUE.toString())){
-	 						writeDialogue(trace);
-	 					}else if (trace.startsWith(EventType.SPEECH.toString())){
-	 						writeSpeech(trace);
-	 					}
-	 			    }
+ 			    while (stTraces.hasMoreTokens()) {   	
+ 			    	String trace = stTraces.nextToken();
+ 			    	if (trace.startsWith(EventType.DIALOGUE.toString())){
+ 			    		logger.debug(InputLoggerMessages.DEBUG_DIALOGUE_EVENT);
+ 						writeDialogue(trace);
+ 					}else if (trace.startsWith(EventType.SPEECH.toString())){
+ 			    		logger.debug(InputLoggerMessages.DEBUG_SPEECH_EVENT);
+ 						writeSpeech(trace);
+ 					}
+ 			    }
 
-	 	 		}
  	 		}
+ 	 	}
+ 		
+ 		logger.debug(InputLoggerMessages.DEBUG_ASPECT_INPUT_LOGGER_END, this.getClass().getName());
+
  	}
 
 	private void writeDialogue(String dialogueTrace){
@@ -118,6 +142,7 @@ public class InputLogger {
 		}
 		
 		st.DIALOGUE(dialogueID, recAvailable, recDetected, tries, returnCode, userInput, recParamsList);
+		logger.debug(InputLoggerMessages.DEBUG_DIALOGUE_EVENT_ATTR, dialogueID, recAvailable, recDetected, tries, returnCode, userInput, recParamsList);
 	}
 	
 	private void writeSpeech(String speechTrace){
@@ -135,6 +160,7 @@ public class InputLogger {
 		}
 		
 		st.SPEECH(speechID, type, text);
+		logger.debug(InputLoggerMessages.DEBUG_SPEECH_EVENT_ATTR, speechID, type, text);
 	}
 
 
