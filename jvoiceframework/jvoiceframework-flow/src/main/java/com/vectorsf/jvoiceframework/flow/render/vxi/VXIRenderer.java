@@ -337,7 +337,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	}
 
     	// BARGEIN
-    	sb.append("<property name=\"bargein\" value=\"" + String.valueOf(input.isBargein()) + "\" />");
+    	sb.append("<property name=\"bargein\" value=\"" +input.isBargein() + "\" />");
     	
 		// INPUTMODES
 		String recAvailable = getRecAvailable(input);
