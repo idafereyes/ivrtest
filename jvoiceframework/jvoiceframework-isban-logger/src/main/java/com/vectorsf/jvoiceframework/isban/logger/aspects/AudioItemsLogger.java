@@ -47,12 +47,12 @@ public abstract class AudioItemsLogger {
 	        	
         		}else if (ai.getWording() == null || ai.getWording().getText() == null){
 	            //Audio without TTS backup prompt
-        			st.SPEECH(ai.getSrc(), PromptType.FILE.toString(), ai.getWording().getText());
-            		logger.debug(AudioItemsLoggerMessages.DEBUG_SPEECH_EVENT, ai.getSrc(), PromptType.FILE.toString(), ai.getWording().getText());
+        			st.SPEECH(ai.getSrc(), PromptType.FILE.toString(), "");
+            		logger.debug(AudioItemsLoggerMessages.DEBUG_SPEECH_EVENT, ai.getSrc(), PromptType.FILE.toString(), "");
 		        }else{
 		    		//Audio with TTS backup prompt
-        			st.SPEECH(ai.getSrc(), PromptType.FILE.toString(), "");		
-            		logger.debug(AudioItemsLoggerMessages.DEBUG_SPEECH_EVENT, ai.getSrc(), PromptType.FILE.toString(), "");
+        			st.SPEECH(ai.getSrc(), PromptType.FILE.toString(), ai.getWording().getText());		
+            		logger.debug(AudioItemsLoggerMessages.DEBUG_SPEECH_EVENT, ai.getSrc(), PromptType.FILE.toString(), ai.getWording().getText());
 		        }
         	}
         }
