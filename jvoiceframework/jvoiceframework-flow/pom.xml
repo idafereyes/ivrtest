@@ -56,7 +56,7 @@
 		</pluginManagement>
 
 		<plugins>
-			
+
 			<!-- Incluimos con el plugin build-helper-maven-plugin las carpetas de 
 				clases y recursos de test integrados -->
 			<plugin>
@@ -92,7 +92,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- Configuración del plugin de tests integrados Failsafe -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -118,7 +118,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>ch.qos.cal10n.plugins</groupId>
 				<artifactId>maven-cal10n-plugin</artifactId>
@@ -134,9 +134,23 @@
 							<enumTypes>
 								<!-- list every enum type you would like to see checked -->
 								<enumType>com.vectorsf.jvoiceframework.flow.log.LogFlowExecutionListenerMessages</enumType>
-								
+
 							</enumTypes>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Unit tests are packed for reuse -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

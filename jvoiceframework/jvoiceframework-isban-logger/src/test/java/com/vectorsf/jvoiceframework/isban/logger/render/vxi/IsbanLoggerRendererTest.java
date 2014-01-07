@@ -1,14 +1,8 @@
 package com.vectorsf.jvoiceframework.isban.logger.render.vxi;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,26 +17,27 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
-import com.vectorsf.jvoiceframework.flow.render.Renderer;
+import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRendererTest;
 
-public class IsbanLoggerRendererTest{
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-	static protected final String FLOW_EXECUTION_URL = "http://flowExecutionUrl/app-test/";
-	static protected final String CONTEXT_PATH = "/app-test";
+public class IsbanLoggerRendererTest extends VXIRendererTest {
 
 	static final protected String ISBAN_LOGGER_RESOURCE_FILE_PATH = "../jvoiceframework-isban-logger/src/test/resources/com/vectorsf/jvoiceframework/isban/logger/render/vxi/";
-	
-	protected Renderer renderer;
-	
+
+	@Override
 	@Before
-	public void initializeRenderer(){
+	public void initializeRenderer() {
 		renderer = new IsbanLoggerRenderer();
 	}
 
 	@Test
-	public void testInputDtmf() throws FileNotFoundException{
-		
-		//Given
+	@Override
+	public void testInputDtmf() throws FileNotFoundException {
+
+		// Given
 		Input inputMock = mock(Input.class);
 		when(inputMock.getName()).thenReturn("INITIAL_MENU");
 		when(inputMock.getMaxAttempts()).thenReturn(4);
@@ -56,12 +51,12 @@ public class IsbanLoggerRendererTest{
 		List<Grammar> grammarList = new ArrayList<Grammar>();
 		grammarList.add(grammarMock);
 		when(inputMock.getGrammars()).thenReturn(grammarList);
-		
+
 		AudioItem ai1 = mock(AudioItem.class);
 		when(ai1.getWording()).thenReturn(mock(Wording.class));
 		when(ai1.getWording().getText()).thenReturn("No le he entendido.");
 		when(ai1.getCondition()).thenReturn("noMatchAttempt == 1");
-		
+
 		AudioItem ai2 = mock(AudioItem.class);
 		when(ai2.getWording()).thenReturn(mock(Wording.class));
 		when(ai2.getWording().getText()).thenReturn("Intente hablar mas claro. No le he entendido.");
@@ -70,14 +65,14 @@ public class IsbanLoggerRendererTest{
 		noMatchAudios.add(ai1);
 		noMatchAudios.add(ai2);
 		when(inputMock.getNoMatchAudios()).thenReturn(noMatchAudios);
-		
+
 		AudioItem ai3 = mock(AudioItem.class);
 		when(ai3.getWording()).thenReturn(mock(Wording.class));
 		when(ai3.getWording().getText()).thenReturn("No le he oido.");
 		List<AudioItem> noInputAudios = new ArrayList<AudioItem>();
 		noInputAudios.add(ai3);
 		when(inputMock.getNoInputAudios()).thenReturn(noInputAudios);
-		
+
 		AudioItem ai4 = mock(AudioItem.class);
 		when(ai4.getWording()).thenReturn(mock(Wording.class));
 		when(ai4.getWording().getText()).thenReturn("Por favor, digame su DNI.");
@@ -85,18 +80,20 @@ public class IsbanLoggerRendererTest{
 		mainAudios.add(ai4);
 		when(inputMock.getMainAudios()).thenReturn(mainAudios);
 
-		//When
+		// When
 		String vxmlCode = renderer.render(inputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 
-		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(ISBAN_LOGGER_RESOURCE_FILE_PATH + "inputDtmf.test")); 
+		// Then
+		assertEquals("VXML code printed different than expected.", vxmlCode,
+				readResourceFile(ISBAN_LOGGER_RESOURCE_FILE_PATH + "inputDtmf.test"));
 	}
-	
+
 	@Test
+	@Override
 	public void testRenderEveryState() throws FileNotFoundException {
-		
-		//Given
-				
+
+		// Given
+
 		List<Object> states = new ArrayList<Object>();
 		Output outputMock = mock(Output.class);
 		states.add(outputMock);
@@ -113,28 +110,13 @@ public class IsbanLoggerRendererTest{
 		End endMock = mock(End.class);
 		states.add(endMock);
 
-		//When
+		// When
 		String vxmlCode = renderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
-		
-		//Then
-		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(ISBAN_LOGGER_RESOURCE_FILE_PATH + "everyState.test")); 
 
-	}
+		// Then
+		assertEquals("VXML code printed different than expected.", vxmlCode,
+				readResourceFile(ISBAN_LOGGER_RESOURCE_FILE_PATH + "everyState.test"));
 
-	public String readResourceFile(String filename) throws FileNotFoundException{
-
-		StringBuilder text = new StringBuilder();
-	    Scanner scanner = new Scanner(new FileInputStream(filename));
-	    try {
-	      while (scanner.hasNextLine()){
-	        text.append(scanner.nextLine());
-	      }
-	    }
-	    finally{
-	      scanner.close();
-	    }
-
-		return text.toString();	
 	}
 
 }
