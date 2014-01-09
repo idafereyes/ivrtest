@@ -37,6 +37,11 @@ public class Grammar implements Serializable {
      */
     private String mode;
     
+    /** Module project where the grammar is defined. Only for file grammars
+     * 
+     */
+    private String module;
+    
     public String getSrc() {
         return src;
     }
@@ -51,5 +56,13 @@ public class Grammar implements Serializable {
 
 	public void setMode(String mode) {
 		this.mode = mode;
+	}
+
+	public String getModule() {
+		return module;
+	}
+
+	public void setModule(String module) {
+		this.module = module;
 	}
 }
