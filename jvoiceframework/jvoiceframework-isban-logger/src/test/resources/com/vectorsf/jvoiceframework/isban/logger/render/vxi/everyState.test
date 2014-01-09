@@ -17,7 +17,7 @@
 <var name="recParams" expr="'timeout=null;interdigittimeout=null;confidencelevel=null;sensitivity=null;speedvsaccuracy=null;maxspeechtimeout=null;incompletetimeout=null;completetimeout=null;'" />
 <var name="recDetected" expr="''" />
 <var name="userInput" expr="''" />
-<script charset="UTF-8" src="/app-test/resources/logger.js"/>
+<script charset="UTF-8" src="/app-test/resources/js/isban-logger.js"/>
 <field>
 <property name="bargein" value="false" />
 <catch event="nomatch" >

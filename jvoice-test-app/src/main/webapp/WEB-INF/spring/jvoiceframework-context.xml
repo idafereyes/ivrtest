@@ -91,5 +91,11 @@
 			<beans:value>mod1.properties</beans:value>
 		</beans:constructor-arg>
 	</beans:bean>
+	
+	<!-- Renderer -->
+	<!--     <bean id="renderer" class="com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer"> -->
+    <beans:bean id="renderer" class="com.vectorsf.jvoiceframework.isban.logger.render.vxi.IsbanLoggerRenderer">
+        <beans:property name="view" value="renderVXI"></beans:property>
+    </beans:bean>
 
 </beans:beans>

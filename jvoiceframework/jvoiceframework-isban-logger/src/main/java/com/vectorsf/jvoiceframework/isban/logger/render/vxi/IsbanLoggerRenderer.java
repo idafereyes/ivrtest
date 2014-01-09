@@ -41,7 +41,7 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 		sb.append(VAR_NAME_TAG + LoggerVars.RECDETECTED.getName() + "\" expr=\"''\" />");
 		sb.append(VAR_NAME_TAG + LoggerVars.USERINPUT.getName() + "\" expr=\"''\" />");
 
-		sb.append("<script charset=\"UTF-8\" src=\"" + contextPath + "/resources/logger.js\"/>");
+		sb.append("<script charset=\"UTF-8\" src=\"" + contextPath + "/resources/js/isban-logger.js\"/>");
 
 		return sb;
 	}

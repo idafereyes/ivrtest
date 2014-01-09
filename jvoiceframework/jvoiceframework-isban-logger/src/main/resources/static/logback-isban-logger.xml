@@ -7,7 +7,7 @@
        </encoder>
    </appender>
 
-   <logger name="com.vectorsf.jvoiceframework.isban.logger">
+   <logger name="com.vectorsf.jvoiceframework.isban.logger.files">
         <appender-ref ref="FILE_STATS" />
    </logger>   
 </included>

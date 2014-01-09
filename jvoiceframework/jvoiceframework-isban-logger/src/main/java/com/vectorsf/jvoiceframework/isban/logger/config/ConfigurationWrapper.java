@@ -16,7 +16,7 @@ import org.apache.commons.configuration.tree.xpath.XPathExpressionEngine;
 
 public class ConfigurationWrapper {
 	
-	private static final String COMMON_LOGGER_CONFIG_FILE = "isban-logger-config.xml";
+	private static final String COMMON_LOGGER_CONFIG_FILE = "/com/vectorsf/jvoiceframework/config/logger/isban-logger-config.xml";
 	
 	private static final Configuration configuration;
 	

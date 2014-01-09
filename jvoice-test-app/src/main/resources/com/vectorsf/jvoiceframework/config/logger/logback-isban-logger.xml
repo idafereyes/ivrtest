@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<included>
+   <appender name="FILE_STATS" class="ch.qos.logback.core.FileAppender">
+       <file>C:\DATOS\D\app.log</file>
+       <encoder>
+           <pattern>%m%n</pattern>
+       </encoder>
+   </appender>
+
+   <logger name="com.vectorsf.jvoiceframework.isban.logger.files">
+        <appender-ref ref="FILE_STATS" />
+   </logger>   
+</included>
+    
