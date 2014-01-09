@@ -246,7 +246,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         sb.append(renderInputInitVar(input, contextPath));
         sb.append(renderInputStartField(input));
         sb.append(renderInputProperties(input));
-        sb.append(renderInputGrammars(input));
+        sb.append(renderInputGrammars(input, contextPath));
         sb.append(renderInputPrompts(input, contextPath));
         sb.append(renderInputCatches(input, flowURL));
         sb.append(renderInputFilled(input, flowURL, contextPath));
@@ -356,7 +356,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	return sb.toString();
     }
     
-    protected String renderInputGrammars(Input input) {
+    protected String renderInputGrammars(Input input, String contextPath) {
     	StringBuilder sb = new StringBuilder();
     	
     	for(Grammar grammar : input.getGrammars()) {
@@ -366,14 +366,18 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     				sb.append("src=\"" + grammar.getSrc().trim() + "\"/>");
     			} else {
     				sb.append("type=\"" + grammarType + "\" ");
-    				sb.append("src=\"" + grammarPath + grammar.getSrc() + grammarsFileExtension + "\"/>");
+    				String src = contextPath + "/" + grammarPath + "/" + grammar.getModule() + "/" + grammar.getSrc().trim();
+    				src = src.replaceAll("//", "/");
+    				sb.append("src=\"" + src + "\"/>");
     			}
     		} else {
     			sb.append("<grammar mode=\"dtmf\" ");
     			if(grammar.getSrc().trim().startsWith("builtin:")) {
     				sb.append("src=\"" + grammar.getSrc().trim() + "\"/>");
     			} else {
-    				sb.append("type=\"" + grammarType + "\" src=\"" + grammarPath + grammar.getSrc().trim() + grammarsFileExtension +"\"/>");
+    				String src = contextPath + "/" + grammarPath + "/" + grammar.getModule() + "/" + grammar.getSrc().trim();
+    				src = src.replaceAll("//", "/");
+    				sb.append("type=\"" + grammarType + "\" src=\"" + src +"\"/>");
     			}
     		}
     	}
