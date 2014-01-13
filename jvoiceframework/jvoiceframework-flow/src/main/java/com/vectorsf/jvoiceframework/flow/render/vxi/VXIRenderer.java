@@ -366,7 +366,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     				sb.append("src=\"" + grammar.getSrc().trim() + "\"/>");
     			} else {
     				sb.append("type=\"" + grammarType + "\" ");
-    				String src = contextPath + "/" + grammarPath + "/" + grammar.getModule() + "/" + grammar.getSrc().trim();
+    				String src = contextPath + "/" + grammarPath + "/" + grammar.getModule() + "/" + grammar.getSrc().trim() + grammarsFileExtension;
     				src = src.replaceAll("//", "/");
     				sb.append("src=\"" + src + "\"/>");
     			}
@@ -375,7 +375,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     			if(grammar.getSrc().trim().startsWith("builtin:")) {
     				sb.append("src=\"" + grammar.getSrc().trim() + "\"/>");
     			} else {
-    				String src = contextPath + "/" + grammarPath + "/" + grammar.getModule() + "/" + grammar.getSrc().trim();
+    				String src = contextPath + "/" + grammarPath + "/" + grammar.getModule() + "/" + grammar.getSrc().trim() + grammarsFileExtension;
     				src = src.replaceAll("//", "/");
     				sb.append("type=\"" + grammarType + "\" src=\"" + src +"\"/>");
     			}
