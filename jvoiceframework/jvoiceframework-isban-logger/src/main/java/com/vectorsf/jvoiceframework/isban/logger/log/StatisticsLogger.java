@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
+
 
 
 
@@ -49,7 +51,11 @@ public class StatisticsLogger implements Serializable{
 	 */
 	private static final long serialVersionUID = 3213014980191560349L;
 	
+	//Inicialización por defecto
+	@Value("")
 	private String callID;
+	//Inicialización por defecto
+	@Value("")
 	private String serviceID;
 	ConfigurationManager conf = ConfigurationManager.buildInstance();
 	public static final String COMMON_LOGGER = "COMMONLOGGER";
