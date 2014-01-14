@@ -17,20 +17,17 @@
         				http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.xsd">
 
 	<!-- Beans jVoice Framework -->
-	<context:component-scan base-package="com.vectorsf.core.admin"/>
+	<context:component-scan base-package="com.vectorsf.jvoiceframework.core.admin"/>
 
 	<!-- Aspectos. Usamos JDK proxys frente a CGLIB -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/> 
 
 
 	<beans:bean id="appTest" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
-		<beans:constructor-arg ref="appConfigTest"/>
+ 		<beans:property name="fileName" value="com/vectorsf/jvoiceframework/core/admin/appTest.properties"/>
 	</beans:bean>
-
-	<beans:bean id="appConfigTest" class="org.apache.commons.configuration.PropertiesConfiguration">
-		<beans:constructor-arg type="java.lang.String">
-			<beans:value>com/vectorsf/jvoiceframework/core/admin/appTest.properties</beans:value>
-		</beans:constructor-arg>
+		<beans:bean id="appTest2" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
+ 		<beans:property name="fileName" value="com/vectorsf/jvoiceframework/core/appTest.properties"/>
 	</beans:bean>
 
 </beans:beans>
