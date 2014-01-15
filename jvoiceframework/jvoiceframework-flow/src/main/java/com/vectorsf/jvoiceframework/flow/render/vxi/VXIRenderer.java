@@ -338,7 +338,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
     	// BARGEIN
     	sb.append("<property name=\"bargein\" value=\"" +input.isBargein() + "\" />");
-    	
+
+    	// RECORDUTTERANCE
+    	sb.append("<property name=\"recordutterance\" value=\"" +input.isRecordutterance() + "\" />");
+
 		// INPUTMODES
 		String recAvailable = getRecAvailable(input);
 		if (!("DTMF".equalsIgnoreCase(recAvailable))){
@@ -633,8 +636,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 	
     protected String renderInputSubmit(String url, String event) {
 		StringBuilder sb = new StringBuilder();
-			
-		//Different information to be stored at componentId variable depending on the parent
+		
 		if (event.equalsIgnoreCase(Input.MATCH_EVENT)){
 			//escribimos los datos del resultado
 			sb.append("<var name=\"interpretation\" />");

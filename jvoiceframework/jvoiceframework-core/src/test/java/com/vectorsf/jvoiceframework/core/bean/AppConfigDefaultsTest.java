@@ -33,6 +33,13 @@ public class AppConfigDefaultsTest {
 	private static final String PARAM_TIMEOUT = "2s";
 	private static final String PARAM_TRANSFER_CONNECTION_TIMEOUT = "15s";
 	private static final Locale PARAM_USER_LOCALE = new Locale("en", "GB");
+	private static final String PARAM_SENSITIVITY = "0.1";
+	private static final String PARAM_SPEEDVSACCURACY= "0.2";
+	private static final String PARAM_MAXSPEECHTIMEOUT= "11s";
+	private static final String PARAM_COMPLETETIMEOUT= "3s";
+	private static final String PARAM_INCOMPLETETIMEOUT= "0.1s";
+	private static final boolean PARAM_RECORDUTTERANCE = true;
+
 	
 	
 	private AppConfigDefaults configDefaults;
@@ -185,4 +192,41 @@ public class AppConfigDefaultsTest {
 		configDefaults.setUserLocale(PARAM_USER_LOCALE);
 		assertEquals("Checking AppConfigDefaults user locale", PARAM_USER_LOCALE, configDefaults.getUserLocale());
 	}
+	
+	@Test
+	public void testConfigSensitivity(){
+		configDefaults.setSensitivity(PARAM_SENSITIVITY);
+		assertEquals("Checking AppConfigDefaults sensitivity", PARAM_SENSITIVITY, configDefaults.getSensitivity());
+	}
+	
+	@Test
+	public void testConfigSpeedvsaccuracy(){
+		configDefaults.setSpeedvsaccuracy(PARAM_SPEEDVSACCURACY);
+		assertEquals("Checking AppConfigDefaults speedvsaccuracy", PARAM_SPEEDVSACCURACY, configDefaults.getSpeedvsaccuracy());
+	}
+
+	@Test
+	public void testConfigMaxspeechtimeout(){
+		configDefaults.setMaxspeechtimeout(PARAM_MAXSPEECHTIMEOUT);
+		assertEquals("Checking AppConfigDefaults maxspeechtimeout", PARAM_MAXSPEECHTIMEOUT, configDefaults.getMaxspeechtimeout());
+	}
+	
+	@Test
+	public void testConfigCompleteTimeout(){
+		configDefaults.setCompletetimeout(PARAM_COMPLETETIMEOUT);
+		assertEquals("Checking AppConfigDefaults completetimeout", PARAM_COMPLETETIMEOUT, configDefaults.getCompletetimeout());
+	}
+
+	@Test
+	public void testConfigIncompleteTimeout(){
+		configDefaults.setIncompletetimeout(PARAM_INCOMPLETETIMEOUT);
+		assertEquals("Checking AppConfigDefaults incompletetimeout", PARAM_INCOMPLETETIMEOUT, configDefaults.getIncompletetimeout());
+	}
+
+	@Test
+	public void testConfigRecordutterancet(){
+		configDefaults.setRecordutterance(PARAM_RECORDUTTERANCE);
+		assertEquals("Checking AppConfigDefaults recordutterance", PARAM_RECORDUTTERANCE, configDefaults.isRecordutterance());
+	}
+
 }

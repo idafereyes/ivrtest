@@ -118,6 +118,13 @@ public class Input implements Serializable{
     private String incompletetimeout;
     
     /**
+	*
+	* Enables recording during recognition when set to true.
+	*/
+    @Value("#{appConfigDefaults.recordutterance}")
+    private boolean recordutterance;
+
+    /**
      * Map of vxml properties
      */
     @Value("#{new java.util.HashMap()}")
@@ -305,5 +312,13 @@ public class Input implements Serializable{
 
 	public void setIncompletetimeout(String incompletetimeout) {
 		this.incompletetimeout = incompletetimeout;
+	}
+
+	public boolean isRecordutterance() {
+		return recordutterance;
+	}
+
+	public void setRecordutterance(boolean recordutterance) {
+		this.recordutterance = recordutterance;
 	}
 }

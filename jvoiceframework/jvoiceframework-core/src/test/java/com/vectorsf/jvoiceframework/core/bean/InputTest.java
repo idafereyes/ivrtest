@@ -26,6 +26,7 @@ public class InputTest {
 	static String MAXSPEECHTIMEOUT = "35s";
 	static String COMPLETETIMEOUT = "5s";
 	static String INCOMPLETETIMEOUT = "3s";
+	static boolean RECORDUTTERANCE = true;
 	
 	private Grammar grammar1 = new Grammar();
 	private Grammar grammar2 = new Grammar();
@@ -228,7 +229,10 @@ public class InputTest {
 		
 		input.setIncompletetimeout(INCOMPLETETIMEOUT);
 		assertEquals("Checking input incompletetimeout getter and setter", INCOMPLETETIMEOUT, input.getIncompletetimeout());
-		
+
+		input.setRecordutterance(RECORDUTTERANCE);
+		assertEquals("Checking input recordutterance getter and setter", RECORDUTTERANCE, input.isRecordutterance());
+
 		// Finally
 		context.close();
 	}

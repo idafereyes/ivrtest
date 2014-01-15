@@ -12,6 +12,7 @@
            	<set name="flashScope.menuInput.name" value="'MENU_INPUT'"/>
             <set name="flashScope.menuInput.bargein" value="true"/>
 <!--             <set name="flashScope.menuInput.timeout" value="'20s'" /> -->
+            <set name="flashScope.menuInput.recordutterance" value="true"/>
 
 			<evaluate expression="jVoiceArchGrammar" result="flashScope.grammar1" />
 			<set name="flashScope.grammar1.src" value="'builtin:dtmf/digits?length=1'"/>

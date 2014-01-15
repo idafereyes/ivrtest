@@ -200,7 +200,13 @@ public class AppConfigDefaults implements Serializable {
     @Value("2s")
     private String incompletetimeout;
 
-	
+    /**
+    * Default value for recordutterance Input property.
+	* Enables recording during recognition when set to true.
+	*/
+    @Value(FALSE)
+    private boolean recordutterance;
+
 	/** Standard content type for grammar **/
 	@Value("application/srgs+xml")
 	private String grammarType;
@@ -419,6 +425,14 @@ public class AppConfigDefaults implements Serializable {
 
 	public void setIncompletetimeout(String incompletetimeout) {
 		this.incompletetimeout = incompletetimeout;
+	}
+
+	public boolean isRecordutterance() {
+		return recordutterance;
+	}
+
+	public void setRecordutterance(boolean recordutterance) {
+		this.recordutterance = recordutterance;
 	}
 
 	public String getGrammarType() {
