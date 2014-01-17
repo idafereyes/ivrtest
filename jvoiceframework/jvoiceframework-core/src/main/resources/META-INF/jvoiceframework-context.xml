@@ -47,4 +47,6 @@
 		<beans:property name="annotationBasedWebServiceUtils" ref="annotationBasedWebServiceUtils" />
 	</beans:bean>
 
+    <beans:bean id="recordingService" class="com.vectorsf.jvoiceframework.core.service.record.vxi.VXIRecordingService"/>
+    
 </beans:beans>

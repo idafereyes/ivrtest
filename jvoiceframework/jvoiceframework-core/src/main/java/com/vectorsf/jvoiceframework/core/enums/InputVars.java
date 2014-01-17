@@ -42,7 +42,12 @@ public enum InputVars {
 	 * Recognition return code used internally in the Input Component
 	 * to identify the if a NOINPUT or NOMATCH has been thrown.
 	 */
-	RETURNCODE("returnCode");
+	RETURNCODE("returnCode"),
+
+	/**
+	 * Input name
+	 */
+	INPUTNAME("inputName");
 
 	
 	private String name;

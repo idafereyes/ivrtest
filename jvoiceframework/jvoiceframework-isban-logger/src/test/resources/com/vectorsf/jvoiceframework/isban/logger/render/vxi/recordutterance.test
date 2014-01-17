@@ -5,23 +5,19 @@
 <var name="maxNoMatchAttempts" expr="3" />
 <var name="maxNoInputAttempts" expr="3" />
 <var name="maxAttempts" expr="4" />
+<var name="inputName" expr="'INITIAL_MENU'" />
 <var name="inputInfo" expr="''" />
 <var name="dialogueID" expr="'INITIAL_MENU'" />
-<var name="recAvailable" expr="'DTMF'" />
+<var name="recAvailable" expr="'ASR'" />
 <var name="recParams" expr="'timeout=null;interdigittimeout=null;confidencelevel=null;sensitivity=null;speedvsaccuracy=null;maxspeechtimeout=null;incompletetimeout=null;completetimeout=null;'" />
 <var name="recDetected" expr="''" />
 <var name="userInput" expr="''" />
 <script charset="UTF-8" src="/app-test/resources/js/isban-logger.js"/>
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
-<property name="recordutterance" value="false" />
-<grammar mode="dtmf" src="builtin:dtmf/digits?length=1"/>
-<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-<mark nameexpr="insertSpeechTrace('', 'TTS', 'No le he entendido.')"/>No le he entendido.</prompt>
-<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-<mark nameexpr="insertSpeechTrace('', 'TTS', 'Intente hablar mas claro. No le he entendido.')"/>Intente hablar mas claro. No le he entendido.</prompt>
-<prompt cond="returnCode == 'NOINPUT'" bargein="false">
-<mark nameexpr="insertSpeechTrace('', 'TTS', 'No le he oido.')"/>No le he oido.</prompt>
+<property name="recordutterance" value="true" />
+<property name="inputmodes" value="voice" />
+<grammar mode="voice" src="builtin:grammar/digits?length=1"/>
 <prompt bargein="false">
 <mark nameexpr="insertSpeechTrace('', 'TTS', 'Por favor, digame su DNI.')"/>Por favor, digame su DNI.</prompt>
 <catch event="nomatch" >
@@ -33,6 +29,8 @@
 <script>
 <![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
 </script>
+<var name="utteranceTemprecording" expr="application.lastresult$.recording" />
+<data name="saveUtteranceVXI" src="/app-test/jvoice/saveUtteranceVXI" method="post" enctype="multipart/form-data" namelist="utteranceTemprecording inputName returnCode" />
 <if cond="attempts &gt;= maxAttempts" >
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
@@ -58,6 +56,8 @@
 <script>
 <![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
 </script>
+<var name="utteranceTemprecording" expr="application.lastresult$.recording" />
+<data name="saveUtteranceVXI" src="/app-test/jvoice/saveUtteranceVXI" method="post" enctype="multipart/form-data" namelist="utteranceTemprecording inputName returnCode" />
 <if cond="attempts &gt;= maxAttempts" >
 <var name="interpretation" expr="null" />
 <var name="utterance" expr="null" />
@@ -117,6 +117,8 @@
 <script>
 <![CDATA[insertDialogueTrace(dialogueID, recAvailable, recDetected, attempts, returnCode, userInput, recParams);]]>
 </script>
+<var name="utteranceTemprecording" expr="application.lastresult$.recording" />
+<data name="saveUtteranceVXI" src="/app-test/jvoice/saveUtteranceVXI" method="post" enctype="multipart/form-data" namelist="utteranceTemprecording inputName returnCode" />
 <submit next="http://flowExecutionUrl/app-test/&amp;_eventId_match" method="post" namelist="interpretation utterance inputmode confidence inputInfo" />
 </filled>
 </field>

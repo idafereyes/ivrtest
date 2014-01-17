@@ -14,14 +14,8 @@
 <script charset="UTF-8" src="/app-test/resources/js/isban-logger.js"/>
 <field name="INITIAL_MENU" >
 <property name="bargein" value="true" />
-<property name="recordutterance" value="false" />
+<property name="recordutterance" value="true" />
 <grammar mode="dtmf" src="builtin:dtmf/digits?length=1"/>
-<prompt cond="noMatchAttempt == 1 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-<mark nameexpr="insertSpeechTrace('', 'TTS', 'No le he entendido.')"/>No le he entendido.</prompt>
-<prompt cond="noMatchAttempt == 2 &amp;&amp; returnCode == 'NOMATCH'" bargein="false">
-<mark nameexpr="insertSpeechTrace('', 'TTS', 'Intente hablar mas claro. No le he entendido.')"/>Intente hablar mas claro. No le he entendido.</prompt>
-<prompt cond="returnCode == 'NOINPUT'" bargein="false">
-<mark nameexpr="insertSpeechTrace('', 'TTS', 'No le he oido.')"/>No le he oido.</prompt>
 <prompt bargein="false">
 <mark nameexpr="insertSpeechTrace('', 'TTS', 'Por favor, digame su DNI.')"/>Por favor, digame su DNI.</prompt>
 <catch event="nomatch" >

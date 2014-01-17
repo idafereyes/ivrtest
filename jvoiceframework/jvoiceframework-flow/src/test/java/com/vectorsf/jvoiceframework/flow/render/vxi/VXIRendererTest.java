@@ -908,6 +908,74 @@ public class VXIRendererTest {
 		
 	}
 	
+	@Test
+	public void testRecordutterance() throws FileNotFoundException{
+		
+		//Given
+		Input inputMock = mock(Input.class);
+		when(inputMock.getName()).thenReturn("INITIAL_MENU");
+		when(inputMock.getMaxAttempts()).thenReturn(4);
+		when(inputMock.getMaxNoInput()).thenReturn(3);
+		when(inputMock.getMaxNoMatch()).thenReturn(3);
+		when(inputMock.isBargein()).thenReturn(true);
+		when(inputMock.isRecordutterance()).thenReturn(true);
+
+		Grammar grammarMock = mock(Grammar.class);
+		when(grammarMock.getMode()).thenReturn("voice");
+		when(grammarMock.getSrc()).thenReturn("builtin:grammar/digits?length=1");
+		List<Grammar> grammarList = new ArrayList<Grammar>();
+		grammarList.add(grammarMock);
+		when(inputMock.getGrammars()).thenReturn(grammarList);
+				
+		AudioItem ai = mock(AudioItem.class);
+		when(ai.getWording()).thenReturn(mock(Wording.class));
+		when(ai.getWording().getText()).thenReturn("Por favor, digame su DNI.");
+		List<AudioItem> mainAudios = new ArrayList<AudioItem>();
+		mainAudios.add(ai);
+		when(inputMock.getMainAudios()).thenReturn(mainAudios);
+
+		//When
+		String vxmlCode = renderer.render(inputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
+
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "recordutterance.test")); 
+		
+	}
+
+	@Test
+	public void testRecordutteranceDtmf() throws FileNotFoundException{
+		
+		//Given
+		Input inputMock = mock(Input.class);
+		when(inputMock.getName()).thenReturn("INITIAL_MENU");
+		when(inputMock.getMaxAttempts()).thenReturn(4);
+		when(inputMock.getMaxNoInput()).thenReturn(3);
+		when(inputMock.getMaxNoMatch()).thenReturn(3);
+		when(inputMock.isBargein()).thenReturn(true);
+		when(inputMock.isRecordutterance()).thenReturn(true);
+
+		Grammar grammarMock = mock(Grammar.class);
+		when(grammarMock.getMode()).thenReturn("dtmf");
+		when(grammarMock.getSrc()).thenReturn("builtin:dtmf/digits?length=1");
+		List<Grammar> grammarList = new ArrayList<Grammar>();
+		grammarList.add(grammarMock);
+		when(inputMock.getGrammars()).thenReturn(grammarList);
+				
+		AudioItem ai = mock(AudioItem.class);
+		when(ai.getWording()).thenReturn(mock(Wording.class));
+		when(ai.getWording().getText()).thenReturn("Por favor, digame su DNI.");
+		List<AudioItem> mainAudios = new ArrayList<AudioItem>();
+		mainAudios.add(ai);
+		when(inputMock.getMainAudios()).thenReturn(mainAudios);
+
+		//When
+		String vxmlCode = renderer.render(inputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
+
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "recordutteranceDtmf.test")); 
+		
+	}
+
 	public String readResourceFile(String filename) throws FileNotFoundException{
 
 		StringBuilder text = new StringBuilder();

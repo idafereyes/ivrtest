@@ -54,7 +54,6 @@ public class IsbanLoggerRenderer extends VXIRenderer {
 		if (event.equalsIgnoreCase(Input.MATCH_EVENT)){
 			sb.append(ASSIGN + LoggerVars.RECDETECTED.getName() + "\" expr=\"inputmode\" />");
 			sb.append(ASSIGN + InputVars.ATTEMPTS.getName() + "\" expr=\"" + InputVars.ATTEMPTS.getName()  +" + 1 \" />");			
-			sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'MATCH'\" />");
 			sb.append(ASSIGN + LoggerVars.USERINPUT.getName() + "\" expr=\"interpretation\" />");
 			sb.append(ASSIGN + LoggerVars.RECPARAMS.getName() + "\" expr=\"" + LoggerVars.RECPARAMS.getName()  +" + 'confidence=' + confidence \" />");			
 		} else if (event.equalsIgnoreCase(Input.HANGUP_EVENT)){

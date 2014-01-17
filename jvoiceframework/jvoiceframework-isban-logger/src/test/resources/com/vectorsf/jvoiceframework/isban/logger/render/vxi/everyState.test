@@ -20,6 +20,7 @@
 <script charset="UTF-8" src="/app-test/resources/js/isban-logger.js"/>
 <field>
 <property name="bargein" value="false" />
+<property name="recordutterance" value="false" />
 <catch event="nomatch" >
 <assign name="noMatchAttempts" expr="noMatchAttempts + 1" />
 <assign name="attempts" expr="noMatchAttempts + noInputAttempts" />
@@ -105,9 +106,9 @@
 <script>
 <![CDATA[if(inputmode == 'voice') {interpretation = lastresult$.interpretation.out;} else {interpretation = utterance;}]]>
 </script>
+<assign name="returnCode" expr="'MATCH'" />
 <assign name="recDetected" expr="inputmode" />
 <assign name="attempts" expr="attempts + 1 " />
-<assign name="returnCode" expr="'MATCH'" />
 <assign name="userInput" expr="interpretation" />
 <assign name="recParams" expr="recParams + 'confidence=' + confidence " />
 <script>

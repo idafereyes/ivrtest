@@ -62,6 +62,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     protected static final String IF_COND_TAG = "<if cond=\"";
     protected static final String METHOD_POST_SPACE = "method=\"post\" ";
     protected static final String PLUS_PIPE_DELIMITER = "+'|'+";
+    protected static final String SPRING_SERVLET_MAPPING = "/jvoice";
+    protected static final String DTMF_REC = "DTMF";
+    protected static final String ASR_REC = "ASR";
+    protected static final String ASRDTMF_REC = "ASRDTMF";
 
     // Grammar path values from configuration
     @Value("#{appConfigDefaults.grammarType}")
@@ -248,7 +252,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         sb.append(renderInputProperties(input));
         sb.append(renderInputGrammars(input, contextPath));
         sb.append(renderInputPrompts(input, contextPath));
-        sb.append(renderInputCatches(input, flowURL));
+        sb.append(renderInputCatches(input, flowURL, contextPath));
         sb.append(renderInputFilled(input, flowURL, contextPath));
         
         sb.append(renderInputEnd());
@@ -273,6 +277,10 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     	sb.append(VAR_NAME_TAG + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_EXPR + input.getMaxNoInput() + QUOTE_SPACE + END_TAG);
     	sb.append(VAR_NAME_TAG + InputVars.MAXATTEMPTS.getName() + QUOTE_EXPR + input.getMaxAttempts() + QUOTE_SPACE + END_TAG);
 		
+    	//Renders inputName variable declaration needed by the process that stores the utterance. Only if recordutterance is true and asr recognition is available (recordutterance N/A for DTMF).
+    	if (input.isRecordutterance() && !(DTMF_REC.equalsIgnoreCase(getRecAvailable(input)))){
+        	sb.append(VAR_NAME_TAG + InputVars.INPUTNAME.getName() + QUOTE_EXPR + SINGLE_QUOTE + input.getName() + SINGLE_QUOTE + QUOTE_SPACE + END_TAG);
+    	}
     	sb.append(renderLoggerVarsDeclaration(input, contextPath));
 		
     	return sb.toString();
@@ -344,7 +352,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
 		// INPUTMODES
 		String recAvailable = getRecAvailable(input);
-		if (!("DTMF".equalsIgnoreCase(recAvailable))){
+		if (!(DTMF_REC.equalsIgnoreCase(recAvailable))){
 			sb.append("<property name=\"inputmodes\" value=\"voice\" />");
 		}
 		
@@ -513,7 +521,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 	
-    protected String renderInputCatches(Input input, String flowURL) {
+    protected String renderInputCatches(Input input, String flowURL, String contextPath) {
 		StringBuilder sb = new StringBuilder();
 		
 		List<String> customEvents = input.getCustomEvents();
@@ -525,12 +533,13 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			}
 			
 			sb.append("<catch event=\"" + customEvent + QUOTE_END_TAG);
+			sb.append(renderInputNotFilledVars());
 			sb.append(renderInputSubmit(flowURL, customEvent));
 			sb.append(CATCH_END_TAG);
 		}
 
-		sb.append(renderInputCatchNoMatch(flowURL));
-		sb.append(renderInputCatchNoInput(flowURL));
+		sb.append(renderInputCatchNoMatch(flowURL, input, contextPath));
+		sb.append(renderInputCatchNoInput(flowURL, input, contextPath));
 		sb.append(renderInputOtherCatches(flowURL));
 				
 		return sb.toString();
@@ -543,18 +552,21 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         /**************** CATCH for connection.disconnect.hangup *************************/            
         sb.append("<catch event=\"connection.disconnect.hangup\">");
 		sb.append(renderLoggerVarsAssignment(Input.HANGUP_EVENT));
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.HANGUP_EVENT));
         sb.append(CATCH_END_TAG);
  
         /**************** CATCH for error.noresource *************************/            
         /*****It must be above error catch. Otherwise, it would be overridden by error catch ******/          
         sb.append("<catch event=\"error.noresource\">");
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.NORESOURCE_EVENT));
         sb.append(CATCH_END_TAG);
         
         /**************************** CATCH for error ********************************/
         /*****It must be at the bottom. Otherwise, it would override other catches******/
         sb.append("<catch event=\"error\">");
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.ERROR_EVENT));
         sb.append(CATCH_END_TAG);
 
@@ -562,7 +574,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
         return sb.toString();
 	}
 
-    protected String renderInputCatchNoInput(String flowURL) {
+    protected String renderInputCatchNoInput(String flowURL, Input input, String contextPath) {
 		StringBuilder sb = new StringBuilder();
 		//escribimos el catch no input
 		sb.append("<catch event=\"noinput\" >");
@@ -572,13 +584,21 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 
 		sb.append(renderLoggerVarsAssignment("NOINPUT"));
 
+		//Renders <data> that invokes the process that stores the utterance
+		//Only if recordutterance is true and asr recognition is available (recordutterance N/A for DTMF).
+    	if (input.isRecordutterance() && !(DTMF_REC.equalsIgnoreCase(getRecAvailable(input)))){
+    		sb.append(renderRecordutteranceSaving(input, contextPath));
+    	}
+    	
 		/*************** MAXATTEMPTS ***************/
 		sb.append(IF_COND_TAG + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 		sb.append(IF_END_TAG);
 
 		/*************** MAXNOINPUT ***************/
 		sb.append(IF_COND_TAG + InputVars.NOINPUTATTEMPTS.getName() + " == " + InputVars.MAXNOINPUTATTEMPTS.getName() + QUOTE_END_TAG);
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.MAXNOINPUT_EVENT));
 		sb.append(IF_END_TAG);
 		
@@ -588,7 +608,18 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 
-    protected String renderInputCatchNoMatch(String flowURL) {
+    protected StringBuilder renderInputNotFilledVars() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<var name=\"interpretation\" expr=\"null\" />");
+		sb.append("<var name=\"utterance\" expr=\"null\" />");
+		sb.append("<var name=\"inputmode\" expr=\"null\" />");
+		sb.append("<var name=\"confidence\" expr=\"null\" />");			
+		
+		return sb;
+	}
+
+	protected String renderInputCatchNoMatch(String flowURL, Input input, String contextPath) {
 		StringBuilder sb = new StringBuilder();
 		
 		//escribimos el catch del no match
@@ -599,13 +630,21 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		
 		sb.append(renderLoggerVarsAssignment("NOMATCH"));
 		
+		//Renders <data> that invokes the process that stores the utterance
+		//Only if recordutterance is true and ASR recognition is available (recordutterance N/A for DTMF).
+		if (input.isRecordutterance() && !(DTMF_REC.equalsIgnoreCase(getRecAvailable(input)))){
+    		sb.append(renderRecordutteranceSaving(input, contextPath));
+    	}
+    	
 		/*************** MAXATTEMPTS ***************/
 		sb.append(IF_COND_TAG + InputVars.ATTEMPTS.getName() + " &gt;= " + InputVars.MAXATTEMPTS.getName() + QUOTE_END_TAG);
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.MAXATTEMPTS_EVENT));
 		sb.append(IF_END_TAG);
 
 		/*************** MAXNOMATCH ***************/
 		sb.append(IF_COND_TAG + InputVars.NOMATCHATTEMPTS.getName() + " == " + InputVars.MAXNOMATCHATTEMPTS.getName() + "\" >");
+		sb.append(renderInputNotFilledVars());
 		sb.append(renderInputSubmit(flowURL, Input.MAXNOMATCH_EVENT));
 		sb.append(IF_END_TAG);
 		
@@ -615,7 +654,16 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 	
-    protected StringBuilder renderLoggerVarsAssignment(String event) {
+    protected StringBuilder renderRecordutteranceSaving(Input input, String contextPath) {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<var name=\"utteranceTemprecording\" expr=\"application.lastresult$.recording\" />");
+		sb.append("<data name=\"saveUtteranceVXI\" src=\"" + contextPath + SPRING_SERVLET_MAPPING +"/saveUtteranceVXI\" method=\"post\" enctype=\"multipart/form-data\" namelist=\"utteranceTemprecording inputName returnCode\" />");
+
+		return sb;
+	}
+
+	protected StringBuilder renderLoggerVarsAssignment(String event) {
 		return new StringBuilder();
 	}
 
@@ -626,6 +674,14 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 				
 		//Match Audios
     	sb.append(renderInputPromptsList(input.getMatchAudios(), null, contextPath));
+    	
+    	sb.append(renderInputFilledVars());
+		
+		//Renders <data> that invokes the process that stores the utterance
+		//Only if recordutterance is true and ASR recognition is available (recordutterance N/A for DTMF).
+    	if (input.isRecordutterance() && !(DTMF_REC.equalsIgnoreCase(getRecAvailable(input)))){
+    		sb.append(renderRecordutteranceSaving(input, contextPath));
+    	}
 
     	sb.append(renderInputSubmit(flowURL, Input.MATCH_EVENT));
 
@@ -634,32 +690,32 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		return sb.toString();
 	}
 	
-    protected String renderInputSubmit(String url, String event) {
+    protected StringBuilder renderInputFilledVars() {
 		StringBuilder sb = new StringBuilder();
-		
-		if (event.equalsIgnoreCase(Input.MATCH_EVENT)){
-			//escribimos los datos del resultado
-			sb.append("<var name=\"interpretation\" />");
-			sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
-			sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
-			sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
-			sb.append("<script>");
-			sb.append("<![CDATA[");
-			sb.append("if(inputmode == 'voice') {");
-			sb.append("interpretation = lastresult$.interpretation.out;");
-			sb.append("} else {");
-			sb.append("interpretation = utterance;");
-			sb.append("}");
-			sb.append("]]>");
-			sb.append("</script>");
-	    	sb.append(renderLoggerVarsAssignment(Input.MATCH_EVENT));
-		}else{
-			sb.append("<var name=\"interpretation\" expr=\"null\" />");
-			sb.append("<var name=\"utterance\" expr=\"null\" />");
-			sb.append("<var name=\"inputmode\" expr=\"null\" />");
-			sb.append("<var name=\"confidence\" expr=\"null\" />");			
-		}
-		
+
+		//escribimos los datos del resultado
+		sb.append("<var name=\"interpretation\" />");
+		sb.append("<var name=\"utterance\" expr=\"application.lastresult$.utterance\" />");
+		sb.append("<var name=\"inputmode\" expr=\"application.lastresult$.inputmode\" />");
+		sb.append("<var name=\"confidence\" expr=\"application.lastresult$.confidence\" />");
+		sb.append("<script>");
+		sb.append("<![CDATA[");
+		sb.append("if(inputmode == 'voice') {");
+		sb.append("interpretation = lastresult$.interpretation.out;");
+		sb.append("} else {");
+		sb.append("interpretation = utterance;");
+		sb.append("}");
+		sb.append("]]>");
+		sb.append("</script>");
+		sb.append(ASSIGN + InputVars.RETURNCODE.getName() + "\" expr=\"'MATCH'\" />");
+    	sb.append(renderLoggerVarsAssignment(Input.MATCH_EVENT));
+    	
+    	return sb;
+	}
+
+	protected String renderInputSubmit(String url, String event) {
+		StringBuilder sb = new StringBuilder();
+				
 		sb.append(SUBMIT_TAG + url + AMPERSAND + EVENT_ID + event + QUOTE_SPACE +  METHOD_POST_SPACE);
 		sb.append(renderInputSubmitNamelist());
 		sb.append(" />");
@@ -687,7 +743,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 			}
 		}
 		
-		return (isAsr && isDtmf) ? "ASRDTMF" : ( isAsr ? "ASR" : "DTMF");
+		return (isAsr && isDtmf) ? ASRDTMF_REC : ( isAsr ? ASR_REC : DTMF_REC);
 	}
     
 	public String render(BlindTransfer blindTx, String flowURL, String contextPath) {
