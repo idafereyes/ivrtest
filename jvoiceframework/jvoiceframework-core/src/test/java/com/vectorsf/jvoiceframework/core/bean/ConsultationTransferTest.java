@@ -3,8 +3,10 @@ package com.vectorsf.jvoiceframework.core.bean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ConsultationTransferTest {
 
@@ -13,36 +15,32 @@ public class ConsultationTransferTest {
 	static String TRANSFERAUDIO = "idleMusicDefault";
 	static String TIMEOUT = "15s";
 
+	private static ClassPathXmlApplicationContext applicationContext = null;
+	
+	@BeforeClass
+	public static void startContext() {
+		applicationContext = new ClassPathXmlApplicationContext("com/vectorsf/jvoiceframework/core/bean/test-config-context.xml");
+		applicationContext.refresh();
+	}
+	
 	@Test
 	public void testValuesInjection(){
 		
-		//Given	
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
 		//TODO Puede ser un mock?
-		AppConfigDefaults appConfigDefaults = (AppConfigDefaults) context.getBean(AppConfigDefaults.class);
+		AppConfigDefaults appConfigDefaults = (AppConfigDefaults) applicationContext.getBean(AppConfigDefaults.class);
 
 		//When
-		ConsultationTransfer consultationTx = context.getBean(ConsultationTransfer.class);
+		ConsultationTransfer consultationTx = applicationContext.getBean(ConsultationTransfer.class);
 		
 		//Then
 		//Verifies that timeout transfer attribute has taken appConfigDefault attribute value.
 		assertEquals("timeout value is not correct.",consultationTx.getTimeout(), appConfigDefaults.getTransferConnectiontimeout());
-		
-		//Finally
-		context.close();
-
 	}
 	
 	@Test
 	public void testSetValuesAfterInjection(){
 		
-		//Given	
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		ConsultationTransfer consultationTx = (ConsultationTransfer)context.getBean(ConsultationTransfer.class);
+		ConsultationTransfer consultationTx = (ConsultationTransfer)applicationContext.getBean(ConsultationTransfer.class);
 		
 		//When
 		consultationTx.setTimeout(TIMEOUT);
@@ -54,30 +52,23 @@ public class ConsultationTransferTest {
 		assertEquals("timeout value is not correct.",consultationTx.getTimeout(), TIMEOUT);
 		//Verifies that transfer attributes transferaudio and dest have been set properly.
 		assertEquals("dest value is not correct.",consultationTx.getDest(), DEST);
-		assertEquals("transferaudio value is not correct.",consultationTx.getTransferaudio(), TRANSFERAUDIO);
-		
-		//Finally
-		context.close();		
+		assertEquals("transferaudio value is not correct.",consultationTx.getTransferaudio(), TRANSFERAUDIO);	
 	}
 	
 	@Test
 	public void testPropertiesInjection(){
-		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
+
 		//When
-		ConsultationTransfer consultationTx = (ConsultationTransfer)context.getBean(ConsultationTransfer.class);
+		ConsultationTransfer consultationTx = (ConsultationTransfer)applicationContext.getBean(ConsultationTransfer.class);
 		
 		//Then
 		//Verifies that properties map has been initialized so it is not null
 		assertNotNull("properties map is null.", consultationTx.getProperties());
-		
-		//Finally
-		context.close();
-
+	}
+	
+	@AfterClass 
+	public static void closeContext() {
+		applicationContext.close();
 	}
 
 }

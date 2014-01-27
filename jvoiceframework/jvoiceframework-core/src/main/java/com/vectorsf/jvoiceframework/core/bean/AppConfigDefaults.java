@@ -3,8 +3,13 @@ package com.vectorsf.jvoiceframework.core.bean;
 import java.io.Serializable;
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.vectorsf.jvoiceframework.core.admin.AppConfig;
 
 /**
  * This bean class contains the default values for the main parameters in the 
@@ -19,117 +24,60 @@ public class AppConfigDefaults implements Serializable {
 	static final String FALSE = "false";
 	static final String TRUE = "true";
 	
-	//TODO En un primer momento le estamos asignando valores hardcodeados.
-	//Está pendiente ver de qué manera toman valor estos atributos.
+	@Autowired
+	private AppConfig appConfig;
 	
 	/** Default locale for the user **/
-	private Locale userLocale = new Locale("Es", "es");
+	private Locale userLocale;
 	
 	/** Audio items bargein default value. **/
-	@Value(TRUE)
 	private boolean bargein;
-	
-	public Locale getUserLocale() {
-		return userLocale;
-	}
 
-	public void setUserLocale(Locale userLocale) {
-		this.userLocale = userLocale;
-	}
-
-	/** Default value for flush prompt. When true, output must write all the 
-	 * data in the flow processor.
-	 */
-	@Value(FALSE)
+	/** Default value for flush prompt. When true, output must write all the data in the flow processor.*/
 	private boolean flush;
 	
-	/** If true, an output can catch a hangup event. Used to know when user
-	 *	hangups the call.
-	 */
-	@Value(FALSE)
+	/** If true, an output can catch a hangup event. Used to know when user hangups the call.*/
 	private boolean catchHangup;
 
-	/**
-	 * Default value for transfer connection timeout 
-	 */
-	@Value("10s")
+	/** Default value for transfer connection timeout */
 	private String transferConnectiontimeout;
 
-	/**
-	 * Default value for bridge transfer timeout.
-	 */
-	@Value("20s")
+	/** Default value for bridge transfer timeout. */
 	private String transferMaxtime;
 	
-	/**
-	 * Default value for record beep. 
+	/**Default value for record beep. 
 	 * If true, a beep must sound after the prompts
-	 * asking for a record and before the record itself begins. 
-	 */
-	@Value(FALSE)
+	 * asking for a record and before the record itself begins. */
 	private boolean recordBeep;
 
-	/** Default value for record dtmf term.
-	 * If true, it allows the user to finish the recording pressing a key.
-	 */
-	@Value(FALSE)
+	/** Default value for record dtmf term. If true, it allows the user to finish the recording pressing a key. */
 	private boolean recordDtmfterm;
 
-	/**
-	 * Default value for the record final silence.
-	 * It specifies the timeout used to terminate the recording.
-	 */
-	@Value("5s")
+	/** Default value for the record final silence. */
 	private String recordFinalsilence;
 
-	/**
-	 * Default record max time default.
-	 * This time specifies the max time a recording can have.
-	 */
-	@Value("10s")
+	/** Default record max time default. This time specifies the max time a recording can have.*/
 	private String recordMaxtime;
 
-	/**
-	 * Default recording file name.
-	 */
-	@Value("recordedAudio.wav")
+	/** Default recording file name. */
 	private String recordFileName;
 
-	/**
-	 * Default recording file path where the audios will be save.
-	 */
-	@Value("C:\\tmp\\recordedAudiosPath\\")
+	/** Default recording file path where the audios will be save. */
 	private String recordFilePath;
 	
-	/**
-	 * If true, the recording will be kept in order to be player again to the
-	 * user.
-	 */
-	@Value(FALSE)
+	/** If true, the recording will be kept in order to be player again to the user.*/
 	private boolean recordKeep;
 
-	/**
-	 * Default value for input bargein
-	 */
-	@Value(TRUE)
+	/** Default value for input bargein */
 	private boolean inputBargein;
 	
-	/**
-	 * Default input total max attempts (No Input + No Match attempts)
-	 */
-	@Value("3")
+	/** Default input total max attempts (No Input + No Match attempts) */
 	private int inputMaxAttempts;
 	
-	/**
-	 * Default input no match attempts.
-	 */
-	@Value("2")
+	/** Default input no match attempts. */
 	private int inputNoMatchAttempts;
 	
-	/**
-	 * Default input no input attempts.
-	 */
-	@Value("2")
+	/** Default input no input attempts.*/
 	private int inputNoInputAttempts;
 	
 	/** Prefix or path location of audio items. Platform dependent. **/
@@ -137,7 +85,6 @@ public class AppConfigDefaults implements Serializable {
 	private String audiosLocationPrefix;
 	
 	/** Suffix of audio items names. Platform dependent. **/ 
-	@Value(".wav")
 	private String audiosFormatSuffix;
 	
 	/**
@@ -145,7 +92,6 @@ public class AppConfigDefaults implements Serializable {
 	 * If user does not say anything during this timeout, the platform will 
 	 * throw a No Input event.
 	 */
-	@Value("4s")
 	private String timeout;
 	
 	/**
@@ -154,13 +100,11 @@ public class AppConfigDefaults implements Serializable {
 	 * the last. If the user does not press the next key before this time
 	 * the platform will finish the recognition. 
 	 */
-	@Value("3s")
 	private String interdigittimeout;
 	
 	/** Minimum default confidence. If a recognition confidence is less than 
 	 *  this value, the result is treat as a No Match by the recognizer. 
 	 */
-	@Value("0.5")
 	private String confidence;
 	
     /**
@@ -168,7 +112,6 @@ public class AppConfigDefaults implements Serializable {
      * Indicates how sensitive the interpreter is to noise in a recognition. 
      * A value of 1.0 means that it is highly sensitive to quiet input. A value of 0.0 means it is least sensitive to noise.
      */
-    @Value("0.5")
     private String sensitivity;
 
     /**
@@ -176,54 +119,162 @@ public class AppConfigDefaults implements Serializable {
      * Specifies the desired balance between speed vs. accuracy. 
      * A value of 0.0 means fastest recognition. A value of 1.0 means best accuracy.
      */
-    @Value("0.5")
     private String speedvsaccuracy;
 
     /**
      * Default value for maxspeechtimeout property.
 	 * The maximum duration of user speech.
      */
-    @Value("20s")
     private String maxspeechtimeout;
 
     /**
     * Default value for completetimeout property.
 	* The length of silence required following user speech before the speech recognizer throws a match event.
 	*/
-    @Value("0.25s")
     private String completetimeout;
 
     /**
     * Default value for incompletetimeout property.
 	* The length of silence required following user speech before the speech recognizer throws a nomatch event.
 	*/
-    @Value("2s")
     private String incompletetimeout;
 
     /**
     * Default value for recordutterance Input property.
 	* Enables recording during recognition when set to true.
 	*/
-    @Value(FALSE)
     private boolean recordutterance;
 
 	/** Standard content type for grammar **/
-	@Value("application/srgs+xml")
 	private String grammarType;
 	
 	/** Default value for the grammar path **/
-	@Value("resources/grammars/")
 	private String grammarPath;
 	
 	/** Default grammar file extension **/
-	@Value(".grxml")
 	private String grammarsFileExtension;
+	
+	
+	@PostConstruct
+	private void initParams() {
+		initLocale();
+		if (appConfig.getValue("bargein") != null) {
+			setBargein(Boolean.valueOf(appConfig.getValue("bargein")));
+		}
+		if (appConfig.getValue("flush") != null) {
+			setFlush(Boolean.valueOf(appConfig.getValue("flush")));
+		}
+		if (appConfig.getValue("catchHangup") != null) {
+			setCatchHangup(Boolean.valueOf(appConfig.getValue("catchHangup")));
+		}
+		if (appConfig.getValue("transferConnectiontimeout") != null) {
+			setTransferConnectiontimeout(appConfig.getValue("transferConnectiontimeout"));
+		}
+		if (appConfig.getValue("transferMaxtime") != null) {
+			setTransferMaxtime(appConfig.getValue("transferMaxtime"));
+		}
+		if (appConfig.getValue("recordBeep") != null) {
+			setRecordBeep(Boolean.valueOf(appConfig.getValue("recordBeep")));
+		}
+		if (appConfig.getValue("recordDtmfterm") != null) {
+			setRecordDtmfterm(Boolean.valueOf(appConfig.getValue("recordDtmfterm")));
+		}
+		if (appConfig.getValue("recordFinalsilence") != null) {
+			setRecordFinalsilence(appConfig.getValue("recordFinalsilence"));
+		}
+		if (appConfig.getValue("recordMaxtime") != null) {
+			setRecordMaxtime(appConfig.getValue("recordMaxtime"));
+		}
+		if (appConfig.getValue("recordFileName") != null) {
+			setRecordFileName(appConfig.getValue("recordFileName"));
+		}
+		if (appConfig.getValue("recordFilePath") != null) {
+			setRecordFilePath(appConfig.getValue("recordFilePath"));
+		}
+		if (appConfig.getValue("recordKeep") != null) {
+			setRecordKeep(Boolean.valueOf(appConfig.getValue("recordKeep")));
+		}
+		if (appConfig.getValue("inputBargein") != null) {
+			setInputBargein(Boolean.valueOf(appConfig.getValue("inputBargein")));
+		}
+		if (appConfig.getValue("inputMaxAttempts") != null) {
+			setInputMaxAttempts(Integer.parseInt(appConfig.getValue("inputMaxAttempts")));
+		}
+		if (appConfig.getValue("inputNoMatchAttempts") != null) {
+			setInputNoMatchAttempts(Integer.parseInt(appConfig.getValue("inputNoMatchAttempts")));
+		}
+		if (appConfig.getValue("inputNoInputAttempts") != null) {
+			setInputNoInputAttempts(Integer.parseInt(appConfig.getValue("inputNoInputAttempts")));
+		}
+		if (appConfig.getValue("audiosLocationPrefix") != null) {
+			setAudiosLocationPrefix(appConfig.getValue("audiosLocationPrefix"));
+		}
+		if (appConfig.getValue("audiosFormatSuffix") != null) {
+			setAudiosFormatSuffix(appConfig.getValue("audiosFormatSuffix"));
+		}
+		if (appConfig.getValue("timeout") != null) {
+			setTimeout(appConfig.getValue("timeout"));
+		}
+		if (appConfig.getValue("interdigittimeout") != null) {
+			setInterdigittimeout(appConfig.getValue("interdigittimeout"));
+		}
+		if (appConfig.getValue("confidence") != null) {
+			setConfidence(appConfig.getValue("confidence"));
+		}
+		if (appConfig.getValue("sensitivity") != null) {
+			setSensitivity(appConfig.getValue("sensitivity"));
+		}
+		if (appConfig.getValue("speedvsaccuracy") != null) {
+			setSpeedvsaccuracy(appConfig.getValue("speedvsaccuracy"));
+		}
+		if (appConfig.getValue("maxspeechtimeout") != null) {
+			setMaxspeechtimeout(appConfig.getValue("maxspeechtimeout"));
+		}
+		if (appConfig.getValue("completetimeout") != null) {
+			setCompletetimeout(appConfig.getValue("completetimeout"));
+		}
+		if (appConfig.getValue("incompletetimeout") != null) {
+			setIncompletetimeout(appConfig.getValue("incompletetimeout"));
+		}
+		if (appConfig.getValue("recordutterance") != null) {
+			setRecordutterance(Boolean.valueOf(appConfig.getValue("recordutterance")));
+		}
+		if (appConfig.getValue("grammarType") != null) {
+			setGrammarType(appConfig.getValue("grammarType"));
+		}
+		if (appConfig.getValue("grammarPath") != null) {
+			setGrammarPath(appConfig.getValue("grammarPath"));
+		}
+		if (appConfig.getValue("grammarsFileExtension") != null) {
+			setGrammarsFileExtension(appConfig.getValue("grammarsFileExtension"));
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void initLocale() {
+		String languaje = appConfig.getValue("languaje");
+		String region = appConfig.getValue("region");
+		String variant = appConfig.getValue("variant");
+		if (languaje != null && region != null && variant != null) {
+			userLocale = new Locale(languaje, region, variant);
+		} else if (languaje != null && region != null) {
+			userLocale = new Locale(languaje, region);
+		} else if (languaje != null) {
+			userLocale = new Locale(languaje);
+		}
+	}
+	
+	public Locale getUserLocale() {
+		return userLocale;
+	}
 	
 	public boolean isBargein() {
 		return bargein;
 	}
 
-	public void setBargein(boolean bargein) {
+	private void setBargein(boolean bargein) {
 		this.bargein = bargein;
 	}
 
@@ -231,7 +282,7 @@ public class AppConfigDefaults implements Serializable {
 		return flush;
 	}
 
-	public void setFlush(boolean flush) {
+	private void setFlush(boolean flush) {
 		this.flush = flush;
 	}
 
@@ -239,7 +290,7 @@ public class AppConfigDefaults implements Serializable {
 		return catchHangup;
 	}
 
-	public void setCatchHangup(boolean catchHangup) {
+	private void setCatchHangup(boolean catchHangup) {
 		this.catchHangup = catchHangup;
 	}
 
@@ -247,7 +298,7 @@ public class AppConfigDefaults implements Serializable {
 		return transferConnectiontimeout;
 	}
 
-	public void setTransferConnectiontimeout(String transferConnectiontimeout) {
+	private void setTransferConnectiontimeout(String transferConnectiontimeout) {
 		this.transferConnectiontimeout = transferConnectiontimeout;
 	}
 
@@ -255,7 +306,7 @@ public class AppConfigDefaults implements Serializable {
 		return transferMaxtime;
 	}
 
-	public void setTransferMaxtime(String transferMaxtime) {
+	private void setTransferMaxtime(String transferMaxtime) {
 		this.transferMaxtime = transferMaxtime;
 	}
 
@@ -263,7 +314,7 @@ public class AppConfigDefaults implements Serializable {
 		return recordBeep;
 	}
 
-	public void setRecordBeep(boolean recordBeep) {
+	private void setRecordBeep(boolean recordBeep) {
 		this.recordBeep = recordBeep;
 	}
 
@@ -271,7 +322,7 @@ public class AppConfigDefaults implements Serializable {
 		return recordDtmfterm;
 	}
 
-	public void setRecordDtmfterm(boolean recordDtmfterm) {
+	private void setRecordDtmfterm(boolean recordDtmfterm) {
 		this.recordDtmfterm = recordDtmfterm;
 	}
 
@@ -279,7 +330,7 @@ public class AppConfigDefaults implements Serializable {
 		return recordFinalsilence;
 	}
 
-	public void setRecordFinalsilence(String recordFinalsilence) {
+	private void setRecordFinalsilence(String recordFinalsilence) {
 		this.recordFinalsilence = recordFinalsilence;
 	}
 
@@ -291,11 +342,11 @@ public class AppConfigDefaults implements Serializable {
 		return recordMaxtime;
 	}
 
-	public void setRecordMaxtime(String recordMaxtime) {
+	private void setRecordMaxtime(String recordMaxtime) {
 		this.recordMaxtime = recordMaxtime;
 	}
 
-	public void setRecordFileName(String recordFileName) {
+	private void setRecordFileName(String recordFileName) {
 		this.recordFileName = recordFileName;
 	}
 
@@ -303,7 +354,7 @@ public class AppConfigDefaults implements Serializable {
 		return recordFilePath;
 	}
 
-	public void setRecordFilePath(String recordFilePath) {
+	private void setRecordFilePath(String recordFilePath) {
 		this.recordFilePath = recordFilePath;
 	}
 
@@ -311,7 +362,7 @@ public class AppConfigDefaults implements Serializable {
 		return recordKeep;
 	}
 
-	public void setRecordKeep(boolean recordKeep) {
+	private void setRecordKeep(boolean recordKeep) {
 		this.recordKeep = recordKeep;
 	}
 
@@ -319,7 +370,7 @@ public class AppConfigDefaults implements Serializable {
 		return inputBargein;
 	}
 
-	public void setInputBargein(boolean inputBargein) {
+	private void setInputBargein(boolean inputBargein) {
 		this.inputBargein = inputBargein;
 	}
 
@@ -327,7 +378,7 @@ public class AppConfigDefaults implements Serializable {
 		return inputMaxAttempts;
 	}
 
-	public void setInputMaxAttempts(int inputMaxAttempts) {
+	private void setInputMaxAttempts(int inputMaxAttempts) {
 		this.inputMaxAttempts = inputMaxAttempts;
 	}
 
@@ -335,7 +386,7 @@ public class AppConfigDefaults implements Serializable {
 		return inputNoMatchAttempts;
 	}
 
-	public void setInputNoMatchAttempts(int inputNoMatchAttempts) {
+	private void setInputNoMatchAttempts(int inputNoMatchAttempts) {
 		this.inputNoMatchAttempts = inputNoMatchAttempts;
 	}
 
@@ -343,7 +394,7 @@ public class AppConfigDefaults implements Serializable {
 		return inputNoInputAttempts;
 	}
 
-	public void setInputNoInputAttempts(int inputNoInputAttempts) {
+	private void setInputNoInputAttempts(int inputNoInputAttempts) {
 		this.inputNoInputAttempts = inputNoInputAttempts;
 	}
 
@@ -351,7 +402,7 @@ public class AppConfigDefaults implements Serializable {
 		return audiosLocationPrefix;
 	}
 
-	public void setAudiosLocationPrefix(String audiosLocationPrefix) {
+	private void setAudiosLocationPrefix(String audiosLocationPrefix) {
 		this.audiosLocationPrefix = audiosLocationPrefix;
 	}
 
@@ -359,7 +410,7 @@ public class AppConfigDefaults implements Serializable {
 		return audiosFormatSuffix;
 	}
 
-	public void setAudiosFormatSuffix(String audiosFormatSuffix) {
+	private void setAudiosFormatSuffix(String audiosFormatSuffix) {
 		this.audiosFormatSuffix = audiosFormatSuffix;
 	}
 
@@ -367,7 +418,7 @@ public class AppConfigDefaults implements Serializable {
 		return timeout;
 	}
 
-	public void setTimeout(String timeout) {
+	private void setTimeout(String timeout) {
 		this.timeout = timeout;
 	}
 
@@ -375,7 +426,7 @@ public class AppConfigDefaults implements Serializable {
 		return interdigittimeout;
 	}
 
-	public void setInterdigittimeout(String interdigittimeout) {
+	private void setInterdigittimeout(String interdigittimeout) {
 		this.interdigittimeout = interdigittimeout;
 	}
 
@@ -383,7 +434,7 @@ public class AppConfigDefaults implements Serializable {
 		return confidence;
 	}
 
-	public void setConfidence(String confidence) {
+	private void setConfidence(String confidence) {
 		this.confidence = confidence;
 	}
 
@@ -391,7 +442,7 @@ public class AppConfigDefaults implements Serializable {
 		return sensitivity;
 	}
 
-	public void setSensitivity(String sensitivity) {
+	private void setSensitivity(String sensitivity) {
 		this.sensitivity = sensitivity;
 	}
 
@@ -399,7 +450,7 @@ public class AppConfigDefaults implements Serializable {
 		return speedvsaccuracy;
 	}
 
-	public void setSpeedvsaccuracy(String speedvsaccuracy) {
+	private void setSpeedvsaccuracy(String speedvsaccuracy) {
 		this.speedvsaccuracy = speedvsaccuracy;
 	}
 
@@ -407,7 +458,7 @@ public class AppConfigDefaults implements Serializable {
 		return maxspeechtimeout;
 	}
 
-	public void setMaxspeechtimeout(String maxspeechtimeout) {
+	private void setMaxspeechtimeout(String maxspeechtimeout) {
 		this.maxspeechtimeout = maxspeechtimeout;
 	}
 
@@ -415,7 +466,7 @@ public class AppConfigDefaults implements Serializable {
 		return completetimeout;
 	}
 
-	public void setCompletetimeout(String completetimeout) {
+	private void setCompletetimeout(String completetimeout) {
 		this.completetimeout = completetimeout;
 	}
 
@@ -423,7 +474,7 @@ public class AppConfigDefaults implements Serializable {
 		return incompletetimeout;
 	}
 
-	public void setIncompletetimeout(String incompletetimeout) {
+	private void setIncompletetimeout(String incompletetimeout) {
 		this.incompletetimeout = incompletetimeout;
 	}
 
@@ -431,7 +482,7 @@ public class AppConfigDefaults implements Serializable {
 		return recordutterance;
 	}
 
-	public void setRecordutterance(boolean recordutterance) {
+	private void setRecordutterance(boolean recordutterance) {
 		this.recordutterance = recordutterance;
 	}
 
@@ -439,7 +490,7 @@ public class AppConfigDefaults implements Serializable {
 		return grammarType;
 	}
 
-	public void setGrammarType(String grammarType) {
+	private void setGrammarType(String grammarType) {
 		this.grammarType = grammarType;
 	}
 
@@ -447,7 +498,7 @@ public class AppConfigDefaults implements Serializable {
 		return grammarPath;
 	}
 
-	public void setGrammarPath(String grammarPath) {
+	private void setGrammarPath(String grammarPath) {
 		this.grammarPath = grammarPath;
 	}
 
@@ -455,7 +506,7 @@ public class AppConfigDefaults implements Serializable {
 		return grammarsFileExtension;
 	}
 
-	public void setGrammarsFileExtension(String grammarsFileExtension) {
+	private void setGrammarsFileExtension(String grammarsFileExtension) {
 		this.grammarsFileExtension = grammarsFileExtension;
 	}
 

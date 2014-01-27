@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BlindTransferTest {
 
@@ -37,15 +39,19 @@ public class BlindTransferTest {
 		customEvents.add(CUSTOM_EVENT1);
 		customEvents.add(CUSTOM_EVENT2);
 	}
+	
+	private static ClassPathXmlApplicationContext applicationContext = null;
+	
+	@BeforeClass
+	public static void startContext() {
+		applicationContext = new ClassPathXmlApplicationContext("com/vectorsf/jvoiceframework/core/bean/test-config-context.xml");
+		applicationContext.refresh();
+	}
 		
 	@Test
 	public void testSetAfterInjection(){
 		
-		//Given	
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
+		BlindTransfer blindTransfer = (BlindTransfer)applicationContext.getBean(BlindTransfer.class);
 		
 		//When
 		blindTransfer.setDest(DEST);
@@ -54,22 +60,13 @@ public class BlindTransferTest {
 		//Then
 		//Verifies that transfer attributes transferaudio and dest have been set properly.
 		assertEquals("dest value is not correct.",blindTransfer.getDest(), DEST);
-		assertEquals("transferaudio value is not correct.",blindTransfer.getTransferaudio(), TRANSFERAUDIO);
-		
-		//Finally
-		context.close();		
+		assertEquals("transferaudio value is not correct.",blindTransfer.getTransferaudio(), TRANSFERAUDIO);	
 	}
 
 	@Test
 	public void testPropertiesInjection(){
 		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
-		//When
-		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
+		BlindTransfer blindTransfer = (BlindTransfer)applicationContext.getBean(BlindTransfer.class);
 		
 		//Then
 		//Verifies that properties map has been initialized so it is not null
@@ -79,23 +76,15 @@ public class BlindTransferTest {
 		blindTransfer.setProperties(properties);
 		assertEquals("Checking BlindTransfer properties getter and setter", 2, blindTransfer.getProperties().size());
 		assertEquals("Checking BlindTransfer properties getter and setter", PROP_VALUE1, blindTransfer.getProperties().get(PROP_KEY1));
-		assertEquals("Checking BlindTransfer properties getter and setter", PROP_VALUE2, blindTransfer.getProperties().get(PROP_KEY2));
-
-		//Finally
-		context.close();
+		assertEquals("Checking BlindTransfer properties getter and setter", PROP_VALUE2, blindTransfer.getProperties().get(PROP_KEY2));;
 
 	}
 
 	@Test
 	public void testCustomEvents(){
 		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
 		//When
-		BlindTransfer blindTransfer = (BlindTransfer)context.getBean(BlindTransfer.class);
+		BlindTransfer blindTransfer = (BlindTransfer)applicationContext.getBean(BlindTransfer.class);
 		
 		//Then
 		//Verifies that custom events list has been initialized so it is not null
@@ -105,10 +94,12 @@ public class BlindTransferTest {
 		blindTransfer.setCustomEvents(customEvents);
 		assertEquals("Checking BlindTransfer custom event getter and setter", 2, blindTransfer.getCustomEvents().size());
 		assertEquals("Checking BlindTransfer custom event getter and setter", CUSTOM_EVENT1, blindTransfer.getCustomEvents().get(0));
-		assertEquals("Checking BlindTransfer custom event getter and setter", CUSTOM_EVENT2, blindTransfer.getCustomEvents().get(1));
-		
-		//Finally
-		context.close();
+		assertEquals("Checking BlindTransfer custom event getter and setter", CUSTOM_EVENT2, blindTransfer.getCustomEvents().get(1));	
 
+	}
+	
+	@AfterClass 
+	public static void closeContext() {
+		applicationContext.close();
 	}
 }

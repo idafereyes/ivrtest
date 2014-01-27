@@ -37,4 +37,8 @@
         <property name="renderer" ref="renderer"></property>
     </bean>
     
+    <bean id="appConfig" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
+ 		<property name="fileName" value="com/vectorsf/jvoiceframework/flow/processor/app.properties"/>
+	</bean>
+    
 </beans>

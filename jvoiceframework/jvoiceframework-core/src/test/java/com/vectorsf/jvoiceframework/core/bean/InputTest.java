@@ -12,12 +12,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class InputTest {
 
-	static String SCAN_BASE_PACKAGE = "com.vectorsf.jvoiceframework.core.bean";
+	static String SCAN_BASE_PACKAGE = "com.vectorsf.jvoiceframework.core";
 	static String TIMEOUT = "15s";
 	static String INTERDIGIT_TIMEOUT = "2s";
 	static String CONFIDENCE = "0.6";
@@ -40,17 +42,21 @@ public class InputTest {
 
 	private AudioItem noMatchAudioItem1 = new AudioItem();
 	private AudioItem noMatchAudioItem2 = new AudioItem();
+	
+	private static ClassPathXmlApplicationContext applicationContext = null;
+	
+	@BeforeClass
+	public static void startContext() {
+		applicationContext = new ClassPathXmlApplicationContext("com/vectorsf/jvoiceframework/core/bean/test-config-context.xml");
+		applicationContext.refresh();
+	}
 
 	@Test
 	public void testInputComponent() {
 
-		// Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
 
 		// When
-		Input input = (Input) context.getBean(Input.class);
+		Input input = (Input) applicationContext.getBean(Input.class);
 
 		input.setName("Prueba");
 		assertEquals("Checking input name", input.getName(), "Prueba");
@@ -146,20 +152,13 @@ public class InputTest {
 				"Locución de prueba 01");
 		assertEquals("Checking input no match audio cond", input
 				.getNoMatchAudios().get(0).getCondition(), "attempts==1");
-
-		// Finally
-		context.close();
 	}
 
 	@Test
 	public void testInputSetters() {
-		// Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
 
 		// When
-		Input input = (Input) context.getBean(Input.class);
+		Input input = (Input) applicationContext.getBean(Input.class);
 
 		Map<String, String> properties = new HashMap<String, String>();
 		properties.put("prop1", "value1");
@@ -233,7 +232,10 @@ public class InputTest {
 		input.setRecordutterance(RECORDUTTERANCE);
 		assertEquals("Checking input recordutterance getter and setter", RECORDUTTERANCE, input.isRecordutterance());
 
-		// Finally
-		context.close();
+	}
+	
+	@AfterClass 
+	public static void closeContext() {
+		applicationContext.close();
 	}
 }

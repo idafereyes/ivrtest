@@ -48,7 +48,7 @@ public class AppConfig {
 					configMap.put(key, pc.getString(key));
 				}
 			} catch (ConfigurationException e) {
-				logger.error(AppConfigMessages.ERROR_APP_CONFIG, fileName,e);
+				logger.error(AppConfigMessages.ERROR_APP_CONFIG, fileName);
 			}
 		}
 

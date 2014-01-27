@@ -49,4 +49,8 @@
 
     <beans:bean id="recordingService" class="com.vectorsf.jvoiceframework.core.service.record.vxi.VXIRecordingService"/>
     
+    <beans:bean id="appConfig" class="com.vectorsf.jvoiceframework.core.admin.AppConfig">
+ 		<beans:property name="fileName" value="/properties/jvoiceframework.properties"/>
+	</beans:bean>
+    
 </beans:beans>

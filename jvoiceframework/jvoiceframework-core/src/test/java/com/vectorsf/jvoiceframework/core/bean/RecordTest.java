@@ -3,8 +3,10 @@ package com.vectorsf.jvoiceframework.core.bean;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class RecordTest {
 	
@@ -17,18 +19,22 @@ public class RecordTest {
 	static String FILE_PATH = "http://recordingTestPath/";
 	static boolean KEEP = true;
 	
+	private static ClassPathXmlApplicationContext applicationContext = null;
+	
+	@BeforeClass
+	public static void startContext() {
+		applicationContext = new ClassPathXmlApplicationContext("com/vectorsf/jvoiceframework/core/bean/test-config-context.xml");
+		applicationContext.refresh();
+	}
+	
 	@Test
 	public void testDefaultValuesInjection(){
 		
-		//Given	
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
 		//TODO Puede ser un mock?
-		AppConfigDefaults appConfigDefaults = (AppConfigDefaults) context.getBean(AppConfigDefaults.class);
+		AppConfigDefaults appConfigDefaults = (AppConfigDefaults) applicationContext.getBean(AppConfigDefaults.class);
 
 		//When
-		Record record = context.getBean(Record.class);
+		Record record = applicationContext.getBean(Record.class);
 		
 		//Then
 		//Verifies that record attributes beep, dtmfterm, maxtime, finalsilence, fileName, filePath and keep
@@ -41,19 +47,13 @@ public class RecordTest {
 		assertEquals("filePath value is not correct.", record.getFilePath(), appConfigDefaults.getRecordFilePath());
 		assertEquals("keep value is not correct.", record.isKeep(), appConfigDefaults.isRecordKeep());
 		
-		//Finally
-		context.close();
 
 	}
 	
 	@Test
 	public void testSetAfterInjection(){
-		
-		//Given	
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		Record record = context.getBean(Record.class);
+
+		Record record = applicationContext.getBean(Record.class);
 
 		//When
 		record.setBeep(BEEP);
@@ -74,50 +74,35 @@ public class RecordTest {
 		assertEquals("fileName value is not correct.", record.getFileName(), FILE_NAME);
 		assertEquals("filePath value is not correct.", record.getFilePath(), FILE_PATH);
 		assertEquals("keep value is not correct.", record.isKeep(), KEEP);
-	
-		//Finally
-		context.close();
+
 
 	}
 		
 	@Test
 	public void testPropertiesMapInitialization(){
 		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
 		//When
-		Record record = (Record)context.getBean(Record.class);
+		Record record = (Record)applicationContext.getBean(Record.class);
 		
 		//Then
 		//Verifies that properties map has been initialized so it is not null
 		assertNotNull("properties map is null.", record.getProperties());
-		
-		//Finally
-		context.close();
-
 	}
 	
 	@Test
 	public void testAudioItemListInitialization(){
 		
-		//Given
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-		context.scan(SCAN_BASE_PACKAGE);
-		context.refresh();
-		
 		//When
-		Record record = (Record)context.getBean(Record.class);
+		Record record = (Record)applicationContext.getBean(Record.class);
 		
 		//Then
 		//Verifies that audioItemList has been initialized so it is not null
 		assertNotNull("audioItemsList is null.", record.getAudioItems());
-		
-		//Finally
-		context.close();
-
+	}
+	
+	@AfterClass 
+	public static void closeContext() {
+		applicationContext.close();
 	}
 
 }
