@@ -254,15 +254,17 @@ public class AppConfigDefaults implements Serializable {
 	 * 
 	 */
 	private void initLocale() {
-		String languaje = appConfig.getValue("languaje");
+		String language = appConfig.getValue("language");
 		String region = appConfig.getValue("region");
 		String variant = appConfig.getValue("variant");
-		if (languaje != null && region != null && variant != null) {
-			userLocale = new Locale(languaje, region, variant);
-		} else if (languaje != null && region != null) {
-			userLocale = new Locale(languaje, region);
-		} else if (languaje != null) {
-			userLocale = new Locale(languaje);
+		if (language != null && region != null && variant != null) {
+			userLocale = new Locale(language, region, variant);
+		} else if (language != null && region != null) {
+			userLocale = new Locale(language, region);
+		} else if (language != null) {
+			userLocale = new Locale(language);
+		} else {
+			userLocale = Locale.getDefault();
 		}
 	}
 	

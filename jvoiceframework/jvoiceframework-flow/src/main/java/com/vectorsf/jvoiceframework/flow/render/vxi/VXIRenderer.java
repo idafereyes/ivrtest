@@ -3,6 +3,7 @@ package com.vectorsf.jvoiceframework.flow.render.vxi;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -76,6 +77,9 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     
     @Value("#{appConfigDefaults.grammarsFileExtension}")
     private String grammarsFileExtension;
+
+    @Value("#{jVoiceArchUser.locale}")
+	private Locale locale;
         
 	public String render(Output output, String flowURL, String contextPath) {
                 
@@ -1197,7 +1201,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		startPageCode.append("xmlns=\""+ "http://www.w3.org/2001/vxml" + QUOTE_SPACE);
 
 		//TODO Con esto del locutionProvider, qué lenguaje ponemos? Podemos hacer un getLocale()?
-		startPageCode.append("xml:lang=\""+ "es-ES" + QUOTE_SPACE);
+		startPageCode.append("xml:lang=\""+ locale.toString().replace('_', '-') + QUOTE_SPACE);
 		
 		//TODO Añadir el atributo application? (en el que se hace referencia a la página root.
 

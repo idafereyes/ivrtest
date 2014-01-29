@@ -3,9 +3,11 @@ package com.vectorsf.jvoiceframework.isban.logger.render.vxi;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
@@ -31,6 +33,7 @@ public class IsbanLoggerRendererTest extends VXIRendererTest {
 	@Before
 	public void initializeRenderer() {
 		renderer = new IsbanLoggerRenderer();
+		ReflectionTestUtils.setField(renderer, "locale", new Locale("es","ES"));
 	}
 
 	@Test

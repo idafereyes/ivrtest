@@ -11,11 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
 import com.vectorsf.jvoiceframework.core.bean.BlindTransfer;
@@ -43,6 +45,7 @@ public class VXIRendererTest {
 	@Before
 	public void initializeRenderer(){
 		renderer = new VXIRenderer();
+		ReflectionTestUtils.setField(renderer, "locale", new Locale("es","ES"));
 	}
 	
 	@Test
@@ -829,6 +832,19 @@ public class VXIRendererTest {
 		
 		//Then
 		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "end.test")); 
+		
+	}
+	
+	@Test
+	public void testUserLocaleChange() throws FileNotFoundException{
+		//Given
+		ReflectionTestUtils.setField(renderer, "locale", new Locale("en","GB"));
+		
+		//When
+		String vxmlCode = renderer.renderStartPage();
+		
+		//Then
+		assertEquals("VXML code printed different than expected.",vxmlCode, readResourceFile(RESOURCE_FILE_PATH + "startPageEnGb.test")); 
 		
 	}
 	
