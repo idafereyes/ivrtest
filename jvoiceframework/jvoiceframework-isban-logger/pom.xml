@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.vectorsf</groupId>
 		<artifactId>jvoiceframework</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>jvoiceframework-isban-logger</artifactId>
@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>com.vectorsf</groupId>
 			<artifactId>jvoiceframework-core</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.vectorsf</groupId>
 			<artifactId>jvoiceframework-flow</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -39,7 +39,7 @@
 		<dependency>
 			<groupId>com.vectorsf</groupId>
 			<artifactId>jvoiceframework-flow</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>

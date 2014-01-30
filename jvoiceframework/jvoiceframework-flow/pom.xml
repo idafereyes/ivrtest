@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.vectorsf</groupId>
 		<artifactId>jvoiceframework</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>jvoiceframework-flow</artifactId>
@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>com.vectorsf</groupId>
 			<artifactId>jvoiceframework-core</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
