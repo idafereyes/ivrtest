@@ -5,7 +5,7 @@
 
 	<groupId>com.vectorsf</groupId>
 	<artifactId>jvoiceframework</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
 	<name>jvoiceframework</name>
@@ -209,10 +209,16 @@
 
 	</dependencies>
 	<distributionManagement>
-		<snapshotRepository>
+		<repository>
 			<id>jvoice</id>
 			<name>jVoice Maven Repository</name>
-			<url>http://isbks208510504s.scisb.isban.corp/nexus/content/repositories/ivr/</url>
+			<url>https://repository-felixvelasco.forge.cloudbees.com/release/<url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>jvoice-snapshots</id>
+			<name>jVoice Maven Repository</name>
+			<url>https://repository-felixvelasco.forge.cloudbees.com/release/<url>
 			<layout>default</layout>
 		</snapshotRepository>
 	</distributionManagement>
@@ -223,12 +229,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<verbose>true</verbose>
 					<compilerVersion>${java-version}</compilerVersion>
 					<source>${java-version}</source>
 					<target>${java-version}</target>
-					<debug>true</debug>
-					<debuglevel>lines,vars,source</debuglevel>
 				</configuration>
 			</plugin>
 

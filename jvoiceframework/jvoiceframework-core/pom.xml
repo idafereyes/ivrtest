@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.vectorsf</groupId>
 		<artifactId>jvoiceframework</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>jvoiceframework-core</artifactId>
@@ -30,7 +30,7 @@
 						<configuration>
 							<enumTypes>
 								<!-- list every enum type you would like to see checked -->
-								<enumType>com.vectorsf.jvoiceframework.core.service.locution.Cal10NLocutionProviderMessages</enumType>
+								<!-- <enumType>com.vectorsf.jvoiceframework.core.service.locution.Cal10NLocutionProviderMessages</enumType> -->
 								
 <!-- 								<enumType>com.vectorsf.jvoiceframework.core.service.locution.TestLocution</enumType> -->
 							</enumTypes>
