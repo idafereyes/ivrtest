@@ -212,7 +212,13 @@
 		<snapshotRepository>
 			<id>jvoice</id>
 			<name>jVoice Maven Repository</name>
-			<url>http://isbks208510504s.scisb.isban.corp/nexus/content/repositories/ivr/</url>
+			<url>dav:https://repository-felixvelasco.forge.cloudbees.com/release/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>jvoice-snapshots</id>
+			<name>jVoice Maven Repository</name>
+			<url>dav:https://repository-felixvelasco.forge.cloudbees.com/snapshot/</url>
 			<layout>default</layout>
 		</snapshotRepository>
 	</distributionManagement>
@@ -332,5 +338,12 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<extensions> 
+			<extension> 
+				<groupId>org.apache.maven.wagon</groupId> 
+				<artifactId>wagon-webdav</artifactId> 
+				<version>1.0-beta-2</version> 
+			</extension> 
+		</extensions>
 	</build>
 </project>
