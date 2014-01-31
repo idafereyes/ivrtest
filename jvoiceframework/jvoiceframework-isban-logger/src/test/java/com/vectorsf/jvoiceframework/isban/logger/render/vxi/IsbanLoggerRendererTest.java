@@ -18,6 +18,7 @@ import com.vectorsf.jvoiceframework.core.bean.Grammar;
 import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
+import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRendererTest;
 
@@ -33,7 +34,10 @@ public class IsbanLoggerRendererTest extends VXIRendererTest {
 	@Before
 	public void initializeRenderer() {
 		renderer = new IsbanLoggerRenderer();
-		ReflectionTestUtils.setField(renderer, "locale", new Locale("es","ES"));
+		User user = mock(User.class);
+		when(user.getLocale()).thenReturn(new Locale("es","ES"));
+		ReflectionTestUtils.setField(renderer, "jVoiceArchUser", user);
+
 	}
 
 	@Test

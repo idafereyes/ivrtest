@@ -3,10 +3,10 @@ package com.vectorsf.jvoiceframework.flow.render.vxi;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.vectorsf.jvoiceframework.core.bean.AudioItem;
@@ -19,6 +19,7 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.enums.InputVars;
 import com.vectorsf.jvoiceframework.flow.render.AbstractRenderer;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
@@ -78,8 +79,8 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
     @Value("#{appConfigDefaults.grammarsFileExtension}")
     private String grammarsFileExtension;
 
-    @Value("#{jVoiceArchUser.locale}")
-	private Locale locale;
+    @Autowired
+	private User jVoiceArchUser;
         
 	public String render(Output output, String flowURL, String contextPath) {
                 
@@ -1201,7 +1202,7 @@ public class VXIRenderer extends AbstractRenderer implements Renderer, Serializa
 		startPageCode.append("xmlns=\""+ "http://www.w3.org/2001/vxml" + QUOTE_SPACE);
 
 		//TODO Con esto del locutionProvider, qué lenguaje ponemos? Podemos hacer un getLocale()?
-		startPageCode.append("xml:lang=\""+ locale.toString().replace('_', '-') + QUOTE_SPACE);
+		startPageCode.append("xml:lang=\""+ jVoiceArchUser.getLocale().toString().replace('_', '-') + QUOTE_SPACE);
 		
 		//TODO Añadir el atributo application? (en el que se hace referencia a la página root.
 
