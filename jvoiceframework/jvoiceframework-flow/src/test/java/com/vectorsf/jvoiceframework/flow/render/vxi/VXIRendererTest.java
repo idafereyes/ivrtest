@@ -29,6 +29,7 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.SayAs;
+import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.core.enums.InterpretAs;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
@@ -45,7 +46,9 @@ public class VXIRendererTest {
 	@Before
 	public void initializeRenderer(){
 		renderer = new VXIRenderer();
-		ReflectionTestUtils.setField(renderer, "locale", new Locale("es","ES"));
+		User user = mock(User.class);
+		when(user.getLocale()).thenReturn(new Locale("es","ES"));
+		ReflectionTestUtils.setField(renderer, "jVoiceArchUser", user);
 	}
 	
 	@Test
@@ -838,8 +841,10 @@ public class VXIRendererTest {
 	@Test
 	public void testUserLocaleChange() throws FileNotFoundException{
 		//Given
-		ReflectionTestUtils.setField(renderer, "locale", new Locale("en","GB"));
-		
+		User user = mock(User.class);
+		when(user.getLocale()).thenReturn(new Locale("en","GB"));
+		ReflectionTestUtils.setField(renderer, "jVoiceArchUser", user);
+				
 		//When
 		String vxmlCode = renderer.renderStartPage();
 		
