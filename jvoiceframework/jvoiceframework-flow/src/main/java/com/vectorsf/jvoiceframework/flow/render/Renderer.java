@@ -10,6 +10,7 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.log.Logger;
 
 /**
  * Interfaz a cumplir por los renderers IVR
@@ -29,4 +30,7 @@ public interface Renderer {
     String renderEndPage();
     String renderEmptyPage(String flowURL);
     String getView();
+    Logger getLogger();
+    void setLogger(Logger logger);
+
 }

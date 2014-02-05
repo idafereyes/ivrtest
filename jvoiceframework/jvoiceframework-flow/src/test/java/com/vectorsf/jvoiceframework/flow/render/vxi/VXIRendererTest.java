@@ -32,6 +32,8 @@ import com.vectorsf.jvoiceframework.core.bean.SayAs;
 import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
 import com.vectorsf.jvoiceframework.core.enums.InterpretAs;
+import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
+import com.vectorsf.jvoiceframework.core.log.Logger;
 import com.vectorsf.jvoiceframework.flow.render.Renderer;
 import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRenderer;
 
@@ -45,10 +47,12 @@ public class VXIRendererTest {
 	
 	@Before
 	public void initializeRenderer(){
+		Logger logger = mock(ExtendedLocLogger.class);		
 		renderer = new VXIRenderer();
 		User user = mock(User.class);
 		when(user.getLocale()).thenReturn(new Locale("es","ES"));
 		ReflectionTestUtils.setField(renderer, "jVoiceArchUser", user);
+		renderer.setLogger(logger);
 	}
 	
 	@Test

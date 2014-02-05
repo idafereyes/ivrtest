@@ -10,10 +10,12 @@ import com.vectorsf.jvoiceframework.core.bean.Input;
 import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
+import com.vectorsf.jvoiceframework.core.log.Log;
+import com.vectorsf.jvoiceframework.core.log.Logger;
 
 public abstract class AbstractRenderer {
 	
-    protected abstract String render(Output output, String flowURL, String contextPath);
+	protected abstract String render(Output output, String flowURL, String contextPath);
     protected abstract String render(Input prompt, String flowURL, String contextPath);
     protected abstract String render(BlindTransfer blindTx, String flowURL, String contextPath);
     protected abstract String render(ConsultationTransfer consultationTx, String flowURL, String contextPath);
@@ -25,13 +27,24 @@ public abstract class AbstractRenderer {
     protected abstract String renderEndPage();
     
     private String view;
-	
+    
+	@Log
+	private Logger logger;
+		
     public String getView() {
 		return view;
 	}
 
 	public void setView(String view) {
 		this.view = view;
+	}
+	
+    public Logger getLogger() {
+		return logger;
+	}
+    
+	public void setLogger(Logger logger) {
+		this.logger = logger;
 	}
 	
 	public String render(List<Object> states, String flowURL, String contextPath) {
@@ -64,6 +77,8 @@ public abstract class AbstractRenderer {
 			code.append(renderEmptyPage(flowURL));
 		}
       
+	  logger.debug(AbstractRendererMessages.VXML_PAGE_TO_RENDER, code.toString());
+	  
       return code.toString();
 	}
 	

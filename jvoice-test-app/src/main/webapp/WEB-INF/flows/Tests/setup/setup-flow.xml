@@ -10,10 +10,6 @@
 		    <evaluate expression="app.getValue('max')"/>
 		    <evaluate expression="mod1.getValue('max')"/>
 		    <evaluate expression="mod1.getValue('min')"/>
-			<evaluate expression="statisticsLogger" result="flowScope.sl" />
-			<set name="flowScope.sl.callID" value="'jvoice'"></set>
-			<set name="flowScope.sl.serviceID" value="'main'"></set>
-			<evaluate expression="flowScope.sl.DEBUG('Hola caracola')" />
 		</on-entry>
 		<evaluate expression="appConfigDefaults.setBargein(true)"></evaluate>
 		<transition to="setupLanguage"></transition>

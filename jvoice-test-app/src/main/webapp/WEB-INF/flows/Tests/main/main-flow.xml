@@ -10,7 +10,9 @@
     		
 	<subflow-state id="setup" subflow="Tests/setup">
 		<transition  to="wellcome"/>
-<!--         <transition to="menu"/> -->
+<!--        <transition to="menu"/> -->
+<!--         <transition to="testBlindTx"/> -->
+<!--         <transition to="record"/> -->
 	</subflow-state>
 	
 	<subflow-state id="wellcome" subflow="Tests/wellcome">
