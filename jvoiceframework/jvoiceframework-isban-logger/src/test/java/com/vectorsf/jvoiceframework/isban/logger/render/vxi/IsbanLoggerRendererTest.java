@@ -20,6 +20,8 @@ import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.User;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
+import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
+import com.vectorsf.jvoiceframework.core.log.Logger;
 import com.vectorsf.jvoiceframework.flow.render.vxi.VXIRendererTest;
 
 import static org.junit.Assert.assertEquals;
@@ -33,10 +35,12 @@ public class IsbanLoggerRendererTest extends VXIRendererTest {
 	@Override
 	@Before
 	public void initializeRenderer() {
+		Logger logger = mock(ExtendedLocLogger.class);		
 		renderer = new IsbanLoggerRenderer();
 		User user = mock(User.class);
 		when(user.getLocale()).thenReturn(new Locale("es","ES"));
 		ReflectionTestUtils.setField(renderer, "jVoiceArchUser", user);
+		renderer.setLogger(logger);
 
 	}
 

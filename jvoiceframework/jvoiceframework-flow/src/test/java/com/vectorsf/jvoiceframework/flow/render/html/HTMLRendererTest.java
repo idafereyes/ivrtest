@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -25,6 +26,9 @@ import com.vectorsf.jvoiceframework.core.bean.Output;
 import com.vectorsf.jvoiceframework.core.bean.Record;
 import com.vectorsf.jvoiceframework.core.bean.Transfer;
 import com.vectorsf.jvoiceframework.core.bean.Wording;
+import com.vectorsf.jvoiceframework.core.log.ExtendedLocLogger;
+import com.vectorsf.jvoiceframework.core.log.Logger;
+import com.vectorsf.jvoiceframework.flow.render.Renderer;
 
 public class HTMLRendererTest {
 
@@ -33,17 +37,24 @@ public class HTMLRendererTest {
 	static final String PATTERN_UUID = "[0-9abcdef]{8}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{4}-[0-9abcdef]{12}";
 	static final String CONTEXT_PATH = "FAKE_CONTEXT_PATH";
 	
+	private Renderer renderer;
+
+	@Before
+	public void initializeRenderer(){
+		Logger logger = mock(ExtendedLocLogger.class);		
+		renderer = new HTMLRenderer();
+		renderer.setLogger(logger);
+	}
+
 	@Test
 	public void testRenderEmptyStatesList(){
 		
 		//Given
-		
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
-		
+				
 		List<Object> states = new ArrayList<Object>();
 
 		//When
-		String htmlCode =  htmlRenderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
+		String htmlCode =  renderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Then
 		assertEquals("HTML code printed different than expected.",htmlCode, ""); 
@@ -52,10 +63,7 @@ public class HTMLRendererTest {
 	@Test
 	public void testRenderEveryState() throws FileNotFoundException{
 		
-		//Given
-		
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
-		
+		//Given		
 		List<Object> states = new ArrayList<Object>();
 		Output outputMock = mock(Output.class);
 		states.add(outputMock);
@@ -69,7 +77,7 @@ public class HTMLRendererTest {
 		states.add(endMock);
 
 		//When
-		String htmlCode = htmlRenderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
+		String htmlCode = renderer.render(states, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);
@@ -111,10 +119,8 @@ public class HTMLRendererTest {
 		
 		when(outputMock.getAudioItems()).thenReturn(audioItemsList);
 		
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
-
 		//When
-		String htmlCode =  htmlRenderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
+		String htmlCode =  renderer.render(outputMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);
@@ -154,10 +160,9 @@ public class HTMLRendererTest {
 
 		when(blindTxMock.getProperties()).thenReturn(properties);
 
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode =  htmlRenderer.render(blindTxMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
+		String htmlCode =  renderer.render(blindTxMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);
@@ -214,10 +219,8 @@ public class HTMLRendererTest {
 
 		when(recordMock.getProperties()).thenReturn(properties);
 
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
-
 		//When
-		String htmlCode =  htmlRenderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
+		String htmlCode =  renderer.render(recordMock, FLOW_EXECUTION_URL, CONTEXT_PATH);
 		
 		//Extract random uuid for comparing
 		List<String> listIds = extractIds(htmlCode);
@@ -236,10 +239,8 @@ public class HTMLRendererTest {
 		//Given
 		End endMock = mock(End.class);
 		
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
-
 		//When
-		String htmlCode =  htmlRenderer.render(endMock, FLOW_EXECUTION_URL);
+		String htmlCode =  renderer.render(endMock, FLOW_EXECUTION_URL);
 		
 		//Then
 		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "end.test")); 
@@ -249,10 +250,9 @@ public class HTMLRendererTest {
 	public void testStartPage() throws FileNotFoundException{
 		
 		//Given
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode = htmlRenderer.renderStartPage();
+		String htmlCode = renderer.renderStartPage();
 		
 		//Then
 		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "startPage.test")); 
@@ -263,10 +263,9 @@ public class HTMLRendererTest {
 	public void testEndPage() throws FileNotFoundException{
 		
 		//Given
-		HTMLRenderer htmlRenderer = new HTMLRenderer();
 
 		//When
-		String htmlCode = htmlRenderer.renderEndPage();
+		String htmlCode = renderer.renderEndPage();
 		
 		//Then
 		assertEquals("HTML code printed different than expected.",htmlCode, readResourceFile(RESOURCE_FILE_PATH + "endPage.test")); 
