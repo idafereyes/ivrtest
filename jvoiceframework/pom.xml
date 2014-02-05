@@ -209,7 +209,7 @@
 
 	</dependencies>
 	<distributionManagement>
-		<snapshotRepository>
+		<repository>
 			<id>jvoice</id>
 			<name>jVoice Maven Repository</name>
 			<url>dav:https://repository-felixvelasco.forge.cloudbees.com/release/</url>
